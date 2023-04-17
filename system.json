@@ -1,0 +1,36 @@
+{
+  "id": "brp",
+  "title": "Basic Role Playing",
+  "description": "Basic Role Playing system for FoundryVTT!",
+  "version": "10.0.7",
+  "compatibility": {
+    "minimum": 10,
+    "verified": "10.291",
+    "maximum": 10
+  },
+  "authors": [{
+    "name": "Dangermouse"
+  }],
+  "esmodules": [
+    "brp.mjs"
+  ],
+  "styles": ["css/brp.css"],
+  "scripts": [],
+  "packs": [],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
+  "gridDistance": 5,
+  "gridUnits": "ft",
+  "primaryTokenAttribute": "health",
+  "secondaryTokenAttribute": "fatigue",
+  "url": "",
+  "manifest": "",
+  "download": "",
+  "license": "LICENSE.txt",
+  "changelog": "CHANGELOG.md"
+}

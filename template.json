@@ -1,0 +1,150 @@
+{
+  "Actor": {
+    "types": ["character", "npc"],
+    "templates": {
+      "base": {
+        "stats": {
+          "str": {
+            "formula": "3d6",
+            "max": 21,
+            "min": 3,
+            "value": 0,
+            "redist": 0,
+            "cultural": 0,
+            "exp": 0,
+            "effects": 0
+          },
+          "con": {
+            "formula": "3d6",
+            "max": 21,
+            "min": 3,
+            "value": 0,
+            "redist": 0,
+            "cultural": 0,
+            "exp": 0,
+            "effects": 0
+          },
+          "int": {
+            "formula": "2d6+6",
+            "max": 999,
+            "min": 8,
+            "value": 0,
+            "redist": 0,
+            "cultural": 0,
+            "exp": 0,
+            "effects": 0
+          },
+          "siz": {
+            "formula": "2d6+6",
+            "max": 21,
+            "min": 8,
+            "value": 0,
+            "redist": 0,
+            "cultural": 0,
+            "exp": 0,
+            "effects": 0
+          },
+          "pow": {
+            "formula": "3d6",
+            "max": 999,
+            "min": 3,
+            "value": 0,
+            "redist": 0,
+            "cultural": 0,
+            "exp": 0,
+            "effects": 0
+          },
+          "dex": {
+            "formula": "3d6",
+            "max": 21,
+            "min": 3,
+            "value": 0,
+            "redist": 0,
+            "cultural": 0,
+            "exp": 0,
+            "effects": 0
+          },
+          "cha": {
+            "formula": "3d6",
+            "max": 21,
+            "min": 3,
+            "value": 0,
+            "redist": 0,
+            "cultural": 0,
+            "exp": 0,
+            "effects": 0
+          },
+          "edu": {
+            "formula": "2d6+6",
+            "max": 999,
+            "min": 8,
+            "value": 0,
+            "redist": 0,
+            "cultural": 0,
+            "exp": 0,
+            "effects": 0
+          }
+        },
+        "health": {
+          "value": 10,
+          "max": 10,
+          "mjrwnd": 5
+        },
+        "power": {
+          "value": 5,
+          "max": 5
+        },
+        "fatigue": {
+          "value": 5,
+          "max": 5
+        },
+        "sanity": {
+          "value": 5,
+          "max": 5
+        },
+        "biography": "",
+        "initialise": false,
+        "gender": "",
+        "culture": "",
+        "profession": "",
+        "personality": "",
+        "religion": "",
+        "age": 0,
+        "height": "",
+        "weight": "",
+        "wealth": 0,
+        "description": "",
+        "distincitve": "",
+        "move": 0,
+        "hand": "Right"
+      }
+    },
+    "character": {
+      "templates": ["base"]
+    },
+    "npc": {
+      "templates": ["base"]
+    }
+  },
+  "Item": {
+    "types": ["item", "feature", "spell"],
+    "templates": {
+      "base": {
+        "description": ""
+      }
+    },
+    "item": {
+      "templates": ["base"],
+      "quantity": 1,
+      "weight": 0,
+      "formula": "d20 + @str.mod + ceil(@lvl / 2)"
+    },
+    "feature": {
+      "templates": ["base"]
+    },
+    "spell": {
+      "templates": ["base"],
+      "spellLevel": 1
+    }
+  }
+}

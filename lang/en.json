@@ -1,0 +1,128 @@
+{
+  "BRP.StatsStr": "Strength",
+  "BRP.StatsCon": "Constitution",
+  "BRP.StatsSiz": "Size",
+  "BRP.StatsInt": "Intelligence",
+  "BRP.StatsPow": "Power",
+  "BRP.StatsDex": "Dexterity",
+  "BRP.StatsCha": "Charisma",
+  "BRP.StatsEdu": "Education",
+
+  "BRP.StatsStrAbbr": "STR",
+  "BRP.StatsConAbbr": "CON",
+  "BRP.StatsSizAbbr": "SIZ",
+  "BRP.StatsIntAbbr": "INT",
+  "BRP.StatsPowAbbr": "POW",
+  "BRP.StatsDexAbbr": "DEX",
+  "BRP.StatsChaAbbr": "CHA",
+  "BRP.StatsEduAbbr": "EDU",
+
+  "BRP.StatsStrDeriv": "Effort",
+  "BRP.StatsConDeriv": "Stamina",
+  "BRP.StatsSizDeriv": "Damage Mod",
+  "BRP.StatsIntDeriv": "Idea",
+  "BRP.StatsPowDeriv": "Luck",
+  "BRP.StatsDexDeriv": "Agility",
+  "BRP.StatsChaDeriv": "Charm",
+  "BRP.StatsEduDeriv": "Knowledge",
+
+  "BRP.EffectCreate": "Create Effect",
+  "BRP.EffectToggle": "Toggle Effect",
+  "BRP.EffectEdit": "Edit Effect",
+  "BRP.EffectDelete": "Delete Effect",
+
+  "BRP.Add": "Add",
+  "BRP.age": "Age",
+  "BRP.Brp": "Basic Roleplaying",
+  "BRP.characteristic": "Characteristic",
+  "BRP.culture": "Culture",
+  "BRP:description": "Description",
+  "BRP.dice": "Dice",
+  "BRP.difficulty": "Difficulty",
+  "BRP.diffWindow": "Difficulty Window",
+  "BRP.distinctive": "Distinctive features",
+  "BRP.experience": "Experience",
+  "BRP.fatigue": "Fatigue",
+  "BRP.flatMod": "Flat Modifier",
+  "BRP.flatModHint": "Enter a beneficial modifer as a postive number",
+  "BRP.gender": "Gender",
+  "BRP.hand": "Handidness",
+  "BRP.health": "Hit Points",
+  "BRP.height": "Height",
+  "BRP.initialise": "Initialise",
+  "BRP.initialiseHint": "Click this button to roll/enter the charactersitics",
+  "BRP.move": "Move",
+  "BRP.MP": "Magic Points",
+  "BRP.name": "Name",
+  "BRP.PP": "Power Points",
+  "BRP.profession": "Profession",
+  "BRP.religion": "Religion",
+  "BRP.sanity": "Sanity",
+  "BRP.total": "Total",
+  "BRP.wealth": "Wealth",
+  "BRP.weight": "Weight",
+  "BRP.rollDice": "Roll Dice",
+
+  "BRP.cm": {
+    "hint": "Left click to make a roll.  Shift Left Click to make an Average Roll.  Right Click for more options",
+    "quickRoll": "Quick Roll (Avg)",
+    "rerollAllStats": "Initialise all Stats",
+    "restoreMax": "Restore to Max",
+    "roll": "Roll"
+  },
+
+  "BRP.powerLevel": {
+    "normal": "Normal",
+    "heroic": "Heroic",
+    "epic": "Epic",
+    "superhuman": "Superhuman",
+    "label": "Power Level of Game",
+    "hint": "This determines starting characteristics and skills"
+  },
+
+  "BRP.resultLevel": {
+    "0": "Fumble",
+    "1": "Fail",
+    "2": "Success",
+    "3": "Special",
+    "4": "Critical"
+  },
+  
+    "BRP.RollDiff": {
+    "0": "Easy (Double)",
+    "1": "Average",
+    "2": "Difficult (Half)",
+    "3": "Impossible (Crit)"
+  },  
+    
+  "BRP.Settings":{
+    "optionalRules": "Optional Rules",
+    "useEDU": "Include Education",
+    "useEDUHint": "Characters will have an EDU characteristic",
+    "useSAN": "Include Sanity",
+    "useSANHint": "Characters will have a SAN score",
+    "useFP": "Include Fatigue",
+    "useFPHint": "Characters will have a Fatigue Points score",
+    "useHighPower": "High Power Game",
+    "useHighPowerHint": "All characterstics start at 2D6+6",
+    "useMP": "Use Magic Points",
+    "useMPHint": "Power Points will be called Magic Points",
+    "useMjrWnd": "Major Wound",
+    "useMjrWndHint": "Use Major Wound rules"
+  },
+
+  "BRP.skills": {
+    "redistribute": "Redistribute",
+    "cultural": "Cultural",
+    "effects": "Effects",
+    "initial": "Initial"
+  },  
+
+  "BRP.tab": {
+    "statistics": "Characteristics",
+    "spells": "Spells",
+    "skills": "Skills",
+    "items": "Items",
+    "effects": "Effects"
+  }
+}

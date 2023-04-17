@@ -1,0 +1,26 @@
+<ol class="stats-list">
+
+    <div class="stats-tab-grid grid grid-8col">
+      <div class="diff-label center">{{ localize 'BRP.characteristic'}}</div>
+      <div class="diff-label center">{{ localize 'BRP.skills.initial'}}</div>  
+      <div class="diff-label center">{{ localize 'BRP.skills.redistribute'}}</div>
+      <div class="diff-label center">{{ localize 'BRP.skills.cultural'}}</div>
+      <div class="diff-label center">{{ localize 'BRP.experience'}}</div>
+      <div class="diff-label center">{{ localize 'BRP.skills.effects'}}</div>
+      <div class="diff-label center">{{ localize 'BRP.total'}}</div>
+      <div class="diff-label center">{{ localize 'BRP.dice'}}</div>
+      {{#each system.stats as |stat key|}}
+        {{#if stat.visible}}
+          <div class="stat-name center">{{stat.labelShort}}</div>
+          <div><input class="stat-value-inp center" name="system.stats.{{key}}.value" type="text" value="{{stat.value}}" data-dtype="Number"/></div>
+          <div><input class="stat-value-inp center" name="system.stats.{{key}}.redist" type="text" value="{{stat.redist}}" data-dtype="Number"/></div>
+          <div><input class="stat-value-inp center" name="system.stats.{{key}}.cultural" type="text" value="{{stat.cultural}}" data-dtype="Number"/></div>
+          <div><input class="stat-value-inp center" name="system.stats.{{key}}.exp" type="text" value="{{stat.exp}}" data-dtype="Number"/></div>
+          <div><input class="stat-value-inp center" name="system.stats.{{key}}.effects" type="text" value="{{stat.effects}}" data-dtype="Number"/></div>
+          <div class ="stat-value center bold">{{stat.total}}</div>
+          <div class ="stat-value center ">{{stat.formula}}</div>
+        {{/if}}
+      {{/each}}
+    </div>
+
+</ol>
