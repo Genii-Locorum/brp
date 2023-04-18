@@ -1,5 +1,5 @@
 import { BRPChecks } from "../../rolls/checks.mjs";
-import { BRPDiceRoll } from "../../rolls/diceroll.mjs";
+import { BRPCharGen } from "../character-creation.mjs";
 
 
 export const statMenuOptions = (actor, token) => [
@@ -26,7 +26,7 @@ export const statMenuOptions = (actor, token) => [
         icon: '<i class="fas fa-dice-d20"></i>',
         condition: () => game.user.isGM,
         callback: (el) => {
-          BRPDiceRoll.initializeAllCharacteristics(actor)
+          BRPCharGen.initializeAllCharacteristics(actor)
         }
       }  
 

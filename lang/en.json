@@ -96,7 +96,11 @@
   },  
     
   "BRP.Settings":{
+    "ignoreAge":"Ignore Age rules",
+    "ignoreAgeHint": "Ignore age effects on skills and characteristics",
     "optionalRules": "Optional Rules",
+    "pointsMethod": "Points based creation",
+    "pointsMethodHint": "Characteristics determined with points, not dice",
     "useEDU": "Include Education",
     "useEDUHint": "Characters will have an EDU characteristic",
     "useSAN": "Include Sanity",

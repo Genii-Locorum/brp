@@ -1,5 +1,4 @@
 import { BRPactorDetails } from "../apps/actorDetails.mjs";
-import { BRPDiceRoll } from "../rolls/diceroll.mjs";
 export class BRPChecks {
 
   //
@@ -146,7 +145,9 @@ export class BRPChecks {
   //Call Dice Roll, calculate Result and store original results in rollVal
   //
   static async makeRoll(config) {
-    config.roll = await BRPDiceRoll.RollDice(config.rollFormula);
+    let roll = new Roll(config.rollFormula);
+    await roll.roll({ async: true});
+    config.roll = roll;
     config.rollResult = Number(config.roll.result);
     config.rollVal = Number(config.rollResult)
 

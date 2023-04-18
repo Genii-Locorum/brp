@@ -5,7 +5,7 @@ import { statDerivOptions } from "./context-menus/deriv-cm.mjs";
 import { HPMenuOptions } from "./context-menus/HP-cm.mjs";
 import { FPMenuOptions } from "./context-menus/FP-cm.mjs";
 import { PPMenuOptions } from "./context-menus/PP-cm.mjs";
-import { BRPDiceRoll } from "../rolls/diceroll.mjs";
+import { BRPCharGen } from "../actor/character-creation.mjs";
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -166,7 +166,7 @@ export class BRPActorSheet extends ActorSheet {
     html.find(".effect-control").click(ev => onManageActiveEffect(ev, this.actor));
 
     // Initialiase Character.
-    html.find('.char-initial').click(BRPDiceRoll.onCharInitial.bind(this));
+    html.find('.char-initial').click(BRPCharGen.onCharInitial.bind(this));
 
     // Roll for Stat.
     html.find('.rollable.stat-name').click(BRPChecks._onStatRoll.bind(this));

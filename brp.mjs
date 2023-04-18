@@ -52,7 +52,7 @@ Hooks.once('init', async function() {
 Hooks.on('renderSettingsConfig', (app, html, options) => {
   const systemTab = $(app.form).find('.tab[data-tab=system]')
   systemTab
-    .find('input[name=brp\\.useEDU]')
+    .find('input[name=brp\\.pointsMethod]')
     .closest('div.form-group')
     .before(
       '<h3 class="setting-header">' +

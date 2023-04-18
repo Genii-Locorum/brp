@@ -26,8 +26,26 @@ export function registerSettings () {
     type: Boolean
   });
 
-
   //Game Settings
+
+  game.settings.register('brp', 'pointsMethod', {
+    name: 'BRP.Settings.pointsMethod',
+    hint: 'BRP.Settings.pointsMethodHint',
+    scope: 'world',
+    config: true,
+    default: false,
+    type: Boolean
+  });
+
+  game.settings.register('brp', 'ignoreAge', {
+    name: 'BRP.Settings.ignoreAge',
+    hint: 'BRP.Settings.ignoreAgeHint',
+    scope: 'world',
+    config: true,
+    default: false,
+    type: Boolean
+  });
+
   game.settings.register('brp', 'useEDU', {
     name: 'BRP.Settings.useEDU',
     hint: 'BRP.Settings.useEDUHint',
