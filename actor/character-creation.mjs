@@ -7,37 +7,17 @@ export class BRPCharGen {
     await roll.roll({ async: true});
     let age = Number(roll.total)
     await this.actor.update({'system.age': age});
-
-
-    //Change characteristic formula for high powered games
-    if (game.settings.get('brp','powerLevel') > 0 && this.actor.type === 'character') {
-      let updateData = {};
-      for (let [key, stat] of Object.entries(this.actor.system.stats)) {
-        let update = {system: { stats: { [key]: { formula: '2d6+6' } } } };
-        mergeObject(updateData, update);
-      }
-      await this.actor.update(updateData);
-    }
     
     //Roll all characteristics - they are updated in the routine
     let check = await BRPCharGen.initializeAllCharacteristics(this.actor);
     
-    // If using EDU 
-    if (game.settings.get('brp','useEDU')){
-        if (!game.settings.get('brp','pointsMethod')){
-          age = Math.max(age,this.actor.system.edu.value+5)
-        }  
-        await this.actor.update({'system.age': age});
-    }
-
-
     if (check)
      // await this.actor.update({'system.initialise': true})    TURNED OFF TO ALLOW FOR BUILD/TESTING 
     return;
   }
 
 //  
-//Roll all Characteristics
+//Roll all Characteristics & Update Age if appropriate
 //
 static async initializeAllCharacteristics(actor) {
     let updateData = {};
@@ -53,6 +33,15 @@ static async initializeAllCharacteristics(actor) {
 
     }
     await actor.update(updateData);
+
+     // If using EDU then calcualte age 
+     let age= Math.max(actor.system.age, actor.system.edu.value+5)
+     if (game.settings.get('brp','useEDU') && !game.settings.get('brp','pointsMethod')){
+      await actor.update({'system.age': age});
+     }  
+
+    //Call Redistribution routine 
+    await BRPCharGen.statsRedist (actor);
     return true;
   }
 
@@ -63,11 +52,59 @@ static async initializeAllCharacteristics(actor) {
       let roll = new Roll(formula);
       await roll.roll({ async: true});
     return {
-      system: { stats: { [stat]: { value: Number(roll.total), redist: 0 } } },
+      system: { stats: { [stat]: { value: Number(roll.total), redist: 0} } },
     };
   }
 
+  //
+  //Call Points Redistribution Screen
+  //
+  static async statsRedist(actor) {
+    let data={};
+    if (game.settings.get('brp','pointsMethod')) {
+    //TO DO
+    /*  data = {
+        stats: actor.system.stats,
+        points: 40,
+        type: "allocation",
+        title: game.i18n.localize("BRP.allocation"),
+      }  
+    } else {
+      data = {
+        stats: actor.system.stats,
+        points: 3,
+        type: "reallocation",
+        title: game.i18n.localize("BRP.reallocation"),
+      }  */
+    } 
+    // let usage = await this.renderRedist(data) 
+    return true;
+  }
 
-
+  //
+  //Render Redistribution Form
+  //
+  static async renderRedist(data) {
+    const html = await renderTemplate('systems/brp/actor/parts/actor-stats-redist.html',data);
+    return new Promise(resolve => {
+      let formData = null
+      const dlg = new Dialog({
+        title: data.title,
+        content: html,
+        buttons: {
+          roll: {
+            label: game.i18n.localize("BRP.accept"),
+            callback: html => {
+            formData = new FormData(html[0].querySelector('#points-allocation-form'))
+            return resolve(formData)
+            }
+          }
+        },
+      default: 'roll',
+      close: () => {}
+      })
+      dlg.render(true);
+    })
+  }
 
 }

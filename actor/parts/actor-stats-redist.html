@@ -1,0 +1,19 @@
+<form class="brp" id="points-allocation-form">
+
+    {{#if (eq type 'reallocation')}}
+      <div>"You can reallocate 3 points"</div>
+    {{else}}
+    <div>"You can allocate 40 points"</div>
+    {{/if}}
+    <div class="grid grid-3col">
+      <div class="diff-label center">{{ localize 'BRP.characteristic'}}</div>
+      <div class="diff-label center">{{ localize 'BRP.skills.initial'}}</div>  
+      <div class="diff-label center">{{ localize 'BRP.skills.redistribute'}}</div>
+      {{#each stats as |stat key|}}
+          <div class="stat-name center">{{stat.label}}</div>
+          <div class ="stat-value center">{{stat.value}}</div>
+          <div><input class="stat-value-inp center" name="system.stats.{{key}}.redist" type="text" value="{{stat.redist}}" data-dtype="Number"/></div>
+      {{/each}}
+    </div>
+    <br>
+</form>

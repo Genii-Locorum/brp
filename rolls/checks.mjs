@@ -33,6 +33,69 @@ export class BRPChecks {
   }  
 
   //
+  // Skill Roll
+  //
+  static async _onSkillRoll(event){
+    let partic =await BRPactorDetails._getParticipantId(this.token,this.actor); 
+    let actor = await BRPactorDetails._getParticipant(partic.particId, partic.particType);
+    let itemId = actor.items.get($(event.currentTarget).closest(".item").data("itemId")).id;
+    let item = actor.items.get(itemId);
+    BRPChecks.startCheck ({
+      shiftKey: event.shiftKey,
+      partic,
+      itemId,
+      type: 'skill',
+      name: item.name,
+      targetScore: item.system.base + item.system.xp + item.system.effects + actor.system.skillcategory[item.system.category].bonus
+    })
+    return
+  }
+
+  //
+  // Skill Context Menu
+  //
+  static async _onContextSkillRoll(actor,token,itemId, shiftKey){
+    let partic =await BRPactorDetails._getParticipantId(token,actor); 
+    let item = actor.items.get(itemId);
+    BRPChecks.startCheck ({
+      shiftKey,
+      partic,
+      itemId,
+      type: 'skill',
+      name: item.name,
+      targetScore: item.system.base + item.system.xp + item.system.effects + actor.system.skillcategory[item.system.category].bonus
+    })
+    return
+  }
+
+  //
+  // Roll from Macro
+  //
+  static async _onRollMacro(itemId, actorId, shiftKey) {
+    let partic = ({particId : actorId, particType: "actor"})
+    let actor = await BRPactorDetails._getParticipant(partic.particId, partic.particType);
+    let item = actor.items.get(itemId);
+    let targetScore = 0;
+
+    if (item.type === 'skill') {
+      targetScore = item.system.base + item.system.xp + item.system.effects + actor.system.skillcategory[item.system.category].bonus
+    }
+
+    BRPChecks.startCheck ({
+      shiftKey: shiftKey,
+      partic,
+      itemId,
+      type: 'skill',
+      name: item.name,
+      targetScore,
+    })
+    return
+  }
+
+
+
+
+  //
   // Start the Roll
   //
   static async startCheck (options = {}) {

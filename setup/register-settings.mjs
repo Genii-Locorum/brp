@@ -1,31 +1,5 @@
 export function registerSettings () {
 
-
-  //GM Tools Settings
-  game.settings.register('brp', 'sessionendEnabled', {
-    name: 'End of session allowed',
-    scope: 'world',
-    config: false,
-    default: false,
-    type: Boolean
-  });
-
-  game.settings.register('brp', 'developmentEnabled', {
-    name: 'Dev phased allowed',
-    scope: 'world',
-    config: false,
-    default: false,
-    type: Boolean
-  });
-
-  game.settings.register('brp', 'characterCreation', {
-    name: 'Character creation allowed',
-    scope: 'world',
-    config: false,
-    default: false,
-    type: Boolean
-  });
-
   //Game Settings
 
   game.settings.register('brp', 'pointsMethod', {
@@ -82,6 +56,15 @@ export function registerSettings () {
     type: Boolean
   });
 
+  game.settings.register('brp', 'hpMod', {
+    name: 'BRP.Settings.hpMod',
+    hint: 'BRP.Settings.hpModHint',
+    scope: 'world',
+    config: true,
+    default: 1,
+    type: Number,
+  });
+
   game.settings.register('brp', 'useMjrWnd', {
     name: 'BRP.Settings.useMjrWnd',
     hint: 'BRP.Settings.useMjrWndHint',
@@ -89,6 +72,16 @@ export function registerSettings () {
     config: true,
     default: true,
     type: Boolean
+  });
+
+  game.settings.register('brp', "skillBonus", {
+    name: "BRP.skillBonus.label",
+    hint: "BRP.skillBonus.hint",
+    scope: "world",
+    config: true,
+    type: String,
+    choices: CONFIG.BRP.skillBonus,
+    default: 0
   });
 
   game.settings.register('brp', "powerLevel", {

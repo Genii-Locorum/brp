@@ -5,9 +5,6 @@
       "base": {
         "stats": {
           "str": {
-            "formula": "3d6",
-            "max": 21,
-            "min": 3,
             "value": 0,
             "redist": 0,
             "cultural": 0,
@@ -15,9 +12,6 @@
             "effects": 0
           },
           "con": {
-            "formula": "3d6",
-            "max": 21,
-            "min": 3,
             "value": 0,
             "redist": 0,
             "cultural": 0,
@@ -25,9 +19,6 @@
             "effects": 0
           },
           "int": {
-            "formula": "2d6+6",
-            "max": 999,
-            "min": 8,
             "value": 0,
             "redist": 0,
             "cultural": 0,
@@ -35,9 +26,6 @@
             "effects": 0
           },
           "siz": {
-            "formula": "2d6+6",
-            "max": 21,
-            "min": 8,
             "value": 0,
             "redist": 0,
             "cultural": 0,
@@ -45,9 +33,6 @@
             "effects": 0
           },
           "pow": {
-            "formula": "3d6",
-            "max": 999,
-            "min": 3,
             "value": 0,
             "redist": 0,
             "cultural": 0,
@@ -55,9 +40,6 @@
             "effects": 0
           },
           "dex": {
-            "formula": "3d6",
-            "max": 21,
-            "min": 3,
             "value": 0,
             "redist": 0,
             "cultural": 0,
@@ -65,9 +47,6 @@
             "effects": 0
           },
           "cha": {
-            "formula": "3d6",
-            "max": 21,
-            "min": 3,
             "value": 0,
             "redist": 0,
             "cultural": 0,
@@ -75,9 +54,6 @@
             "effects": 0
           },
           "edu": {
-            "formula": "2d6+6",
-            "max": 999,
-            "min": 8,
             "value": 0,
             "redist": 0,
             "cultural": 0,
@@ -102,6 +78,15 @@
           "value": 5,
           "max": 5
         },
+        "skillcategory": {
+          "zcmbtmod": {},
+          "cmmnmod": {},
+          "mnplmod": {},
+          "mntlmod": {},
+          "prcpmod": {},
+          "physmod": {}
+        },
+        "weapon": false,
         "biography": "",
         "initialise": false,
         "gender": "",
@@ -127,7 +112,7 @@
     }
   },
   "Item": {
-    "types": ["item", "feature", "spell"],
+    "types": ["item", "feature", "skill", "species", "spell"],
     "templates": {
       "base": {
         "description": ""
@@ -142,9 +127,79 @@
     "feature": {
       "templates": ["base"]
     },
+    "skill": {
+      "base": 0,
+      "xp": 0,
+      "effects": 0,
+      "noXP": false,
+      "category": "cmmnmod",
+      "improve": false
+    },
     "spell": {
       "templates": ["base"],
       "spellLevel": 1
+    },
+    "species": {
+      "templates": ["base"],
+      "stats": {
+        "str": {
+          "fixed": 0,
+          "min": 0,
+          "max": 0,
+          "base": "",
+          "advanced": ""
+        },
+        "con": {
+          "fixed": 0,
+          "min": 0,
+          "max": 0,
+          "base": "",
+          "advanced": ""
+        },
+        "int": {
+          "fixed": 0,
+          "min": 0,
+          "max": 0,
+          "base": "",
+          "advanced": ""
+        },
+        "siz": {
+          "fixed": 0,
+          "min": 0,
+          "max": 0,
+          "base": "",
+          "advanced": ""
+        },
+        "pow": {
+          "fixed": 0,
+          "min": 0,
+          "max": 0,
+          "base": "",
+          "advanced": ""
+        },
+        "dex": {
+          "fixed": 0,
+          "min": 0,
+          "max": 0,
+          "base": "",
+          "advanced": ""
+        },
+        "cha": {
+          "fixed": 0,
+          "min": 0,
+          "max": 0,
+          "base": "",
+          "advanced": ""
+        },
+        "edu": {
+          "fixed": 0,
+          "min": 0,
+          "max": 0,
+          "base": "",
+          "advanced": ""
+        }
+      },
+      "move": 0
     }
   }
 }

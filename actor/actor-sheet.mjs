@@ -1,10 +1,12 @@
 import {onManageActiveEffect, prepareActiveEffectCategories} from "../effects/effects.mjs";
 import { BRPChecks } from "../rolls/checks.mjs";
 import { statMenuOptions } from "./context-menus/characteristics-cm.mjs";
+import { skillMenuOptions } from "./context-menus/skills-cm.mjs";
 import { statDerivOptions } from "./context-menus/deriv-cm.mjs";
 import { HPMenuOptions } from "./context-menus/HP-cm.mjs";
 import { FPMenuOptions } from "./context-menus/FP-cm.mjs";
 import { PPMenuOptions } from "./context-menus/PP-cm.mjs";
+import { SpeciesMenuOptions } from "./context-menus/species-cm.mjs";
 import { BRPCharGen } from "../actor/character-creation.mjs";
 
 /**
@@ -30,6 +32,11 @@ export class BRPActorSheet extends ActorSheet {
   }
 
   /* -------------------------------------------- */
+
+  static confirmItemDelete(actor, itemId) {
+    let item = actor.items.get(itemId);
+    item.delete();
+  }
 
   /** @override */
   getData() {
@@ -95,19 +102,11 @@ export class BRPActorSheet extends ActorSheet {
   _prepareItems(context) {
     // Initialize containers.
     const gear = [];
-    const features = [];
-    const spells = {
-      0: [],
-      1: [],
-      2: [],
-      3: [],
-      4: [],
-      5: [],
-      6: [],
-      7: [],
-      8: [],
-      9: []
-    };
+    const species = [];
+    const skills = [];
+    const categories = [];
+    const weapons = [];
+
 
     // Iterate through items, allocating to containers
     for (let i of context.items) {
@@ -116,22 +115,57 @@ export class BRPActorSheet extends ActorSheet {
       if (i.type === 'item') {
         gear.push(i);
       }
-      // Append to features.
-      else if (i.type === 'feature') {
-        features.push(i);
-      }
-      // Append to spells.
-      else if (i.type === 'spell') {
-        if (i.system.spellLevel != undefined) {
-          spells[i.system.spellLevel].push(i);
+      // Append to skills.
+      else if (i.type === 'skill') {
+        i.system.total = i.system.base + i.system.xp + i.system.effects
+        if (i.system.weapon) {
+          weapons.push(i)
+        } else {
+        skills.push(i);
         }
+      }
+      // Append to species.
+      else if (i.type === 'species') {
+        species.push(i);
       }
     }
 
+    //Add Cateogry Headings to Categories Skills 
+    categories.push(
+      {name : game.i18n.localize("BRP.cmmnmod"), isType: true, system: {category: "cmmnmod", total: this.actor.system.skillcategory.cmmnmod.bonus}},
+      {name : game.i18n.localize("BRP.mnplmod"), isType: true, system: {category: "mnplmod", total: this.actor.system.skillcategory.mnplmod.bonus}},
+      {name : game.i18n.localize("BRP.mntlmod"), isType: true, system: {category: "mntlmod", total: this.actor.system.skillcategory.mntlmod.bonus}},
+      {name : game.i18n.localize("BRP.prcpmod"), isType: true, system: {category: "prcpmod", total: this.actor.system.skillcategory.prcpmod.bonus}},
+      {name : game.i18n.localize("BRP.physmod"), isType: true, system: {category: "physmod", total: this.actor.system.skillcategory.physmod.bonus}},
+      {name : game.i18n.localize("BRP.zcmbtmod"), isType: true, system: {category: "zcmbtmod", total: this.actor.system.skillcategory.zcmbtmod.bonus}}
+    );
+
+   //Push this categorty list to Skills resort based on Skill Category, Category v Skill and then Name 
+   for (let i of categories) {
+    skills.push(i);
+  }
+
+skills.sort(function(a, b){
+  let x = a.name.toLowerCase();
+  let y = b.name.toLowerCase();
+  let r = a.isType ? a.isType:false;
+  let s = b.isType ? b.isType:false;
+  let p = a.system.category;
+  let q = b.system.category;
+  if (p < q) {return -1};
+  if (p > q) {return 1};
+  if (r < s) {return 1};
+  if (s < r) {return -1};
+  if (x < y) {return -1};
+  if (x > y) {return 1};
+  return 0;
+});
+
     // Assign and return
     context.gear = gear;
-    context.features = features;
-    context.spells = spells;
+    context.skills = skills;
+    context.species = species;
+    context.weapons = weapons;
   }
 
   /* -------------------------------------------- */
@@ -174,6 +208,9 @@ export class BRPActorSheet extends ActorSheet {
     // Roll for Stat Derived.
     html.find('.rollable.deriv-name').click(BRPChecks._onStatRoll.bind(this));
 
+    // Roll for Stat.
+    html.find('.rollable.skill-name').click(BRPChecks._onSkillRoll.bind(this));
+
 
     //Character Context Menu
     new ContextMenu(html, ".stat-name.contextmenu", statMenuOptions(this.actor, this.token));
@@ -181,6 +218,8 @@ export class BRPActorSheet extends ActorSheet {
     new ContextMenu(html, ".health.contextmenu", HPMenuOptions(this.actor, this.token));
     new ContextMenu(html, ".fatigue.contextmenu", FPMenuOptions(this.actor, this.token));
     new ContextMenu(html, ".power.contextmenu", PPMenuOptions(this.actor, this.token));
+    new ContextMenu(html, ".species.contextmenu", SpeciesMenuOptions(this.actor, this.token));
+    new ContextMenu(html, ".skill-name.contextmenu", skillMenuOptions(this.actor, this.token));
 
     // Drag events for macros.
     if (this.actor.isOwner) {

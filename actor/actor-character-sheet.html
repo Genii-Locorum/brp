@@ -1,25 +1,9 @@
-<form class="{{cssClass}} {{actor.type}} " autocomplete="off">
-
-
-
-
-  {{!-- Sheet Tab Navigation --}}
-  <section class="nav-panel">
-    <nav class="sheet-tabs tabs" data-group="primary">
-      {{#if isGM}}
-        <a class="item" data-tab="statistics">{{localize 'BRP.tab.statistics'}}</a>
-      {{/if}}
-      <a class="item" data-tab="items">{{localize 'BRP.tab.items'}}</a>
-      <a class="item" data-tab="spells">{{localize 'BRP.tab.spells'}}</a>
-      <a class="item" data-tab="effects">{{localize 'BRP.tab.effects'}}</a>
-      <a class="item" data-tab="skills">{{localize 'BRP.tab.skills'}}</a>
-    </nav>
-  </section> 
-
+<form class="{{cssClass}} {{actor.type}}" autocomplete="off">
 
   {{!-- Title Section --}}
     <section class="main-sheet">
 
+      <section>
       <div class="sheet-title main-title grid grid-3col">
         <div></div>
         <div>{{ localize 'BRP.Brp' }}</div>
@@ -29,10 +13,11 @@
           <div class="boxed-button char-initial" title="{{localize 'BRP.initialiseHint'}}">{{localize 'BRP.initialise'}}</div>
         {{/if}}
       </div>  
+    </section>
       <section class="title-strip sheet-title personal grid grid-3col">
-        <div class="sheet-title">Personal</div> 
-        <div class="sheet-title">Characteristics</div>
-        <div class="sheet-title">Portrait</div>
+        <div class="sheet-title">{{localize 'BRP.personal'}}</div> 
+        <div class="sheet-title">{{localize 'BRP.characteristics'}}</div>
+        <div class="sheet-title">{{localize 'BRP.portrait'}}</div>
       </section>  
     
 
@@ -43,14 +28,21 @@
         <label class="charname">{{ localize 'BRP.name' }}:</label>
         <input class="personal-inp" name="name" type="text" value="{{actor.name}}"/>
       </div>  
- 
+
       <div class="personal-grid grid grid-4col">       
+        <div class="charname">{{ localize 'BRP.species' }}:</div>
+        <div class="personal-inp">{{actor.system.species}}</div>
         <label class="charname">{{ localize 'BRP.culture' }}:</label>
         <input class="personal-inp" name="system.culture" type="text" value="{{actor.system.culture}}"/>
+      </div>
+
+      <div class="personal-grid grid grid-4col">       
         <label class="charname">{{ localize 'BRP.gender' }}:</label>
         <input class="personal-inp" name="system.gender" type="text" value="{{actor.system.gender}}"/>
+        <label class="charname">{{ localize 'BRP.age' }}:</label>
+        <input class="personal-inp" name="system.age" type="text" value="{{actor.system.age}}"/>
       </div>
- 
+
       <div class="personal-grid grid grid-4col">
         <label class="charname">{{ localize 'BRP.height' }}:</label>
         <input class="personal-inp" name="system.height" type="text" value="{{actor.system.height}}"/>
@@ -58,28 +50,23 @@
         <input class="personal-inp" name="system.weight" type="text" value="{{actor.system.weight}}"/>
       </div>  
  
-      <div class="personal-main-grid grid grid-2col">
+      <div class="personal-grid grid grid-4col">
         <label class="charname">{{ localize 'BRP.profession' }}:</label>
         <input class="personal-inp" name="system.profession" type="text" value="{{actor.system.profession}}"/>
-
+        <label class="charname">{{ localize 'BRP.hand' }}:</label>
+        <input class="personal-inp" name="system.hand" type="text" value="{{actor.system.hand}}"/> 
       </div>
+
       <div class="personal-main-grid grid grid-2col">
         <label class="charname">{{ localize 'BRP.religion' }}:</label>
         <input class="personal-inp" name="system.religion" type="text" value="{{actor.system.religion}}"/>
       </div>
 
       <div class="personal-grid grid grid-4col">
-        <label class="charname">{{ localize 'BRP.hand' }}:</label>
-        <input class="personal-inp" name="system.hand" type="text" value="{{actor.system.hand}}"/>       
-        <label class="charname">{{ localize 'BRP.move' }}:</label>
-        <input class="personal-inp" name="system.move" type="text" value="{{actor.system.move}}"/>
-      </div>
-
-      <div class="personal-grid grid grid-4col">
         <label class="charname">{{ localize 'BRP.wealth' }}:</label>
         <input class="personal-inp" name="system.wealth" type="text" value="{{actor.system.wealth}}"/>  
-        <label class="charname">{{ localize 'BRP.age' }}:</label>
-        <input class="personal-inp" name="system.age" type="text" value="{{actor.system.age}}"/>
+        <div class="charname">{{ localize 'BRP.move' }}:</div>
+        <div class="personal-inp">{{actor.system.moveTotal}}</div>
       </div>  
 
   </section>
@@ -113,9 +100,9 @@
           <label for="system.health.value" data-target="system.health" class="resource-label health contextmenu">{{localize 'BRP.health'}}</label>
           <div class="resource-content resource-grid grid grid-5col">
             <div></div> 
-            <input class="personal-inp" type="text" name="system.health.value" value="{{system.health.value}}" data-dtype="Number"/>
+            <input class="attrib-inp" type="text" name="system.health.value" value="{{system.health.value}}" data-dtype="Number"/>
             <span class="divider"> / </span>
-            <div class="personal-inp personal-show" >{{system.health.max}}</div>
+            <div class="attrib-inp personal-show" >{{system.health.max}}</div>
             <div></div>   
           </div>
         </div>
@@ -128,9 +115,9 @@
           {{/if}}
           <div class="resource-content resource-grid grid grid-5col">
             <div></div> 
-            <input class="personal-inp" type="text" name="system.power.value" value="{{system.power.value}}" data-dtype="Number"/>
+            <input class="attrib-inp" type="text" name="system.power.value" value="{{system.power.value}}" data-dtype="Number"/>
             <span class="divider"> / </span>
-            <div class="personal-inp personal-show" >{{system.power.max}}</div>
+            <div class="attrib-inp personal-show" >{{system.power.max}}</div>
             <div></div>   
           </div>
         </div>
@@ -140,9 +127,9 @@
           <label for="system.fatigue.value" class="resource-label fatigue contextmenu">{{localize 'BRP.fatigue'}}</label>
           <div class="resource-content resource-grid grid grid-5col">
             <div></div> 
-            <input class="personal-inp" type="text" name="system.fatigue.value" value="{{system.fatigue.value}}" data-dtype="Number"/>
+            <input class="attrib-inp" type="text" name="system.fatigue.value" value="{{system.fatigue.value}}" data-dtype="Number"/>
             <span class="divider"> / </span>
-            <div class="personal-inp personal-show" >{{system.fatigue.max}}</div>
+            <div class="attrib-inp personal-show" >{{system.fatigue.max}}</div>
             <div></div>   
           </div>
         </div>
@@ -153,9 +140,9 @@
           <label for="system.sanity.value" class="resource-label">{{localize 'BRP.sanity'}}</label>
           <div class="resource-content resource-grid grid grid-5col">
             <div></div>  
-            <input class="personal-inp" type="text" name="system.sanity.value" value="{{system.sanity.value}}" data-dtype="Number"/>
+            <input class="attrib-inp" type="text" name="system.sanity.value" value="{{system.sanity.value}}" data-dtype="Number"/>
             <div class="divider"> / </div>
-            <input class="personal-inp" type="text" name="system.sanity.max" value="{{system.sanity.max}}" data-dtype="Number"/>
+            <input class="attrib-inp" type="text" name="system.sanity.max" value="{{system.sanity.max}}" data-dtype="Number"/>
             <div></div>
           </div>
         </div>
@@ -165,7 +152,22 @@
     </div>
   </section>
   
+  {{!-- Sheet Tab Navigation --}}
+  <section class="nav-panel">
+    <nav class="sheet-tabs tabs" data-group="primary">
+      {{#if isGM}}
+        <a class="item" data-tab="statistics">{{localize 'BRP.tab.statistics'}}</a>
+      {{/if}}
+      <a class="item" data-tab="items">{{localize 'BRP.tab.items'}}</a>
+      <a class="item" data-tab="spells">{{localize 'BRP.tab.spells'}}</a>
+      <a class="item" data-tab="effects">{{localize 'BRP.tab.effects'}}</a>
+      <a class="item" data-tab="skills">{{localize 'BRP.tab.skills'}}</a>
+    </nav>
+  </section> 
+
+
   {{!-- Sheet Body --}}
+  <section class ="bottom-panel">
   <section class="sheet-body">
     {{!-- Statistics Tab --}}
     <div class="tab statistics" data-group="primary" data-tab="statistics">
@@ -196,8 +198,9 @@
     <div class="tab skills" data-group="primary" data-tab="skills">
       {{> "systems/brp/actor/parts/actor-skills.html"}}
     </div>
-
   </section>
+
+</section>
 </section>
 </form>
 

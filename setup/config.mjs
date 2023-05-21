@@ -43,3 +43,9 @@ BRP.powerLevels = {
   "2": "BRP.powerLevel.epic",
   "3": "BRP.powerLevel.superhuman"
 };
+
+BRP.skillBonus = {
+  "0": "BRP.skillBonus.none",
+  "1": "BRP.skillBonus.simple",
+  "2": "BRP.skillBonus.advanced"
+};
