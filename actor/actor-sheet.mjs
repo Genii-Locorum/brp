@@ -8,6 +8,9 @@ import { FPMenuOptions } from "./context-menus/FP-cm.mjs";
 import { PPMenuOptions } from "./context-menus/PP-cm.mjs";
 import { SpeciesMenuOptions } from "./context-menus/species-cm.mjs";
 import { BRPCharGen } from "../actor/character-creation.mjs";
+import { BRPContextMenu } from '../setup/context-menu.mjs';
+import { brpMenuOptions} from "./context-menus/brpHeader-cm.mjs";
+
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -127,6 +130,7 @@ export class BRPActorSheet extends ActorSheet {
       // Append to species.
       else if (i.type === 'species') {
         species.push(i);
+        this.actor.system.speciesId = i._id
       }
     }
 
@@ -213,13 +217,14 @@ skills.sort(function(a, b){
 
 
     //Character Context Menu
-    new ContextMenu(html, ".stat-name.contextmenu", statMenuOptions(this.actor, this.token));
-    new ContextMenu(html, ".deriv-name.contextmenu", statDerivOptions(this.actor, this.token));
-    new ContextMenu(html, ".health.contextmenu", HPMenuOptions(this.actor, this.token));
-    new ContextMenu(html, ".fatigue.contextmenu", FPMenuOptions(this.actor, this.token));
-    new ContextMenu(html, ".power.contextmenu", PPMenuOptions(this.actor, this.token));
-    new ContextMenu(html, ".species.contextmenu", SpeciesMenuOptions(this.actor, this.token));
-    new ContextMenu(html, ".skill-name.contextmenu", skillMenuOptions(this.actor, this.token));
+    new BRPContextMenu(html, ".stat-name.contextmenu", statMenuOptions(this.actor, this.token));
+    new BRPContextMenu(html, ".deriv-name.contextmenu", statDerivOptions(this.actor, this.token));
+    new BRPContextMenu(html, ".health.contextmenu", HPMenuOptions(this.actor, this.token));
+    new BRPContextMenu(html, ".fatigue.contextmenu", FPMenuOptions(this.actor, this.token));
+    new BRPContextMenu(html, ".power.contextmenu", PPMenuOptions(this.actor, this.token));
+    new BRPContextMenu(html, ".species.contextmenu", SpeciesMenuOptions(this.actor, this.token));
+    new BRPContextMenu(html, ".skill-name.contextmenu", skillMenuOptions(this.actor, this.token));
+    new BRPContextMenu(html, ".brp-header.contextmenu", brpMenuOptions(this.actor, this.token));
 
     // Drag events for macros.
     if (this.actor.isOwner) {
@@ -291,7 +296,44 @@ skills.sort(function(a, b){
     }
   }
 
+  // Change default on Drop Item Create routine for requirements (single items and folder drop)-----------------------------------------------------------------
+  async _onDropItemCreate(itemData) {
+ 
+    const newItemData = [];
+    itemData = itemData instanceof Array ? itemData : [itemData];
 
+    //TODO: Consider adding a bypass to just create the items with no checks
+    //      return this.actor.createEmbeddedDocuments("Item", itemData);
 
+    for (let k of itemData) {
+          let reqResult = 1;
+          let errMsg = "";
+ 
+      //Test to see if character already has a species
+      if (k.type === 'species') {
+        if (typeof this.actor.system.species !== 'undefined') {
+          reqResult = 0;
+          errMsg = k.name + " : " +   game.i18n.localize('BRP.dupSpecies')
+        }
+      }
 
+      //Test to see if the skill already exists
+      if (k.type === 'skill') {
+        for (let j of this.actor.items) {
+          if(j.type === 'skill' && j.name === k.name) {
+            reqResult = 0;
+            errMsg = k.name + " : " +   game.i18n.localize('BRP.dupSkill')
+          }
+        }
+      }  
+  
+      //Check to see if we can drop the Item
+      if (reqResult !=1) {
+        ui.notifications.warn(errMsg);
+      } else {  
+        newItemData.push(k);
+      }
+    }
+  return this.actor.createEmbeddedDocuments("Item", newItemData);
+  }
 }

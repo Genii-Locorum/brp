@@ -4,14 +4,8 @@
     <section class="main-sheet">
 
       <section>
-      <div class="sheet-title main-title grid grid-3col">
-        <div></div>
-        <div>{{ localize 'BRP.Brp' }}</div>
-        {{#if system.initialise}}
-          <div></div>
-        {{else}}
-          <div class="boxed-button char-initial" title="{{localize 'BRP.initialiseHint'}}">{{localize 'BRP.initialise'}}</div>
-        {{/if}}
+      <div class="sheet-title main-title">
+        <div class="item-hover brp-header contextmenu" title = "{{localize 'BRP.cm.context'}}">{{ localize 'BRP.Brp' }}</div>
       </div>  
     </section>
       <section class="title-strip sheet-title personal grid grid-3col">
@@ -30,7 +24,7 @@
       </div>  
 
       <div class="personal-grid grid grid-4col">       
-        <div class="charname">{{ localize 'BRP.species' }}:</div>
+        <div class="item item-hover charname species contextmenu" title = "{{localize 'BRP.cm.context'}}" data-item-id="{{actor.system.speciesId}}">{{ localize 'BRP.species' }}:</div>
         <div class="personal-inp">{{actor.system.species}}</div>
         <label class="charname">{{ localize 'BRP.culture' }}:</label>
         <input class="personal-inp" name="system.culture" type="text" value="{{actor.system.culture}}"/>
@@ -97,7 +91,7 @@
       <div class="resources grid {{#if (eq resource 4)}} grid-4col{{/if}} {{#if (eq resource 3)}} grid-3col{{/if}} grid-2col">
 
         <div class="resource flex-group-center">
-          <label for="system.health.value" data-target="system.health" class="resource-label health contextmenu">{{localize 'BRP.health'}}</label>
+          <label for="system.health.value" data-target="system.health" title = "{{localize 'BRP.cm.context'}}" class="resource-label health contextmenu">{{localize 'BRP.health'}}</label>
           <div class="resource-content resource-grid grid grid-5col">
             <div></div> 
             <input class="attrib-inp" type="text" name="system.health.value" value="{{system.health.value}}" data-dtype="Number"/>
@@ -109,7 +103,7 @@
 
         <div class="resource flex-group-center">
           {{#if useMP}}
-            <label for="system.power.value" data-target="system.power" class="resource-label power contextmenu">{{localize 'BRP.MP'}}</label>
+            <label for="system.power.value" data-target="system.power" title = "{{localize 'BRP.cm.context'}}" class="resource-label power contextmenu">{{localize 'BRP.MP'}}</label>
           {{else}}
             <label for="system.power.value" class="resource-label">{{localize 'BRP.PP'}}</label>
           {{/if}}
@@ -124,7 +118,7 @@
 
         {{#if useFP}}
         <div class="resource flex-group-center">
-          <label for="system.fatigue.value" class="resource-label fatigue contextmenu">{{localize 'BRP.fatigue'}}</label>
+          <label for="system.fatigue.value" class="resource-label fatigue contextmenu" title = "{{localize 'BRP.cm.context'}}" >{{localize 'BRP.fatigue'}}</label>
           <div class="resource-content resource-grid grid grid-5col">
             <div></div> 
             <input class="attrib-inp" type="text" name="system.fatigue.value" value="{{system.fatigue.value}}" data-dtype="Number"/>

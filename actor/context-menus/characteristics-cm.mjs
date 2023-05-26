@@ -1,5 +1,5 @@
 import { BRPChecks } from "../../rolls/checks.mjs";
-import { BRPCharGen } from "../character-creation.mjs";
+
 
 
 export const statMenuOptions = (actor, token) => [
@@ -21,14 +21,7 @@ export const statMenuOptions = (actor, token) => [
         }
       },
   
-      {
-        name: game.i18n.localize("BRP.cm.rerollAllStats"),
-        icon: '<i class="fas fa-dice-d20"></i>',
-        condition: () => game.user.isGM,
-        callback: (el) => {
-          BRPCharGen.initializeAllCharacteristics(actor)
-        }
-      }  
+ 
 
 
 

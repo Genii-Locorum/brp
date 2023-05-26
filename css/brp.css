@@ -19,12 +19,13 @@
   font-family: "Roboto", sans-serif;
 }
 
-.rollable:hover, .rollable:focus, .boxed-button:focus, .boxed-button:hover, .item-toggle:hover, .item-toggle:focus{
+ .brp .rollable:hover, .rollable:focus, .boxed-button:focus, .boxed-button:hover, .item-toggle:hover, .item-toggle:focus, .item-hover:hover{
   color: #000;
   text-shadow: 0 0 10px red;
   cursor: pointer;
 }
-.tabs .item.active {
+
+.brp .tabs .item.active {
   text-shadow:  0 0 5px rgb(255, 123, 0);
   color: cornsilk;
 }
@@ -255,6 +256,7 @@
   font-size: 14px;
   text-transform:none;
   font-weight: normal;
+  text-align: left;
 }
 
 /* Styles limited to BRP sheets */
@@ -376,7 +378,6 @@
 }
 
 .brp .main-title {
-  grid-template-columns: 100px auto 100px;
   font-size: 30px;
   background-color: #a2c2bb;
 }
@@ -836,8 +837,17 @@ margin: auto 0px auto 0px;
   width: 220px;
   display: grid;
   font-size: 16px;
-  grid-template-columns: 170px auto 35px;
+  grid-template-columns: 160px auto 35px;
   padding-left: 5px;
+}
+
+.brp .development-flag {
+  color: crimson;
+  font-size: 12px;
+  text-align: center;
+  margin-top: 3px;
+  padding: 0px;
+  text-shadow: none !important;
 }
 
 .brp .skill-list {

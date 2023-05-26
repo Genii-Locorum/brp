@@ -6,6 +6,7 @@ import { preloadHandlebarsTemplates } from "./setup/templates.mjs";
 import { BRP } from "./setup/config.mjs";
 import { registerSettings } from './setup/register-settings.mjs';
 import { handlebarsHelper } from './setup/handlebar-helper.mjs';
+import {variableSettings} from './setup/variable-settings.mjs';
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -91,7 +92,10 @@ Hooks.once("ready", async function() {
       return false;
     }
   });  
+
+  await variableSettings.worldSet();
 });
+
 
 /* -------------------------------------------- */
 /*  Hotbar Macros                               */

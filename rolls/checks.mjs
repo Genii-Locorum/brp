@@ -92,6 +92,30 @@ export class BRPChecks {
     return
   }
 
+  //
+  // Skill XP Gain
+  //
+  static async _onSkillXPRoll(actor,token,itemId, rollType){
+    let partic =await BRPactorDetails._getParticipantId(token,actor); 
+    let item = actor.items.get(itemId);
+    if (!item.system.improve) {
+      ui.notifications.warn(item.name + " - " + game.i18n.localize("BRP.noImprove"));
+      return
+    }
+    let targetScore = Math.min(item.system.base + item.system.xp + item.system.effects + actor.system.skillcategory[item.system.category].bonus, 100)
+    BRPChecks.startCheck ({
+      shiftKey: true,
+      partic,
+      itemId,
+      type: 'xpGain',
+      name: item.name,
+      targetScore,
+      rollType,
+      rollBonus: actor.system.xpBonus,
+    })
+    return
+  }
+
 
 
 
@@ -117,10 +141,13 @@ export class BRPChecks {
       shiftKey: options.shiftKey,
       label: options.name,
       partic: options.partic,
+      itemId: options.itemId,
       target: options.target,
       targetScore: options.targetScore ? options.targetScore : 0,
       type: options.type ? options.type : '',               
       rollFormula: options.formula ? options.formula : "1d100",
+      rollBonus: options.rollBonus ? options.rollBonus : 0,
+      rollType: options.rollType,
       diff: "1",
       flatMod: 0,
       resultLevel: 0,
@@ -137,6 +164,8 @@ export class BRPChecks {
   // Run Check Routines - go here if you want to pass over a pre-defined Damage roll and not the rest of the Config
   //
   static async runCheck (config) {
+    let actor = await BRPactorDetails._getParticipant(config.partic.particId, config.partic.particType);
+    let item = actor.items.get(config.itemId);
     //TO DO - consider including an error message and abort if zero chance of success  
   
     //If Shift key has been held then accept the defaults above otherwise call a Dialog box for Difficulty, Modifier etc
@@ -166,9 +195,13 @@ export class BRPChecks {
     }
     config.targetScore = Number(config.targetScore) + Number(config.flatMod);
 
-
-
     let msgId = await BRPChecks.makeRoll(config) ;  
+
+    //If a skill check is succesful, isnt flagged for no XP and the difficulty wasn't Easy then flga XP improvement
+    if (config.type === 'skill' && config.resultLevel > 1 && !item.system.noXP && config.diff > 0) {
+      await item.update({'system.improve': true});
+    }
+
     return msgId
   }
 
@@ -212,15 +245,22 @@ export class BRPChecks {
     await roll.roll({ async: true});
     config.roll = roll;
     config.rollResult = Number(config.roll.result);
-    config.rollVal = Number(config.rollResult)
-
+    config.rollVal = Number(config.rollResult) + Number(config.rollBonus)
+    
 
   //Get the level of Success
     config.resultLevel = await BRPChecks.successLevel(config)
 
+  //If an XP Gain roll
+  if (config.type === "xpGain") {
+    config.xpGain = await BRPChecks.xpGain (config);
+  }  
+
+
   //Create the ChatMessage and Roll Dice
     const html = await BRPChecks.startChat(config);
     let msgId =  await BRPChecks.showChat(html,config);
+ 
     return msgId
   } 
 
@@ -235,17 +275,24 @@ export class BRPChecks {
        
     //Get the level of success
     let resultLevel = 0;
-
-    if (config.rollVal <= critChance) {
-      resultLevel = 4;
-    } else if (config.rollVal <=specialChance) {
-      resultLevel = 3;
-    } else if (config.rollVal <=config.targetScore) {
-      resultLevel = 2;
-    } else if (config.rollVal >= fumbleChance) {
-      resultLevel = 0;
+    if (config.type === 'xpGain'){
+      if (config.rollVal > config.targetScore){
+        resultLevel = 2; //2 = Success
+      } else {
+        resultLevel = 1;  //1 = Fail
+      }
     } else {
-      resultLevel = 1;
+      if (config.rollVal <= critChance) {
+        resultLevel = 4;  //4 = Critical
+      } else if (config.rollVal <=specialChance) {
+        resultLevel = 3;  //3 = Special
+      } else if (config.rollVal <=config.targetScore) {
+        resultLevel = 2;  //2 = Success
+      } else if (config.rollVal >= fumbleChance) {
+        resultLevel = 0;  //0 = Fumble
+      } else {
+        resultLevel = 1;  //1 = Fail
+      }
     }
     return resultLevel
   }
@@ -255,11 +302,18 @@ export class BRPChecks {
   //
   static async startChat(config) {
     let actor = await BRPactorDetails._getParticipant(config.partic.particId,config.partic.particType)
+
+    if (config.type === 'xpGain') {
+
+
+    }
+
     let messageData = {
       origin: config.origin,
       originGM: config.originGM,
       speaker: ChatMessage.getSpeaker({ actor: actor.name }),
       rollType: config.type,
+      xpGain: config.xpGain,
       label: config.label,
       actorId: actor._id,
       diff: config.diff,
@@ -315,5 +369,34 @@ static async showChat(html,config) {
       3: game.i18n.localize("BRP.RollDiff.3"),
     }; 
   }
+
+
+  //
+  //XP Gain Routine
+  //
+    static async xpGain(config) {
+    let actor = await BRPactorDetails._getParticipant(config.partic.particId, config.partic.particType);
+    let item = actor.items.get(config.itemId);
+    let currentXP = item.system.xp;
+    let xpGain = 0;  
+    //If successful XP Gain determine the amount  
+    if (config.resultLevel === 2) {
+     //If Roll Type is true stick with dice roll for XP Gain, otherwise use fixed value
+      if (config.rollType) {
+        let xpRollFormula = game.settings.get('brp','xpFormula')
+        let xpRoll = new Roll(xpRollFormula);
+        await xpRoll.roll({ async: true});
+        xpGain = Number(xpRoll.result);
+      } else {    
+        xpGain  = Number(game.settings.get('brp','xpFixed'))
+      }
+    }
+    currentXP = currentXP + xpGain;
+    await item.update({'system.improve': false, 'system.xp' : currentXP});
+  
+    return xpGain
+  }
+
+
 
 }

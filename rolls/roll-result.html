@@ -2,18 +2,25 @@
     <div class="dice-roll">
       <div style="display: block">  
         <div class="flavour-result"> 
+          {{#if (eq rollType 'xpGain')}}
+            {{localize 'BRP.improvement'}}: 
+          {{/if}}  
           {{label}} ({{targetScore}}%)
         </div>
   
-        <div class="flavour-result">{{localize 'BRP.difficulty'}}: {{diffLabel}}
+        {{#if (eq rollType 'xpGain')}}
+          <div class="flavour-result">{{localize 'BRP.xpGain'}}: {{xpGain}}</div> 
+        {{else}}
+          <div class="flavour-result">{{localize 'BRP.difficulty'}}: {{diffLabel}}
           {{#if (lt flatMod 0)}}
             <span>({{flatMod}})</span>
           {{/if}}  
           {{#if (gt flatMod 0)}}
             <span>(+{{flatMod}})</span>
           {{/if}}
-        </div> 
-  
+        {{/if}}
+
+
         {{#if (eq resultLevel 4)}}
           <div class="roll-icons">{{resultLabel}}: <i class="result-success fas fa-certificate"></i><i class="result-success fas fa-certificate"></i><i class="result-success fas fa-certificate"></i></div>
         {{/if}}

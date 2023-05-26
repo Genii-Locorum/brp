@@ -35,6 +35,37 @@ export const skillMenuOptions = (actor, token) => [
   },
 
   {
+    name: game.i18n.localize("BRP.cm.toggleXP"),
+    icon: '<i class="fas fa-certificate"></i>',
+    condition: () => true,
+    callback: (el) => {
+      const itemId = BRPUtilities.toggleXP(el, actor, "itemId");
+    }
+  },
+
+  {
+    name: game.i18n.localize("BRP.cm.xpGain") + " (" + game.settings.get('brp','xpFormula') + ")",
+    icon: '<i class="fas fa-square-plus"></i>',
+    condition: () => true,
+    callback: (el) => {
+      const elem =  el.target ? el.target : el[0];
+      const itemId =  elem?.closest(".item").dataset.itemId
+      BRPChecks._onSkillXPRoll(actor,token,itemId,true)
+    }
+  },
+
+  {
+    name: game.i18n.localize("BRP.cm.xpGain") + " (" + game.settings.get('brp','xpFixed') + ")",
+    icon: '<i class="fas fa-plus"></i>',
+    condition: () => true,
+    callback: (el) => {
+      const elem =  el.target ? el.target : el[0];
+      const itemId =  elem?.closest(".item").dataset.itemId
+      BRPChecks._onSkillXPRoll(actor,token,itemId,false)
+    }
+  },
+
+  {
     name: game.i18n.localize("BRP.cm.delete"),
     icon: '<i class="fas fa-trash"></i>',
     condition: () => true,

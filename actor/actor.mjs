@@ -11,8 +11,8 @@ export class BRPActor extends Actor {
 
   /** @override */
   prepareBaseData() {
-  }
-
+ }
+  
   /**
    * @override
    */
@@ -170,7 +170,7 @@ export class BRPActor extends Actor {
   }
 
   //
-  // Calcualte Damage Bonus
+  // Calculate Damage Bonus
   //
   _calcDamageBonus (score) {
     if(score < 13) {

@@ -23,33 +23,9 @@
       {{/each}}
     </div>
 
-    <div>{{ localize 'BRP.zcmbtmod'}}: {{system.skillcategory.zcmbtmod.bonus}}</div>
-    <div>{{ localize 'BRP.cmmnmod'}}: {{system.skillcategory.cmmnmod.bonus}}</div>
-    <div>{{ localize 'BRP.mnplmod'}}: {{system.skillcategory.mnplmod.bonus}}</div>
-    <div>{{ localize 'BRP.mntlmod'}}: {{system.skillcategory.mntlmod.bonus}}</div>
-    <div>{{ localize 'BRP.prcpmod'}}: {{system.skillcategory.prcpmod.bonus}}</div>
-    <div>{{ localize 'BRP.physmod'}}: {{system.skillcategory.physmod.bonus}}</div>
+   
     <div>{{ localize 'BRP.dmgBonus'}}: {{system.dmgBonus}}</div>
     <div>{{ localize 'BRP.xpBonus'}}: {{system.xpBonus}}</div>
-
-    <ol class="items-list effects-list">
-      <li class="flexrow contacts-header">
-        <div class="bold">{{ localize 'BRP.species' }}</div>
-      </li>
-    
-      {{#each species as |species id|}}
-      <li class="item weapons-listitem" data-item-id="{{species._id}}">
-        <div class="species contextmenu">
-           <div >{{species.name}}</div>
-        </div>
-        <div></div>
-        <div></div>
-      </li>
-      {{/each}}
-      <br>
-    </ol>
-
-
 
 
 </ol>

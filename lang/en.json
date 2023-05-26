@@ -43,6 +43,7 @@
   "BRP.characteristic": "Characteristic",
   "BRP.characteristics": "Characteristics",
   "BRP.cmmnmod": "Communication",
+  "BRP.confirm": "Confirmation",
   "BRP.culture": "Culture",
   "BRP.description": "Description",
   "BRP.dice": "Dice",
@@ -50,6 +51,8 @@
   "BRP.diffWindow": "Difficulty Window",
   "BRP.distinctive": "Distinctive features",
   "BRP.dmgBonus": "Damage Bonus",
+  "BRP.dupSkill": "Can not add this skill as the character already has it",
+  "BRP.dupSpecies": "Can not add a second species, please delete the first one and try again",
   "BRP.effects": "Effects",
   "BRP.enhancedFormula": "Enhanced Formula",
   "BRP.enhancedFormulaHint": "This formula is used to roll characteristics in a game at Heroic power level or above",
@@ -63,6 +66,8 @@
   "BRP.hand": "Handidness",
   "BRP.health": "Hit Points",
   "BRP.height": "Height",
+  "BRP.improve": "Skill improvement check is available",
+  "BRP.improvement": "Improvement",
   "BRP.initialise": "Initialise",
   "BRP.initialiseHint": "Click this button to roll/enter the charactersitics",
   "BRP.maxStat": "Maximum Stat",
@@ -72,14 +77,16 @@
   "BRP.move": "Move",
   "BRP.MP": "Magic Points",
   "BRP.name": "Name",
+  "BRP.noImprove": "is not flagged for an XP improvement check",
   "BRP.noXP": "No Experience",
   "BRP.noXPHint": "Successfully using this skill does not grant an XP check",
   "BRP.options": "Options",
   "BRP.personal": "Personal",
   "BRP.portrait": "Portrait",
-  "BRP.prcpmod": "Perception",
   "BRP.physmod": "Physical",
   "BRP.PP": "Power Points",
+  "BRP.prcpmod": "Perception",
+  "BRP.proceed": "Are you sure?",
   "BRP.profession": "Profession",
   "BRP.reallocation": "Points Reallocation",
   "BRP.religion": "Religion",
@@ -95,17 +102,22 @@
   "BRP.weight": "Weight",
   "BRP.xp": "Experience",
   "BRP.xpBonus": "Experience Bonus",
+  "BRP.xpGain": "XP Gain",
   "BRP.zcmbtmod": "Combat",
 
 
   "BRP.cm": {
+    "context": "Right click for more options",
     "delete": "Delete",
-    "hint": "Left click to make a roll.  Shift Left Click to make an Average Roll.  Right Click for more options",
+    "hint": "Left click to make a roll.  Shift Left click to make an Average Roll.  Right click for more options",
     "quickRoll": "Quick Roll (Avg)",
     "rerollAllStats": "Initialise all Stats",
     "restoreMax": "Restore to Max",
     "roll": "Roll",
-    "view": "View"
+    "toggleXP": "Toggle XP",
+    "view": "View",
+    "xpGain":"XP Gain",
+    "xpGainAll": "All XP Gains"
   },
 
   "BRP.powerLevel": {
@@ -114,7 +126,7 @@
     "epic": "Epic",
     "superhuman": "Superhuman",
     "label": "Power Level of Game",
-    "hint": "This determines starting characteristics and skills"
+    "hint": "This determines starting characteristics, skills, XP gain etc"
   },
 
   "BRP.skillBonus": {
@@ -159,7 +171,9 @@
     "useMP": "Use Magic Points",
     "useMPHint": "Power Points will be called Magic Points",
     "useMjrWnd": "Major Wound",
-    "useMjrWndHint": "Use Major Wound rules"
+    "useMjrWndHint": "Use Major Wound rules",
+    "xpFixed": "Fixed value for an XP gain",
+    "xpFormula": "Dice to roll for an XP gain"
   },
 
   "BRP.skills": {

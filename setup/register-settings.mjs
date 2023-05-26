@@ -88,10 +88,27 @@ export function registerSettings () {
     name: "BRP.powerLevel.label",
     hint: "BRP.powerLevel.hint",
     scope: "world",
+    requiresReload: true,
     config: true,
     type: String,
     choices: CONFIG.BRP.powerLevels,
     default: 0
+  });
+
+  game.settings.register('brp', "xpFormula", {
+    name: "BRP.Settings.xpFormula",
+    scope: "world",
+    config: false,
+    type: String,
+    default: '1d6'
+  });
+
+  game.settings.register('brp', "xpFixed", {
+    name: "BRP.Settings.xpFixed",
+    scope: "world",
+    config: false,
+    type: Number,
+    default: 3
   });
 
 }

@@ -15,7 +15,11 @@
             <div class="item-name">
               <div class="skill-rollable skill-name contextmenu rollable">{{skill.name}}</div>
             </div>
-            <div></div>
+            {{#if skill.system.improve}}
+            <a class="development-flag" title = "{{ localize 'BRP.improve' }}"><i class="fas fa-certificate"></i></a>
+            {{else}}
+              <div></div>
+            {{/if}}
             <div class="skill-score-val">{{skill.system.total}}%</div>
           {{/if}}  
         </li>
