@@ -1,0 +1,18 @@
+<form id="aging-selection-form" class="brp aging-selector">
+  <br>
+  
+  <div class="bold">{{localize 'BRP.agingImpact'}}: {{points}} {{localize 'BRP.points'}}</div>
+  <br>
+
+  
+  {{#each list as |list key| }}
+
+  <div class="flexrow">
+    <label>{{list}}</label>   
+      <input data-handle-change class="agingPoint center diff-number-input" data-points="{{../points}}" type="text" value="{{formData.key}}" name={{key}}>
+  </div>
+  {{/each}}
+  
+  <br>
+
+</form>
