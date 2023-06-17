@@ -2,17 +2,17 @@
   "id": "brp",
   "title": "Basic Role Playing",
   "description": "Basic Role Playing system for FoundryVTT!",
-  "version": "10.0.11",
+  "version": "11.0.16",
   "compatibility": {
     "minimum": 10,
-    "verified": "10.291",
-    "maximum": 10
+    "verified": "11.302",
+    "maximum": 11
   },
   "authors": [{
     "name": "Dangermouse"
   }],
   "esmodules": [
-    "brp.mjs"
+    "module/brp.mjs"
   ],
   "styles": ["css/brp.css"],
   "scripts": [],

@@ -7,58 +7,66 @@
           "str": {
             "value": 0,
             "redist": 0,
-            "cultural": 0,
             "exp": 0,
-            "effects": 0
+            "age":0,
+            "effects": 0,
+            "cost": 1
           },
           "con": {
             "value": 0,
             "redist": 0,
-            "cultural": 0,
             "exp": 0,
-            "effects": 0
+            "age":0,
+            "effects": 0,
+            "cost": 1
           },
           "int": {
             "value": 0,
             "redist": 0,
-            "cultural": 0,
             "exp": 0,
-            "effects": 0
+            "age":0,
+            "effects": 0,
+            "cost": 3
           },
           "siz": {
             "value": 0,
             "redist": 0,
-            "cultural": 0,
             "exp": 0,
-            "effects": 0
+            "age":0,
+            "effects": 0,
+            "cost": 1
           },
           "pow": {
             "value": 0,
             "redist": 0,
-            "cultural": 0,
             "exp": 0,
-            "effects": 0
+            "age":0,
+            "effects": 0,
+            "cost": 3
           },
           "dex": {
             "value": 0,
             "redist": 0,
-            "cultural": 0,
             "exp": 0,
-            "effects": 0
+            "age":0,
+            "effects": 0,
+            "cost": 3
           },
           "cha": {
             "value": 0,
             "redist": 0,
-            "cultural": 0,
             "exp": 0,
-            "effects": 0
+            "age":0,
+            "effects": 0,
+            "cost": 1
           },
           "edu": {
             "value": 0,
             "redist": 0,
-            "cultural": 0,
             "exp": 0,
-            "effects": 0
+            "age":0,
+            "effects": 0,
+            "cost": 3
           }
         },
         "health": {
@@ -90,11 +98,9 @@
         "biography": "",
         "initialise": false,
         "gender": "",
-        "culture": "",
-        "profession": "",
-        "personality": "",
         "religion": "",
         "age": 0,
+        "ageMod": 0,
         "height": "",
         "weight": "",
         "wealth": 0,
@@ -112,10 +118,11 @@
     }
   },
   "Item": {
-    "types": ["item", "feature", "skill", "species", "spell"],
+    "types": ["item", "feature", "skill", "spell","culture","hit-location","personality","profession"],
     "templates": {
       "base": {
-        "description": ""
+        "description": "",
+        "keyword": ""
       }
     },
     "item": {
@@ -124,81 +131,142 @@
       "weight": 0,
       "formula": "d20 + @str.mod + ceil(@lvl / 2)"
     },
+
+    "personality": {
+      "templates": ["base"],
+      "skills": [],
+      "groups": []
+    },
+
+    "hitloc": {
+      "lowRoll": 0,
+      "highRoll": 0,
+      "fractionHP": 0,
+      "wounds": []
+    },
+
     "feature": {
       "templates": ["base"]
     },
+
     "skill": {
       "base": 0,
+      "subType": "",
       "xp": 0,
+      "profession": 0,
+      "personality": 0,
+      "personal": 0,
       "effects": 0,
+      "baseFormula": {
+        "1":{
+              "stat":"fixed",
+              "value":0
+            },
+        "2":{
+              "stat":"fixed",
+              "value":0
+            },
+        "Func": "or"    
+      },
       "noXP": false,
       "category": "cmmnmod",
-      "improve": false
+      "specialism": false,
+      "variable": false,
+      "specName": "",
+      "mainName": "",
+      "occupation": false,
+      "improve": false,
+      "specGroup": false
     },
+
     "spell": {
       "templates": ["base"],
       "spellLevel": 1
     },
-    "species": {
+
+    "profession": {
       "templates": ["base"],
+      "skills": [],
+      "groups": [],
+      "minWealth": 0,
+      "maxWealth":0
+    },
+
+    "culture": {
+      "templates": ["base"],
+      "hitloc": [],
       "stats": {
         "str": {
           "fixed": 0,
           "min": 0,
           "max": 0,
           "base": "",
-          "advanced": ""
+          "advanced": "",
+          "adj": 0
         },
         "con": {
           "fixed": 0,
           "min": 0,
           "max": 0,
           "base": "",
-          "advanced": ""
+          "advanced": "",
+          "adj": 0
         },
         "int": {
           "fixed": 0,
           "min": 0,
           "max": 0,
           "base": "",
-          "advanced": ""
+          "advanced": "",
+          "adj": 0
         },
         "siz": {
           "fixed": 0,
           "min": 0,
           "max": 0,
           "base": "",
-          "advanced": ""
+          "advanced": "",
+          "adj": 0
         },
         "pow": {
           "fixed": 0,
           "min": 0,
           "max": 0,
           "base": "",
-          "advanced": ""
+          "advanced": "",
+          "adj": 0
         },
         "dex": {
           "fixed": 0,
           "min": 0,
           "max": 0,
           "base": "",
-          "advanced": ""
+          "advanced": "",
+          "adj": 0
         },
         "cha": {
           "fixed": 0,
           "min": 0,
           "max": 0,
           "base": "",
-          "advanced": ""
+          "advanced": "",
+          "adj": 0
         },
         "edu": {
           "fixed": 0,
           "min": 0,
           "max": 0,
           "base": "",
-          "advanced": ""
+          "advanced": "",
+          "adj": 0
         }
       },
+      "points": {
+        "normal": 24,
+        "heroic": 36,
+        "epic": 48,
+        "superhuman": 60
+      },  
       "move": 0
     }
   }
