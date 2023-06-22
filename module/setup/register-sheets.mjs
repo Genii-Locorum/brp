@@ -3,6 +3,7 @@ import { BRPProfessionSheet } from '../item/sheets/profession.mjs'
 import { BRPSkillSheet } from '../item/sheets/skill.mjs' 
 import { BRPHitLocSheet } from '../item/sheets/hit-location.mjs' 
 import { BRPCultureSheet } from '../item/sheets/culture.mjs' 
+import { BRPPowerSheet } from '../item/sheets/power.mjs' 
 
 export function registerSheets () {
     //Actors.unregisterSheet("core", ActorSheet);
@@ -33,6 +34,11 @@ export function registerSheets () {
 
     Items.registerSheet('brp', BRPCultureSheet, {
       types: ['culture'],
+      makeDefault: true
+    })
+
+    Items.registerSheet('brp', BRPPowerSheet, {
+      types: ['power'],
       makeDefault: true
     })
 

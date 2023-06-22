@@ -93,7 +93,9 @@ export class BRPSkillSheet extends ItemSheet {
       checkProp= {'system.weapon': !this.object.system.weapon};
     } else if (prop === 'artillery' ||prop === 'energy' ||prop === 'firearm' ||prop === 'heavy'||prop === 'melee' ||prop === 'missile') {
       checkProp= {'system.subType': prop};
-    }
+    } else if (prop === 'chosen') {
+      checkProp= {'system.chosen': !this.object.system.chosen};
+    }  
   
     const item = await this.object.update(checkProp);
     return item;
@@ -118,6 +120,8 @@ export class BRPSkillSheet extends ItemSheet {
     let options = {
       "": game.i18n.localize("BRP.keyword.none"),
       "dodge": game.i18n.localize("BRP.keyword.dodge"),
+      "firstAid": game.i18n.localize("BRP.keyword.firstAid"),
+      "medicine": game.i18n.localize("BRP.keyword.medicine"),
     };
     return options;
   } 

@@ -74,6 +74,13 @@ static async toggleXP(el, actor, dataitem) {
     return 
 }
 
+static async toggleProf(el, actor, dataitem) {
+  const itemId = await this.getDataset(el, dataitem)
+  const item = actor.items.get(itemId);
+  await item.update({'system.occupation': !item.system.occupation});
+  return 
+}
+
 static async confirmation() {
 let confirmation = await Dialog.confirm({
     title: game.i18n.localize('BRP.confirm'),

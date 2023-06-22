@@ -2,12 +2,13 @@ import {onManageActiveEffect, prepareActiveEffectCategories} from "../effects/ef
 import { BRPChecks } from "../rolls/checks.mjs";
 import { statMenuOptions } from "./context-menus/characteristics-cm.mjs";
 import { skillMenuOptions } from "./context-menus/skills-cm.mjs";
+import { skillGridMenuOptions } from "./context-menus/skillgrid-cm.mjs";
 import { statDerivOptions } from "./context-menus/deriv-cm.mjs";
 import { HitLocMenuOptions } from "./context-menus/hitloc-cm.mjs";
 import { WealthMenuOptions } from "./context-menus/wealth-cm.mjs";
-import { HPMenuOptions } from "./context-menus/HP-cm.mjs";
-import { FPMenuOptions } from "./context-menus/FP-cm.mjs";
-import { PPMenuOptions } from "./context-menus/PP-cm.mjs";
+import { HPMenuOptions } from "./context-menus/restore-cm.mjs";
+import { FPMenuOptions } from "./context-menus/restore-cm.mjs";
+import { PPMenuOptions } from "./context-menus/restore-cm.mjs";
 import { CultureMenuOptions } from "./context-menus/culture-cm.mjs";
 import { SkillDevelopMenuOptions } from "./context-menus/skilldevelop-cm.mjs";
 import { BRPCharGen } from "../actor/character-creation.mjs";
@@ -274,6 +275,7 @@ skillsDev.sort(function(a, b){
     new BRPContextMenu(html, ".personality.contextmenu", CultureMenuOptions(this.actor, this.token));
     new BRPContextMenu(html, ".profession.contextmenu", CultureMenuOptions(this.actor, this.token));
     new BRPContextMenu(html, ".skill-name.contextmenu", skillMenuOptions(this.actor, this.token));
+    new BRPContextMenu(html, ".skill-cell-name.contextmenu", skillGridMenuOptions(this.actor, this.token));
     new BRPContextMenu(html, ".brp-header.contextmenu", brpMenuOptions(this.actor, this.token));
     new BRPContextMenu(html, ".hitloc-name.contextmenu", HitLocMenuOptions(this.actor, this.token));
     new BRPContextMenu(html, ".wealth.contextmenu", WealthMenuOptions(this.actor, this.token));
@@ -384,8 +386,16 @@ skillsDev.sort(function(a, b){
 
     //Test to see if the skill already exists
       if (k.type === 'skill') {
+        if (k.system.specialism && !k.system.chosen){
+          let usage = await SkillSpecSelectDialog.create(k)
+          if (usage.get('new-skill-name')){
+             k.system.specName = usage.get('new-skill-name')
+             k.system.chosen = true
+             k.name = k.system.mainName + " (" + k.system.specName + ")"
+          }    
+        }    
         for (let j of this.actor.items) {
-          if(j.type === k.type && j.name === k.name && !k.system.specialism) {
+          if(j.type === k.type && j.name === k.name && (!k.system.specialism || k.system.chosen)) {
             reqResult = 0;
             errMsg = k.name + " : " +   game.i18n.localize('BRP.dupItem-1') + k.type + game.i18n.localize('BRP.dupItem-2') 
           }
@@ -419,8 +429,11 @@ skillsDev.sort(function(a, b){
         errMsg = k.name + " : " +   game.i18n.localize('BRP.dupProf')
       } else {
         k = await this._groupSkillsSelect(k)
-        let usage = await BRPCharGen.startingWealth(k.system.minWealth, k.system.maxWealth)
-        let wealth = usage.get('wealth-level');
+        let wealth = k.system.minWealth
+        if (wealth != k.system.maxWealth) {
+          let usage = await BRPCharGen.startingWealth(k.system.minWealth, k.system.maxWealth)
+          wealth = usage.get('wealth-level');
+        }
         this.actor.update({'system.wealth': wealth})
       }  
     }  
@@ -491,6 +504,14 @@ skillsDev.sort(function(a, b){
       skillList.push(j)
     }
   }
+
+  skillList.sort(function(a, b){
+    let x = a.name;
+    let y = b.name;
+    if (x < y) {return -1};
+    if (x > y) {return 1};
+    return 0;
+  });
     
     dialogData.skills= skillList
     dialogData.actorId = this.id
@@ -507,10 +528,11 @@ skillsDev.sort(function(a, b){
       let newSkills = []
       for (let index = 0; index < newItem.system.skills.length; index++) {
         let j = newItem.system.skills[index]
-        if (j.system.specialism){
+        if (j.system.specialism && !j.system.chosen){
             let usage = await SkillSpecSelectDialog.create(j)
             if (usage.get('new-skill-name')){
                j.system.specName = usage.get('new-skill-name')
+               j.system.chosen = true
                j.name = j.system.mainName + " (" + j.system.specName + ")"
                newSkills.push(j)
             }
@@ -555,12 +577,12 @@ async _calcBase(i){
     let newScore = 0
     if (stat1 !='fixed') {
       if (stat1 != 'edu' || game.settings.get('brp', 'useEDU')) {
-      opt1 = (this.actor.system.stats[stat1].value + this.actor.system.stats[stat1].redist + this.actor.system.stats[stat1].adj) * i.system.baseFormula[1].value
+      opt1 = Math.ceil((this.actor.system.stats[stat1].value + this.actor.system.stats[stat1].redist + this.actor.system.stats[stat1].adj) * i.system.baseFormula[1].value)
     }  
   }
   if (stat2 !='fixed') {
     if (stat2 != 'edu' || game.settings.get('brp', 'useEDU')) {
-      opt2 = (this.actor.system.stats[stat2].value + this.actor.system.stats[stat2].redist + this.actor.system.stats[stat2].adj) * i.system.baseFormula[2].value
+      opt2 = Math.ceil((this.actor.system.stats[stat2].value + this.actor.system.stats[stat2].redist + this.actor.system.stats[stat2].adj) * i.system.baseFormula[2].value)
     }  
   }
   if (i.system.baseFormula.Func === 'and') {

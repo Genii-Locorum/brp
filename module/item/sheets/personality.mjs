@@ -67,7 +67,7 @@ export class BRPPersonalitySheet extends ItemSheet {
 
       //If dropping in Optional Skill Group
       if (optionalSkill) {
-        if (!item.system.specialism) {
+        if (!item.system.specialism || item.system.chosen) {
           // Generic specialization can be included many times
           if (collection.find(el => el.name === item.name)) {
             continue // If skill is already in main don't add it
@@ -78,9 +78,17 @@ export class BRPPersonalitySheet extends ItemSheet {
         }
     
         groups[index].skills = groups[index].skills.concat(item)
+        groups[index].skills.sort(function(a, b){
+          let x = a.name;
+          let y = b.name;
+          if (x < y) {return -1};
+          if (x > y) {return 1};
+          return 0;
+        });
+        
       } else {
         //Dropping in Main Skill list
-        if (!item.system.specialism) {
+        if (!item.system.specialism || item.system.chosen) {
           // Generic specialization can be included many times
           if (collection.find(el => el.name === item.name)) {
             continue
