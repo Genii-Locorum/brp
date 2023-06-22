@@ -118,7 +118,7 @@
     }
   },
   "Item": {
-    "types": ["item", "feature", "skill", "spell","culture","hit-location","personality","profession"],
+    "types": ["item", "feature", "skill", "spell","culture","hit-location","personality","profession","power"],
     "templates": {
       "base": {
         "description": "",
@@ -171,6 +171,7 @@
       "noXP": false,
       "category": "cmmnmod",
       "specialism": false,
+      "chosen": false,
       "variable": false,
       "specName": "",
       "mainName": "",
@@ -268,6 +269,10 @@
         "superhuman": 60
       },  
       "move": 0
-    }
+    },
+    "power": {
+      "templates": ["base"],
+      "level": 0
+    } 
   }
 }

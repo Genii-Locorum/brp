@@ -2,7 +2,7 @@
   "id": "brp",
   "title": "Basic Role Playing",
   "description": "Basic Role Playing system for FoundryVTT!",
-  "version": "11.0.16",
+  "version": "11.0.18",
   "compatibility": {
     "minimum": 10,
     "verified": "11.302",
@@ -16,7 +16,63 @@
   ],
   "styles": ["css/brp.css"],
   "scripts": [],
-  "packs": [],
+  "packs": [
+    {
+      "label": "Skills",
+      "type": "Item",
+      "name": "skill",
+      "path": "packs/skills.db",
+      "system": "brp",
+      "private": false,
+      "flags": {}
+    },
+    {
+      "label": "Culture",
+      "type": "Item",
+      "name": "culture",
+      "path": "packs/culture.db",
+      "system": "brp",
+      "private": false,
+      "flags": {}
+    },
+    {
+      "label": "Hit Locations",
+      "type": "Item",
+      "name": "skillhit-location",
+      "path": "packs/hit-locations.db",
+      "system": "brp",
+      "private": false,
+      "flags": {}
+    },
+    {
+      "label": "Personalities",
+      "type": "Item",
+      "name": "personality",
+      "path": "packs/personalities.db",
+      "system": "brp",
+      "private": false,
+      "flags": {}
+    },
+    {
+      "label": "Powers",
+      "type": "Item",
+      "name": "power",
+      "path": "packs/powers.db",
+      "system": "brp",
+      "private": false,
+      "flags": {}
+    },
+    {
+      "label": "Professions",
+      "type": "Item",
+      "name": "profession",
+      "path": "packs/professions.db",
+      "system": "brp",
+      "private": false,
+      "flags": {}
+    }
+
+  ],
   "languages": [
     {
       "lang": "en",
