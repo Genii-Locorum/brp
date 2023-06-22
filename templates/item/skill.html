@@ -13,16 +13,26 @@
           <div class="skill-name bold boxed center">{{item.system.mainName}}</div>
           <div class="skillgap-name"> / </div>
         {{/if}}
-        <div class="skill-name bold"><input name="system.specName" type="text" value="{{item.system.specName}}" placeholder="specify"/></div>  
+
+        {{#unless item.system.chosen}}
+          <div class="skill-name bold"><input name="system.specName" type="text" value="{{item.system.specName}}" placeholder="specify"/></div>  
+        {{else}}
+          {{#if isGM}}
+            <div class="skill-name bold"><input name="system.specName" type="text" value="{{item.system.specName}}" placeholder="specify"/></div>  
+          {{else}}
+            <div class="skill-name bold">{{item.system.specName}}</div>  
+          {{/if}}
+          {{/unless}}
+
       {{else}}  
         {{#if isGM}} 
           <div class="skill-name bold"><input name="system.mainName" type="text" value="{{item.system.mainName}}" placeholder="Name"/></div>
         {{else}}
-        <div class="skill-name bold center boxed">{{item.system.mainName}}</div>
+          <div class="skill-name bold center boxed">{{item.system.mainName}}</div>
         {{/if}}
-          <div></div>
-          <div></div>  
-    {{/if}}  
+        <div></div>
+        <div></div>  
+      {{/if}}  
     
     {{#if isGM}}
       <div>&#160</div>
@@ -33,8 +43,11 @@
         </select>
       </div>  
       <div></div>
-      <div></div> 
-      <br>
+      {{#if item.system.specialism}}  
+        <div class="skill-name skill-cat item-toggle {{#if item.system.chosen}} toggle-active  {{/if}}" data-property = "chosen">{{localize 'BRP.specChosen'}}</div>
+      {{else}}    
+        <div></div>
+      {{/if}}  
     {{/if}}
 
     </div>  
@@ -44,7 +57,7 @@
   </header>
 
   {{!-- Sheet Body --}}
-  <section class="sheet-body">
+  <section class="power-sheet-body">
     <br>
     <div class="item-title"> {{localize 'BRP.category'}}:</div>
     <div class="base-grid grid grid-3col">

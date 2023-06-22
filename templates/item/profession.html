@@ -25,6 +25,7 @@
 
 
   {{!-- Sheet Body --}}
+  <section class="item-bottom-panel">
   <section class="sheet-body">
     <br>
  
@@ -59,7 +60,11 @@
         {{#each perSkill as |skill|}}
           <li class="item flexrow" data-item-id="{{skill._id}}" >
             <div class="item-name flexrow">
-              <div class="hitlocs">{{skill.name}} ({{skill.system.base}}%)</div>
+              {{#if skill.system.variable}}
+                <div class="hitlocs">{{skill.name}} ({{ localize 'BRP.var'}})</div>
+              {{else}}
+                <div class="hitlocs">{{skill.name}} ({{skill.system.base}}%)</div>
+              {{/if}}
             </div>
 
             <div class="item-controls">
@@ -96,7 +101,11 @@
           {{#each group.skills as |skill|}}
             <li class="item flexrow" data-item-id="{{skill._id}}">
               <div class="item-name flexrow">
-                <div class="hitlocs" >{{skill.name}} ({{skill.system.base}}%)</div>
+              {{#if skill.system.variable}}
+                <div class="hitlocs">{{skill.name}} ({{ localize 'BRP.var'}})</div>
+              {{else}}
+                <div class="hitlocs">{{skill.name}} ({{skill.system.base}}%)</div>
+              {{/if}}
               </div>
               <div class="item-controls">
                 {{#if ../../isGM}}  
@@ -114,9 +123,10 @@
     <div class="tab active" data-group="primary" data-tab="description">
       <div class="bold"> {{localize 'BRP.description'}}:</div>
       <div>
-        {{editor item.system.species.description class="background-doc" target="system.species.description" button=true owner=owner editable=editable}}
+        {{editor item.system.description class="background-doc" target="system.description" button=true owner=owner editable=editable}}
       </div>
     </div>  
+  </section>
   </section>
 </form>
 

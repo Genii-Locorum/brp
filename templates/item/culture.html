@@ -9,6 +9,8 @@
       <div class="skill-name bold center boxed">{{item.name}}</div>
     {{/if}}
     </div>  
+
+    <img class="item-image" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="50" width="50"/>
     
   </header>
   <br>
@@ -132,7 +134,7 @@
 
       <div class="bold"> {{localize 'BRP.description'}}:</div>
       <div>
-        {{editor item.system.culture.description class="background-doc" target="system.culture.description" button=true owner=owner editable=editable}}
+        {{editor item.system.description class="background-doc" target="system.description" button=true owner=owner editable=editable}}
       </div>
     </div>
 

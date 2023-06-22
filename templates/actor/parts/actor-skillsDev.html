@@ -12,7 +12,7 @@
       <div class="skill-cell diff-label center" title="{{localize 'BRP.effects'}}">{{ localize 'BRP.effectsShort'}}</div>
       <div class="skill-cell diff-label center">{{ localize 'BRP.total'}}</div>
       {{#each skillsDev as |skill id|}}
-          <div class = "item skill-cell-name bold">{{skill.name}}</div>
+          <div class = "item skill-cell-name contextmenu bold" data-item-id="{{skill._id}}">{{skill.name}}</div>
           <div class = "skill-cell center">{{skill.system.base}}</div>
           <div class = "skill-cell center">{{skill.system.personality}}</div>
           {{#if skill.system.occupation}}
