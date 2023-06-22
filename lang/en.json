@@ -79,6 +79,7 @@
   "BRP.dupPers": "Can not add a second personality, please delete the first one and try again",
   "BRP.dupProf": "Can not add a second profession, please delete the first one and try again",
   "BRP.dupSpecies": "Can not add a second species, please delete the first one and try again",
+  "BRP.editItem": "Edit Item",
   "BRP.effects": "Effects",
   "BRP.effectsShort": "Eff",
   "BRP.energy": "Energy",
@@ -112,6 +113,7 @@
   "BRP.initialiseHint": "Character is in Creation mode - you will be able to edit it",
   "BRP.key": "Keyword",
   "BRP.keyHint": "Keywords are used to allow coding of impacts of the skill/item etc",
+  "BRP.level": "Level",
   "BRP.majorWound": "Major Wound",
   "BRP.maxStat": "Maximum Stat",
   "BRP.maxStatHint": "This is the normal maximum stat on character creation",
@@ -146,6 +148,7 @@
   "BRP.points": "Points",
   "BRP.pointsHint": "Characteristic points pool if using the Points method to create a character",
   "BRP.portrait": "Portrait",
+  "BRP.power": "Power",
   "BRP.physmod": "Physical",
   "BRP.PP": "Power Points",
   "BRP.prcpmod": "Perception",
@@ -168,6 +171,7 @@
   "BRP.SkillSelectionWindow": "Choose Optional Skills",
   "BRP.skillSubTotalShort": "Sub",
   "BRP.skillSubTotal": "Skill sub-total for maximum starting skill",
+  "BRP.specChosen": "Specialism Fixed",
   "BRP.specGroup": "Group Skill",
   "BRP.specGroupDrop": "You may not add a Skill Group directly to a character sheet",
   "BRP.specGroupHint": "When used via an Optional Skill Group in a Profession or Personality this will let you select one of all skills in the Skill Category",
@@ -179,6 +183,7 @@
   "BRP.total": "Total",
   "BRP.usedStatPoints": "You do not have enough unused character points",
   "BRP.variable": "Variable Base",
+  "BRP.var": "var",
   "BRP.variableHint": "Toggle this on to choose rules that determine base skill chance",
   "BRP.wealth": "Wealth",
   "BRP.weapon": "Weapon",
@@ -204,6 +209,7 @@
     "roll": "Roll",
     "skillDevelop": "Toggle Skill View",
     "toggleInitial": "Toggle Initialisation",
+    "toggleProf": "Toggle Professional skill",
     "toggleXP": "Toggle XP",
     "view": "View",
     "xpGain":"XP Gain",
@@ -305,6 +311,13 @@
 
   "BRP.keyword": {
     "dodge":" Dodge",
-    "none": "None"
+    "firstAid": "First Aid",
+    "magic": "Magic",
+    "medicine": "Medicine",
+    "mutation": "Mutation",
+    "none": "None",
+    "psychic": "Psychic",
+    "sorcery": "Sorcery",
+    "superpower": "Superpower"
   }
 }
