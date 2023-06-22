@@ -721,6 +721,10 @@ margin: auto 0px auto 0px;
   margin-right: 5px;
 }
 
+.brp .item-image{
+  background:#444 !important;
+}
+
 .brp .items-list .item-prop {
   text-align: center;
   border-left: 1px solid #c9c7b8;
@@ -924,6 +928,12 @@ margin: auto 0px auto 0px;
   align-self: center;
 }
 
+.brp .power-name {
+  margin-top: 10px;
+  max-width: 300px;
+  height: 20px;
+}
+
 .brp .skillgap-name{
   text-align: center;
   padding-top: 6px;
@@ -1053,7 +1063,6 @@ margin: auto 0px auto 0px;
  padding : 5px;
  width: 100%;
  overflow:scroll;
- 
 }
 
 .brp .boxed {
@@ -1100,4 +1109,8 @@ margin: auto 0px auto 0px;
   height: 30px;
   padding-top: 6px;
   font-weight: bold;
+}
+
+.brp .power-sheet-body {
+  height: calc(100% - 70px);
 }
