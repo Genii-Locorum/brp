@@ -150,6 +150,7 @@
     },
 
     "skill": {
+      "templates": ["base"],
       "base": 0,
       "subType": "",
       "xp": 0,
