@@ -72,7 +72,8 @@
         "health": {
           "value": 10,
           "max": 10,
-          "mjrwnd": 5
+          "mjrwnd": 5,
+          "daily": 0
         },
         "power": {
           "value": 5,
@@ -96,6 +97,8 @@
         },
         "weapon": false,
         "biography": "",
+        "background": "",
+        "backstory": "",
         "initialise": false,
         "gender": "",
         "religion": "",
@@ -107,7 +110,10 @@
         "description": "",
         "distincitve": "",
         "move": 0,
-        "hand": "Right"
+        "hand": "Right",
+        "majorWnd": false,
+        "minorWnd": false,
+        "unconscious": false
       }
     },
     "character": {
@@ -142,6 +148,9 @@
       "lowRoll": 0,
       "highRoll": 0,
       "fractionHP": 0,
+      "status": "",
+      "locType": false,
+      "bleeding": false,
       "wounds": []
     },
 

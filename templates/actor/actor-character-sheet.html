@@ -101,13 +101,33 @@
       <div class="resources grid {{#if (eq resource 4)}} grid-4col{{/if}} {{#if (eq resource 3)}} grid-3col{{/if}} grid-2col">
 
         <div class="resource flex-group-center">
-          <label for="system.health.value" data-target="system.health" title = "{{localize 'BRP.cm.context'}}" class="resource-label health contextmenu">{{localize 'BRP.health'}}</label>
+          <div data-target="system.health" title = "{{localize 'BRP.cm.context'}}" class="resource-label health contextmenu">{{localize 'BRP.health'}}
+            {{#if system.fatalWnd}}
+              <a title="{{localize 'BRP.fatalWound'}}"><i class="icon-active-red  item-control fas fa-skull"></i></a>
+            {{else}}
+              {{#if system.unconscious}}
+                <a class="{{#if isGM}} icon-toggle {{/if}}" data-property="unconscious" title="{{localize 'BRP.unconscious'}}"><i class="icon-active-red  item-control fas fa-bed"></i></a>
+              {{/if}}
+            {{/if}}
+            {{#if system.majorWnd}}
+              <a class="{{#if isGM}} icon-toggle {{/if}}" data-property="majorWnd" title="{{localize 'BRP.majorWound'}}"><i class="icon-active-red  item-control fas fa-face-head-bandage"></i></a>
+            {{else}}
+              {{#if system.minorWnd}}
+                <a class="{{#if isGM}} icon-toggle {{/if}}" data-property="minorWnd" title="{{localize 'BRP.minorWound'}}"><i class="icon-active-red  item-control fas fa-face-dizzy"></i></a>
+              {{/if}}
+            {{/if}}
+
+          </div>
           <div class="resource-content resource-grid grid grid-5col">
             <div></div> 
-            <input class="attrib-inp" type="text" name="system.health.value" value="{{system.health.value}}" data-dtype="Number"/>
+            <div class="attrib-inp personal-show">{{system.health.value}}</div>
             <span class="divider"> / </span>
-            <div class="attrib-inp personal-show" >{{system.health.max}}</div>
-            <div></div>   
+            <div class="attrib-inp personal-show">{{system.health.max}}</div>
+            {{#if useHPL}}
+              <div></div>
+            {{else}}  
+              <div class="attrib-inp personal-show" title="{{localize 'BRP.daily'}}">({{system.health.daily}})</div>  
+            {{/if}}  
           </div>
         </div>
 
@@ -176,11 +196,6 @@
     {{!-- Statistics Tab --}}
     <div class="tab statistics" data-group="primary" data-tab="statistics">
       {{> "systems/brp/templates/actor/parts/actor-statistics.html"}}
-    </div>
-
-    {{!-- Biography Tab --}}
-    <div class="tab biography" data-group="primary" data-tab="description">
-      {{editor system.biography target="system.biography" rollData=rollData button=true owner=owner editable=editable}}
     </div>
 
     {{!-- Owned Items Tab --}}
