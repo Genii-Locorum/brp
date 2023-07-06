@@ -386,9 +386,21 @@
   border-bottom: 1px solid black;
 }
 
-.brp .skill-cell {
-  border-top: 1px solid black;
+.brp .wounds-tab-grid {
+  margin-top: 10px;
+  margin-left: 10px;
+  max-width: 131px;
+  row-gap: 0px;
+  column-gap: 0px;
+  font-size: 16px;
+  grid-template-columns: 30px 100px;
   border-left: 1px solid black;
+  border-top: 1px solid black;
+}
+
+.brp .skill-cell {
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
 }
 
 .brp .skill-cell-input {
@@ -444,7 +456,7 @@ background-color: cornflowerblue;
   row-gap: 0px;
   column-gap: 10px;
   font-size: 14px;
-  grid-template-columns: max-content 90px 90px 90px ;
+  grid-template-columns: max-content 90px 90px 90px 90px auto;
 }
 
 .brp .portrait {
@@ -655,6 +667,12 @@ margin: auto 0px auto 0px;
   padding: 0;
 }
 
+.brp .wound-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
 .brp .items-list .item-name {
   -webkit-box-flex: 2;
   -ms-flex: 2;
@@ -816,7 +834,8 @@ margin: auto 0px auto 0px;
   font-weight: bold;
   padding-left: 10px;
   padding-right: 10px;
-  height: 140px;
+  height: 120px;
+  width: 750px;
 }
 
 .brp .item-title {
@@ -982,6 +1001,14 @@ margin: auto 0px auto 0px;
   cursor: pointer;
 }
 
+.brp .icon-active-red{
+  color: red;
+}
+
+.brp .icon-inactive{
+  color: grey;
+}
+
 .brp .skill-cat {
   border: 1px solid black;
   border-radius: 3px;
@@ -1114,3 +1141,13 @@ margin: auto 0px auto 0px;
 .brp .power-sheet-body {
   height: calc(100% - 70px);
 }
+
+.brp .lines{
+  text-decoration-line: underline;
+  text-decoration-style: double;
+}
+
+.brp .strikethrough {
+  text-decoration: line-through;
+}
+

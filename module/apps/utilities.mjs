@@ -1,12 +1,16 @@
 import { BRPactorDetails } from "../apps/actorDetails.mjs";
+import { BRPCombat } from "../apps/combat.mjs";
 import { BRPActorSheet } from '../actor/actor-sheet.mjs';
 import { BRPChecks } from '../rolls/checks.mjs';
 
 export class BRPUtilities {
 
 static async _restoreHP (token, actor) {
+    let confirmation = await this.confirmation();
+    if (!confirmation) {return}
     let partic = await BRPactorDetails._getParticipantPriority(token, actor);
-    partic.system.health.value = partic.system.health.max;
+    await BRPCombat.deleteAllWounds(partic)
+    await BRPCombat.resetDaily(token,actor)
     actor.sheet.render(false);
 }
 

@@ -115,18 +115,33 @@ export class BRPActor extends Actor {
     systemData.xpBonus = Math.ceil(systemData.stats.int.total/2)
 
     // Calcualte HP per location
-    if (game.settings.get('brp','useHPL')) {
+      let totalDamage = 0
       for (let i of actorData.items) {
         if (i.type === 'hit-location') {
           i.system.maxHP = Math.ceil(systemData.health.max / i.system.fractionHP)
           let totalWounds = 0
-          for (let j = 0; j < i.system.wounds; ++j) {
-            totalWounds = totalWounds + i.system.wounds[j];
+          const wounds = i.system.wounds ? duplicate(i.system.wounds) : []
+          for (let j = 0; j < wounds.length; j++) {
+            totalWounds = totalWounds + wounds[j].damage;
           }
           i.system.currHP = i.system.maxHP - totalWounds;
+          totalDamage = totalDamage + totalWounds
+        }
+        if (i.system.currHP <1 && i.system.status === ""){
+          i.system.status = "injured"        
+        } else if (i.system.currHP > 0 && i.system.status != "severed") {
+          i.system.status = ""
+          i.system.bleeding = false
+        } else if (i.system.currHP > 0 && i.system.status === "severed") {
+          i.system.bleeding = false
         }
       }
-    }
+      systemData.health.value = systemData.health.max - totalDamage
+      if (systemData.health.value <=0) {
+        systemData.fatalWnd = true
+      }
+    
+
 
 
     // Calculate the Skill Category Bonuses */ 

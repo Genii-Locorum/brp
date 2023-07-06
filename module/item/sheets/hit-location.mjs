@@ -36,11 +36,26 @@ export class BRPHitLocSheet extends ItemSheet {
      */
     activateListeners (html) {
       super.activateListeners(html)
-      // Everything below here is only needed if the sheet is editable
+      html.find('.item-toggle').click(event => this._toggleItem(event))
     }
+    
+  //Toggle hit location type
+  async _toggleItem(event){
+    event.preventDefault();
+    const prop=event.currentTarget.closest('.item-toggle').dataset.property;
+    let checkProp={};
+    if (prop === 'locType') {
+      checkProp = {'system.locType': !this.object.system.locType};
+    }  
   
-  
-    async _updateObject (event, formData) {
-      return super._updateObject(event, formData)
-    }
+    const item = await this.object.update(checkProp);
+    return item;
+  }
+
+
+
+  _updateObject (event, formData) {
+    super._updateObject(event, formData)
+  }
+
   }

@@ -16,8 +16,7 @@ import { BRPContextMenu } from '../setup/context-menu.mjs';
 import { brpMenuOptions} from "./context-menus/brpHeader-cm.mjs";
 import { SkillSelectDialog} from "../apps/skill-selection-dialog.mjs";
 import { SkillSpecSelectDialog} from "../apps/skill-spec-dialog.mjs";
-
-
+import { WoundMenuOptions} from "./context-menus/wound-cm.mjs";
 
 
 /**
@@ -63,6 +62,9 @@ export class BRPActorSheet extends ActorSheet {
     context.useFP = game.settings.get('brp','useFP');
     context.useSAN = game.settings.get('brp','useSAN');
     context.useHPL = game.settings.get('brp','useHPL');
+    context.background1 = game.settings.get('brp','background1');
+    context.background2 = game.settings.get('brp','background2');
+    context.background3 = game.settings.get('brp','background3');
     context.isInitialise = actorData.system.initialise;
     context.isDevelop = actorData.system.development;
     let resource = 2;
@@ -259,11 +261,11 @@ skillsDev.sort(function(a, b){
     // Points Allocation.
     html.find('.stat-arrow').click(BRPCharGen.pointsAllocation.bind(this));
 
+    // Toggleable icon.
+    html.find('.icon-toggle').dblclick(this._toggleIcon.bind(this));
+
     // Inline Skill Edit.
     html.find(".inline-edit").change(this._onSkillEdit.bind(this));
-
-
-
 
     //Character Context Menu
     new BRPContextMenu(html, ".stat-name.contextmenu", statMenuOptions(this.actor, this.token));
@@ -280,6 +282,7 @@ skillsDev.sort(function(a, b){
     new BRPContextMenu(html, ".hitloc-name.contextmenu", HitLocMenuOptions(this.actor, this.token));
     new BRPContextMenu(html, ".wealth.contextmenu", WealthMenuOptions(this.actor, this.token));
     new BRPContextMenu(html, ".skilldevelop.contextmenu", SkillDevelopMenuOptions(this.actor, this.token));
+    new BRPContextMenu(html, ".wound.contextmenu", WoundMenuOptions(this.actor, this.token));
 
     // Drag events for macros.
     if (this.actor.isOwner) {
@@ -443,9 +446,21 @@ skillsDev.sort(function(a, b){
         ui.notifications.warn(errMsg);
       } else {
         if(k.type === 'culture') {
+          //If using Hits per location then drop hitlocs from culture, otherwise drop a single Hit Loc
+          if (game.settings.get('brp','useHPL')){  
           for (let j of k.system.hitloc) {
             newItemData.push(j)    
           }
+        } else {
+          // Add default single Hit Location
+          let hitloc = k.system.hitloc[0]
+            hitloc.name = game.i18n.localize('BRP.totalHP')
+            hitloc.system.lowRoll=1
+            hitloc.system.highRoll=20
+            hitloc.system.locType = true
+            hitloc.system.fractionHP = 1
+            newItemData.push(hitloc)   
+        }
         }else if (k.type === 'personality'){
           for (let j of k.system.skills) {
             let skillReq=1
@@ -594,4 +609,36 @@ async _calcBase(i){
 }
   return i.system.base
   }
+
+// Toggle icons
+async _toggleIcon(event) {
+  const prop=event.currentTarget.dataset.property;
+  let itemId = event.currentTarget.dataset.itemid;
+  let item = this.actor.items.get(itemId);
+  let checkProp={};
+  if (prop === 'bleeding') {
+    checkProp = {'system.bleeding': !item.system.bleeding};
+  } else if (prop === 'incapacitated' && item.system.status != 'incapacitated') {
+      checkProp = {'system.status': 'incapacitated'};
+  } else if (prop === 'severed' && item.system.status != 'severed') {
+      checkProp = {'system.status': 'severed'};
+  } else if (prop === 'injured' && item.system.status != 'injured') {
+      checkProp = {'system.status': 'injured'};     
+  } else if (prop === 'severed' || prop === 'incapacitated' || prop === 'injured') {
+      checkProp = {'system.status': ''};
+  } else if (prop === 'majorWnd') {
+      await this.actor.update({'system.majorWnd': false})
+      return
+  } else if (prop === 'minorWnd') {
+    await this.actor.update({'system.minorWnd': false})
+    return
+  } else if (prop === 'unconscious') {
+    await this.actor.update({'system.unconscious': false})
+    return
+  }
+  item = await item.update(checkProp);
+  return item;
+
+}
+
 }

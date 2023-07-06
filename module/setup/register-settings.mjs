@@ -81,6 +81,15 @@ export function registerSettings () {
     type: Boolean
   });
 
+  game.settings.register('brp', 'healMod', {
+    name: 'BRP.Settings.healMod',
+    hint: 'BRP.Settings.healModHint',
+    scope: 'world',
+    config: true,
+    default: false,
+    type: Boolean
+  });
+
   game.settings.register('brp', 'hpMod', {
     name: 'BRP.Settings.hpMod',
     hint: 'BRP.Settings.hpModHint',
@@ -119,6 +128,33 @@ export function registerSettings () {
     type: Boolean
   });
   
+  game.settings.register('brp', "background1", {
+    name: "BRP.Settings.background1",
+    hint: "BRP.Settings.backgroundHint",
+    scope: "world",
+    config: true,
+    type: String,
+    default: "Background"
+  });
+
+  game.settings.register('brp', "background2", {
+    name: "BRP.Settings.background2",
+    hint: "BRP.Settings.backgroundHint",
+    scope: "world",
+    config: true,
+    type: String,
+    default: "Biography"
+  });
+
+  game.settings.register('brp', "background3", {
+    name: "BRP.Settings.background3",
+    hint: "BRP.Settings.backgroundHint",
+    scope: "world",
+    config: true,
+    type: String,
+    default: "Backstory"
+  });
+
   // Derived Settings - not visible to users - see varaible-settings.mjs
 
   game.settings.register('brp', "xpFormula", {

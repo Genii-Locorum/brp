@@ -75,7 +75,7 @@ export class BRPCultureSheet extends ItemSheet {
   }
 
      
-  //Delete's a skill in the main skill list      
+  //Delete a hit location      
   async _onItemDelete (event, collectionName = 'items') {
     const item = $(event.currentTarget).closest('.item')
     const itemId = item.data('item-id')

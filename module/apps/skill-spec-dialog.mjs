@@ -8,9 +8,7 @@ export class SkillSpecSelectDialog {
       const html = await renderTemplate(
         'systems/BRP/templates/dialog/skillSpecSelect.html',
         {
-          //hasSkills: skills.length > 0,
           skill,
-          //base: baseValue,
           name
         }
       )
