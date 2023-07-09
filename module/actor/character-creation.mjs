@@ -330,5 +330,21 @@ static async initializeAllCharacteristics(actor) {
 
   }
 
+  //
+  // Increase Character's Age
+  //
+  static async changeAge(token, actor,amount) {
+    let partic = await BRPactorDetails._getParticipantPriority(token, actor);
+    //TO DO: Increase age, check for breaking 10 year barriers and apply
+    if (partic.system.age >48 && partic.system.age%10 === 9 && !game.settings.get('brp', 'ignoreAge')){
+      let loss = -1
+      if (partic.system.age > 78) {
+        loss = -3
+      }
+    await this.getAging (partic,loss,"natural")  
+    }
+
+    await partic.update({'system.age': Number(partic.system.age)+1})
+  }
 
 }

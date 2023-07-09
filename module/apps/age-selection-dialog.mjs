@@ -69,7 +69,6 @@ export class AgeSelectDialog extends Dialog {
               formData = new FormData(html[0].querySelector('#aging-selection-form'))
               let spent = Number(formData.get('str'))+Number(formData.get('con'))+Number(formData.get('siz'))+Number(formData.get('int'))+Number(formData.get('pow'))+Number(formData.get('dex'))+Number(formData.get('cha'))
                   let points = data.points
-                  console.log(points, spent)
                   if (points === spent) {
                     return resolve(formData)
                   }  else {

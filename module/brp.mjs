@@ -43,8 +43,6 @@ Hooks.once('init', async function() {
   // Register sheet application classes
   Actors.unregisterSheet("core", ActorSheet);
   Actors.registerSheet("brp", BRPActorSheet, { makeDefault: true });
-  //Items.unregisterSheet("core", ItemSheet);
-  //Items.registerSheet("brp", BRPItemSheet, { makeDefault: true });
 
   // Preload Handlebars templates.
   return preloadHandlebarsTemplates();
@@ -64,6 +62,15 @@ Hooks.on('renderSettingsConfig', (app, html, options) => {
         game.i18n.localize('BRP.Settings.optionalRules') +
         '</h3>'
     )
+
+    systemTab
+    .find('input[name=brp\\.background1]')
+    .closest('div.form-group')
+    .before(
+      '<h3 class="setting-header">' +
+        game.i18n.localize('BRP.Settings.background') +
+        '</h3>'
+    )  
 });
 
 

@@ -1,22 +1,24 @@
 import {onManageActiveEffect, prepareActiveEffectCategories} from "../effects/effects.mjs";
 import { BRPChecks } from "../rolls/checks.mjs";
-import { statMenuOptions } from "./context-menus/characteristics-cm.mjs";
-import { skillMenuOptions } from "./context-menus/skills-cm.mjs";
-import { skillGridMenuOptions } from "./context-menus/skillgrid-cm.mjs";
-import { statDerivOptions } from "./context-menus/deriv-cm.mjs";
-import { HitLocMenuOptions } from "./context-menus/hitloc-cm.mjs";
-import { WealthMenuOptions } from "./context-menus/wealth-cm.mjs";
-import { HPMenuOptions } from "./context-menus/restore-cm.mjs";
-import { FPMenuOptions } from "./context-menus/restore-cm.mjs";
-import { PPMenuOptions } from "./context-menus/restore-cm.mjs";
-import { CultureMenuOptions } from "./context-menus/culture-cm.mjs";
-import { SkillDevelopMenuOptions } from "./context-menus/skilldevelop-cm.mjs";
 import { BRPCharGen } from "../actor/character-creation.mjs";
 import { BRPContextMenu } from '../setup/context-menu.mjs';
-import { brpMenuOptions} from "./context-menus/brpHeader-cm.mjs";
 import { SkillSelectDialog} from "../apps/skill-selection-dialog.mjs";
 import { SkillSpecSelectDialog} from "../apps/skill-spec-dialog.mjs";
-import { WoundMenuOptions} from "./context-menus/wound-cm.mjs";
+
+import { brpMenuOptions} from "./context-menus/actor-cm.mjs";
+import { statMenuOptions } from "./context-menus/actor-cm.mjs";
+import { CultureMenuOptions } from "./context-menus/actor-cm.mjs";
+import { statDerivOptions } from "./context-menus/actor-cm.mjs";
+import { HitLocMenuOptions } from "./context-menus/actor-cm.mjs";
+import { HPMenuOptions } from "./context-menus/actor-cm.mjs";
+import { FPMenuOptions } from "./context-menus/actor-cm.mjs";
+import { PPMenuOptions } from "./context-menus/actor-cm.mjs";
+import { SkillDevelopMenuOptions } from "./context-menus/actor-cm.mjs";
+import { skillGridMenuOptions } from "./context-menus/actor-cm.mjs";
+import { skillMenuOptions } from "./context-menus/actor-cm.mjs";
+import { WealthMenuOptions } from "./context-menus/actor-cm.mjs";
+import { WoundMenuOptions} from "./context-menus/actor-cm.mjs";
+import { AgeMenuOptions} from "./context-menus/actor-cm.mjs";
 
 
 /**
@@ -144,11 +146,7 @@ export class BRPActorSheet extends ActorSheet {
         i.system.capTotal = i.system.base + i.system.profession + i.system.personality + i.system.personal + i.system.catBonus
         i.system.totalAlt = i.system.capTotal + i.system.xp + i.system.effects
 
-        if (i.system.weapon) {
-          weapons.push(i)
-        } else {
         skills.push(i);
-        }
         skillsDev.push(i);
         this.actor.system.totalProf = this.actor.system.totalProf + i.system.profession
         this.actor.system.totalPers = this.actor.system.totalPers + i.system.personal
@@ -283,6 +281,7 @@ skillsDev.sort(function(a, b){
     new BRPContextMenu(html, ".wealth.contextmenu", WealthMenuOptions(this.actor, this.token));
     new BRPContextMenu(html, ".skilldevelop.contextmenu", SkillDevelopMenuOptions(this.actor, this.token));
     new BRPContextMenu(html, ".wound.contextmenu", WoundMenuOptions(this.actor, this.token));
+    new BRPContextMenu(html, ".age.contextmenu", AgeMenuOptions(this.actor, this.token));
 
     // Drag events for macros.
     if (this.actor.isOwner) {

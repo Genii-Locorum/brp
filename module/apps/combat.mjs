@@ -263,12 +263,16 @@ export class BRPCombat {
   static async deleteWound (token, actor, itemId, itemIndex) {
     let partic =await BRPactorDetails._getParticipantPriority(token,actor)
     let location = partic.items.get(itemId)
+    let newStatus = ""
+    if (location.system.status === "severed") {
+      newStatus = "severed"
+    }
     if (itemIndex === 999) {
       let confirmation = await BRPUtilities.confirmation();
       if (!confirmation) {return}
       await location.update({'system.wounds': [],
       'system.bleeding': false,
-      'system.status': ""})
+      'system.status': newStatus})
     } else {
       let wounds = location.system.wounds ? location.system.wounds : []
       wounds.splice(itemIndex, 1)
@@ -281,10 +285,14 @@ export class BRPCombat {
   //
   static async deleteAllWounds(partic) {
     for (let i of partic.items) {
+      let newStatus = ""
+      if (i.system.status === "severed") {
+        newStatus = "severed"
+      }
       if (i.type === 'hit-location')
         i.update({'system.wounds': [],
                   'system.bleeding': false,
-                  'system.status': ""})
+                  'system.status': newStatus})
     }
   }
 
@@ -314,4 +322,13 @@ export class BRPCombat {
     }  
   }
 
+  //
+  // Restore a severd location
+  //
+
+ static async restoreLocation (token, actor, itemId) {
+  let partic =await BRPactorDetails._getParticipantPriority(token,actor)
+  let location = partic.items.get(itemId)
+  await location.update({'system.status': ""})
+ }
 }

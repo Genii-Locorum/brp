@@ -76,6 +76,7 @@ export class BRPChecks {
     let partic = ({particId : actorId, particType: "actor"})
     let actor = await BRPactorDetails._getParticipant(partic.particId, partic.particType);
     let item = actor.items.get(itemId);
+    console.log(itemId, actorId, actor, item)
     let targetScore = 0;
 
     if (item.type === 'skill') {
