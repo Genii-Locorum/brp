@@ -1,36 +1,34 @@
 <ol class="skill-list">
-    {{#each skills as |skill id|}}
-          {{#if isType}}
-           {{#unless (eq skill.system.category 'cmmnmod')}}
-              <br>
-            {{/unless}}
-            <li class="item skill-listitem" data-item-id="{{skill._id}}">
-            <div class="item-name">
-              <div class="category-name">{{skill.name}} ({{skill.system.total}}%)</div>
-            </div>
-            <div class="category-name category-right">&#160</div>
-            <div class="category-name">&#160</div>
-            {{else}}
-            <li class="item skill-listitem" data-item-id="{{skill._id}}">
-            <div class="item-name">
-              <div class="skill-rollable skill-name contextmenu rollable">{{skill.name}}</div>
-            </div>
-            {{#if skill.system.improve}}
-            <a class="development-flag" title = "{{ localize 'BRP.improve' }}"><i class="fas fa-certificate"></i></a>
-            {{else}}
-              <div></div>
-            {{/if}}
-            <div class="skill-score-val">{{skill.system.total}}%</div>
-          {{/if}}  
-        </li>
-    {{/each}}
 
-    <br>
-    <li class="skill-listitem">
-    <div class="item-name">
-      <div class="xpBonus-name">{{localize 'BRP.xpBonus'}} ({{actor.system.xpBonus}}%)</div>
-    </div>
-    <div >&#160</div>
-    <div >&#160</div>
-  </li>
+  {{#each skills as |skill id|}}
+
+    {{#if isType}}
+        {{#unless (eq skill.system.type 'Common')}}
+        <br>
+        {{/unless}}
+        <li class="police-header skill-header">{{skill.system.skillName}}</li>
+    {{else}}
+
+      {{#if isSpecialisation}}
+        <li class="specialisation-header"> {{skill.name}}</li>
+      {{else}}  
+   
+         <li class="item {{#if skill.system.special}}specialisation {{else}} skill-listitem {{/if}}" data-item-id="{{skill._id}}">
+          {{#isOr ../isCreation ../isDevelopment}}
+          <div class="item-name skill-name context">
+            <input class="skill-score-inp skill-name context inline-edit" name="skill.system.skillName" type="text" value="{{skill.system.skillName}}"/>
+          </div>
+          <div></div>
+          <input class="skill-score-inp centre inline-edit"  data-field="system.score" name="skill.system.score" type="text" value="{{skill.system.score}}" data-dtype="Number"/>
+          {{else}}
+          <div class="item-name">
+            <div class="skill-rollable skill-name context rollable">{{skill.system.skillName}}</div>
+          </div>
+          <div></div>
+          <div class="skill-score">{{skill.system.score}}</div>
+          {{/isOr}}
+        </li>
+      {{/if}}  
+    {{/if}}
+    {{/each}}
 </ol>

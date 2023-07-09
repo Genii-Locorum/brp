@@ -1,0 +1,82 @@
+<form class="{{cssClass}}" autocomplete="off">
+
+  <div class="police-header item-hdr"> {{ localize 'ROL.skill' }}</div>
+  <br>
+  {{!-- Sheet Header --}}
+  <header class="sheet-header">
+    <img class="item-image" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="75" width="75"/>
+
+    {{!--Display skill name and Parent Skill if specialisation is toggled on --}}  
+  
+    <div class="skillheader-fields grid grid-3col">
+  
+      {{#if system.special}} 
+        <div class="skillname">   
+          <input name="system.skillName" type="text" value="{{system.skillName}}" placeholder="skill name"/>
+        </div>  
+        <div class="skillname-gap">/</div>
+        
+        {{#if isGM}}
+          <div class="skillname">   
+            <input name="system.specialisation" type="text" value="{{system.specialisation}}" placeholder="Parent Skill Name"/>
+          </div>
+        {{else}}
+          <div class="skillname">{{system.specialisation}}</div>                
+        {{/if}}
+          
+      {{else}}
+        <div class="skillname">   
+          <input name="system.skillName" type="text" value="{{system.skillName}}" placeholder="Name"/>
+        </div>  
+      {{/if}}   
+  
+    </div>      
+  </header>
+  
+  {{!--Display the Skill Properties as toggleable boxes  --}}
+  <div class="item-label" style="display: block;" data-set="properties">
+
+  <div class="charname">{{ localize 'ROL.skillType' }}:</div>
+    <div class="display-switch {{#if isGM}} toggle-switch {{/if}} {{#if (eq system.type 'Common')}} control-active {{/if}}" data-property='common'>{{ localize 'ROL.common' }}  </div>
+    <div class="display-switch {{#if isGM}} toggle-switch {{/if}} {{#if (eq system.type 'Expert')}} control-active {{/if}}" data-property='expert'>{{ localize 'ROL.expert' }}  </div>
+    <div class="display-switch {{#if isGM}} toggle-switch {{/if}} {{#if (eq system.type 'Weapons')}} control-active {{/if}}" data-property='weapons'>{{ localize 'ROL.weapons' }}  </div>
+
+  <div></div>  
+  <br>
+
+  <div class="item-label">{{ localize 'ROL.skillSubType' }}:</div>
+    <div class="align-centre display-switch {{#if isGM}} toggle-switch {{/if}} {{#if (eq system.subType 'Athletics')}} control-active {{/if}}" data-property='athletics'>{{ localize 'ROL.athletics' }}  </div>
+    <div class="align-centre display-switch {{#if isGM}} toggle-switch {{/if}} {{#if (eq system.subType 'Language')}} control-active {{/if}}" data-property='language'>{{ localize 'ROL.language' }}  </div>
+    <div class="align-centre display-switch {{#if isGM}} toggle-switch {{/if}} {{#if (eq system.subType 'Magic')}} control-active {{/if}}" data-property='magic'>{{ localize 'ROL.magic' }}  </div>
+    <div class="align-centre display-switch {{#if isGM}} toggle-switch {{/if}} {{#if (eq system.subType 'Firearms')}} control-active {{/if}}" data-property='firearms'>{{ localize 'ROL.firearms' }}  </div>
+    <div class="align-centre display-switch {{#if isGM}} toggle-switch {{/if}} {{#if (eq system.subType 'Fighting')}} control-active {{/if}}" data-property='fighting'>{{ localize 'ROL.fighting' }}  </div>
+    <div class="align-centre display-switch {{#if isGM}} toggle-switch {{/if}} {{#if (eq system.subType 'None')}} control-active {{/if}}" data-property='none'>{{ localize 'ROL.none' }}  </div>
+  
+  <div></div>
+  <br>
+
+  <div class="item-label">{{ localize 'ROL.properties' }}:</div>
+    <div class="display-switch {{#if isGM}} toggle-switch {{/if}} {{#if system.special}} control-active {{/if}}" data-property='special'>{{ localize 'ROL.special' }}  </div>
+
+    
+  <br>
+
+  {{!-- Input the skill chance if sheet isGM otherwise display --}} 
+  <div class="skill-resource grid grid-2col">
+    {{#if isGM}}
+      <label class="item-label">{{ localize 'ROL.score' }}:</label>
+      <input class="loc-label-inp" type="text" name="system.score" value="{{system.score}}" data-dtype="Number"/>
+    {{else}}
+      <div class="item-label">{{ localize 'ROL.score' }}:</div>
+      <div class="loc-label-inp">{{system.score}}</div>  
+    {{/if}}  
+  </div>
+  
+  {{!-- Description  --}}
+    <section class="sheet-body">
+      <div class="item-label">{{ localize 'ROL.description' }}:</div>
+      <div>
+        {{editor system.skill.description class="background-doc" target="system.skill.description" button=true owner=owner editable=editable}}
+      </div>
+    </section>
+</form>

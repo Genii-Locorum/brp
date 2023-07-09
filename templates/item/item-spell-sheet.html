@@ -1,32 +1,68 @@
 <form class="{{cssClass}}" autocomplete="off">
+  <div class="police-header item-hdr"> {{ localize 'ROL.spell' }}</div>
+  <br>
+
   <header class="sheet-header">
     <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
     <div class="header-fields">
-      <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
+      <div class="skillname"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></div>
     </div>
   </header>
 
-  {{!-- Sheet Tab Navigation --}}
-  <nav class="sheet-tabs tabs" data-group="primary">
-    <a class="item" data-tab="description">Description</a>
-    <a class="item" data-tab="attributes">Attributes</a>
-  </nav>
+  <div class="skill-resource grid grid-2col">
+    {{#unless isGM}}
+      <div class="item-label">{{ localize 'ROL.spellOrder' }}:</div>
+      <div class="loc-label-inp">{{system.spellOrder}}</div>  
+  
+      <div class="item-label">{{ localize 'ROL.damage' }}:</div>
+      <div class="loc-label-inp">{{system.damage}}</div>
+  
+      {{else}}
+      <label class="item-label">{{ localize 'ROL.spellOrder' }}:</label>
+      <input class="loc-label-inp dropdown" list="spellOrderList" type="text" name="system.spellOrder" value="{{system.spellOrder}}" data-dtype="Number"/>
+      <datalist id="spellOrderList">
+        {{#loop 1 maxSpell 1}}  
+          <option value={{this}}></option>
+        {{/loop}}
+      </datalist> 
 
-  {{!-- Sheet Body --}}
-  <section class="sheet-body">
+        <label class="item-label">{{ localize 'ROL.damage' }}:</label>
+        <input class="loc-label-inp" type="text" name="system.damage" value="{{system.damage}}" data-dtype="Number"/>  
 
-    {{!-- Description Tab --}}
-    <div class="tab" data-group="primary" data-tab="description">
-      {{editor system.description target="system.description" rollData=rollData button=true owner=owner editable=editable}}
-    </div>
+    {{/unless}}    
+  </div>    
+    {{#if (gt system.damage 0)}}
 
-    {{!-- Attributes Tab --}}
-    <div class="tab attributes" data-group="primary" data-tab="attributes">
-      {{!-- As you add new fields, add them in here! --}}
-      <div class="resource">
-        <label class="resource-label">Spell Level</label>
-        <input type="text" name="system.spellLevel" value="{{system.spellLevel}}" data-dtype="Number"/>
+    <div class="skill-prop" style="display: block;" data-set="properties">
+      <div class="item-label">{{ localize 'ROL.damageType' }}:</div>
+            <div class="display-switch {{#if isGM}} toggle-switch {{/if}} {{#if (eq system.damType 'blunt')}} control-active {{/if}}" title = "{{ localize 'ROL.dmgBlunt' }}" data-property='blunt'>{{ localize 'ROL.blunt' }}  </div>
+            <div class="display-switch {{#if isGM}} toggle-switch {{/if}} {{#if (eq system.damType 'bladed')}} control-active {{/if}}" title = "{{ localize 'ROL.dmgBladed' }}" data-property='bladed'>{{ localize 'ROL.bladed' }}  </div>
+            <div class="display-switch {{#if isGM}} toggle-switch {{/if}} {{#if (eq system.damType 'ballistic')}} control-active {{/if}}" title = "{{ localize 'ROL.dmgBallistic' }}" data-property='projectile'>{{ localize 'ROL.ballistic' }}  </div>
+            <div class="display-switch {{#if isGM}} toggle-switch {{/if}} {{#if (eq system.damType 'magic')}} control-active {{/if}}" title = "{{ localize 'ROL.dmgMagic' }}" data-property='magical'>{{ localize 'ROL.magic' }}  </div>
+            <div class="display-switch {{#if isGM}} toggle-switch {{/if}} {{#if (eq system.damType 'vorpal')}} control-active {{/if}}" title = "{{ localize 'ROL.dmgVorpal' }}" data-property='vorpal'>{{ localize 'ROL.vorpal' }}  </div>
+    </div>    
+          <div></div>  
+          <br>  
+    {{/if}}  
+
+
+
+  {{!-- Pre-Requisites & Logic Partial --}}
+    {{> "systems/rol/templates/item/item-prereq.html"}}
+
+  <div></div>
+  
+  <div class="item-label">{{ localize 'ROL.properties' }}:</div>
+  <div class="display-switch {{#isOr isCreation isDevelopment}} toggle-switch {{/isOr}} {{#if isGM}} toggle-switch {{/if}} {{#if system.mastered}} control-active {{/if}}" data-property='mastered'>{{ localize 'ROL.mastered' }}</div>
+  <div class="display-switch {{#if isGM}} toggle-switch {{/if}} {{#if system.damageBoost}} control-active {{/if}}" data-property='damageBoost'>{{ localize 'ROL.damageBoost' }}</div>
+  <div></div>
+  <br>
+
+  {{!-- Description  --}}
+    <section class="sheet-body">
+      <div class="item-label">{{ localize 'ROL.description' }}:</div>
+      <div>
+        {{editor system.spell.description class="background-doc" target="system.spell.description" button=true owner=owner editable=editable}}
       </div>
-    </div>
-  </section>
+    </section>
 </form>

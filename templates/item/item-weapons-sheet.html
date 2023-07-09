@@ -1,0 +1,77 @@
+<form class="{{cssClass}}" autocomplete="off">
+
+  <div class="police-header item-hdr"> {{ localize 'ROL.weapon' }}</div>
+  <br>
+
+  <header class="sheet-header">
+    <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+
+    <div class="skillheader-fields  grid grid-3col">
+      <div class="skillname">
+          <input name="name" type="text" value="{{item.name}}" placeholder="name"/>
+      </div>
+      <div></div>
+      <div></div>
+    </div>  
+  </header>
+  <div class="skill-resource grid grid-2col"></div>  
+
+  <div class="skill-prop" style="display: block;" data-set="properties">
+    <div class="item-label">{{ localize 'ROL.damageType' }}:</div>
+          <div class="display-switch {{#if isGM}} toggle-switch {{/if}} {{#if (eq system.damType 'blunt')}} control-active {{/if}}" title = "{{ localize 'ROL.dmgBlunt' }}" data-property='blunt'>{{ localize 'ROL.blunt' }}  </div>
+          <div class="display-switch {{#if isGM}} toggle-switch {{/if}} {{#if (eq system.damType 'bladed')}} control-active {{/if}}" title = "{{ localize 'ROL.dmgBladed' }}" data-property='bladed'>{{ localize 'ROL.bladed' }}  </div>
+          <div class="display-switch {{#if isGM}} toggle-switch {{/if}} {{#if (eq system.damType 'ballistic')}} control-active {{/if}}" title = "{{ localize 'ROL.dmgBallistic' }}" data-property='projectile'>{{ localize 'ROL.ballistic' }}  </div>
+          <div class="display-switch {{#if isGM}} toggle-switch {{/if}} {{#if (eq system.damType 'magic')}} control-active {{/if}}" title = "{{ localize 'ROL.dmgMagic' }}" data-property='magical'>{{ localize 'ROL.magic' }}  </div>
+          <div class="display-switch {{#if isGM}} toggle-switch {{/if}} {{#if (eq system.damType 'vorpal')}} control-active {{/if}}" title = "{{ localize 'ROL.dmgVorpal' }}" data-property='vorpal'>{{ localize 'ROL.vorpal' }}  </div>
+  </div>
+  <div class="skill-resource grid grid-2col"></div>  
+  
+  <div class="skill-prop" style="display: block;" data-set="properties">
+    <div class="item-label">{{ localize 'ROL.weaponType' }}:</div>
+          <div class="display-switch {{#if isGM}} toggle-switch {{/if}} {{#if (eq system.type 'Melee')}} control-active {{/if}}" data-property='melee'>{{ localize 'ROL.melee' }}  </div>
+          <div class="display-switch {{#if isGM}} toggle-switch {{/if}} {{#if (eq system.type 'Thrown')}} control-active {{/if}}" data-property='thrown'>{{ localize 'ROL.thrown' }}  </div>
+          <div class="display-switch {{#if isGM}} toggle-switch {{/if}} {{#if (eq system.type 'Firearms')}} control-active {{/if}}" data-property='guns'>{{ localize 'ROL.firearms' }}  </div>
+  </div>    
+        <div></div>  
+        <br>  
+
+
+  {{#if isGM}}
+    <div class="skill-resource grid grid-2col"> 
+    <label class="item-label">{{ localize 'ROL.damage' }}:</label>
+      <input class="loc-label-inp" type="text" name="system.damage" value="{{system.damage}}" data-dtype="Number"/>
+    <label class="item-label">{{ localize 'ROL.range' }}:</label>
+      <input class="loc-label-inp" type="text" name="system.range" value="{{system.range}}"/>
+    </div>    
+  {{else}} 
+    <div class="skill-resource grid grid-2col"> 
+      <div class="item-label">{{ localize 'ROL.damage' }}:</div>
+        <div class="loc-label-inp">{{system.damage}}</div>
+      <div class="item-label">{{ localize 'ROL.range' }}:</div>
+        <div class="loc-label-inp">{{system.range}}</div>  
+    </div>    
+  {{/if}}
+
+    <div class="item-label">{{ localize 'ROL.properties' }}:</div>
+      <div></div>
+      <div class="skill-prop" style="display: block;" data-set="properties">
+        {{#if (eq system.type 'Firearms')}}
+          <div class="display-switch {{#if isGM}} toggle-switch {{/if}} {{#if system.semiauto}} control-active {{/if}}" data-property='semiauto'>{{ localize 'ROL.semiauto' }}  </div>
+          <div class="display-switch {{#if isGM}} toggle-switch {{/if}} {{#if system.automatic}} control-active {{/if}}" data-property='automatic'>{{ localize 'ROL.automatic' }}  </div>
+        {{/if}}
+        {{#unless (eq system.type 'Thrown')}}
+          <div class="display-switch {{#unless isLocked}} toggle-switch {{/unless}} {{#if system.signature}} control-active {{/if}}" data-property='signature'>{{ localize 'ROL.signature' }}  </div>
+        {{/unless}}
+      </div>  
+
+      <div></div>
+      <br>
+
+  {{!-- Description  --}}
+    <section class="sheet-body">
+      <div class="item-label">{{ localize 'ROL.description' }}:</div>
+      <div>
+        {{editor system.weapons.description class="background-doc" target="system.weapons.description" button=true owner=owner editable=editable}}
+      </div>
+    </section>
+</form>

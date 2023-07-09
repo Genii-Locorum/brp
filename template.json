@@ -3,286 +3,176 @@
     "types": ["character", "npc"],
     "templates": {
       "base": {
-        "stats": {
+        "damage": {
+          "value": 0,
+          "min": 0,
+          "max": 0
+        },
+        "armour": {
+          "regular" : 0,
+          "ballistic": 0,
+          "shieldBlock": 0,
+          "shiedlHP" : 0
+          },
+        "hp": {
+          "min": 0,
+          "max": 3
+        },
+        "mp": {
+          "value": 0,
+          "min": 0,
+          "max": 0
+        },
+        "luck": {
+          "value": 0,
+          "min": 0,
+          "max": 0
+        },
+        "abilities": {
           "str": {
-            "value": 0,
-            "redist": 0,
-            "exp": 0,
-            "age":0,
-            "effects": 0,
-            "cost": 1
+            "value": 0
           },
           "con": {
-            "value": 0,
-            "redist": 0,
-            "exp": 0,
-            "age":0,
-            "effects": 0,
-            "cost": 1
-          },
-          "int": {
-            "value": 0,
-            "redist": 0,
-            "exp": 0,
-            "age":0,
-            "effects": 0,
-            "cost": 3
-          },
-          "siz": {
-            "value": 0,
-            "redist": 0,
-            "exp": 0,
-            "age":0,
-            "effects": 0,
-            "cost": 1
-          },
-          "pow": {
-            "value": 0,
-            "redist": 0,
-            "exp": 0,
-            "age":0,
-            "effects": 0,
-            "cost": 3
+            "value": 0
           },
           "dex": {
-            "value": 0,
-            "redist": 0,
-            "exp": 0,
-            "age":0,
-            "effects": 0,
-            "cost": 3
+            "value": 0
           },
-          "cha": {
-            "value": 0,
-            "redist": 0,
-            "exp": 0,
-            "age":0,
-            "effects": 0,
-            "cost": 1
+          "int": {
+            "value": 0
           },
-          "edu": {
-            "value": 0,
-            "redist": 0,
-            "exp": 0,
-            "age":0,
-            "effects": 0,
-            "cost": 3
+          "pow": {
+            "value": 0
           }
         },
-        "health": {
-          "value": 10,
-          "max": 10,
-          "mjrwnd": 5,
-          "daily": 0
+        "flags":{
+          "locked":false,
+          "luckImprov": false,
+          "luckReset": false
         },
-        "power": {
-          "value": 5,
-          "max": 5
+        "charType": "Investigator",
+        "occupation" :"",
+        "affluence": "Average",
+        "placeOfBirth" : "",
+        "spellCount": [],
+        "residence" : "",
+        "pronouns" : "",
+        "age" : "",
+        "mov" : 8,
+        "signare" :{
+          "sound": "",
+          "smell": "",
+          "other": ""
         },
-        "fatigue": {
-          "value": 5,
-          "max": 5
+        "thematic": "",
+        "properties" :{
+          "disfigured": false,
+          "impaired": false,
+          "htd":false,
+          "htdFumble": false,
+          "hurt": false,
+          "bloodied": false,
+          "trauma": false
         },
-        "sanity": {
-          "value": 5,
-          "max": 5
-        },
-        "skillcategory": {
-          "zcmbtmod": {},
-          "cmmnmod": {},
-          "mnplmod": {},
-          "mntlmod": {},
-          "prcpmod": {},
-          "physmod": {}
-        },
-        "weapon": false,
-        "biography": "",
-        "background": "",
-        "backstory": "",
-        "initialise": false,
-        "gender": "",
-        "religion": "",
-        "age": 0,
-        "ageMod": 0,
-        "height": "",
-        "weight": "",
-        "wealth": 0,
-        "description": "",
-        "distincitve": "",
-        "move": 0,
-        "hand": "Right",
-        "majorWnd": false,
-        "minorWnd": false,
-        "unconscious": false
+        "background": {
+          "present": "",
+          "supernatural": "",
+          "childhood": ""
+        }
       }
     },
+
     "character": {
-      "templates": ["base"]
+      "templates": ["base"],
+      "devPoints": {
+        "earned": 0,
+        "holding": 0,
+        "spent": 0,
+        "history": ""
+      }  
     },
+
     "npc": {
-      "templates": ["base"]
+      "templates": ["base"],
+      "dmgBonus": 0,
+      "description": "",
+      "notes": ""
     }
   },
+
   "Item": {
-    "types": ["item", "feature", "skill", "spell","culture","hit-location","personality","profession","power"],
+    "types": ["spell", "skill", "advantages", "contacts","weapons", "armour", "equipment"],
     "templates": {
       "base": {
-        "description": "",
-        "keyword": ""
+        "description": ""
+      },
+      "preReq": {
+        "preReq": {
+          "logic": "",
+          "1": {
+            "preType": "",
+            "preOpt": "",
+            "preVal": 0
+          },
+          "2": {
+            "preType": "",
+            "preOpt": "",
+            "preVal": 0
+          },
+          "3": {
+            "preType": "",
+            "preOpt": "",
+            "preVal": 0
+          }
+        }
       }
     },
-    "item": {
-      "templates": ["base"],
-      "quantity": 1,
-      "weight": 0,
-      "formula": "d20 + @str.mod + ceil(@lvl / 2)"
-    },
-
-    "personality": {
-      "templates": ["base"],
-      "skills": [],
-      "groups": []
-    },
-
-    "hitloc": {
-      "lowRoll": 0,
-      "highRoll": 0,
-      "fractionHP": 0,
-      "status": "",
-      "locType": false,
-      "bleeding": false,
-      "wounds": []
-    },
-
-    "feature": {
+    "equipment": {
       "templates": ["base"]
     },
-
-    "skill": {
+    "weapons": {
       "templates": ["base"],
-      "base": 0,
-      "subType": "",
-      "xp": 0,
-      "profession": 0,
-      "personality": 0,
-      "personal": 0,
-      "effects": 0,
-      "baseFormula": {
-        "1":{
-              "stat":"fixed",
-              "value":0
-            },
-        "2":{
-              "stat":"fixed",
-              "value":0
-            },
-        "Func": "or"    
-      },
-      "noXP": false,
-      "category": "cmmnmod",
-      "specialism": false,
-      "chosen": false,
-      "variable": false,
-      "specName": "",
-      "mainName": "",
-      "occupation": false,
-      "improve": false,
-      "specGroup": false
+      "damage": 1,
+      "type": "Melee",
+      "signature": false,
+      "damType": "blunt",
+      "range": "",
+      "automatic": false,
+      "semiauto": false
     },
-
+    "armour": {
+      "templates": ["base"],
+      "type": "Regular",
+      "ap": 1
+    },
+    "advantages": {
+      "templates": ["base","preReq"],
+      "advType": true,
+      "effIcon": "",
+      "advEffect": "",
+      "cost" : 1 
+    },
+    "contacts": {
+      "templates": ["base"],
+      "secure": false,
+      "sour" : false
+    },
+    "skill":{
+      "templates": ["base"],
+      "type":"Common",
+      "subType":"None",
+      "score": 0,
+      "skillName": "",
+      "specialisation": "",
+      "special": false
+    },
     "spell": {
-      "templates": ["base"],
-      "spellLevel": 1
-    },
-
-    "profession": {
-      "templates": ["base"],
-      "skills": [],
-      "groups": [],
-      "minWealth": 0,
-      "maxWealth":0
-    },
-
-    "culture": {
-      "templates": ["base"],
-      "hitloc": [],
-      "stats": {
-        "str": {
-          "fixed": 0,
-          "min": 0,
-          "max": 0,
-          "base": "",
-          "advanced": "",
-          "adj": 0
-        },
-        "con": {
-          "fixed": 0,
-          "min": 0,
-          "max": 0,
-          "base": "",
-          "advanced": "",
-          "adj": 0
-        },
-        "int": {
-          "fixed": 0,
-          "min": 0,
-          "max": 0,
-          "base": "",
-          "advanced": "",
-          "adj": 0
-        },
-        "siz": {
-          "fixed": 0,
-          "min": 0,
-          "max": 0,
-          "base": "",
-          "advanced": "",
-          "adj": 0
-        },
-        "pow": {
-          "fixed": 0,
-          "min": 0,
-          "max": 0,
-          "base": "",
-          "advanced": "",
-          "adj": 0
-        },
-        "dex": {
-          "fixed": 0,
-          "min": 0,
-          "max": 0,
-          "base": "",
-          "advanced": "",
-          "adj": 0
-        },
-        "cha": {
-          "fixed": 0,
-          "min": 0,
-          "max": 0,
-          "base": "",
-          "advanced": "",
-          "adj": 0
-        },
-        "edu": {
-          "fixed": 0,
-          "min": 0,
-          "max": 0,
-          "base": "",
-          "advanced": "",
-          "adj": 0
-        }
-      },
-      "points": {
-        "normal": 24,
-        "heroic": 36,
-        "epic": 48,
-        "superhuman": 60
-      },  
-      "move": 0
-    },
-    "power": {
-      "templates": ["base"],
-      "level": 0
-    } 
+      "templates": ["base","preReq"],
+      "spellOrder": 1,
+      "mastered": false,
+      "damType": "magic",
+      "damageBoost": false,
+      "damage": 0
+    }
   }
 }

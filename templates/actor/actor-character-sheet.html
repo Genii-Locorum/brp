@@ -1,239 +1,288 @@
-<form class="{{cssClass}} {{actor.type}}" autocomplete="off">
+<form class="{{cssClass}} {{actor.type}} {{actor.system.charType}} flexcol" autocomplete="off">
 
-  {{!-- Title Section --}}
-    <section class="main-sheet">
-
-      <section>
-      <div class="sheet-title main-title grid grid-3col">
-        <div></div>
-        <div class="item-hover brp-header contextmenu" title = "{{localize 'BRP.cm.context'}}">{{ localize 'BRP.Brp' }}</div>
-          {{#if isInitialise}}
-            <div>
-              <a class="float-right" title = "{{ localize 'BRP.initialiseHint' }}"><i class="fas fa-user-pen"></i></a>
-            </div>
-          {{else}}  
-            <div></div>
-          {{/if}}
+  {{!-- Sheet Header --}}
+  <header class="multi-panel-content">
 
 
-      </div>  
-    </section>
-      <section class="title-strip sheet-title personal grid grid-3col">
-        <div class="sheet-title">{{localize 'BRP.personal'}}</div> 
-        <div class="sheet-title">{{localize 'BRP.characteristics'}}</div>
-        <div class="sheet-title">{{localize 'BRP.portrait'}}</div>
-      </section>  
-    
-
-    <section class="personal {{#if useEDU}}stats-block-lrg{{else}}stats-block{{/if}} grid grid-3col">
-  {{!-- Personal Section --}}
-  <section class="personal-section">
-      <div class="personal-main-grid grid grid-2col">
-        <label class="charname">{{ localize 'BRP.name' }}:</label>
-        <input class="personal-inp" name="name" type="text" value="{{actor.name}}"/>
-      </div>  
-
-      <div class="personal-grid grid grid-4col">       
-        <div class="item item-hover charname culture contextmenu" title = "{{localize 'BRP.cm.context'}}" data-item-id="{{actor.system.cultureId}}">{{ localize 'BRP.culture' }}:</div>
-        <div class="personal-inp">{{actor.system.culture}}</div>
-        <label class="charname">{{ localize 'BRP.age' }}:</label>
-        <input class="personal-inp" name="system.age" type="text" value="{{actor.system.age}}"/>
-      </div>
-
-      <div class="personal-grid grid grid-4col">       
-        <label class="charname">{{ localize 'BRP.gender' }}:</label>
-        <input class="personal-inp" name="system.gender" type="text" value="{{actor.system.gender}}"/>
-        <label class="charname">{{ localize 'BRP.hand' }}:</label>
-        <input class="personal-inp" name="system.hand" type="text" value="{{actor.system.hand}}"/> 
-      </div>
-
-      <div class="personal-grid grid grid-4col">
-        <label class="charname">{{ localize 'BRP.height' }}:</label>
-        <input class="personal-inp" name="system.height" type="text" value="{{actor.system.height}}"/>
-        <label class="charname">{{ localize 'BRP.weight' }}:</label>
-        <input class="personal-inp" name="system.weight" type="text" value="{{actor.system.weight}}"/>
-      </div>  
- 
-      <div class="personal-grid grid grid-4col">
-        <div class="item item-hover charname profession contextmenu" title = "{{localize 'BRP.cm.context'}}" data-item-id="{{actor.system.professionId}}">{{ localize 'BRP.profession' }}:</div>
-        <div class="personal-inp">{{actor.system.profession}}</div>
-        <div class="item item-hover charname personality contextmenu" title = "{{localize 'BRP.cm.context'}}" data-item-id="{{actor.system.personalityId}}">{{ localize 'BRP.personality' }}:</div>
-        <div class="personal-inp">{{actor.system.personality}}</div>
-      </div>
-
-      <div class="personal-main-grid grid grid-2col">
-        <label class="charname">{{ localize 'BRP.religion' }}:</label>
-        <input class="personal-inp" name="system.religion" type="text" value="{{actor.system.religion}}"/>
-      </div>
-
-      <div class="personal-grid grid grid-4col">
-        <div class="item item-hover charname wealth contextmenu" title = "{{localize 'BRP.cm.context'}}">{{ localize 'BRP.wealth' }}:</div>
-        <div class="personal-inp">{{actor.system.wealthName}}</div>
-        <div class="charname">{{ localize 'BRP.move' }}:</div>
-        <div class="personal-inp">{{actor.system.moveTotal}}</div>
-      </div>  
-
-  </section>
-
-  {{!-- Stats Section --}}
-      <section>
-        <div class="stats-grid grid grid-4col">
-          {{#each system.stats as |stat key|}}
-            {{#if stat.visible}}
-              <div class="rollable stat-name contextmenu align-left" title="{{localize 'BRP.cm.hint'}}" data-label="{{stat.label}}" data-target="{{stat.total}}" data-type="characteristic">{{stat.labelShort}}</div>
-              <div class ="stat-value center">{{stat.total}}</div>
-              <div class="rollable deriv-name contextmenu align-right" title="{{localize 'BRP.cm.hint'}}" data-label="{{stat.labelDeriv}}" data-target="{{stat.deriv}}" data-type="derived">{{stat.labelDeriv}}</div>
-              <div class ="center deriv-name">{{stat.deriv}}%</div>
-
-            {{/if}}
-          {{/each}}
-        </div>
-      </section>
-
-  {{!-- Character Portrait --}}
-      <section class="portrait">  
-        <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100"/>
-      </section>
-    </section>
-
-    <section>
-    <div class="header-fields">
-      <div class="resources grid {{#if (eq resource 4)}} grid-4col{{/if}} {{#if (eq resource 3)}} grid-3col{{/if}} grid-2col">
-
-        <div class="resource flex-group-center">
-          <div data-target="system.health" title = "{{localize 'BRP.cm.context'}}" class="resource-label health contextmenu">{{localize 'BRP.health'}}
-            {{#if system.fatalWnd}}
-              <a title="{{localize 'BRP.fatalWound'}}"><i class="icon-active-red  item-control fas fa-skull"></i></a>
-            {{else}}
-              {{#if system.unconscious}}
-                <a class="{{#if isGM}} icon-toggle {{/if}}" data-property="unconscious" title="{{localize 'BRP.unconscious'}}"><i class="icon-active-red  item-control fas fa-bed"></i></a>
-              {{/if}}
-            {{/if}}
-            {{#if system.majorWnd}}
-              <a class="{{#if isGM}} icon-toggle {{/if}}" data-property="majorWnd" title="{{localize 'BRP.majorWound'}}"><i class="icon-active-red  item-control fas fa-face-head-bandage"></i></a>
-            {{else}}
-              {{#if system.minorWnd}}
-                <a class="{{#if isGM}} icon-toggle {{/if}}" data-property="minorWnd" title="{{localize 'BRP.minorWound'}}"><i class="icon-active-red  item-control fas fa-face-dizzy"></i></a>
-              {{/if}}
-            {{/if}}
-
-          </div>
-          <div class="resource-content resource-grid grid grid-5col">
-            <div></div> 
-            <div class="attrib-inp personal-show">{{system.health.value}}</div>
-            <span class="divider"> / </span>
-            <div class="attrib-inp personal-show">{{system.health.max}}</div>
-            {{#if useHPL}}
-              <div></div>
-            {{else}}  
-              <div class="attrib-inp personal-show" title="{{localize 'BRP.daily'}}">({{system.health.daily}})</div>  
-            {{/if}}  
-          </div>
-        </div>
-
-        <div class="resource flex-group-center">
-          {{#if useMP}}
-            <label for="system.power.value" data-target="system.power" title = "{{localize 'BRP.cm.context'}}" class="resource-label power contextmenu">{{localize 'BRP.MP'}}</label>
-          {{else}}
-            <label for="system.power.value" class="resource-label">{{localize 'BRP.PP'}}</label>
-          {{/if}}
-          <div class="resource-content resource-grid grid grid-5col">
-            <div></div> 
-            <input class="attrib-inp" type="text" name="system.power.value" value="{{system.power.value}}" data-dtype="Number"/>
-            <span class="divider"> / </span>
-            <div class="attrib-inp personal-show" >{{system.power.max}}</div>
-            <div></div>   
-          </div>
-        </div>
-
-        {{#if useFP}}
-        <div class="resource flex-group-center">
-          <label for="system.fatigue.value" class="resource-label fatigue contextmenu" title = "{{localize 'BRP.cm.context'}}" >{{localize 'BRP.fatigue'}}</label>
-          <div class="resource-content resource-grid grid grid-5col">
-            <div></div> 
-            <input class="attrib-inp" type="text" name="system.fatigue.value" value="{{system.fatigue.value}}" data-dtype="Number"/>
-            <span class="divider"> / </span>
-            <div class="attrib-inp personal-show" >{{system.fatigue.max}}</div>
-            <div></div>   
-          </div>
-        </div>
-        {{/if}}
-
-        {{#if useSAN}}
-        <div class="resource flex-group-center">
-          <label for="system.sanity.value" class="resource-label">{{localize 'BRP.sanity'}}</label>
-          <div class="resource-content resource-grid grid grid-5col">
-            <div></div>  
-            <input class="attrib-inp" type="text" name="system.sanity.value" value="{{system.sanity.value}}" data-dtype="Number"/>
-            <div class="divider"> / </div>
-            <input class="attrib-inp" type="text" name="system.sanity.max" value="{{system.sanity.max}}" data-dtype="Number"/>
-            <div></div>
-          </div>
-        </div>
-        {{/if}}
-
-      </div>
-    </div>
-  </section>
-  
-  {{!-- Sheet Tab Navigation --}}
-  <section class="nav-panel">
-    <nav class="sheet-tabs tabs" data-group="primary">
-      <a class="item skilldevelop contextmenu" data-tab="skills">{{localize 'BRP.tab.skills'}}</a>
-      <a class="item" data-tab="statistics">{{localize 'BRP.tab.statistics'}}</a>
-      <a class="item" data-tab="combat">{{localize 'BRP.tab.combat'}}</a>
-      <a class="item" data-tab="items">{{localize 'BRP.tab.items'}}</a>
-      <a class="item" data-tab="spells">{{localize 'BRP.tab.spells'}}</a>
-      <a class="item" data-tab="effects">{{localize 'BRP.tab.effects'}}</a>
-      <a class="item" data-tab="background">{{localize 'BRP.tab.background'}}</a>
-    </nav>
-  </section> 
-
-
-  {{!-- Sheet Body --}}
-  <section class ="bottom-panel">
-  <section class="sheet-body">
-    {{!-- Statistics Tab --}}
-    <div class="tab statistics" data-group="primary" data-tab="statistics">
-      {{> "systems/brp/templates/actor/parts/actor-statistics.html"}}
+    {{!-- Portrait --}}  
+    <div class="section-vertical"> {{ localize 'ROL.portrait' }}</div>
+    <div class="image-panel">
+      <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="165" width="165"/>
     </div>
 
-    {{!-- Owned Items Tab --}}
-    <div class="tab items" data-group="primary" data-tab="items">
-       {{> "systems/brp/templates/actor/parts/actor-items.html"}}
-    </div>
 
-    {{!-- Owned Spells Tab --}}
-    <div class="tab spells" data-group="primary" data-tab="spells">
-      {{> "systems/brp/templates/actor/parts/actor-spells.html"}}
+    {{!-- Investigator Info Block --}}
+    <div class="left-panel">
+      <div>
+    {{#isAnd isCreation isDemiMonde}} 
+    <div class="skill-prop grid grid-2col" style="display: grid; justify-items: center;" data-set="properties">
+      <div class="display-switch-small tough-toggle {{#if (eq system.charType 'Investigator')}} control-active {{/if}}" data-property='typeInv'>{{ localize 'ROL.investigator' }}  </div>
+      <div class="display-switch-small tough-toggle {{#if (eq system.charType 'DemiMonde')}} control-active {{/if}}" data-property='typeDemi'>{{ localize 'ROL.demiMonde' }}  </div>
     </div>
-
-    {{!-- Active Effects Tab --}}
-    <div class="tab effects flexcol" data-group="primary" data-tab="effects">
-      {{> "systems/brp/templates/actor/parts/actor-effects.html"}}
-    </div>
-
-    {{!-- Background Tab --}}
-    <div class="tab background flexcol" data-group="primary" data-tab="background">
-      {{> "systems/brp/templates/actor/parts/actor-background.html"}}
-    </div>
-
-    {{!-- Owned Skills Tab --}}
-    <div class="tab skills" data-group="primary" data-tab="skills">
-      {{#if isDevelop}}
-        {{> "systems/brp/templates/actor/parts/actor-skillsDev.html"}}
+    {{else}}
+      {{#if (eq  system.charType 'Investigator')}}  
+        <div class="section-title-large">{{ localize 'ROL.investigator' }}</div>
       {{else}}
-        {{> "systems/brp/templates/actor/parts/actor-skills.html"}}
+        <div class="section-title-large">{{ localize 'ROL.demiMonde' }}</div>
       {{/if}}
+    {{/isAnd}}  
+    </div>
+    <div class="info-panel">  
+      <div class="charname row flexrow">
+        <label class="charname">{{ localize 'ROL.name' }} :</label>
+        <input class="bold" name="name" type="text" value="{{actor.name}}"/>
+      </div>  
+      
+      <div class="charname row flexrow">
+        <label>{{ localize 'ROL.occupation' }} :</label>
+        <input class="bold" name="system.occupation" type="text" value="{{system.occupation}}"/>
+      </div>
+         
+      <div class=" charname row flexrow">
+        <label>{{ localize 'ROL.placeOfBirth' }} :</label>
+        <input class="bold" name="system.placeOfBirth" type="text" value="{{system.placeOfBirth}}"/>
+      </div>
+    
+      <div class=" charname row flexrow">
+        <label>{{ localize 'ROL.residence' }} :</label>
+        <input class="bold" name="system.residence" type="text" value="{{system.residence}}"/>
+      </div>
+
+      <div class=" charname row flexrow">
+        <label>{{ localize 'ROL.affluence' }} :</label>
+        {{#if isCreation}}
+          <input class="bold" list="affluenceList" name="system.affluence" type="text" value="{{system.affluence}}"/>
+            <datalist id="affluenceList">
+              <option value="{{ localize 'ROL.poor' }}"></option>
+              <option value="{{ localize 'ROL.average' }}"></option>
+            </datalist>
+        {{else}}  
+            <div class="bold affluence">{{system.affluence}}</div>
+        {{/if}}  
+      </div>
+   
+      <div class=" charname row flexrow">
+        <label class="detailblockbottom">{{ localize 'ROL.pronouns' }} :</label>
+        <input class = "detailblockbottominput bold" name="system.pronouns" type="text" value="{{system.pronouns}}"/>
+    
+        <div></div>
+
+        <label class="detailblockbottom-short">{{ localize 'ROL.age' }} :</label>
+        <input class ="bold" name="system.age" type="text" value="{{system.age}}" data d-type="Number"/>
+      </div>
+    
+      </div>
     </div>
 
-    {{!-- Combat Tab --}}
-    <div class="tab combat" data-group="primary" data-tab="combat">
-      {{> "systems/brp/templates/actor/parts/actor-combat.html"}}
+    {{!-- Stats Block --}}
+    <div class="right-panel">
+    <div class="section-title">{{localize 'ROL.characteristics'}}</div>
+      {{#unless isCreation}}  
+      <div class="abilities grid grid-2col">
+        {{#each system.abilities as |ability key|}}
+          <div class="resource-label attribute-name rollable" data-target ={{ability.value}} data-label="{{ability.label}}">{{ability.label}}</div>
+             <div class="stats-content">{{ability.value}}</div>
+        {{/each}}
+      </div>    
+      {{else}}
+      <div class="{{#if (gt system.abilityTotal maxStats)}} abilities-max {{else}} abilities {{/if}} grid grid-2col">
+        {{#each system.abilities as |ability key|}}
+          <div class="resource-label rollable" data-target ={{ability.value}} data-label="{{ability.label}}">{{ability.label}}</div>
+          <input class="stats-content" type="text" name="system.abilities.{{key}}.value" value="{{ability.value}}" data-dtype="Number"/>
+        {{/each}}
+      </div>
+      {{/unless}}
+   
+    </div>  
+  </header>
+
+    {{!-- Sheet Tab Navigation --}}
+    <nav class="sheet-tabs tabs" data-group="primary">
+      {{!-- Default tab is specified in actor-sheet.mjs --}}
+      <a class="item navtitle" data-tab="skills">{{ localize 'ROL.skills' }}</a>
+      {{#unless system.isFae}}
+        <a class="item  navtitle" data-tab="magic">{{ localize 'ROL.magic' }}</a>
+      {{/unless}}
+      <a class="item  navtitle" data-tab="traits">{{ localize 'ROL.traits' }}</a>
+      <a class="item  navtitle" data-tab="equipment">{{ localize 'ROL.equipment' }}</a>
+      <a class="item  navtitle" data-tab="biography">{{ localize 'ROL.biography' }}</a>
+      <a class="item  navtitle" data-tab="development">{{ localize 'ROL.development' }}</a>
+  
+      {{#if system.flags.locked}}
+      <a class="unlock-character-sheet" title="{{ localize 'ROL.unlock' }}"> <i class="fas fa-lock"></i> </a>
+    {{else}}
+      <a class="unlock-character-sheet" title="{{ localize 'ROL.lock' }}"> <i class="fas fa-lock-open"></i></a>
+    {{/if}}
+    </nav>
+
+  {{!-- Two panel --}}
+  <div class="two-panel-content">
+
+
+  {{!-- Left two panel --}}  
+
+  <div class="left-panel">  
+  <div class="section-title-left">{{ localize 'ROL.info'}}</div>    
+
+    <br>
+    <div class="boxed">  
+      <div class="resource-label-left align-center luck-name rollable resource-label-gap">{{ localize 'ROL.luck' }}</div>
+    {{#if isLuckDetail}}
+    <div class="statblock grid grid-3col">
+      <input name="system.luck.value" title = "{{ localize 'ROL.luckCurr' }}" type="text" value="{{system.luck.value}}" data-dtype="Number"/> 
+      <div class="statdisplay"> / </div>
+      {{#if system.flags.locked}}   
+        <div class="statdisplay" title = "{{ localize 'ROL.luckMax' }}">{{system.luck.max}}</div>
+      {{else}}
+        <input name="system.luck.max" type="text" title = "{{ localize 'ROL.luckMax' }}" value="{{system.luck.max}}" data-dtype="Number"/>
+      {{/if}}    
     </div>
+    {{else}}
+        <input class="stats-content-left resource-label-gap" title = "{{ localize 'ROL.luckCurr' }}" name="system.luck.value" type="text" value="{{system.luck.value}}" data-dtype="Number">
+    {{/if}}
+    {{#if system.Boon}}
+      <div class="resource-label-left align-center resource-label-gap">{{ localize 'ROL.luckBoon' }}</div>  
+      <input class="stats-content-left" name="system.luck.min" type="text" value="{{system.luck.min}}" data-dtype="Number"/>  
+    {{/if}}
+    </div>  
+    <br>
+
+    {{#unless system.isFae}}
+      <div class="boxed">
+        <div class="resource-label-left next-scene align-center resource-label-gap" title="{{ localize 'ROL.mpRegen' }}">{{ localize 'ROL.mp' }}</div>
+          <div class="statblock grid grid-3col">
+            <input class="bold" name="system.mp.value" title = "{{ localize 'ROL.mpCurr' }}" type="text" value="{{system.mp.value}}" data-dtype="Number"/> 
+            <div class="statdisplay bold"> / </div>
+            {{#if system.flags.locked}}   
+              <div class="statdisplay bold" title = "{{ localize 'ROL.mpMax' }}">{{system.mp.max}}</div>
+            {{else}}
+              <input class="right-gap bold" name="system.mp.max" type="text" title = "{{ localize 'ROL.mpMax' }}" value="{{system.mp.max}}" data-dtype="Number"/>
+            {{/if}}
+          </div>  
+      </div>  
+      <br>
+    {{/unless}}
+
+    {{#if isCreation}} 
+    <div class="boxed-move move grid grid-2col resource-label-left align-center">
+    <div class="resource-label-topgap">{{ localize 'ROL.movShort' }}:</div>
+    <input class="resource-label-topgap stats-content-left" name="system.mov" type="text" value="{{system.mov}}" data-dtype="Number"/>
+    </div>
+    {{else}}
+    <div class="boxed resource-label-left align-center">
+      <span class="resource-label-gap">{{ localize 'ROL.movShort' }}:
+      <span class="stats-content-left">{{system.mov}}</span></span>
+    </div>
+    {{/if}}
+    <br>
+  
+      <div class="boxed resource-label-left align-center">
+        <div class="resource-label-gap healing-phase" title="{{ localize 'ROL.healing' }}">{{ localize 'ROL.damage' }}</div>
+        <input class="stats-content-left" name="system.damage.value" type="text" value="{{system.damage.value}}" data d-type="Number"/>
+        <div class="damage-status">{{system.damageStatus}}</div>
+        <a class="icon tough-control {{#if system.properties.down}} control-active {{/if}}"  title="{{ localize 'ROL.down' }}"><i class="fas fa-bed"></i></a>
+        <a class="icon tough-control {{#if system.properties.mortal}} control-active {{/if}}" title="{{ localize 'ROL.mortal' }}"><i class="fas fa-heartbeat"></i></a>
+        <a class="icon tough-control {{#if system.properties.fatal}} control-active {{/if}}" title="{{ localize 'ROL.fatal' }}"><i class="fas fa-tombstone"></i></a>
+        <a class="icon tough-control {{#if system.properties.impaired}} control-active {{/if}} tough-toggle" data-property='impaired' title="{{ localize 'ROL.impaired' }}"><i class="fas fa-eye-slash"></i></a>
+        <a class="icon tough-control {{#if system.properties.hurt}} control-active {{/if}} tough-toggle" data-property='hurt' title="{{ localize 'ROL.hurt' }}"><i class="fas fa-face-head-bandage"></i></a>
+        <a class="icon tough-control {{#if system.properties.bloodied}} control-active {{/if}} tough-toggle" data-property='bloodied' title="{{ localize 'ROL.bloodied' }}"><i class="fas fa-user-injured"></i></a>
+        <a class="icon tough-control {{#if system.properties.trauma}} control-active {{/if}} tough-toggle " data-property='trauma' title="{{ localize 'ROL.trauma' }}"><i class="fas fa-head-side-brain"></i></a>
+        {{#if system.properties.disfigured}}  
+          <a class="icon tough-control control-active {{#if isGM}} tough-toggle {{/if}}" data-property='disfigured' title="{{ localize 'ROL.disfigured' }}"><i class="fas fa-hood-cloak"></i></a>                  
+        {{/if}}  
+      </div>
+      <br>
+
+ 
+
+
+      {{#if system.Magic}}  
+      <div class="boxed">
+        <div class="resource-label-left align-center resource-label-gap">{{ localize 'ROL.shield' }}  {{ localize 'ROL.spell' }}</div>
+          <div class="statblock grid grid-3col">
+            <input class="bold" name="system.armour.shieldBlock" title = "{{ localize 'ROL.shieldBlock' }}" type="text" value="{{system.armour.shieldBlock}}" data-dtype="Number"/> 
+          <div class="statdisplay bold"> / </div>
+            <input class="bold right-gap" name="system.armour.shieldHP" type="text" title = "{{ localize 'ROL.shieldHP' }}" value="{{system.armour.shieldHP}}" data-dtype="Number"/>
+          </div>  
+      </div>  
+      <br>
+      {{/if}}
+
+      <div class="boxed">
+      {{#if isLocked}}
+        <div class="resource-label bold align-center htd-name rollable resource-label-gap {{#if system.properties.htd}} control-active {{/if}}" title="{{ localize 'ROL.htd' }}">{{ localize 'ROL.htdShort' }}</div>
+      {{else}}
+        <div class="resource-label bold align-center tough-toggle resource-label-gap {{#if system.properties.htd}} control-active {{/if}}" title="{{ localize 'ROL.htd' }}" data-property="htd">{{ localize 'ROL.htdShort' }}</div>
+      {{/if}}
+      </div> 
+      <br>
+
+      {{#if isSession}}
+        {{#unless system.LuckofDemiMonde}}
+          <div class="boxed">
+            <div class="resource-label-left align-center luckrecovery-rollable resource-label-gap" title="{{ localize 'ROL.luckRecovery' }}">{{ localize 'ROL.luckRecovery' }}</div>
+          </div>
+          <br>
+        {{/unless}}
+      {{/if}}
+
+      
+      {{#if system.LuckofDemiMonde}}
+          <div class="boxed">
+          <div class="resource-label-left align-center luckreset-rollable resource-label-gap" title="{{ localize 'ROL.luckReset' }}">{{ localize 'ROL.luckReset' }}</div>
+          </div>
+      {{else}}
+        {{#isOr isCreation isDevelopment}}  
+          <div class="boxed">
+          <div class="resource-label-left align-center luckreset-rollable resource-label-gap" title="{{ localize 'ROL.luckReset' }}">{{ localize 'ROL.luckReset' }}</div>
+          </div>
+        {{/isOr}}    
+      {{/if}}
+    </div> 
+
+    {{!-- Right Two Panel Block --}}
+  <div class="right-panel">
+
+ 
+
+     {{!-- Sheet Body --}}
+    <section class="sheet-body">
+
+    {{!-- Skills Tab --}}
+    <div class="tab skills" data-group="primary" data-tab="skills">
+      {{> "systems/rol/templates/actor/parts/actor-skills.html"}}
+    </div>
+
+    {{!-- Equipment Tab --}}
+    <div class="tab items" data-group="primary" data-tab="equipment">
+       {{> "systems/rol/templates/actor/parts/actor-equipment.html"}}
+    </div>
+
+    {{!-- Biography Tab --}}
+    <div class="tab biography" data-group="primary" data-tab="biography">
+      {{> "systems/rol/templates/actor/parts/actor-biography.html"}}
+    </div>
+
+    {{!-- Development Tab --}}
+    <div class="tab biography" data-group="primary" data-tab="development">
+      {{> "systems/rol/templates/actor/parts/actor-development.html"}}
+    </div>
+
+    {{#unless systrem.isFae}}
+      {{!-- Magic Tab --}}
+      <div class="tab spells" data-group="primary" data-tab="magic">
+        {{> "systems/rol/templates/actor/parts/actor-magic.html"}}
+      </div>
+    {{/unless}}  
+
+    {{!-- Traits Tab --}}
+    <div class="tab effects flexcol" data-group="primary" data-tab="traits">
+      {{> "systems/rol/templates/actor/parts/actor-traits.html"}}
+    </div>
+
+   
   </section>
-
-</section>
-</section>
+</div>
+</div>
 </form>
 

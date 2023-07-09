@@ -1,0 +1,38 @@
+V8
+- Character and NPC sheets will now be coloured green for Demi Monde.  Everything else remains blue.
+- Moved hp.max and armour.natural for permanent stats to derived stats to remove an _id error on creating actor
+
+V7 27/05/2023
+- checked for compatability with Foundry V11
+- added check to stop duplicate skills, spells or advantages being added to the character sheet
+
+V6 11/04/2023
+-The three instructions documents moved to a Journal compendium to make them visible in game
+-Checks rolls code refactored to enable item macros
+-Item macro functionality added - drag item to the hotbar - you can trigger rolls from there for spells, skills, or weapons (otherwise display the equipment sheet)  
+-Tweak to natural armour to remove the armour points if the advantage is removed
+-Bonus/Penalty dice selector on difficulty rolls is now -1 to +1, unless it's for attacks (weapons or spells) in which case it remains at -2 to +2.  The underlying 
+functionality hasn't changed (max one bonus/penalty dice, but with the extra one carried over to damage rolls) - it is just a cosmetic change
+-Actor and Item sheets redesigned to incorporate a bit more colour, make the font a bit larger and to fix some bugs
+-Context menus added to spells, skills etc - at this stage just edit and delete (icons removed in the sheet redesign) - more functionality may follow
+
+V5 20/03/2023
+Changed Luck Reset roll check to allow a roll where Luck = zero to account for newly created characters
+Added compendium with common and fighting skills plus examples of other items
+Added tooltips to weapon sheet damage types
+Added three instructions documents covering setting up a world, creating a character, and doing stuff in game.
+
+V4 03/03/2023
+Changed Character & NPC Types to toggles which then update charType (Character = Investigator/Demi Monde, NPS is NPC/Demi Monde/Creature)
+Concealment question for damage only shown if damage type is not Magic or Vorpal0
+Fixed issue with potential damage (issue with correctly getting damageBonus)
+Fixed issue with targeting not being called where base damage was zero for weapons
+Removed actor from message - to reduce  message size
+
+V3 skipped to align numbering with system.json file
+
+V2 25/02/2023
+Changed template.json - added defaults for a number of options on items
+Added portrait to NPC sheet
+Added some tooltips on Damage Types to explain their effects
+

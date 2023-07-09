@@ -1,0 +1,90 @@
+<form class="rol" id="difficulty-roll-form">
+
+    <div class = "police-header">{{label}}</div>
+    <br>
+
+    <div class="flexcol">
+  
+      {{#unless (eq type "Damage")}}
+        {{#unless (eq type "HTD")}}
+        <div class="flexrow">
+            <label class="resource-label-diff">{{ localize 'ROL.difficulty' }}</label>
+            <select class="resource-label-diff align-center" name="difficulty">
+              <option value="Regular" >{{ localize 'ROL.regular' }}</option>
+              <option value="Hard">{{ localize 'ROL.hard' }}</option>
+            </select>
+          </div>
+        {{/unless}}  
+      {{/unless}}  
+  
+      {{#if mastered}}  
+      <br>
+      <div class="flexrow">
+        <label class="resource-label-diff">{{ localize 'ROL.boostMP' }}</label>
+        <input class="resource-label-diff align-center" name="boostMP" type="text" value=0 data-dtype="Number"/>
+      </div>  
+      {{/if}}  
+       
+      <br>
+
+      {{#isOr automatic semiauto}}
+        {{#unless (eq type "Damage")}}
+          <div class="flexrow">
+            <label class="resource-label-diff">{{ localize 'ROL.multiShot' }}</label>
+            <select class="resource-label-diff align-center" name="multiShot">
+                <option selected="selected" value="single" >{{ localize 'ROL.singleShot' }}</option>
+                <option value="attack">{{ localize 'ROL.attackBonus' }}</option>
+                <option value="damage">{{ localize 'ROL.damBonus' }}</option>
+            </select>
+          </div>        
+          <br>
+        {{/unless}}
+      {{/isOr}}
+
+      {{#if (eq type "Damage")}}    
+        {{#unless (eq damType 'vorpal')}}    
+          {{#unless (eq damType 'magic')}}  
+            <br>
+            <div class="flexrow">
+            <label class="resource-label-diff">{{ localize 'ROL.cover' }}</label>
+              <input class="resource-label-diff align-center" name="cover" type="text" value=0 data-dtype="Number"/>
+            </div>  
+            <br>
+          {{/unless}}
+        {{/unless}}
+      {{/if}}  
+
+        <div class="flexrow" style="padding: 4px 0;">
+            <div class="resource-label-diff" style="flex: 1;"><label>{{localize 'ROL.bonusDice'}}</label></div>
+            <div class="resource-label-diff" style="flex: 1;display: flex;flex-direction: column;">
+              <div class="flexrow">
+                {{#isOr (eq type "weapons") (eq type "spell")}}
+                <span style="flex: 1; text-align: center;">-2</span>
+                <span style="flex: 1; text-align: center;"></span>
+                {{/isOr}}
+                <span style="flex: 1; text-align: center;">-1</span>
+                <span style="flex: 1; text-align: center;"></span>
+                <span style="flex: 1; text-align: center;">0</span>
+                <span style="flex: 1; text-align: center;"></span>
+                <span style="flex: 1; text-align: center;">+1</span>
+                {{#isOr (eq type "weapons") (eq type "spell")}}            
+                <span style="flex: 1; text-align: center;"></span>
+                <span style="flex: 1; text-align: center;">+2</span>
+                {{/isOr}}
+              </div>
+
+              {{#isOr (eq type "weapons") (eq type "spell")}}          
+              <input type="range" name="bonusDice" min="-2" max="2" value={{bonusDice}} class="slider" id="myslider">
+              {{else}}
+              <input type="range" name="bonusDice" min="-1" max="1" value={{bonusDice}} class="slider" id="myslider">
+              {{/isOr}}  
+              <div class="resource-label-gap"></div>
+            </div>
+          </div>
+          
+        <br>
+        
+
+    </div>
+    <br>
+  </form>

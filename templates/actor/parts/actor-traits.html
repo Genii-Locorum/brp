@@ -1,0 +1,76 @@
+<header>
+
+
+
+<ol class="items-list effects-list">
+  <div class="police-header spell-header">{{ localize 'ROL.advType' }}</div>
+  {{#each advantages as |advantage id|}}
+  <li class="item spell-listitem" data-item-id="{{advantage._id}}">
+    <div class="item-name trait-name-context">
+      <div> {{advantage.name}}</div>
+    </div>
+    <div></div>
+    {{#unless system.advType}}
+      <div title="{{ localize 'ROL.disadvantage' }}" ><i class="result-fail fas fa-skull"></i></div>
+    {{else}}
+      <div></div>
+    {{/unless}}
+  </li>
+  {{/each}}
+  <br>
+</ol>
+
+<ol class="items-list effects-list">
+  <li class="flexrow contacts-header">
+    <div class="police-header spell-header">{{ localize 'ROL.contacts' }}</div>
+    <div class="item-controls">
+      <div class="item-control item-create" title="{{ localize 'ROL.createContact' }}" data-type="contacts"> +{{ localize 'ROL.addContact' }}</div>
+    </div>  
+  </li>
+  {{#each contacts as |contacts id|}}
+  <li class="item spell-listitem" data-item-id="{{contacts._id}}">
+    <div class="item-name trait-name-context">
+      <div> {{contacts.name}}</div>
+    </div>
+    <div></div>
+    {{#if system.secure}}
+      <div title="{{ localize 'ROL.secure' }}" ><i class="result-success fas fa-smile"></i></div>
+    {{else}}
+      {{#if system.sour}}
+        <div title="{{ localize 'ROL.sour' }}" ><i class="result-fail fas fa-frown"></i></div>
+      {{else}}
+        <div></div>
+      {{/if}}
+    {{/if}}  
+    </li>
+  {{/each}}
+  <br>
+</ol>
+
+{{#if system.Magic}}
+<div class="police-header spell-header">{{ localize 'ROL.signare' }}</div>
+  <div class="signare-name">{{ localize 'ROL.sound' }}:</div>
+  <div>
+    {{editor system.signare.sound class="trait-doc" target="system.signare.sound" button=true owner=owner editable=editable}}
+  </div>
+  <div class="signare-name">{{ localize 'ROL.smell' }}:</div>
+  <div>
+    {{editor system.signare.smell class="trait-doc" target="system.signare.smell" button=true owner=owner editable=editable}}
+  </div>
+  <div class="signare-name">{{ localize 'ROL.other' }}:</div>
+  <div>
+    {{editor system.signare.other class="trait-doc" target="system.signare.other" button=true owner=owner editable=editable}}
+  </div>
+<div class="resource-label-gap"></div>
+<br>
+{{/if}}
+
+{{#if system.ThematicPower}}
+  <div class="police-header spell-header">{{ localize 'ThematicPower' }}</div>
+  <div class="spellname">
+    <br> 
+    {{editor system.thematic class="background-doc" target="system.thematic" button=true owner=owner editable=editable}}
+</div>  
+    {{/if}}
+
+</header>

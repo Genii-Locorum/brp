@@ -1,0 +1,49 @@
+<header>
+</header>    
+
+<div class="police-header develop-header">{{ localize 'ROL.devPoints' }}:</div>
+
+
+<div class="develop-resource grid grid-2col"> 
+{{#if isGM}}
+  <label class="order-name">{{ localize 'ROL.devPointsEarned' }} :</label>
+  <input class="loc-label-inp centre" name="system.devPoints.earned" type="text" value="{{system.devPoints.earned}}"data-dtype="Number"/>
+
+  <label class="order-name">{{ localize 'ROL.devPointsHolding' }} :</label>
+  <input class="loc-label-inp centre" name="system.devPoints.holding" type="text" value="{{system.devPoints.holding}}"data-dtype="Number"/>
+
+
+  <label class="order-name">{{ localize 'ROL.devPointsSpent' }} :</label>
+  <input class="loc-label-inp centre" name="system.devPoints.spent" type="text" value="{{system.devPoints.spent}}"data-dtype="Number"/>
+{{else}}
+  <div class="order-name">{{ localize 'ROL.devPointsEarned' }} :</div>
+  <div class="loc-label-inp centre">{{system.devPoints.earned}}</div>
+
+  <div class="order-name">{{ localize 'ROL.devPointsHolding' }} :</div>
+  <div class="loc-label-inp centre">{{system.devPoints.holding}}</div>
+
+  {{#if isDevelopment}}
+    <label class="order-name">{{ localize 'ROL.devPointsSpent' }} :</label>
+    <input class="loc-label-inp centre" name="system.devPoints.spent" type="text" value="{{system.devPoints.spent}}"data-dtype="Number"/>
+  {{else}}
+    <div class="order-name">{{ localize 'ROL.devPointsSpent' }} :</div>
+    <div class="loc-label-inp centre">{{system.devPoints.spent}}</div>
+  {{/if}}
+{{/if}}
+
+<div class="order-name">{{ localize 'ROL.devPointsAvailable' }} :</div>
+<div class="loc-label-inp centre">{{system.devPoints.available}}</div>
+
+</div>
+<br>
+
+{{!-- Description  --}}
+<section class="sheet-body">
+  <div class="police-header develop-header">{{ localize 'ROL.devSpend' }}:</div>
+  <div>
+    {{editor system.devPoints.history class="background-doc" target="system.devPoints.history" button=true owner=owner editable=editable}}
+  </div>
+  <br>
+
+ 
+</section>
