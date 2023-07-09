@@ -1,0 +1,59 @@
+<ol class="stats-list">
+
+    <div class="stats-tab-grid grid grid-9col">
+      <div class="diff-label center">{{ localize 'BRP.charShort'}}</div>
+      <div class="diff-label center">{{ localize 'BRP.skills.initial'}}</div>  
+      {{#if pointsMethod}}
+      <div class="diff-label center">{{ localize 'BRP.allocated'}}</div>
+      {{else}}
+        <div class="diff-label center">{{ localize 'BRP.skills.redistribute'}}</div>
+      {{/if}}
+      <div class="diff-label center">{{ localize 'BRP.skills.cultural'}}</div>
+      <div class="diff-label center">{{ localize 'BRP.age'}}</div>
+      <div class="diff-label center">{{ localize 'BRP.experience'}}</div>
+      <div class="diff-label center">{{ localize 'BRP.skills.effects'}}</div>
+      <div class="diff-label center">{{ localize 'BRP.total'}}</div>
+      <div class="diff-label center">{{ localize 'BRP.dice'}}</div>
+      {{#each system.stats as |stat key|}}
+        {{#if stat.visible}}
+          <div class="stat-name center">
+            {{#isOr ../isInitialise ../isGM}}
+              <a class="stat-arrow" title = "{{ localize 'BRP.decrease' }}" data-type="decrease" data-stat={{key}}><i class="fas fa-caret-left"></i></a>
+                {{stat.labelShort}}
+              <a class="stat-arrow" title = "{{ localize 'BRP.increase' }}" data-type="increase" data-stat={{key}}><i class="fas fa-caret-right"></i></a>
+            {{else}}
+              {{stat.labelShort}}
+            {{/isOr}}
+          </div>    
+          {{#if ../pointsMethod}}
+            <div class ="stat-value center">{{stat.value}}</div>
+          {{else}}
+            {{#isOr ../isInitialise ../isGM}}          
+              <div><input class="stat-value-inp center" name="system.stats.{{key}}.value" type="text" value="{{stat.value}}" data-dtype="Number"/></div>
+            {{else}}
+            <div class="stat-value center">{{stat.value}}</div>
+            {{/isOr}}
+          {{/if}}
+          <div class="stat-value center">{{stat.redist}}</div>
+          <div class="stat-value center">{{stat.adj}}</div>
+          {{#if ../isGM}}
+            <div><input class="stat-value-inp center" name="system.stats.{{key}}.age" type="text" value="{{stat.age}}" data-dtype="Number"/></div>
+            <div><input class="stat-value-inp center" name="system.stats.{{key}}.exp" type="text" value="{{stat.exp}}" data-dtype="Number"/></div>
+            <div><input class="stat-value-inp center" name="system.stats.{{key}}.effects" type="text" value="{{stat.effects}}" data-dtype="Number"/></div>
+          {{else}}
+            <div class="stat-value center">{{stat.age}}</div>
+            <div class="stat-value center">{{stat.exp}}</div>
+            <div class="stat-value center">{{stat.effects}}</div>
+          {{/if}}
+          <div class ="stat-value center bold" title="{{stat.labelShort}}">{{stat.total}}</div>
+          <div class ="stat-value center ">{{stat.formula}}</div>
+        {{/if}}
+      {{/each}}
+    </div>
+    <br>
+    {{#if pointsMethod}}
+      <div class="stat-value ">{{ localize 'BRP.charPoints'}}: {{system.statPoints}}</div>
+      <div class="stat-value ">{{ localize 'BRP.remaining'}}: {{system.statPointsLeft}}</div>
+    {{/if}}
+
+</ol>

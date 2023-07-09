@@ -1,0 +1,27 @@
+<form id="skill-selection-form" class="brp skill-selector">
+    <br>
+    <div class="flexcol">
+      <div class='bold flexrow header counter'>
+        <label class="skill-opt-label">{{ localize 'BRP.chosen' }} :</label>
+        <span class="skill-opt-count count">0</span>
+        <span class="skill-opt-sep">/</span>
+        <span class="skill-opt-total">{{optionsCount}}</span>
+      </div>
+      <br>
+
+      <ol class="item-list">
+        {{#each skills as |skill key|}}
+          <li class="item flexrow" data-index="{{key}}">
+            <div class="item-controls">
+              <a class="item-control select-skill" title="{{localize 'BRP.SelectNewSkill'}}"><i class="fas fa-plus"></i></a>
+            </div>
+            <div class="skill-opt-item-name item-name flexrow">
+              <div>&#160&#160{{skill.name}} ({{skill.system.base}}%)</div>
+            </div>
+            
+          </li>
+        {{/each}}
+      </ol>
+  
+    </div>
+  </form>

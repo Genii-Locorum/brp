@@ -1,0 +1,19 @@
+<form class="brp" id="difficulty-roll-form">
+  <div class = "diff-label">{{label}}</div>
+  <br>
+  <div class="flexcol">
+    <div class="flexrow">
+      <label class="resource-label-diff">{{ localize 'BRP.difficulty' }}</label>
+      <select data-handle-change name="difficulty">
+        {{selectOptions difficultyOptions selected=difficulty}}
+      </select>
+    </div>
+    <br>
+
+    <div class="flexrow">
+      <label title = "{{ localize 'BRP.flatModHint' }}" >{{localize "BRP.flatMod"}}</label>   
+        <input data-handle-change class="diff-number-input" type="text" value="{{formData.flatMod}}" name="flatMod">
+    </div>
+  </div>
+  <br>
+</form>

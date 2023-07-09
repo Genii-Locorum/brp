@@ -1,62 +1,73 @@
 {
-  "id": "rol",
-  "title": "Rivers of London",
-  "description": "Rivers of London implementation for FoundryVTT!",
-  "version": "0.1.8",
+  "id": "brp",
+  "title": "Basic Role Playing",
+  "description": "Basic Role Playing system for FoundryVTT!",
+  "version": "11.1.01",
   "compatibility": {
-    "minimum": "10",
-    "verified": "11.300",
-    "maximum": "11"
+    "minimum": 10,
+    "verified": "11.305",
+    "maximum": 11
   },
-  "authors": [
-    {
-      "name": "Boilerplate by Asacolips, heavily based on Call of Cthulhu by Misaktonic Investigative Society, Rivers of London adaption by Dangermouse",
-      "flags": {}
-    }
+  "authors": [{
+    "name": "Dangermouse"
+  }],
+  "esmodules": [
+    "module/brp.mjs"
   ],
+  "styles": ["css/brp.css"],
+  "scripts": [],
   "packs": [
-    {
-      "label": "Advantages",
-      "type": "Item",
-      "name": "advantages",
-      "path": "packs/advantages.db",
-      "system": "rol",
-      "private": false,
-      "flags": {}
-    },
-    {
-      "label": "Armour",
-      "type": "Item",
-      "name": "armour",
-      "path": "packs/armour.db",
-      "system": "rol",
-      "private": false,
-      "flags": {}
-    },
     {
       "label": "Skills",
       "type": "Item",
-      "name": "skills",
+      "name": "skill",
       "path": "packs/skills.db",
-      "system": "rol",
+      "system": "brp",
       "private": false,
       "flags": {}
     },
     {
-      "label": "Spells",
+      "label": "Culture",
       "type": "Item",
-      "name": "spells",
-      "path": "packs/spells.db",
-      "system": "rol",
+      "name": "culture",
+      "path": "packs/culture.db",
+      "system": "brp",
       "private": false,
       "flags": {}
     },
     {
-      "label": "Weapons",
+      "label": "Hit Locations",
       "type": "Item",
-      "name": "weapons",
-      "path": "packs/weapons.db",
-      "system": "rol",
+      "name": "skillhit-location",
+      "path": "packs/hit-locations.db",
+      "system": "brp",
+      "private": false,
+      "flags": {}
+    },
+    {
+      "label": "Personalities",
+      "type": "Item",
+      "name": "personality",
+      "path": "packs/personalities.db",
+      "system": "brp",
+      "private": false,
+      "flags": {}
+    },
+    {
+      "label": "Powers",
+      "type": "Item",
+      "name": "power",
+      "path": "packs/powers.db",
+      "system": "brp",
+      "private": false,
+      "flags": {}
+    },
+    {
+      "label": "Professions",
+      "type": "Item",
+      "name": "profession",
+      "path": "packs/professions.db",
+      "system": "brp",
       "private": false,
       "flags": {}
     },
@@ -65,42 +76,26 @@
       "type": "JournalEntry",
       "name": "instructions",
       "path": "packs/instructions.db",
-      "system": "rol",
+      "system": "brp",
       "private": false,
       "flags": {}
     }
-  ],
-  "esmodules": [
-    "module/rol.mjs"
-  ],
-  "styles": [
-    "css/rol.css"
+
   ],
   "languages": [
     {
       "lang": "en",
       "name": "English",
-      "path": "lang/en.json",
-      "flags": {}
+      "path": "lang/en.json"
     }
   ],
-  "relationships": {
-    "requires": [
-      {
-        "type": "module",
-        "id": "socketlib",
-        "manifest": "https://raw.githubusercontent.com/manuelVo/foundryvtt-socketlib/master/module.json",
-        "compatibility": {}
-      }
-    ]
-  },
-  "socket": true,
   "gridDistance": 5,
   "gridUnits": "ft",
-  "primaryTokenAttribute": "hp",
-  "url": "https://github.com/Genii-Locorum/Rivers-of-London",
-  "manifest": "https://github.com/Genii-Locorum/Rivers-of-London/releases/latest/download/system.json",
-  "download": "https://github.com/Genii-Locorum/Rivers-of-London/releases/latest/download/system.zip",
+  "primaryTokenAttribute": "health",
+  "secondaryTokenAttribute": "fatigue",
+  "url": "",
+  "manifest": "",
+  "download": "",
   "license": "LICENSE.txt",
   "changelog": "CHANGELOG.md"
 }

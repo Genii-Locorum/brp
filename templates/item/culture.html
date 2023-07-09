@@ -1,0 +1,142 @@
+<form class="{{cssClass}} brp itemsheet" autocomplete="off">
+  <header class="sheet-header">
+  
+    <div class="speciesgrid grid grid-2col">
+    <div class="item-title"> {{localize 'BRP.culture'}}:</div>
+    {{#if isGM}}  
+      <div class="stat-input"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></div>
+    {{else}}
+      <div class="skill-name bold center boxed">{{item.name}}</div>
+    {{/if}}
+    </div>  
+
+    <img class="item-image" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="50" width="50"/>
+    
+  </header>
+  <br>
+
+  {{!-- Item Sheet Navigation --}}
+  <section class="nav-panel">
+  <nav class="sheet-tabs tabs" data-group="primary">
+    <a class="item" data-tab="characteristics">{{ localize "BRP.characteristics" }}</a>
+    <a class="item" data-tab="hitloc">{{ localize "BRP.hitLocs" }}</a>
+    <a class="item" data-tab="description">{{ localize "BRP.description" }}</a>
+  </nav>
+  </section>
+
+
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+    <br>
+    
+  {{!-- Characteristics Tab --}}
+    <div class="tab active" data-group="primary" data-tab="characteristics">
+      <div class="speciesstatsgrid grid grid-7col">
+        <div></div>
+        <div class="bold centre" title = "{{localize 'BRP.baseFormulaHint'}}">{{localize 'BRP.baseFormula'}}</div>
+        <div class="bold centre" title = "{{localize 'BRP.enhancedFormulaHint'}}">{{localize 'BRP.enhancedFormula'}}</div>
+        <div class="bold centre" title = "{{localize 'BRP.fixedStatHint'}}">{{localize 'BRP.fixedStat'}}</div>
+        <div class="bold centre" title = "{{localize 'BRP.minStatHint'}}">{{localize 'BRP.minStat'}}</div>
+        <div class="bold centre" title = "{{localize 'BRP.maxStatHint'}}">{{localize 'BRP.maxStat'}}</div>
+        <div class="bold centre" title = "{{localize 'BRP.culturalAdjHint'}}">{{localize 'BRP.culturalAdj'}}</div>
+
+        {{#if isGM}}  
+          {{#each item.system.stats as |stat key|}}
+            <div class="bold"> {{stat.label}}</div>
+            <div class="stat-input"><input name="system.stats.{{key}}.base" type="text" value = "{{stat.base}}"/></div>
+            <div class="stat-input"><input name="system.stats.{{key}}.advanced" type="text" value = "{{stat.advanced}}"/></div>
+            <div class="stat-input"><input name="system.stats.{{key}}.fixed" type="text" value = "{{stat.fixed}}"/></div>
+            <div class="stat-input"><input name="system.stats.{{key}}.minStat" type="text" value = "{{stat.minStat}}"/></div>
+            <div class="stat-input"><input name="system.stats.{{key}}.maxStat" type="text" value = "{{stat.maxStat}}"/></div>
+            <div class="stat-input"><input name="system.stats.{{key}}.adj" type="text" value = "{{stat.adj}}" data-dtype="Number"/></div>
+          {{/each}}
+        {{else}}
+          {{#each item.system.stats as |stat key|}}
+            <div class="bold"> {{stat.label}}</div>
+            <div class="stat-input centre">{{stat.base}}</div>
+            <div class="stat-input centre">{{stat.advanced}}</div>
+            <div class="stat-input centre">{{stat.fixed}}</div>
+            <div class="stat-input centre">{{stat.minStat}}</div>
+            <div class="stat-input centre">{{stat.maxStat}}</div>
+            <div class="stat-input centre">{{stat.adj}}</div>
+          {{/each}}      
+        {{/if}}
+      </div>  
+
+
+
+      <div class ="hitlocs grid grid-5col">
+        <div></div>
+        <div class="bold centre">{{localize 'BRP.powerLevel.normal'}}</div>
+        <div class="bold centre">{{localize 'BRP.powerLevel.heroic'}}</div>      
+        <div class="bold centre">{{localize 'BRP.powerLevel.epic'}}</div>
+        <div class="bold centre">{{localize 'BRP.powerLevel.superhuman'}}</div>
+        {{#if isGM}}      
+          <div class="bold" title = "{{localize 'BRP.pointsHint'}}">{{localize 'BRP.points'}}</div>
+          <div class="stat-input"><input name="system.points.normal" type="text" value = "{{item.system.points.normal}}"/></div>
+          <div class="stat-input"><input name="system.points.heroic" type="text" value = "{{item.system.points.heroic}}"/></div>
+          <div class="stat-input"><input name="system.points.epic" type="text" value = "{{item.system.points.epic}}"/></div>
+          <div class="stat-input"><input name="system.points.superhuman" type="text" value = "{{item.system.points.superhuman}}"/></div>
+        {{else}}
+          <div class="bold" title = "{{localize 'BRP.pointsHint'}}">{{localize 'BRP.points'}}</div>
+          <div class="stat-input center boxed">{{item.system.points.normal}}</div>
+          <div class="stat-input center boxed">{{item.system.points.heroic}}</div>
+          <div class="stat-input center boxed">{{item.system.points.epic}}</div>
+          <div class="stat-input center boxed">{{item.system.points.superhuman}}</div>
+        {{/if}}
+
+
+        </div>  
+    </div>  
+
+  {{!-- Hit Locations Tab --}}
+    <div class="tab" data-group="primary" data-tab="hitloc">      
+      <div class='{{#if isGM}}droppable{{/if}} hitlocs'>
+        {{#unless hitloc.length}}
+        <div class="bold boxed centre">
+          <br>
+          <div> {{localize 'BRP.dropHitLocs'}}</div>
+          <br>
+        </div>  
+        {{else}}
+        <ol class="item-list boxed">
+          {{#if (eq hitloc.length 1)}} <br>  {{/if}}
+          {{#each hitloc as |hitloc|}}
+            <li class="item flexrow" data-item-id="{{hitloc._id}}" >
+              <div class="item-name flexrow">
+                <div class="hitlocs">{{hitloc.name}} ({{hitloc.system.lowRoll}}-{{hitloc.system.highRoll}})</div>
+              </div>
+              <div class="item-controls">
+                {{#if ../isGM}}
+                  <a class="item-control item-delete" title="{{localize 'BRP.deleteItem'}}"><i class="fas fa-trash"></i></a>
+                {{/if}}
+              </div>
+            </li>
+          {{/each}}
+          {{#if (lt hitloc.length 3)}} <br>  {{/if}}
+        </ol>
+        {{/unless}}        
+      </div>
+    </div>
+
+
+  {{!-- Background Tab --}}
+    <div class="tab" data-group="primary" data-tab="description">        
+      <div class="speciesgrid grid grid-2col">
+        <div class="item-title"> {{localize 'BRP.move'}}:</div>
+        {{#if isGM}}  
+          <div class="stat-input"><input name="system.move" type="text" value="{{item.system.move}}"/></div>
+        {{else}}
+          <div class="stat-input center boxed">{{item.system.move}}</div>
+        {{/if}}
+      </div>  
+      <br>
+
+      <div class="bold"> {{localize 'BRP.description'}}:</div>
+      <div>
+        {{editor item.system.description class="description-doc" target="system.description" button=true owner=owner editable=editable}}
+      </div>
+    </div>
+
+  </section>
+</form>

@@ -1,0 +1,241 @@
+<form class="{{cssClass}} {{actor.type}}" autocomplete="off">
+
+  {{!-- Title Section --}}
+    <section class="main-sheet">
+
+      <section>
+      <div class="sheet-title main-title grid grid-3col">
+        <div>
+          <img class="logo-img" src="systems/brp/assets/brp-logo-powered_by-02.png" height="40" width="40"/>
+        </div>
+        <div class="item-hover brp-header contextmenu" title = "{{localize 'BRP.cm.context'}}">{{ localize 'BRP.Brp' }}</div>
+          {{#if isInitialise}}
+            <div>
+              <a class="float-right" title = "{{ localize 'BRP.initialiseHint' }}"><i class="fas fa-user-pen"></i></a>
+            </div>
+          {{else}}  
+            <div></div>
+          {{/if}}
+
+
+      </div>  
+    </section>
+      <section class="title-strip sheet-title personal grid grid-3col">
+        <div class="sheet-title">{{localize 'BRP.personal'}}</div> 
+        <div class="sheet-title">{{localize 'BRP.characteristics'}}</div>
+        <div class="sheet-title">{{localize 'BRP.portrait'}}</div>
+      </section>  
+    
+
+    <section class="personal {{#if useEDU}}stats-block-lrg{{else}}stats-block{{/if}} grid grid-3col">
+  {{!-- Personal Section --}}
+  <section class="personal-section">
+      <div class="personal-main-grid grid grid-2col">
+        <label class="charname">{{ localize 'BRP.name' }}:</label>
+        <input class="personal-inp" name="name" type="text" value="{{actor.name}}"/>
+      </div>  
+
+      <div class="personal-grid grid grid-4col">       
+        <div class="item item-hover charname culture contextmenu" title = "{{localize 'BRP.cm.context'}}" data-item-id="{{actor.system.cultureId}}">{{ localize 'BRP.culture' }}:</div>
+        <div class="personal-inp">{{actor.system.culture}}</div>
+        <label class="charname age contextmenu">{{ localize 'BRP.age' }}:</label>
+        <input class="personal-inp" name="system.age" type="text" value="{{actor.system.age}}"/>
+      </div>
+
+      <div class="personal-grid grid grid-4col">       
+        <label class="charname">{{ localize 'BRP.gender' }}:</label>
+        <input class="personal-inp" name="system.gender" type="text" value="{{actor.system.gender}}"/>
+        <label class="charname">{{ localize 'BRP.hand' }}:</label>
+        <input class="personal-inp" name="system.hand" type="text" value="{{actor.system.hand}}"/> 
+      </div>
+
+      <div class="personal-grid grid grid-4col">
+        <label class="charname">{{ localize 'BRP.height' }}:</label>
+        <input class="personal-inp" name="system.height" type="text" value="{{actor.system.height}}"/>
+        <label class="charname">{{ localize 'BRP.weight' }}:</label>
+        <input class="personal-inp" name="system.weight" type="text" value="{{actor.system.weight}}"/>
+      </div>  
+ 
+      <div class="personal-grid grid grid-4col">
+        <div class="item item-hover charname profession contextmenu" title = "{{localize 'BRP.cm.context'}}" data-item-id="{{actor.system.professionId}}">{{ localize 'BRP.profession' }}:</div>
+        <div class="personal-inp">{{actor.system.profession}}</div>
+        <div class="item item-hover charname personality contextmenu" title = "{{localize 'BRP.cm.context'}}" data-item-id="{{actor.system.personalityId}}">{{ localize 'BRP.personality' }}:</div>
+        <div class="personal-inp">{{actor.system.personality}}</div>
+      </div>
+
+      <div class="personal-main-grid grid grid-2col">
+        <label class="charname">{{ localize 'BRP.religion' }}:</label>
+        <input class="personal-inp" name="system.religion" type="text" value="{{actor.system.religion}}"/>
+      </div>
+
+      <div class="personal-grid grid grid-4col">
+        <div class="item item-hover charname wealth contextmenu" title = "{{localize 'BRP.cm.context'}}">{{ localize 'BRP.wealth' }}:</div>
+        <div class="personal-inp">{{actor.system.wealthName}}</div>
+        <div class="charname">{{ localize 'BRP.move' }}:</div>
+        <div class="personal-inp">{{actor.system.moveTotal}}</div>
+      </div>  
+
+  </section>
+
+  {{!-- Stats Section --}}
+      <section>
+        <div class="stats-grid grid grid-4col">
+          {{#each system.stats as |stat key|}}
+            {{#if stat.visible}}
+              <div class="rollable stat-name contextmenu align-left" title="{{localize 'BRP.cm.hint'}}" data-label="{{stat.label}}" data-target="{{stat.total}}" data-type="characteristic">{{stat.labelShort}}</div>
+              <div class ="stat-value center">{{stat.total}}</div>
+              <div class="rollable deriv-name contextmenu align-right" title="{{localize 'BRP.cm.hint'}}" data-label="{{stat.labelDeriv}}" data-target="{{stat.deriv}}" data-type="derived">{{stat.labelDeriv}}</div>
+              <div class ="center deriv-name">{{stat.deriv}}%</div>
+
+            {{/if}}
+          {{/each}}
+        </div>
+      </section>
+
+  {{!-- Character Portrait --}}
+      <section class="portrait">  
+        <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100"/>
+      </section>
+    </section>
+
+    <section>
+    <div class="header-fields">
+      <div class="resources grid {{#if (eq resource 4)}} grid-4col{{/if}} {{#if (eq resource 3)}} grid-3col{{/if}} grid-2col">
+
+        <div class="resource flex-group-center">
+          <div data-target="system.health" title = "{{localize 'BRP.cm.context'}}" class="resource-label health contextmenu">{{localize 'BRP.health'}}
+            {{#if system.fatalWnd}}
+              <a title="{{localize 'BRP.fatalWound'}}"><i class="icon-active-red  item-control fas fa-skull"></i></a>
+            {{else}}
+              {{#if system.unconscious}}
+                <a class="{{#if isGM}} icon-toggle {{/if}}" data-property="unconscious" title="{{localize 'BRP.unconscious'}}"><i class="icon-active-red  item-control fas fa-bed"></i></a>
+              {{/if}}
+            {{/if}}
+            {{#if system.majorWnd}}
+              <a class="{{#if isGM}} icon-toggle {{/if}}" data-property="majorWnd" title="{{localize 'BRP.majorWound'}}"><i class="icon-active-red  item-control fas fa-face-head-bandage"></i></a>
+            {{else}}
+              {{#if system.minorWnd}}
+                <a class="{{#if isGM}} icon-toggle {{/if}}" data-property="minorWnd" title="{{localize 'BRP.minorWound'}}"><i class="icon-active-red  item-control fas fa-face-dizzy"></i></a>
+              {{/if}}
+            {{/if}}
+
+          </div>
+          <div class="resource-content resource-grid grid grid-5col">
+            <div></div> 
+            <div class="attrib-inp personal-show">{{system.health.value}}</div>
+            <span class="divider"> / </span>
+            <div class="attrib-inp personal-show">{{system.health.max}}</div>
+            {{#if useHPL}}
+              <div></div>
+            {{else}}  
+              <div class="attrib-inp personal-show" title="{{localize 'BRP.daily'}}">({{system.health.daily}})</div>  
+            {{/if}}  
+          </div>
+        </div>
+
+        <div class="resource flex-group-center">
+          {{#if useMP}}
+            <label for="system.power.value" data-target="system.power" title = "{{localize 'BRP.cm.context'}}" class="resource-label power contextmenu">{{localize 'BRP.MP'}}</label>
+          {{else}}
+            <label for="system.power.value" class="resource-label power contextmenu">{{localize 'BRP.PP'}}</label>
+          {{/if}}
+          <div class="resource-content resource-grid grid grid-5col">
+            <div></div> 
+            <input class="attrib-inp" type="text" name="system.power.value" value="{{system.power.value}}" data-dtype="Number"/>
+            <span class="divider"> / </span>
+            <div class="attrib-inp personal-show" >{{system.power.max}}</div>
+            <div></div>   
+          </div>
+        </div>
+
+        {{#if useFP}}
+        <div class="resource flex-group-center">
+          <label for="system.fatigue.value" class="resource-label fatigue contextmenu" title = "{{localize 'BRP.cm.context'}}" >{{localize 'BRP.fatigue'}}</label>
+          <div class="resource-content resource-grid grid grid-5col">
+            <div></div> 
+            <input class="attrib-inp" type="text" name="system.fatigue.value" value="{{system.fatigue.value}}" data-dtype="Number"/>
+            <span class="divider"> / </span>
+            <div class="attrib-inp personal-show" >{{system.fatigue.max}}</div>
+            <div></div>   
+          </div>
+        </div>
+        {{/if}}
+
+        {{#if useSAN}}
+        <div class="resource flex-group-center">
+          <label for="system.sanity.value" class="resource-label">{{localize 'BRP.sanity'}}</label>
+          <div class="resource-content resource-grid grid grid-5col">
+            <div></div>  
+            <input class="attrib-inp" type="text" name="system.sanity.value" value="{{system.sanity.value}}" data-dtype="Number"/>
+            <div class="divider"> / </div>
+            <input class="attrib-inp" type="text" name="system.sanity.max" value="{{system.sanity.max}}" data-dtype="Number"/>
+            <div></div>
+          </div>
+        </div>
+        {{/if}}
+
+      </div>
+    </div>
+  </section>
+  
+  {{!-- Sheet Tab Navigation --}}
+  <section class="nav-panel">
+    <nav class="sheet-tabs tabs" data-group="primary">
+      <a class="item skilldevelop contextmenu" data-tab="skills">{{localize 'BRP.tab.skills'}}</a>
+      <a class="item" data-tab="statistics">{{localize 'BRP.tab.statistics'}}</a>
+      <a class="item" data-tab="combat">{{localize 'BRP.tab.combat'}}</a>
+      <a class="item" data-tab="items">{{localize 'BRP.tab.items'}}</a>
+      <a class="item" data-tab="spells">{{localize 'BRP.tab.spells'}}</a>
+      <a class="item" data-tab="effects">{{localize 'BRP.tab.effects'}}</a>
+      <a class="item" data-tab="background">{{localize 'BRP.tab.background'}}</a>
+    </nav>
+  </section> 
+
+
+  {{!-- Sheet Body --}}
+  <section class ="bottom-panel">
+  <section class="sheet-body">
+    {{!-- Statistics Tab --}}
+    <div class="tab statistics" data-group="primary" data-tab="statistics">
+      {{> "systems/brp/templates/actor/parts/actor-statistics.html"}}
+    </div>
+
+    {{!-- Owned Items Tab --}}
+    <div class="tab items" data-group="primary" data-tab="items">
+       {{> "systems/brp/templates/actor/parts/actor-items.html"}}
+    </div>
+
+    {{!-- Owned Spells Tab --}}
+    <div class="tab spells" data-group="primary" data-tab="spells">
+      {{> "systems/brp/templates/actor/parts/actor-spells.html"}}
+    </div>
+
+    {{!-- Active Effects Tab --}}
+    <div class="tab effects flexcol" data-group="primary" data-tab="effects">
+      {{> "systems/brp/templates/actor/parts/actor-effects.html"}}
+    </div>
+
+    {{!-- Background Tab --}}
+    <div class="tab background flexcol" data-group="primary" data-tab="background">
+      {{> "systems/brp/templates/actor/parts/actor-background.html"}}
+    </div>
+
+    {{!-- Owned Skills Tab --}}
+    <div class="tab skills" data-group="primary" data-tab="skills">
+      {{#if isDevelop}}
+        {{> "systems/brp/templates/actor/parts/actor-skillsDev.html"}}
+      {{else}}
+        {{> "systems/brp/templates/actor/parts/actor-skills.html"}}
+      {{/if}}
+    </div>
+
+    {{!-- Combat Tab --}}
+    <div class="tab combat" data-group="primary" data-tab="combat">
+      {{> "systems/brp/templates/actor/parts/actor-combat.html"}}
+    </div>
+  </section>
+
+</section>
+</section>
+</form>
+
