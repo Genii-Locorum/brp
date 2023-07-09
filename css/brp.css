@@ -376,8 +376,9 @@
 }
 
 .brp .skills-tab-grid {
-  margin-top: 10px;
+  margin-top: 0px;
   margin-left: 10px;
+  margin-bottom: 0px;
   row-gap: 0px;
   column-gap: 0px;
   font-size: 14px;
@@ -399,8 +400,8 @@
 }
 
 .brp .skill-cell {
-  border-bottom: 1px solid black;
-  border-right: 1px solid black;
+  border-top: 1px solid black;
+  border-left: 1px solid black;
 }
 
 .brp .skill-cell-input {
@@ -469,6 +470,15 @@ background-color: cornflowerblue;
   -ms-flex: 0 0 100px;
   flex: 0 0 100px;
   height: 100px;
+}
+
+.brp .logo-img {
+  border:none;
+  float: left !important;
+}
+
+.brp .brp-header{
+  margin-top: 6px;
 }
 
 .brp .sheet-title {
@@ -817,7 +827,7 @@ margin: auto 0px auto 0px;
   flex-wrap: wrap;
   margin: 0;
   padding: 0;
-  height: 100%;
+  height: calc(100% - 10px);
 }
 
 .brp .bold {
@@ -836,6 +846,15 @@ margin: auto 0px auto 0px;
   padding-right: 10px;
   height: 120px;
   width: 750px;
+}
+
+.brp .description-doc{
+  border: 1px solid rgba(68, 7, 4, 1);
+  font-size:14px;
+  font-weight: bold;
+  padding-left: 10px;
+  padding-right: 10px;
+  height: 120px;
 }
 
 .brp .item-title {
@@ -1085,7 +1104,7 @@ margin: auto 0px auto 0px;
 .brp .bottom-panel {
  display: flex;
  flex: 1;
- height: calc(100% - 305px);
+ height: calc(100% - 315px);
  border-top: 0px;
  padding : 5px;
  width: 100%;

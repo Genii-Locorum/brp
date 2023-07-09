@@ -198,6 +198,7 @@
   "BRP.statCap": "You may not exceed the cultural max/min for this characteristic",
   "BRP.status": "Status",
   "BRP.stopHitLoc": "Hit Locations may not be added directly to a character - they are added as part of the Species selection",
+  "BRP.tabName": "Tab",
   "BRP.total": "Total",
   "BRP.totalHP": "Total HP",
   "BRP.treatAmount": "Enter amount of damage healed on",
@@ -239,6 +240,7 @@
     "resetDaily": "Reset Daily Damage",
     "resMjrWnd": "Resolve Major Wound",
     "resurrect": "Resurrection",
+    "restoreLoc": "Restore Location",
     "restoreMax": "Restore to Max",
     "roll": "Roll",
     "skillDevelop": "Toggle Skill View",
@@ -297,6 +299,7 @@
   },  
     
   "BRP.Settings":{
+    "background": "Background Options",
     "background1": "Background#1",
     "background2": "Background#2",
     "background3": "Background#3",
