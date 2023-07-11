@@ -6,7 +6,7 @@ export class SkillSpecSelectDialog {
       name = skill.system.mainName
     ) {
       const html = await renderTemplate(
-        'systems/BRP/templates/dialog/skillSpecSelect.html',
+        'systems/brp/templates/dialog/skillSpecSelect.html',
         {
           skill,
           name

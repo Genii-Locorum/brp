@@ -17,7 +17,7 @@ export class BRPCultureSheet extends ItemSheet {
   static get defaultOptions () {
     return mergeObject(super.defaultOptions, {
       classes: ['brp', 'sheet', 'culture'],
-      template: 'systems/BRP/templates/item/culture.html',
+      template: 'systems/brp/templates/item/culture.html',
       width: 525,
       height: 480,
       dragDrop: [{ dragSelector: '.item' }],
