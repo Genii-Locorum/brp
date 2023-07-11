@@ -34,7 +34,16 @@ export class BRPActor extends Actor {
     // Make modifications to data here. For example:
     const systemData = actorData.system;
 
+    for (let [key, stat] of Object.entries(systemData.stats)) {
+      systemData.stats[key].adj = 0
+      systemData.stats[key].max = 0
+      systemData.stats[key].min = 0
+    }  
+
     //Add stats formula, min/max/fixed and move based on culture item
+    
+    
+    
     for (let i of actorData.items) {
       if (i.type === "culture") {
         systemData.culture = i.name;
@@ -96,7 +105,9 @@ export class BRPActor extends Actor {
     for (let [key, stat] of Object.entries(systemData.stats)) {
       stat.label = game.i18n.localize(CONFIG.BRP.stats[key]) ?? key;
       stat.labelShort = game.i18n.localize(CONFIG.BRP.statsAbbreviations[key]) ?? key;
-      stat.total = stat.value + stat.redist + stat.adj + stat.exp + stat.effects + stat.age;
+
+      stat.total = Number(stat.value) + Number(stat.redist) + Number(stat.adj) + Number(stat.exp) + Number(stat.effects) + Number(stat.age);
+      
       if (game.settings.get('brp','powerLevel') <2 && key != 'int' && key != 'pow' && key != 'edu') {
         stat.total = Math.min (stat.total, stat.max)
       }
@@ -146,7 +157,6 @@ export class BRPActor extends Actor {
 
     // Calculate the Skill Category Bonuses */ 
     // 0 = No Bonus, 1 = Simple option, 2 = Advanced option
-    if (game.settings.get('brp','skillBonus') >0 ){
       for (let [key, category] of Object.entries(systemData.skillcategory)) {
         let categoryid=key;
         let modifiervalue=0;
@@ -198,7 +208,7 @@ export class BRPActor extends Actor {
         }
         systemData.skillcategory[key].bonus=modifiervalue;
       }
-    }
+
 
    
 
