@@ -24,7 +24,7 @@ export class SkillSelectDialog extends Dialog {
   
     static async create (data) {
       const html = await renderTemplate(
-        'systems/BRP/templates/dialog/groupSkillSelect.html',
+        'systems/brp/templates/dialog/groupSkillSelect.html',
         data
       ) 
       return new Promise(resolve => {

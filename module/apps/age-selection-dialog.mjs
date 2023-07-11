@@ -26,7 +26,7 @@ export class AgeSelectDialog extends Dialog {
 
     static async create (data) {
       const html = await renderTemplate(
-        'systems/BRP/templates/dialog/ageSelect.html',
+        'systems/brp/templates/dialog/ageSelect.html',
         data
       ) 
       return new Promise(resolve => {
@@ -54,7 +54,7 @@ export class AgeSelectDialog extends Dialog {
 
     static async agingCreate (data) {
       const html = await renderTemplate(
-        'systems/BRP/templates/dialog/agingSelect.html',
+        'systems/brp/templates/dialog/agingSelect.html',
         data
       ) 
       return new Promise(resolve => {

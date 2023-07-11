@@ -18,7 +18,7 @@ export class BRPPersonalitySheet extends ItemSheet {
   static get defaultOptions () {
     return mergeObject(super.defaultOptions, {
       classes: ['brp', 'sheet', 'personality'],
-      template: 'systems/BRP/templates/item/personality.html',
+      template: 'systems/brp/templates/item/personality.html',
       width: 525,
       height: 480,
       dragDrop: [{ dragSelector: '.item' }],

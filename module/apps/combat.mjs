@@ -67,7 +67,7 @@ export class BRPCombat {
       title = game.i18n.localize('BRP.treatAmount') + " " + location
     }
     const html = await renderTemplate(
-      'systems/BRP/templates/dialog/addWound.html',
+      'systems/brp/templates/dialog/addWound.html',
       {
       }
     )

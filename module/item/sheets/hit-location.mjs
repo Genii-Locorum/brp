@@ -16,7 +16,7 @@ export class BRPHitLocSheet extends ItemSheet {
   
     /** @override */
     get template () {
-      return `systems/BRP/templates/item/${this.item.type}.html`
+      return `systems/brp/templates/item/${this.item.type}.html`
     }
   
 
