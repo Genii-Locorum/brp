@@ -93,9 +93,9 @@
   "gridUnits": "ft",
   "primaryTokenAttribute": "health",
   "secondaryTokenAttribute": "fatigue",
-  "url": "",
-  "manifest": "https://raw.githubusercontent.com/Genii-Locorum/brp/main/system.json",
-  "download": "https://github.com/Genii-Locorum/brp/releases/download/Test2/system.zip",
+  "url": "https://github.com/Genii-Locorum/brp",
+  "manifest": "https://github.com/Genii-Locorum/brp/releases/latest/download/system.json",
+  "download": "https://github.com/Genii-Locorum/brp/releases/latest/download/system.zip",
   "license": "LICENSE.txt",
   "changelog": "CHANGELOG.md"
 }
