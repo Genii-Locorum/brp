@@ -19,6 +19,7 @@ import { skillMenuOptions } from "./context-menus/actor-cm.mjs";
 import { WealthMenuOptions } from "./context-menus/actor-cm.mjs";
 import { WoundMenuOptions} from "./context-menus/actor-cm.mjs";
 import { AgeMenuOptions} from "./context-menus/actor-cm.mjs";
+import { itemMenuOptions} from "./context-menus/actor-cm.mjs";
 
 
 /**
@@ -121,7 +122,7 @@ export class BRPActorSheet extends ActorSheet {
    */
   _prepareItems(context) {
     // Initialize containers.
-    const gear = [];
+    const gears = [];
     const skills = [];
     const skillsDev = [];
     const categories = [];
@@ -136,8 +137,8 @@ export class BRPActorSheet extends ActorSheet {
     for (let i of context.items) {
       i.img = i.img || DEFAULT_TOKEN;
       // Append to gear.
-      if (i.type === 'item') {
-        gear.push(i);
+      if (i.type === 'gear') {
+        gears.push(i);
       }
       // Append to skills.
       else if (i.type === 'skill') {
@@ -206,7 +207,7 @@ skillsDev.sort(function(a, b){
 
 
     // Assign and return
-    context.gear = gear;
+    context.gears = gears;
     context.skills = skills;
     context.skillsDev= skillsDev;
     context.weapons = weapons;
@@ -253,7 +254,7 @@ skillsDev.sort(function(a, b){
     // Roll for Stat Derived.
     html.find('.rollable.deriv-name').click(BRPChecks._onStatRoll.bind(this));
 
-    // Roll for Stat.
+    // Roll for Skill.
     html.find('.rollable.skill-name').click(BRPChecks._onSkillRoll.bind(this));
 
     // Points Allocation.
@@ -282,6 +283,7 @@ skillsDev.sort(function(a, b){
     new BRPContextMenu(html, ".skilldevelop.contextmenu", SkillDevelopMenuOptions(this.actor, this.token));
     new BRPContextMenu(html, ".wound.contextmenu", WoundMenuOptions(this.actor, this.token));
     new BRPContextMenu(html, ".age.contextmenu", AgeMenuOptions(this.actor, this.token));
+    new BRPContextMenu(html, ".item-name.contextmenu", itemMenuOptions(this.actor, this.token));
 
     // Drag events for macros.
     if (this.actor.isOwner) {
@@ -318,7 +320,9 @@ skillsDev.sort(function(a, b){
     delete itemData.system["type"];
 
     // Finally, create the item!
-    return await Item.create(itemData, {parent: this.actor});
+    let item = await Item.create(itemData, {parent: this.actor});
+    item.sheet.render(true);
+    return
   }
 
   /**
@@ -363,80 +367,84 @@ skillsDev.sort(function(a, b){
       let reqResult = 1;
       let errMsg = "";
 
-    //Stop Hit Location being directly added  
-      if (k.type === 'hit-location') {
-        reqResult = 0;
-        errMsg = k.name + " : " +   game.i18n.localize('BRP.stopHitLoc')       
-      }
+    //Automatically allow items to be added
+    if (k.type != 'item') {   
 
-    //Test to see if this is the GM or if character is in creation mode, then check if character already has a culture
-      if (k.type === 'culture') {
+      //Stop Hit Location being directly added  
+        if (k.type === 'hit-location') {
+          reqResult = 0;
+          errMsg = k.name + " : " +   game.i18n.localize('BRP.stopHitLoc')       
+        }
+
+      //Test to see if this is the GM or if character is in creation mode, then check if character already has a culture
+        if (k.type === 'culture') {
+          if (!game.user.isGM && !this.actor.system.initialise) {
+            reqResult = 0;
+            errMsg = k.name + " : " +   game.i18n.localize('BRP.notInitialise')        
+          } else if (typeof this.actor.system.culture !== 'undefined') {
+            reqResult = 0;
+            errMsg = k.name + " : " +   game.i18n.localize('BRP.dupCulture')
+          }
+        }
+
+      //Test to see if its a Specialist Group Skill
+      if (k.type === 'skill' && k.system.specGroup) {
+        reqResult = 0;
+        errMsg = k.name + " : " +   game.i18n.localize('BRP.specGroupDrop') 
+      }        
+
+      //Test to see if the skill already exists
+        if (k.type === 'skill') {
+          if (k.system.specialism && !k.system.chosen){
+            let usage = await SkillSpecSelectDialog.create(k)
+            if (usage.get('new-skill-name')){
+              k.system.specName = usage.get('new-skill-name')
+              k.system.chosen = true
+              k.name = k.system.mainName + " (" + k.system.specName + ")"
+            }    
+          }    
+          for (let j of this.actor.items) {
+            if(j.type === k.type && j.name === k.name && (!k.system.specialism || k.system.chosen)) {
+              reqResult = 0;
+              errMsg = k.name + " : " +   game.i18n.localize('BRP.dupItem-1') + k.type + game.i18n.localize('BRP.dupItem-2') 
+            }
+          }
+          k.system.base = await this._calcBase(k)
+        }  
+
+      //Test for personality
+        if (k.type === 'personality') {
+          if (!game.settings.get('brp','usePers')) {
+            reqResult = 0;
+            errMsg = game.i18n.localize('BRP.noPers')
+          } else if (!game.user.isGM && !this.actor.system.initialise) {
+            reqResult = 0;
+            errMsg = k.name + " : " +   game.i18n.localize('BRP.notInitialise')        
+          } else if (typeof this.actor.system.personality !== 'undefined'){
+            reqResult = 0;
+            errMsg = k.name + " : " +   game.i18n.localize('BRP.dupPers')
+          } else {
+            k = await this._groupSkillsSelect(k)
+          }  
+        }  
+  
+      //Test for profession  
+      if (k.type === 'profession') {
         if (!game.user.isGM && !this.actor.system.initialise) {
           reqResult = 0;
           errMsg = k.name + " : " +   game.i18n.localize('BRP.notInitialise')        
-        } else if (typeof this.actor.system.culture !== 'undefined') {
+        } else if (typeof this.actor.system.profession !== 'undefined'){
           reqResult = 0;
-          errMsg = k.name + " : " +   game.i18n.localize('BRP.dupCulture')
-        }
-      }
-
-    //Test to see if its a Specialist Group Skill
-    if (k.type === 'skill' && k.system.specGroup) {
-      reqResult = 0;
-      errMsg = k.name + " : " +   game.i18n.localize('BRP.specGroupDrop') 
-    }        
-
-    //Test to see if the skill already exists
-      if (k.type === 'skill') {
-        if (k.system.specialism && !k.system.chosen){
-          let usage = await SkillSpecSelectDialog.create(k)
-          if (usage.get('new-skill-name')){
-             k.system.specName = usage.get('new-skill-name')
-             k.system.chosen = true
-             k.name = k.system.mainName + " (" + k.system.specName + ")"
-          }    
-        }    
-        for (let j of this.actor.items) {
-          if(j.type === k.type && j.name === k.name && (!k.system.specialism || k.system.chosen)) {
-            reqResult = 0;
-            errMsg = k.name + " : " +   game.i18n.localize('BRP.dupItem-1') + k.type + game.i18n.localize('BRP.dupItem-2') 
-          }
-        }
-        k.system.base = await this._calcBase(k)
-      }  
-
-    //Test for personality
-      if (k.type === 'personality') {
-        if (!game.settings.get('brp','usePers')) {
-          reqResult = 0;
-          errMsg = game.i18n.localize('BRP.noPers')
-        } else if (!game.user.isGM && !this.actor.system.initialise) {
-          reqResult = 0;
-          errMsg = k.name + " : " +   game.i18n.localize('BRP.notInitialise')        
-        } else if (typeof this.actor.system.personality !== 'undefined'){
-          reqResult = 0;
-          errMsg = k.name + " : " +   game.i18n.localize('BRP.dupPers')
+          errMsg = k.name + " : " +   game.i18n.localize('BRP.dupProf')
         } else {
           k = await this._groupSkillsSelect(k)
+          let wealth = k.system.minWealth
+          if (wealth != k.system.maxWealth) {
+            let usage = await BRPCharGen.startingWealth(k.system.minWealth, k.system.maxWealth)
+            wealth = usage.get('wealth-level');
+          }
+          this.actor.update({'system.wealth': wealth})
         }  
-      }  
-  
-    //Test for profession  
-    if (k.type === 'profession') {
-      if (!game.user.isGM && !this.actor.system.initialise) {
-        reqResult = 0;
-        errMsg = k.name + " : " +   game.i18n.localize('BRP.notInitialise')        
-      } else if (typeof this.actor.system.profession !== 'undefined'){
-        reqResult = 0;
-        errMsg = k.name + " : " +   game.i18n.localize('BRP.dupProf')
-      } else {
-        k = await this._groupSkillsSelect(k)
-        let wealth = k.system.minWealth
-        if (wealth != k.system.maxWealth) {
-          let usage = await BRPCharGen.startingWealth(k.system.minWealth, k.system.maxWealth)
-          wealth = usage.get('wealth-level');
-        }
-        this.actor.update({'system.wealth': wealth})
       }  
     }  
 
@@ -634,7 +642,10 @@ async _toggleIcon(event) {
   } else if (prop === 'unconscious') {
     await this.actor.update({'system.unconscious': false})
     return
+  } else if (prop === 'equipped') {
+    checkProp = {'system.equipped': !item.system.equipped}
   }
+
   item = await item.update(checkProp);
   return item;
 

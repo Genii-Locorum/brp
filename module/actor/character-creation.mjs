@@ -8,7 +8,12 @@ export class BRPCharGen {
   //Initialise Characteristics - this is effectively rerolling the character
   //
   static async onCharInitial(actor) {
-  
+    //Check to see there is a culture in place
+    if (!actor.system.culture || actor.system.culture === "") {
+      ui.notifications.warn(game.i18n.localize("BRP.noCulture"))
+      return
+    }
+
     //Determine age
     let roll = new Roll("1d6+17");
     await roll.roll({ async: true});
@@ -17,7 +22,7 @@ export class BRPCharGen {
     
     //Roll all characteristics - they are updated in the routine
     await BRPCharGen.initializeAllCharacteristics(actor);
-    
+
     //Allow age to be changed and update stats accordingly.
     let newAge = 0;
     let ageInc = 0;
@@ -71,6 +76,8 @@ static async initializeAllCharacteristics(actor) {
       return false;
     }
   
+    //Check there is a culture on the character
+
     //Confirm you want to do this
     let confirmation = await BRPUtilities.confirmation();
     if (!confirmation) {return}
