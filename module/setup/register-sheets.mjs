@@ -4,6 +4,7 @@ import { BRPSkillSheet } from '../item/sheets/skill.mjs'
 import { BRPHitLocSheet } from '../item/sheets/hit-location.mjs' 
 import { BRPCultureSheet } from '../item/sheets/culture.mjs' 
 import { BRPPowerSheet } from '../item/sheets/power.mjs' 
+import { BRPGearSheet } from '../item/sheets/gear.mjs' 
 
 export function registerSheets () {
     //Actors.unregisterSheet("core", ActorSheet);
@@ -42,4 +43,8 @@ export function registerSheets () {
       makeDefault: true
     })
 
+    Items.registerSheet('brp', BRPGearSheet, {
+      types: ['gear'],
+      makeDefault: true
+    })
 }  
