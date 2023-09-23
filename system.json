@@ -2,10 +2,10 @@
   "id": "brp",
   "title": "Basic Role Playing",
   "description": "Basic Role Playing system for FoundryVTT!",
-  "version": "11.1.01",
+  "version": "11.1.02",
   "compatibility": {
     "minimum": 10,
-    "verified": "11.305",
+    "verified": "11.309",
     "maximum": 11
   },
   "authors": [{

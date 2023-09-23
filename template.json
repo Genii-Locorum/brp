@@ -124,18 +124,18 @@
     }
   },
   "Item": {
-    "types": ["item", "feature", "skill", "spell","culture","hit-location","personality","profession","power"],
+    "types": ["gear", "skill","culture","hit-location","personality","profession","power"],
     "templates": {
       "base": {
         "description": "",
         "keyword": ""
       }
     },
-    "item": {
+    "gear": {
       "templates": ["base"],
       "quantity": 1,
-      "weight": 0,
-      "formula": "d20 + @str.mod + ceil(@lvl / 2)"
+      "enc": 0,
+      "equipped": true
     },
 
     "personality": {
@@ -152,10 +152,6 @@
       "locType": false,
       "bleeding": false,
       "wounds": []
-    },
-
-    "feature": {
-      "templates": ["base"]
     },
 
     "skill": {
@@ -188,11 +184,6 @@
       "occupation": false,
       "improve": false,
       "specGroup": false
-    },
-
-    "spell": {
-      "templates": ["base"],
-      "spellLevel": 1
     },
 
     "profession": {

@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 11.1.02
+- Basic items (gear) added
+
 ## 11.1.01
 
 - Initial Testing release
