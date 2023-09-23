@@ -1,0 +1,34 @@
+<form class="{{cssClass}} brp" autocomplete="off">
+  <header class="sheet-header">
+  
+    <div class="hitlocgrid grid grid-2col">
+      <div class="item-title"> {{localize 'BRP.item'}}:</div>
+      <div class="stat-input"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></div>
+    </div>  
+    <img class="item-image" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="50" width="50"/>
+  </header>
+  <br>
+
+  {{!-- Sheet Body --}}
+  <section class="">
+    <div class="hitlocgrid grid grid-2col">
+      <div class="item-title"> {{localize 'BRP.quantity'}}:</div>
+      <div class="stat-input center"><input name="system.quantity" type="text" value="{{item.system.quantity}}" placeholder=1 data-dtype="Number"/></div>  
+      <br>
+      <div class="new-row item-title" title="{{localize 'BRP.encHint'}}"> {{localize 'BRP.enc'}}:</div>
+      <div class="stat-input center"><input name="system.enc" type="text" value="{{item.system.enc}}" placeholder=1 data-dtype="Number"/></div>  
+      <br>
+      <div class="new-row item-title"> {{localize 'BRP.equipped'}}:</div>
+      <div class="centre">
+        <a class="item-control icon-toggle centre" title= "{{localize 'BRP.equipped'}}" data-property="equipped"><i class="{{#if item.system.equipped}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a>
+      </div>
+    </div>    
+    <br>
+
+    <div class="item-title bold"> {{localize 'BRP.description'}}:</div>
+    <div>
+      {{editor item.system.description class="description-doc" target="system.description" button=true owner=owner editable=editable}}
+    </div>
+
+  </section>
+</form>
