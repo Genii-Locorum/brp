@@ -42,8 +42,6 @@ export class BRPActor extends Actor {
 
     //Add stats formula, min/max/fixed and move based on culture item
     
-    
-    
     for (let i of actorData.items) {
       if (i.type === "culture") {
         systemData.culture = i.name;
@@ -137,6 +135,7 @@ export class BRPActor extends Actor {
           }
           i.system.currHP = i.system.maxHP - totalWounds;
           totalDamage = totalDamage + totalWounds
+          systemData[i.name] = {'max': i.system.maxHP, 'value' : i.system.currHP};
         }
         if (i.system.currHP <1 && i.system.status === ""){
           i.system.status = "injured"        
@@ -146,6 +145,7 @@ export class BRPActor extends Actor {
         } else if (i.system.currHP > 0 && i.system.status === "severed") {
           i.system.bleeding = false
         }
+
       }
       systemData.health.value = systemData.health.max - totalDamage
       if (systemData.health.value <=0) {
@@ -242,6 +242,12 @@ export class BRPActor extends Actor {
    */
   _getCharacterRollData(data) {
     if (this.type !== 'character') return;
+    if (data.stats) {
+      for (let [k, v] of Object.entries(data.stats)) {
+        data[k] = foundry.utils.deepClone(v);
+      }
+    }
+
 
   }
 
@@ -250,8 +256,11 @@ export class BRPActor extends Actor {
    */
   _getNpcRollData(data) {
     if (this.type !== 'npc') return;
-
-    // Process additional NPC data here.
+    if (data.stats) {
+      for (let [k, v] of Object.entries(data.stats)) {
+        data[k] = foundry.utils.deepClone(v);
+      }
+   }
   }
 
   //
