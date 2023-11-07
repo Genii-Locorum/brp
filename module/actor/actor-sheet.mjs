@@ -575,15 +575,17 @@ async _onSkillEdit(event){
     const field = element.dataset.field;
     const target = 'system.'+field;
     let newScore = Number(element.value);
-    let currentTotal =  this.actor.system.skillcategory[item.system.category].bonus + item.system.base + item.system.profession + item.system.personality + item.system.personal;
-    let newTotal = currentTotal  - item.system[field];
-    let pointsCap = 999
-    if (field === 'personal') {
-      pointsCap = Number(this.actor.system.maxPers - this.actor.system.totalPers + item.system.personal)
-    } else if (field === 'profession') {
-      pointsCap = Number(this.actor.system.maxProf - this.actor.system.totalProf + item.system.profession)
-    } 
-    newScore = Math.max(Math.min(newScore,pointsCap, (game.settings.get('brp',"skillCap") - newTotal)),0)
+    if (field != 'ap') {
+      let currentTotal =  this.actor.system.skillcategory[item.system.category].bonus + item.system.base + item.system.profession + item.system.personality + item.system.personal;
+      let newTotal = currentTotal  - item.system[field];
+      let pointsCap = 999
+      if (field === 'personal') {
+        pointsCap = Number(this.actor.system.maxPers - this.actor.system.totalPers + item.system.personal)
+      } else if (field === 'profession') {
+        pointsCap = Number(this.actor.system.maxProf - this.actor.system.totalProf + item.system.profession)
+      } 
+      newScore = Math.max(Math.min(newScore,pointsCap, (game.settings.get('brp',"skillCap") - newTotal)),0)
+    }
     await item.update ({ [target]: newScore});
     this.actor.render(false);
     return;
