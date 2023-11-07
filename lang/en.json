@@ -44,6 +44,7 @@
   "BRP.alreadytreat": "This wound has already been treated or natural healing has occurred",
   "BRP.and": "And",
   "BRP.armourpoints":"AP",
+  "BRP.armourpointsHint":"Armour Points",
   "BRP.artillery": "Artillery",
   "BRP.base": "Base",
   "BRP.baseScore": "Base Score",
