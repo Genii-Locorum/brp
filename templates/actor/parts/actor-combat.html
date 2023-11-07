@@ -16,7 +16,7 @@
             <div class="hitloc-name center">{{hitloc.system.lowRoll}} - {{hitloc.system.highRoll}}</div>
           {{/if}}
           <div class="hitloc-name center"> {{hitloc.system.currHP}} / {{hitloc.system.maxHP}}</div>
-          <div></div>
+          <div class="stat-input"> <input class="item center inline-edit" data-field ="ap" data-item-id="{{hitloc._id}}" name="hitloc.system.ap" type="text" value="{{hitloc.system.ap}}" data-dtype="Number"/></div>
           <div class="centre">
             {{#if ../useHPL}}
               <a class="{{#if ../isGM}} icon-toggle {{/if}}" data-itemid="{{hitloc._id}}" data-property="bleeding" title="{{localize 'BRP.bleeding'}}"><i class="{{#if hitloc.system.bleeding}} icon-active-red {{else}} icon-inactive {{/if}} item-control fas fa-droplet"></i></a>
