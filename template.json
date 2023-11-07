@@ -148,6 +148,7 @@
       "lowRoll": 0,
       "highRoll": 0,
       "fractionHP": 0,
+      "ap": 0,
       "status": "",
       "locType": false,
       "bleeding": false,
