@@ -25,8 +25,6 @@
         <div class="stat-input"><input name="system.highRoll" type="text" value="{{item.system.highRoll}}" data-dtype="Number"/></div>
         <div class="skill-display" title="{{localize 'BRP.hitLocFractionHint'}}">{{localize 'BRP.hitLocFraction'}}</div>
         <div class="stat-input"><input name="system.fractionHP" type="text" value="{{item.system.fractionHP}}" data-dtype="Number"/></div>
-        <br>
-
       {{else}}
         <div class="skill-display">{{localize 'BRP.hitLocLowRoll'}}</div>
         <div class="hitloc-display centre boxed">{{item.system.lowRoll}}</div>
@@ -34,8 +32,10 @@
         <div class="hitloc-display centre boxed">{{item.system.highRoll}}</div>
         <div class="skill-display" title="{{localize 'BRP.hitLocFractionHint'}}">{{localize 'BRP.hitLocFraction'}}</div>
         <div class="hitloc-display centre boxed">{{item.system.fractionHP}}</div>
-        <br>
       {{/if}}
+      <div class="skill-display" title="{{localize 'BRP.armourpointsHint'}}">{{localize 'BRP.armourpoints'}}</div>
+      <div class="stat-input"><input name="system.ap" type="text" value="{{item.system.ap}}" data-dtype="Number"/></div>
+      <br>
       <div class="new-row"></div>
       <div class="skill-cat {{#if isGM}} item-toggle {{/if}} {{#if item.system.locType}} toggle-active  {{/if}}" title="{{ localize 'BRP.locTypeHint'}}" data-property = "locType">{{localize 'BRP.body'}}</div>
     </div>  
