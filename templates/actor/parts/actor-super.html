@@ -1,0 +1,28 @@
+<ol class="magic-list">
+  <div class="super-listitem">
+    <div class="diff-label">{{ localize 'BRP.super'}}</div>
+    <div class="diff-label centre" title="{{ localize 'BRP.rangePsyHint'}}">{{ localize 'BRP.range'}}</div>
+    <div class="diff-label centre">{{ localize 'BRP.duration'}}</div>
+    <div class="diff-label centre" title ="{{localize 'BRP.ppplHint'}}">{{#if useMP}}{{ localize "BRP.mpCost" }}{{else}}{{ localize "BRP.ppCost" }}{{/if}}</div>
+    <div class="diff-label centre">{{ localize 'BRP.level'}}</div>
+  </div>    
+  {{#each superpowers as |super id|}}
+    <li class="item super-listitem" data-item-id="{{super._id}}">
+      <div class="super-name contextmenu">{{super.name}}</div>
+      <div class = "centre">{{super.system.range}}</div>
+      <div class = "centre">{{super.system.duration}}</div>
+      <div class = "centre">{{super.system.pppl}}</div>
+      <div class = "centre">{{super.system.level}}</div>
+    </li>  
+  {{/each}}
+  <br>
+  <div class="failing-listitem">
+    <div class="diff-label">{{ localize 'BRP.failing'}}</div>
+  </div>    
+  {{#each failings as |failing id|}}
+  <li class="item failing-listitem" data-item-id="{{failing._id}}">
+    <div class="failing-name contextmenu">{{failing.system.shortDesc}}</div>
+  </li>  
+{{/each}}  
+
+</ol>

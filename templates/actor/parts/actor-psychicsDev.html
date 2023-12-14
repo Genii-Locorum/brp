@@ -1,0 +1,40 @@
+<ol class="stats-list">
+
+    <div class="skills-tab-grid">
+      <div class="skill-cell-name diff-label">{{ localize 'BRP.psyAbility'}}</div>
+      <div class="skill-cell diff-label centre">{{ localize 'BRP.base'}}</div>  
+      <div class="skill-cell diff-label centre" title="{{localize 'BRP.personality'}}">{{ localize 'BRP.personalityShort'}}</div>
+      <div class="skill-cell diff-label centre" title="{{localize 'BRP.profession'}}">{{ localize 'BRP.profShort'}}</div>
+      <div class="skill-cell diff-label centre" title="{{localize 'BRP.psp'}}">{{ localize 'BRP.personalShort'}}</div>
+      <div class="skill-cell diff-label centre" title="{{localize 'BRP.experience'}}">{{ localize 'BRP.xp'}}</div>
+      <div class="skill-cell diff-label centre" title="{{localize 'BRP.effects'}}">{{ localize 'BRP.effectsShort'}}</div>
+      <div class="skill-cell diff-label centre">{{ localize 'BRP.total'}}</div>
+      <div class="skill-cell diff-label centre" title="{{localize 'BRP.category'}}">{{ localize 'BRP.categoryShort'}}</div>
+      {{#each psychics as |psychic id|}}
+        <div class = "item skill-cell-name contextmenu bold" data-item-id="{{psychic._id}}">{{psychic.name}}</div>
+        <input class="item skill-cell-input centre inline-edit" data-field ="base" data-item-id="{{psychic._id}}" name="psychic.system.base" type="text" value="{{psychic.system.base}}" data-dtype="Number"/>
+        <input class="item skill-cell-input centre inline-edit" data-field ="personality" data-item-id="{{psychic._id}}" name="psychic.system.personality" type="text" value="{{psychic.system.personality}}" data-dtype="Number"/>
+        <input class="item skill-cell-input skill-occ centre inline-edit" data-field ="profession" data-item-id="{{psychic._id}}" name="psychic.system.profession" type="text" value="{{psychic.system.profession}}" data-dtype="Number"/>
+        <input class="item skill-cell-input skill-pers centre inline-edit" data-field ="personal" data-item-id="{{psychic._id}}" name="psychic.system.personal" type="text" value="{{psychic.system.personal}}" data-dtype="Number"/>
+        <input class="item skill-cell-input centre inline-edit" data-field ="xp" data-item-id="{{psychic._id}}" name="psychic.system.xp" type="text" value="{{psychic.system.xp}}" data-dtype="Number"/>
+        <input class="item skill-cell-input centre inline-edit" data-field ="effects" data-item-id="{{psychic._id}}" name="psychic.system.effects" type="text" value="{{psychic.system.effects}}" data-dtype="Number"/>
+        <div class = "skill-cell centre lightgrey">{{psychic.system.total}}</div>
+        <div class = "skill-cell centre">{{psychic.system.catBonus}}</div>
+      {{/each}}
+
+
+
+      <div class = "skill-cell-nametotal grey bold">{{ localize 'BRP.total'}}</div>
+      <div class = "skill-cell centre grey"></div>
+      <div class = "skill-cell centre grey"></div>
+      <div class = "skill-cell centre grey">{{this.actor.system.totalProf}}</div>
+      <div class = "skill-cell centre grey">{{this.actor.system.totalPers}}</div>
+      <div class = "skill-cell centre grey"></div>
+      <div class = "skill-cell centre grey"></div>
+      <div class = "skill-cell centre grey"></div>
+      <div class = "skill-cell centre grey"></div>
+
+    </div>
+
+
+</ol>

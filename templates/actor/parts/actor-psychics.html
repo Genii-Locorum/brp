@@ -1,0 +1,24 @@
+<ol class="magic-list">
+  <div class="psychic-listitem">
+    <div class="diff-label">{{ localize 'BRP.psyAbility'}}</div>
+    <div></div>
+    <div class="diff-label centre" title="{{ localize 'BRP.rangePsyHint'}}">{{ localize 'BRP.range'}}</div>
+    <div class="diff-label centre">{{ localize 'BRP.duration'}}</div>
+    <div class="diff-label centre">{{#if useMP}}{{ localize "BRP.mpCost" }}{{else}}{{ localize "BRP.ppCost" }}{{/if}}</div>
+    <div class="diff-label centre" title = "{{ localize 'BRP.impactHint' }}">{{ localize 'BRP.impact'}}</div>
+    <div class="diff-label centre">{{ localize 'BRP.total'}}</div>
+    <div></div>
+  </div>    
+  {{#each psychics as |psychic id|}}
+    <li class="item psychic-listitem" data-item-id="{{psychic._id}}">
+      <div class="psychic-name contextmenu">{{psychic.name}}</div>
+      <div title = "{{ localize 'BRP.improve' }}"><a class="item-toggle" data-property="improve"><i class="{{#if psychic.system.improve}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>
+      <div class = "centre">{{psychic.system.range}}</div>
+      <div class = "centre">{{psychic.system.duration}}</div>
+      <div class = "centre">{{psychic.system.pppl}}</div>
+      <div class = "centre">{{psychic.system.damage}}</div>
+      <div class = "centre" title = "{{ localize 'BRP.bonusHint' }}">{{psychic.system.total}}%  {{#if (gte ../actor.system.skillcategory.mntlmod.bonus 0)}}(+{{else}}(-{{/if}}{{../actor.system.skillcategory.mntlmod.bonus}})</div>
+      <div></div>
+    </li>  
+  {{/each}}
+</ol>

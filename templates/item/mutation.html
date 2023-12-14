@@ -1,0 +1,77 @@
+<form class="{{cssClass}} brp" autocomplete="off">
+    <header class="sheet-header">
+      <div class="hitlocgrid">
+      <div class="item-title"> {{localize 'BRP.mutation'}}:</div>
+      {{#if isGM}}  
+        <div class="stat-input"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></div>
+      {{else}}
+        <div class="skill-name bold boxed centre">{{item.name}}</div>
+      {{/if}}
+      </div>  
+      <img class="item-image" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="50" width="50"/>
+    </header>
+  
+    {{!-- Item Sheet Navigation --}}
+    <section class="nav-panel">
+    <nav class="sheet-tabs tabs" data-group="primary">
+      <a class="item" data-tab="details">{{ localize "BRP.details" }}</a>
+      <a class="item" data-tab="description">{{ localize "BRP.description" }}</a>
+      {{#if isGM}}<a class="item" data-tab="gmNotes">{{ localize "BRP.gmNotes" }}</a>{{/if}}
+    </nav>
+    </section>
+  
+  
+    {{!-- Sheet Body --}}
+    <section class="item-bottom-panel">
+      <section class="sheet-body">
+       <br>
+   
+        {{!-- Details Tab --}}
+        <div class="tab active" data-group="primary" data-tab="details">
+          <div class="base-grid">
+            <div class="item-title"> {{localize 'BRP.impact'}}:</div>
+            {{#if isGM}}
+              <div class="stat-input centre">
+                <select data-handle-change name="system.impact">
+                  {{selectOptions catOptions selected=item.system.impact}}
+                </select>
+              </div>
+            {{else}}
+              <div class="stat-display boxed">{{catName}}</div>  
+            {{/if}}
+          </div>
+          <br>
+          <div class="base-grid">  
+            <div class="new-row item-title"> {{localize 'BRP.mutationStr'}}:</div>
+            <div class="skill-cat mutation-cat {{#if isGM}} item-toggle {{/if}} {{#if item.system.minorOnly}} toggle-active  {{/if}}" title ="{{localize 'BRP.minorOnlyHint'}}" data-property = "minorOnly">{{localize 'BRP.minorOnly'}}</div>            
+          </div>    
+        <br>
+
+        {{#if hasOwner}}  
+          <div class="base-grid">  
+            <div class="new-row item-title"> {{localize 'BRP.currentStr'}}:</div>
+            <div class="skill-cat mutation-cat item-toggle toggle-active" title ="{{localize 'BRP.minorOnlyHint'}}" data-property = "minor">{{#if item.system.minor}}{{localize 'BRP.minor'}}{{else}}{{localize 'BRP.major'}}{{/if}}</div>            
+          </div>    
+        {{/if}}  
+      </div>
+
+        {{!-- Description Tab --}}
+        <div class="tab active" data-group="primary" data-tab="description">
+          <div class="bold"> {{localize 'BRP.description'}}:</div>
+          <div>
+            {{editor item.system.description class="description-doc" target="system.description" button=true owner=owner editable=editable}}
+          </div>
+        </div>  
+      
+        {{!-- GM Description Tab --}}
+        <div class="tab active" data-group="primary" data-tab="gmNotes">
+          <div class="bold"> {{localize 'BRP.gmNotes'}}:</div>
+          <div>
+            {{editor item.system.gmDescription class="description-doc" target="system.gmDescription" button=true owner=owner editable=editable}}
+          </div>
+        </div>
+      </section>
+    </section>
+  </form>
+  
+  

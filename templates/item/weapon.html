@@ -1,0 +1,301 @@
+<form class="{{cssClass}} brp" autocomplete="off">
+  <header class="sheet-header">
+  
+    <div class="hitlocgrid">
+    <div class="item-title"> {{localize 'BRP.weapon'}}:</div>
+    {{#if isGM}}  
+      <div class="stat-input"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></div>
+    {{else}}
+      <div class="skill-name bold center boxed">{{item.name}}</div>
+    {{/if}}
+    </div>  
+  
+    <img class="item-image" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="50" width="50"/>
+
+  </header>
+
+  {{!-- Item Sheet Navigation --}}
+  <section class="nav-panel">
+    <nav class="sheet-tabs tabs" data-group="primary">
+      <a class="item" data-tab="details">{{ localize "BRP.details" }}</a>
+      <a class="item" data-tab="description">{{ localize "BRP.description" }}</a>
+      {{#if isGM}}<a class="item" data-tab="gmNotes">{{ localize "BRP.gmNotes" }}</a>{{/if}}
+    </nav>
+  </section>
+
+  {{!-- Sheet Body --}}
+  <section class="item-bottom-panel">
+    <section class="sheet-body">
+      <br>
+  
+      {{!-- Details Tab --}}
+      <div class="tab active" data-group="primary" data-tab="details">  
+        <div class="weapon-scores">
+          {{#if isGM}}
+            <div class="skill-display">{{localize 'BRP.damage'}}</div>
+            <div class="stat-input"><input name="system.dmg1" type="text" value="{{item.system.dmg1}}"/></div>
+            <div></div>
+            <div class="stat-input"><input name="system.dmg2" type="text" value="{{item.system.dmg2}}"/></div>
+            <div></div>
+            <div class="stat-input"><input name="system.dmg3" type="text" value="{{item.system.dmg3}}"/></div>
+            <div class="skill-display">{{localize 'BRP.range'}}</div>
+            <div class="stat-input"><input name="system.range1" type="text" value="{{item.system.range1}}"/></div>
+            <div></div>
+            <div class="stat-input"><input name="system.range2" type="text" value="{{item.system.range2}}"/></div>
+            <div></div>
+            <div class="stat-input"><input name="system.range3" type="text" value="{{item.system.range3}}"/></div>
+          {{else}}
+            <div class="skill-display">{{localize 'BRP.damage'}}</div>
+            <div class="hitloc-display centre boxed">{{item.system.dmg1}}</div>
+            <div></div>
+            <div class="hitloc-display centre boxed">{{item.system.dmg2}}</div>
+            <div></div>
+            <div class="hitloc-display centre boxed">{{item.system.dmg3}}</div>
+            <div class="skill-display">{{localize 'BRP.range'}}</div>
+            <div class="hitloc-display centre boxed">{{item.system.range1}}</div>
+            <div></div>
+            <div class="hitloc-display centre boxed">{{item.system.range2}}</div>
+            <div></div>
+            <div class="hitloc-display centre boxed">{{item.system.range3}}</div>
+          {{/if}}
+        </div> 
+        <br>
+
+        {{#if isGM}}
+          <div class="weapon-2main-scores">
+            <div class="skill-display">{{localize 'BRP.type'}}/{{localize 'BRP.dmgBonusShort'}}</div>
+            <div class="stat-input-small">
+              <select data-handle-change name="system.weaponType">
+                {{selectOptions weaponOptions selected=item.system.weaponType}}
+              </select>
+            </div>
+            <div class="stat-input-small">
+              <select data-handle-change name="system.db">
+                {{selectOptions damOptions selected=item.system.db}}
+              </select>
+            </div>
+            <div class="skill-display">{{localize 'BRP.skillOpt'}}</div>
+            <div class="stat-input-small">
+              <select data-handle-change name="system.skill1">
+                {{selectOptions wpnSkillOptions1 selected=item.system.skill1}}
+              </select>
+            </div>
+            <div class="stat-input-small">
+              <select data-handle-change name="system.skill2">
+                {{selectOptions wpnSkillOptions2 selected=item.system.skill2}}
+              </select>
+            </div>
+            <div class="skill-display">{{localize 'BRP.attack'}}/{{localize 'BRP.special'}}</div>
+            <div class="weapon-input"><input name="system.att" type="text" value="{{item.system.att}}"/></div>
+            <div class="stat-input-small">
+              <select data-handle-change name="system.special">
+                {{selectOptions specialOptions selected=item.system.special}}
+              </select>
+            </div>
+          </div>
+          <div class="weapon-main-scores">  
+            {{#if item.system.explosive}}
+              <div class="skill-display" title ="{{localize 'BRP.radiusHint'}}">{{localize 'BRP.radius'}}</div>
+              <div class="weapon-input"><input name="system.radius" type="text" value="{{item.system.radius}}" data-dtype="Number"/></div>            
+            {{/if}}
+            {{#if (eq item.system.weaponType 'artillery')}}
+              <div class="skill-display">{{localize 'BRP.crew'}}</div>
+              <div class="weapon-input"><input name="system.crew" type="text" value="{{item.system.crew}}"/></div>
+            {{else}}
+              <div class="skill-display">{{localize 'BRP.hands'}}</div>
+              <div class="stat-input-small">
+                <select data-handle-change name="system.hands">
+                  {{selectOptions handedOptions selected=item.system.hands}}
+                </select>
+              </div>
+            {{/if}}
+          </div>    
+
+          {{#if (eq item.system.weaponType 'artillery')}}
+            <div class="weapon-2main-scores">
+              <div class="skill-display">{{localize 'BRP.ap'}}/{{localize 'BRP.hp'}}</div>
+              <div class="weapon-input"><input name="system.ap" type="text" value="{{item.system.ap}}" data-dtype="Number"/></div>
+              <div class="weapon-input"><input name="system.hp" type="text" value="{{item.system.hp}}" data-dtype="Number"/></div>
+            </div>  
+          {{else}}    
+            <div class="weapon-main-scores">
+              {{#if (eq item.system.weaponType 'shield')}}
+                <div class="skill-display">{{localize 'BRP.ap'}}</div>
+                <div class="weapon-input"><input name="system.ap" type="text" value="{{item.system.ap}}" data-dtype="Number"/></div>
+              {{else}}
+                <div class="skill-display">{{localize 'BRP.hp'}}</div>
+                <div class="weapon-input"><input name="system.hp" type="text" value="{{item.system.hp}}" data-dtype="Number"/></div>
+              {{/if}}
+            </div>  
+          {{/if}} 
+
+          {{#unless (eq item.system.weaponType 'artillery')}}
+            <div class="weapon-2main-scores">  
+              <div class="skill-display">{{localize 'BRP.StatsStrAbbr'}}/{{localize 'BRP.StatsDexAbbr'}}</div>
+              <div class="weapon-input"><input name="system.str" type="text" value="{{item.system.str}}" data-dtype="Number"/></div>
+              <div class="weapon-input"><input name="system.dex" type="text" value="{{item.system.dex}}" data-dtype="Number"/></div>
+            </div>  
+          {{/unless}}
+
+          {{#if isAmmo}}
+            <div class="weapon-main-scores">      
+              <div class="skill-display">{{localize 'BRP.rof'}}</div>
+              <div class="weapon-input"><input name="system.rof" type="text" value="{{item.system.rof}}"/></div>
+            </div>  
+            <div class="weapon-2main-scores">      
+              <div class="skill-display">{{localize 'BRP.ammoCapType'}}</div>
+              <div class="weapon-input"><input name="system.ammo" type="text" value="{{item.system.ammo}}" data-dtype="Number"/></div>
+              <div class="weapon-input"><input name="system.ammoType" type="text" value="{{item.system.ammoType}}"/></div>
+            </div>  
+          {{/if}}
+
+          <div class="weapon-main-scores">      
+            <div class="skill-display">{{localize 'BRP.malfunction'}}</div>
+            <div class="weapon-input"><input name="system.mal" type="text" value="{{item.system.mal}}" data-dtype="Number"/></div>
+            <div class="skill-display">{{localize 'BRP.price'}}</div>
+            <div class="stat-input-small">
+              <select data-handle-change name="system.price">
+                {{selectOptions priceOptions selected=item.system.price}}
+              </select>
+            </div>
+            <div class="skill-display">{{localize 'BRP.encSiz'}}</div>
+            <div class="weapon-input"><input name="system.enc" type="text" value="{{item.system.enc}}" data-dtype="Number"/></div>
+            {{#if (eq item.system.weaponType 'shield')}}
+              <div class="skill-display">{{localize 'BRP.coverage'}}</div>
+              <div class="weapon-input"><input name="system.coverage" type="text" value="{{item.system.coverage}}"/></div>
+            {{/if}}
+          </div>
+
+          {{else}}
+            <div class="weapon-2main-scores">
+              <div class="skill-display">{{localize 'BRP.type'}}/{{localize 'BRP.dmgBonusShort'}}</div>
+              <div class="weapon-display centre boxed">{{weaponCatName}}</div>
+              <div class="weapon-display centre boxed">{{damName}}</div>
+              <div class="skill-display">{{localize 'BRP.skillOpt'}}</div>
+              <div class="weapon-display centre boxed">{{skill1Name}}</div>
+              <div class="weapon-display centre boxed">{{skill2Name}}</div>  
+              <div class="skill-display">{{localize 'BRP.attack'}}/{{localize 'BRP.special'}}</div>
+              <div class="weapon-display centre boxed">{{item.system.att}}</div>
+              <div class="weapon-display centre boxed">{{specName}}</div>
+            </div>  
+            <div class="weapon-main-scores">  
+              {{#if item.system.explosive}}
+                <div class="skill-display" title ="{{localize 'BRP.radiusHint'}}">{{localize 'BRP.radius'}}</div>
+                <div class="weapon-display centre boxed">{{item.system.radius}}</div>
+              {{/if}}
+              {{#if (eq item.system.weaponType 'artillery')}}
+                <div class="skill-display">{{localize 'BRP.crew'}}</div>
+                <div class="weapon-display centre boxed">{{item.system.crew}}</div>
+              {{else}}
+                <div class="skill-display">{{localize 'BRP.hands'}}</div>
+                <div class="weapon-display centre boxed">{{handedName}}</div>
+              {{/if}}
+            </div> 
+
+            {{#if (eq item.system.weaponType 'artillery')}}
+              <div class="weapon-2main-scores">
+                <div class="skill-display">{{localize 'BRP.ap'}}/{{localize 'BRP.hp'}}</div>
+                <div class="weapon-display centre boxed">{{item.system.ap}}</div>
+                <div class="weapon-display centre boxed">{{item.system.hp}}</div>
+              </div>  
+            {{else}}    
+              <div class="weapon-main-scores">
+                {{#if (eq item.system.weaponType 'shield')}}
+                  <div class="skill-display">{{localize 'BRP.ap'}}</div>
+                  <div class="weapon-display centre boxed">{{item.system.ap}}</div>
+                {{else}}
+                  <div class="skill-display">{{localize 'BRP.hp'}}</div>
+                  <div class="weapon-display centre boxed">{{item.system.hp}}</div>
+                {{/if}}
+              </div>  
+            {{/if}} 
+
+            {{#unless (eq item.system.weaponType 'artillery')}}
+              <div class="weapon-2main-scores">  
+                <div class="skill-display">{{localize 'BRP.StatsStrAbbr'}}/{{localize 'BRP.StatsDexAbbr'}}</div>
+                <div class="weapon-display centre boxed">{{item.system.str}}</div>
+                <div class="weapon-display centre boxed">{{item.system.dex}}</div>
+              </div>  
+            {{/unless}}
+
+            {{#if isAmmo}}
+              <div class="weapon-main-scores">      
+                <div class="skill-display">{{localize 'BRP.rof'}}</div>
+                <div class="weapon-display centre boxed">{{item.system.rof}}</div>
+              </div>  
+              <div class="weapon-2main-scores">      
+                <div class="skill-display">{{localize 'BRP.ammoCapType'}}</div>
+                <div class="weapon-display centre boxed">{{item.system.ammo}}</div>
+                <div class="weapon-display centre boxed">{{item.system.ammoType}}</div>
+              </div>  
+            {{/if}}
+
+            <div class="weapon-main-scores">  
+              <div class="skill-display">{{localize 'BRP.malfunction'}}</div>
+              <div class="weapon-display centre boxed">{{item.system.mal}}</div>
+              <div class="skill-display">{{localize 'BRP.price'}}</div>
+              <div class="weapon-display centre boxed">{{priceName}}</div>            
+              <div class="skill-display">{{localize 'BRP.enc'}}</div>
+              <div class="weapon-display centre boxed">{{item.system.enc}}</div>
+              {{#if (eq item.system.weaponType 'shield')}}
+                <div class="skill-display">{{localize 'BRP.coverage'}}</div>
+                <div class="weapon-display centre boxed">{{item.system.coverage}}</div>
+              {{/if}}
+            </div>  
+          {{/if}}
+          <br>
+
+          <div class="item-title"> {{localize 'BRP.options'}}:</div>
+          <div class="base-4grid">
+            <div class="skill-cat {{#if isGM}} item-toggle {{/if}} {{#if item.system.parry}} toggle-active  {{/if}}" title ="{{localize 'BRP.parryHint'}}" data-property = "parry">{{localize 'BRP.parry'}}</div>
+            <div class="skill-cat {{#if isGM}} item-toggle {{/if}} {{#if item.system.burst}} toggle-active  {{/if}}" data-property = "burst">{{localize 'BRP.burst'}}</div>
+            <div class="skill-cat {{#if isGM}} item-toggle {{/if}} {{#if item.system.choke}} toggle-active  {{/if}}" data-property = "choke">{{localize 'BRP.choke'}}</div>
+            <div class="skill-cat {{#if isGM}} item-toggle {{/if}} {{#if item.system.emp}} toggle-active  {{/if}}" data-property = "emp">{{localize 'BRP.emp'}}</div>
+            <div class="skill-cat {{#if isGM}} item-toggle {{/if}} {{#if item.system.entangle}} toggle-active  {{/if}}" data-property = "entangle">{{localize 'BRP.entangle'}}</div>
+            <div class="skill-cat {{#if isGM}} item-toggle {{/if}} {{#if item.system.explosive}} toggle-active  {{/if}}" data-property = "explosive">{{localize 'BRP.explosive'}}</div>
+            <div class="skill-cat {{#if isGM}} item-toggle {{/if}} {{#if item.system.fire}} toggle-active  {{/if}}" data-property = "fire">{{localize 'BRP.fire'}}</div>
+            <div class="skill-cat {{#if isGM}} item-toggle {{/if}} {{#if item.system.pierce}} toggle-active  {{/if}}" data-property = "pierce">{{localize 'BRP.pierce'}}</div>
+            <div class="skill-cat {{#if isGM}} item-toggle {{/if}} {{#if item.system.poison}} toggle-active  {{/if}}" data-property = "poison">{{localize 'BRP.poison'}}</div>
+            <div class="skill-cat {{#if isGM}} item-toggle {{/if}} {{#if item.system.sonic}} toggle-active  {{/if}}" data-property = "sonic">{{localize 'BRP.sonic'}}</div>
+            <div class="skill-cat {{#if isGM}} item-toggle {{/if}} {{#if item.system.stun}} toggle-active  {{/if}}" data-property = "stun">{{localize 'BRP.stun'}}</div>
+          </div>  
+          <br>
+
+        {{#if hasOwner}}
+          <div class="weapon-2main-scores">  
+            <div class="skill-display" title="{{ localize 'BRP.actualENCHint'}}">{{localize 'BRP.actualENC'}}/{{localize 'BRP.status'}}</div>
+            <div class="weapon-input"><input name="system.actEnc" type="text" value="{{item.system.actEnc}}" data-dtype="Number"/></div>
+            <div class="stat-input-small">
+              <select data-handle-change name="system.equipStatus">
+                {{selectOptions equippedOptions selected=item.system.equipStatus}}
+              </select>
+            </div>
+            <div class="skill-display">{{localize 'BRP.hpCurr'}}/{{localize 'BRP.ammo'}}</div>
+            <div class="weapon-input"><input name="system.hpCurr" type="text" value="{{item.system.hpCurr}}" data-dtype="Number"/></div>
+            <div class="weapon-input"><input name="system.ammoCurr" type="text" value="{{item.system.ammoCurr}}" data-dtype="Number"/></div>
+            <div class="skill-display">{{localize 'BRP.quantity'}}</div>
+            <div class="weapon-input"><input name="system.qty" type="text" value="{{item.system.qty}}" data-dtype="Number"/></div>
+          </div>    
+        {{/if}}  
+       </div>
+
+
+
+      {{!-- Description Tab --}}
+      <div class="tab active" data-group="primary" data-tab="description">
+        <div class="bold"> {{localize 'BRP.description'}}:</div>
+        <div>
+          {{editor item.system.description class="description-doc" target="system.description" button=true owner=owner editable=editable}}
+        </div>
+      </div>
+
+      {{!-- GM Description Tab --}}
+      <div class="tab active" data-group="primary" data-tab="gmNotes">
+        <div class="bold"> {{localize 'BRP.gmNotes'}}:</div>
+        <div>
+          {{editor item.system.gmDescription class="description-doc" target="system.gmDescription" button=true owner=owner editable=editable}}
+        </div>
+      </div>
+    </section>
+  </section>
+</form>

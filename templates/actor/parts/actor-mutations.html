@@ -1,0 +1,14 @@
+<ol class="magic-list">
+  <div class="mutation-listitem">
+    <div class="diff-label">{{ localize 'BRP.mutation'}}</div>
+    <div class="diff-label centre">{{ localize 'BRP.type'}}</div>
+    <div class="diff-label centre">{{ localize 'BRP.StatsStr'}}</div>
+  </div>    
+  {{#each mutations as |mutation id|}}
+    <li class="item mutation-listitem" data-item-id="{{mutation._id}}">
+      <div class="mutation-name contextmenu">{{mutation.name}}</div>
+      <div class = "centre">{{#if (eq mutation.system.impact 'adv')}}{{localize 'BRP.adv'}}{{else}}{{localize 'BRP.dis'}}{{/if}}</div>
+      <div class = "centre">{{#if mutation.system.minor}}{{localize 'BRP.minor'}}{{else}}{{localize 'BRP.major'}}{{/if}}</div>
+    </li>  
+  {{/each}}
+</ol>

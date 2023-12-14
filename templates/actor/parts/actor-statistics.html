@@ -1,0 +1,31 @@
+<ol class="stats-list">
+  <div class="stats-tab-grid">
+    <div class="diff-label centre">{{ localize 'BRP.charShort'}}</div>
+    <div class="diff-label centre">{{ localize 'BRP.initial'}}</div>  
+    <div class="diff-label centre">{{ localize 'BRP.redistribute'}}</div>
+    <div class="diff-label centre">{{ localize 'BRP.cultural'}}</div>
+    <div class="diff-label centre">{{ localize 'BRP.age'}}</div>
+    <div class="diff-label centre">{{ localize 'BRP.experience'}}</div>
+    <div class="diff-label centre">{{ localize 'BRP.effects'}}</div>
+    <div class="diff-label centre">{{ localize 'BRP.total'}}</div>
+    <div class="diff-label centre">{{ localize 'BRP.dice'}}</div>
+    {{#each system.stats as |stat key|}}
+      {{#if stat.visible}}
+        <div class="stat-name centre">
+          <a class="stat-arrow" title = "{{ localize 'BRP.decrease' }}" data-type="decrease" data-stat={{key}}><i class="fas fa-caret-left"></i></a>
+            {{stat.labelShort}}
+          <a class="stat-arrow" title = "{{ localize 'BRP.increase' }}" data-type="increase" data-stat={{key}}><i class="fas fa-caret-right"></i></a>
+        </div>    
+        <div><input class="font16-inp centre" name="system.stats.{{key}}.base" type="text" value="{{stat.base}}" data-dtype="Number"/></div>
+        <div><input class="font16-inp centre" name="system.stats.{{key}}.redist" type="text" value="{{stat.redist}}" data-dtype="Number"/></div>
+        <div><input class="font16-inp centre" name="system.stats.{{key}}.culture" type="text" value="{{stat.culture}}" data-dtype="Number"/></div>
+        <div><input class="font16-inp centre" name="system.stats.{{key}}.age" type="text" value="{{stat.age}}" data-dtype="Number"/></div>
+        <div><input class="font16-inp centre" name="system.stats.{{key}}.exp" type="text" value="{{stat.exp}}" data-dtype="Number"/></div>
+        <div><input class="font16-inp centre" name="system.stats.{{key}}.effects" type="text" value="{{stat.effects}}" data-dtype="Number"/></div>
+        <div class ="font16 centre bold" title="{{stat.labelShort}}">{{stat.total}}</div>
+        <div class ="font16 centre ">{{stat.formula}}</div>
+      {{/if}}
+    {{/each}}
+  </div>
+</ol>
+<div class="xpBonus-name">{{localize 'BRP.xpBonus'}} ({{actor.system.xpBonus}}%)</div>

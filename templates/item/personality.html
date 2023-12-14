@@ -1,0 +1,129 @@
+<form class="{{cssClass}} brp" autocomplete="off">
+    <header class="sheet-header">
+    
+      <div class="hitlocgrid">
+      <div class="item-title"> {{localize 'BRP.personality'}}:</div>
+      {{#if isGM}}  
+        <div class="stat-input"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></div>
+      {{else}}
+        <div class="skill-name bold boxed centre">{{item.name}}</div>
+      {{/if}}
+      </div>  
+      <img class="item-image" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="50" width="50"/>
+    </header>
+
+    {{!-- Item Sheet Navigation --}}
+    <section class="nav-panel">
+    <nav class="sheet-tabs tabs" data-group="primary">
+      <a class="item" data-tab="details">{{ localize "BRP.details" }}</a>
+      <a class="item" data-tab="description">{{ localize "BRP.description" }}</a>
+      {{#if isGM}}<a class="item" data-tab="gmNotes">{{ localize "BRP.gmNotes" }}</a>{{/if}}
+    </nav>
+    </section>
+  
+  
+    {{!-- Sheet Body --}}
+    <section class="skill-sheet-body sheet-body">
+      <br>
+    
+    {{!-- Details Tab --}}
+    <div class="tab active" data-group="primary" data-tab="details">
+  
+      {{!-- Selected Skills --}}
+      <div class="horizontalboxed {{#if isGM}} droppable {{/if}} main-skills">
+      <div class="item-title">{{ localize "BRP.skills"}}</div>
+      <ol class="item-list">
+        {{#each perSkill as |skill|}}
+          <li class="item flexrow" data-item-id="{{skill._id}}" >
+            <div class="item-name flexrow">
+            {{#if skill.system.variable}}
+              <div class="font14">{{skill.name}} ({{ localize 'BRP.var'}})</div>
+            {{else}}
+              {{#if skill.system.group}}
+                <div class="font14">{{skill.name}} ({{ localize 'BRP.grp'}})</div>
+              {{else}}
+                <div class="font14">{{skill.name}} ({{skill.system.base}}%)</div>
+              {{/if}}
+            {{/if}}
+            </div>
+  
+            <div class="item-controls">
+              {{#if ../isGM}}
+                <a class="item-control item-delete" title="{{localize 'BRP.deleteItem'}}"><i class="fas fa-trash"></i></a>
+              {{/if}}
+            </div>
+          </li>
+        {{/each}}
+      </ol>
+      </div>
+      <br>
+  
+      {{!-- Optional Skill Groups --}}
+      <div class="item-title">{{ localize "BRP.optionSkills" }}    
+        {{#if isGM}}
+        <a class="group-control add-group" title="{{localize 'BRP.addGroup'}}"><i class="item-control fas fa-plus"></i></a>
+        {{/if}}
+      </div>
+  
+    {{#each data.system.groups as |group key|}}
+      <ol class="item-list group" style='border: 1px groove;' data-group={{key}} >
+        <div class='{{#if ../isGM}} droppable {{/if}} optional-skills font14'>
+          <div class="form-group font14">
+            <label class="bold group-label">{{ localize "BRP.choose" }}</label>
+            {{#if ../isGM}}  
+              <input type="text" name="system.groups.{{key}}.options" value="{{lookup this 'options'}}" data-dtype="Number"/>
+              <a class="group-control remove-group" title="{{localize 'BRP.deleteGroup'}}"><i class="item-control fas fa-minus" style="line-height: 20px;"></i></a>
+            {{else}}
+              <div>{{lookup this 'options'}}</div>
+            {{/if}}
+          </div>
+  
+          {{#each ../grpSkill as |skill|}}
+            {{#if (eq skill.system.index key)}}
+              <li class="item flexrow" data-item-id="{{skill._id}}">
+                <div class="item-name flexrow">
+                  {{#if skill.system.group}}
+                    <div class="font14">{{skill.name}}</div>
+                  {{else}}  
+                    {{#if skill.system.variable}}
+                      <div class="font14">{{skill.name}} ({{ localize 'BRP.var'}})</div>
+                    {{else}}
+                      {{#if skill.system.group}}
+                        <div class="font14">{{skill.name}} ({{ localize 'BRP.grp'}})</div>
+                      {{else}}
+                        <div class="font14">{{skill.name}} ({{skill.system.base}}%)</div>
+                      {{/if}}
+                    {{/if}}
+                  {{/if}}  
+                  </div>
+                <div class="item-controls">
+                  {{#if ../../isGM}}  
+                    <a class="item-control group-item-delete" title="{{localize 'BRP.deleteItem'}}"><i class="fas fa-trash"></i></a>
+                  {{/if}}  
+                </div>
+              </li>
+            {{/if}}
+          {{/each}}
+        </div>
+      </ol>
+    {{/each}}
+    </div>  
+  
+  
+      {{!-- Description Tab --}}
+      <div class="tab active" data-group="primary" data-tab="description">
+        <div class="bold"> {{localize 'BRP.description'}}:</div>
+        <div>
+          {{editor item.system.description class="description-doc" target="system.description" button=true owner=owner editable=editable}}
+        </div>
+      </div>
+       
+      {{!-- GM Description Tab --}}
+      <div class="tab active" data-group="primary" data-tab="gmNotes">
+        <div class="bold"> {{localize 'BRP.gmNotes'}}:</div>
+        <div>
+          {{editor item.system.gmDescription class="description-doc" target="system.gmDescription" button=true owner=owner editable=editable}}
+        </div>
+      </div>
+    </section>
+  </form>

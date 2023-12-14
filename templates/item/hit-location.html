@@ -1,0 +1,46 @@
+<form class="{{cssClass}} brp" autocomplete="off">
+    <header class="sheet-header">
+    
+      <div class="hitlocgrid">
+      <div class="item-title"> {{localize 'BRP.hitLoc'}}:</div>
+      {{#if isGM}}  
+        <div class="stat-input"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></div>
+      {{else}}
+        <div class="skill-name bold center boxed">{{item.name}}</div>
+      {{/if}}
+      </div>  
+    
+      <img class="item-image" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="50" width="50"/>
+  
+    </header>
+  
+    {{!-- Sheet Body --}}
+    <section class="power-sheet-body">
+      <br>
+      <div class="hitloc-scores">
+        {{#if isGM}}  
+          <div class="skill-display">{{localize 'BRP.hitLocLowRoll'}}</div>
+          <div class="stat-input"><input name="system.lowRoll" type="text" value="{{item.system.lowRoll}}" data-dtype="Number"/></div>
+          <div class="skill-display">{{localize 'BRP.hitLocHighRoll'}}</div>
+          <div class="stat-input"><input name="system.highRoll" type="text" value="{{item.system.highRoll}}" data-dtype="Number"/></div>
+          <div class="skill-display" title="{{localize 'BRP.hitLocFractionHint'}}">{{localize 'BRP.hitLocFraction'}}</div>
+          <div class="stat-input"><input name="system.fractionHP" type="text" value="{{item.system.fractionHP}}" data-dtype="Number"/></div>
+          <div class="skill-display" title="{{localize 'BRP.hitLocFractionHint'}}">{{localize 'BRP.hitLocENCFraction'}}</div>
+          <div class="stat-input"><input name="system.fractionENC" type="text" value="{{item.system.fractionENC}}" data-dtype="Number"/></div>
+        {{else}}
+          <div class="skill-display">{{localize 'BRP.hitLocLowRoll'}}</div>
+          <div class="hitloc-display centre boxed">{{item.system.lowRoll}}</div>
+          <div class="skill-display">{{localize 'BRP.hitLocHighRoll'}}</div>
+          <div class="hitloc-display centre boxed">{{item.system.highRoll}}</div>
+          <div class="skill-display" title="{{localize 'BRP.hitLocFractionHint'}}">{{localize 'BRP.hitLocFraction'}}</div>
+          <div class="hitloc-display centre boxed">{{item.system.fractionHP}}</div>
+          <div class="skill-display" title="{{localize 'BRP.hitLocFractionHint'}}">{{localize 'BRP.hitLocENCFraction'}}</div>
+          <div class="hitloc-display centre boxed">{{item.system.fractionENC}}</div>
+        {{/if}}
+        <br>
+        <div class="new-row"></div>
+        <div class="skill-cat {{#if isGM}} item-toggle {{/if}} {{#if item.system.locType}} toggle-active  {{/if}}" title="{{ localize 'BRP.locTypeHint'}}" data-property = "locType">{{localize 'BRP.body'}}</div>
+      </div>  
+      <br>
+    </section>
+  </form>

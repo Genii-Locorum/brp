@@ -1,0 +1,65 @@
+<form class="{{cssClass}} brp" autocomplete="off">
+  <header class="sheet-header">
+  
+    <div class="hitlocgrid">
+    <div class="item-title"> {{localize 'BRP.failing'}}:</div>
+    {{#if isGM}}  
+      <div class="stat-input"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></div>
+    {{else}}
+      <div class="skill-name bold centre boxed">{{item.name}}</div>
+    {{/if}}
+    </div>  
+  
+    <img class="item-image" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="50" width="50"/>
+
+  </header>
+
+  {{!-- Item Sheet Navigation --}}
+  <section class="nav-panel">
+    <nav class="sheet-tabs tabs" data-group="primary">
+      <a class="item" data-tab="details">{{ localize "BRP.details" }}</a>
+      <a class="item" data-tab="description">{{ localize "BRP.description" }}</a>
+      {{#if isGM}}<a class="item" data-tab="gmNotes">{{ localize "BRP.gmNotes" }}</a>{{/if}}
+    </nav>
+  </section>
+
+  {{!-- Sheet Body --}}
+  <section class="item-bottom-panel">
+    <section class="sheet-body">
+      <br>
+  
+      {{!-- Details Tab --}}
+      <div class="tab active" data-group="primary" data-tab="details">  
+        <div class="hitloc-scores">
+          {{#if isGM}}  
+            <div class="skill-display" title ="{{localize 'BRP.cpcModHint'}}">{{localize 'BRP.cpcMod'}}</div>
+            <div class="stat-input"><input name="system.cpcMod" type="text" value="{{item.system.cpcMod}}" data-dtype="Number"/></div>
+          {{else}}
+            <div class="skill-display" title ="{{localize 'BRP.cpcModHint'}}">{{localize 'BRP.cpcMod'}}</div>
+            <div class="hitloc-display centre boxed">{{item.system.cpcMod}}</div>
+          {{/if}}
+        </div> 
+        <br>
+        <div class="bold font14"> {{localize 'BRP.description'}}:</div>
+        <div class="font14 stat-input"><input name="system.shortDesc" type="text" value="{{item.system.shortDesc}}"/></div>
+        <br>
+      </div>
+
+      {{!-- Description Tab --}}
+      <div class="tab active" data-group="primary" data-tab="description">
+        <div class="bold"> {{localize 'BRP.description'}}:</div>
+        <div>
+          {{editor item.system.description class="description-doc" target="system.description" button=true owner=owner editable=editable}}
+        </div>
+      </div>
+
+      {{!-- GM Description Tab --}}
+      <div class="tab active" data-group="primary" data-tab="gmNotes">
+        <div class="bold"> {{localize 'BRP.gmNotes'}}:</div>
+        <div>
+          {{editor item.system.gmDescription class="description-doc" target="system.gmDescription" button=true owner=owner editable=editable}}
+        </div>
+      </div>
+    </section>
+  </section>
+</form>

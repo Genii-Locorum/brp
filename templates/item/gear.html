@@ -1,0 +1,88 @@
+<form class="{{cssClass}} brp" autocomplete="off">
+  <header class="sheet-header">
+  
+    <div class="hitlocgrid">
+    <div class="item-title"> {{localize 'BRP.equipment'}}:</div>
+    {{#if isGM}}  
+      <div class="stat-input"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></div>
+    {{else}}
+      <div class="skill-name bold center boxed">{{item.name}}</div>
+    {{/if}}
+    </div>  
+  
+    <img class="item-image" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="50" width="50"/>
+
+  </header>
+
+  {{!-- Item Sheet Navigation --}}
+  <section class="nav-panel">
+    <nav class="sheet-tabs tabs" data-group="primary">
+      <a class="item" data-tab="details">{{ localize "BRP.details" }}</a>
+      <a class="item" data-tab="description">{{ localize "BRP.description" }}</a>
+      {{#if isGM}}<a class="item" data-tab="gmNotes">{{ localize "BRP.gmNotes" }}</a>{{/if}}
+    </nav>
+  </section>
+
+  {{!-- Sheet Body --}}
+  <section class="item-bottom-panel">
+    <section class="sheet-body">
+      <br>
+  
+      {{!-- Details Tab --}}
+      <div class="tab active" data-group="primary" data-tab="details">  
+        <div class="armour-scores">
+          {{#if isGM}}
+            <div class="skill-display">{{localize 'BRP.enc'}}</div>
+            <div class="weapon-input"><input name="system.enc" type="text" value="{{item.system.enc}}" data-dtype="Number"/></div>
+            <div class="skill-display">{{localize 'BRP.price'}}</div>
+            <div class="stat-input-small">
+              <select data-handle-change name="system.price">
+                {{selectOptions priceOptions selected=item.system.price}}
+              </select>
+            </div>
+          {{else}}
+            <div class="skill-display">{{localize 'BRP.enc'}}</div>
+            <div class="weapon-display centre boxed">{{item.system.enc}}</div>
+            <div class="skill-display">{{localize 'BRP.price'}}</div>
+            <div class="weapon-display centre boxed">{{priceName}}</div>
+          {{/if}}
+        </div>
+        <br>
+
+        {{#if hasOwner}}
+        <div class="armour-scores">
+          <div class="skill-display">{{localize 'BRP.quantity'}}</div>
+          <div class="weapon-input"><input name="system.quantity" type="text" value="{{item.system.quantity}}" data-dtype="Number"/></div>
+          <div class="skill-display" title="{{ localize 'BRP.actualENCHint'}}">{{localize 'BRP.actualENC'}}</div>
+          <div class="weapon-input"><input name="system.actEnc" type="text" value="{{item.system.actEnc}}" data-dtype="Number"/></div>
+          <div class="skill-display">{{localize 'BRP.status'}}</div>
+          <div class="stat-input-small">
+            <select data-handle-change name="system.equipStatus">
+              {{selectOptions equippedOptions selected=item.system.equipStatus}}
+            </select>
+          </div>
+        </div>    
+        {{/if}}  
+
+      </div>
+
+
+
+      {{!-- Description Tab --}}
+      <div class="tab active" data-group="primary" data-tab="description">
+        <div class="bold"> {{localize 'BRP.description'}}:</div>
+        <div>
+          {{editor item.system.description class="description-doc" target="system.description" button=true owner=owner editable=editable}}
+        </div>
+      </div>
+
+      {{!-- GM Description Tab --}}
+      <div class="tab active" data-group="primary" data-tab="gmNotes">
+        <div class="bold"> {{localize 'BRP.gmNotes'}}:</div>
+        <div>
+          {{editor item.system.gmDescription class="description-doc" target="system.gmDescription" button=true owner=owner editable=editable}}
+        </div>
+      </div>
+    </section>
+  </section>
+</form>

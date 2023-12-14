@@ -1,0 +1,79 @@
+<section>
+  <div class="weapon-tab-grid">
+    <div class="diff-label ">{{ localize 'BRP.weapon'}}</div>
+    <div class="diff-label centre">{{ localize 'BRP.chance'}}</div>  
+    <div class="diff-label centre">{{ localize 'BRP.damage'}}</div>  
+    <div class="diff-label centre">{{ localize 'BRP.range'}}</div>  
+    <div class="diff-label centre">{{ localize 'BRP.att'}}</div>
+    <div class="diff-label centre" title ="{{localize 'BRP.handCrewHint'}}">{{ localize 'BRP.handCrew'}}</div>
+    <div class="diff-label centre" title ="{{localize 'BRP.hpApHint'}}" style="grid-column: 7 / span 2;">{{ localize 'BRP.hp'}}</div>
+    <div class="diff-label centre">{{ localize 'BRP.rofShort'}}</div>
+    <div class="diff-label centre" title="{{ localize 'BRP.ammoHint' }}">{{ localize 'BRP.ammo'}}</div>
+    <div class="diff-label centre">{{ localize 'BRP.status'}}</div>
+    {{#each weapons as |weapon key|}}
+      <div class="item weapon-name contextmenu" data-item-id="{{weapon._id}}">{{weapon.name}}</div>
+      <div class="hitloc-name centre" title ="{{weapon.system.skillName}}">{{weapon.system.skillScore}}</div>
+      <div class="hitloc-name centre">{{weapon.system.dmgName}}</div>
+      <div class="hitloc-name centre">{{weapon.system.rangeName}}</div>
+      <div class="hitloc-name centre">{{weapon.system.att}}</div>
+      {{#if (eq weapon.type 'artillery')}}
+        <div class="hitloc-name centre">{{weapon.system.crew}}</div>
+      {{else}}
+        <div class="hitloc-name centre">{{weapon.system.hands}}</div>        
+      {{/if}}
+      {{#if (gt weapon.system.hp 0)}}
+        <div class="combat-input-small"> <input class="item centre font16 inline-edit" data-field ="hpCurr" data-item-id="{{weapon._id}}" name="weapon.system.hpCurr" type="text" value="{{weapon.system.hpCurr}}" data-dtype="Number"/></div>
+        <div class="hitloc-name centre">{{weapon.system.hp}}</div>
+      {{else}}
+        <div></div>
+        <div></div>
+      {{/if}}  
+      <div class="hitloc-name centre">{{weapon.system.rof}}</div>
+      {{#isOr (eq weapon.system.ammo null) (eq weapon.system.ammo 0)}}
+        <div></div>
+      {{else}}  
+        <div class="combat-input-small"> <input class="item centre font16 inline-edit" title ="{{ localize 'BRP.ammoCap' }}: {{weapon.system.ammo}}" data-field ="ammoCurr" data-item-id="{{weapon._id}}" name="weapon.system.ammoCurr" type="text" value="{{weapon.system.ammoCurr}}" data-dtype="Number"/></div>
+      {{/isOr}}
+      <div class="hitloc-name centre item item-toggle" data-item-id="{{weapon._id}}" data-property = "equipStatus">{{weapon.system.equippedName}}</div>
+    {{/each}}  
+  </div>
+  <br> 
+
+  <div class="hitloc-tab-grid">
+    <div class="diff-label centre">{{ localize 'BRP.hitLoc'}}</div>
+    <div class="diff-label centre">{{ localize 'BRP.hitLocRange'}}</div>  
+    <div></div>
+    <div class="diff-label centre" title = "{{ localize 'BRP.health' }}">{{ localize 'BRP.hp'}}</div>
+    <div></div>
+    <div class="diff-label centre">{{ localize 'BRP.ap'}}</div>
+    <div class="diff-label centre">{{ localize 'BRP.status'}}</div>
+    <div class="diff-label centre" title="{{localize 'BRP.woundHint'}}">{{ localize 'BRP.wounds'}}</div>
+    {{#each hitloc as |hitloc key|}}
+      <div class="item hitloc-name contextmenu" data-item-id="{{hitloc._id}}">{{hitloc.name}}</div>
+      {{#if (eq hitloc.system.lowRoll hitloc.system.highRoll)}}
+        <div class="hitloc-name centre">{{hitloc.system.lowRoll}}</div>
+      {{else}}
+        <div class="hitloc-name centre">{{hitloc.system.lowRoll}} - {{hitloc.system.highRoll}}</div>
+      {{/if}}
+      <div class="stat-input"><input class="item centre inline-edit" data-field ="currHP" data-item-id="{{hitloc._id}}" name="hitloc.system.currHP" type="text" value="{{hitloc.system.currHP}}" data-dtype="Number"/></div>
+      <div class="hitloc-name centre">/</div>
+      <div class="stat-input"><input class="item centre inline-edit" data-field ="maxHP" data-item-id="{{hitloc._id}}" name="hitloc.system.maxHP" type="text" value="{{hitloc.system.maxHP}}" data-dtype="Number"/></div>
+      <div class="stat-input"> <input class="item centre inline-edit" data-field ="ap" data-item-id="{{hitloc._id}}" name="hitloc.system.ap" type="text" value="{{hitloc.system.ap}}" data-dtype="Number"/></div>
+      <div class="centre"></div>
+      <div class="hitloc-name centre"></div>
+    {{/each}}          
+  </div>
+</section>
+<br>
+{{#unless useHPL}}
+  <div>
+    <span class="bold">{{ localize 'BRP.majorWound'}}: </span>
+    <span>{{system.health.mjrwnd}}</span>
+  </div>
+  {{/unless}}
+
+<div>
+  <span class="bold">{{ localize 'BRP.dmgBonus'}}: </span>
+  <span>{{system.dmgBonus.full}}</span>
+</div>
+  
