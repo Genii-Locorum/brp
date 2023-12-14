@@ -1,0 +1,8 @@
+2023/12/14-21:16:38.487 10c4 Recovering log #4
+2023/12/14-21:16:38.549 10c4 Delete type=0 #4
+2023/12/14-21:16:38.549 10c4 Delete type=3 #2
+2023/12/14-21:17:17.452 ad0 Level-0 table #9: started
+2023/12/14-21:17:17.453 ad0 Level-0 table #9: 0 bytes OK
+2023/12/14-21:17:17.485 ad0 Delete type=0 #7
+2023/12/14-21:17:17.552 ad0 Manual compaction at level-0 from '!items!3gBJRVFlGt3gWWHK' @ 72057594037927935 : 1 .. '!items!vXJqbZVDEKaIKsYD' @ 0 : 0; will stop at (end)
+2023/12/14-21:17:17.553 ad0 Manual compaction at level-1 from '!items!3gBJRVFlGt3gWWHK' @ 72057594037927935 : 1 .. '!items!vXJqbZVDEKaIKsYD' @ 0 : 0; will stop at (end)
