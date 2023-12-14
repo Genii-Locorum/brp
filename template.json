@@ -1,0 +1,365 @@
+{
+  "Actor": {
+    "types": ["character"],
+    "templates": {
+      "base": {
+        "stats": {
+          "str": {
+            "base": 0,
+            "redist": 0,
+            "culture": 0,
+            "exp": 0,
+            "age":0,
+            "effects": 0,
+            "cost": 1
+          },
+          "con": {
+            "base": 0,
+            "redist": 0,
+            "culture": 0,
+            "exp": 0,
+            "age":0,
+            "effects": 0,
+            "cost": 1
+          },
+          "int": {
+            "base": 0,
+            "redist": 0,
+            "culture": 0,
+            "exp": 0,
+            "age":0,
+            "effects": 0,
+            "cost": 3
+          },
+          "siz": {
+            "base": 0,
+            "redist": 0,
+            "culture": 0,
+            "exp": 0,
+            "age":0,
+            "effects": 0,
+            "cost": 1
+          },
+          "pow": {
+            "base": 0,
+            "redist": 0,
+            "culture": 0,
+            "exp": 0,
+            "age":0,
+            "effects": 0,
+            "cost": 3,
+            "improve":false
+          },
+          "dex": {
+            "base": 0,
+            "redist": 0,
+            "culture": 0,
+            "exp": 0,
+            "age":0,
+            "effects": 0,
+            "cost": 3
+          },
+          "cha": {
+            "base": 0,
+            "redist": 0,
+            "culture": 0,
+            "exp": 0,
+            "age":0,
+            "effects": 0,
+            "cost": 1
+          },
+          "edu": {
+            "base": 0,
+            "redist": 0,
+            "culture": 0,
+            "exp": 0,
+            "age":0,
+            "effects": 0,
+            "cost": 3
+          }
+        },
+        "health": {
+          "value": 10,
+          "mod": 0,
+          "max": 10,
+          "mjrwnd": 5,
+          "daily": 0
+        },
+        "power": {
+          "value": 5,
+          "max": 5,
+          "battVal": 0,
+          "battMax": 0
+        },
+        "fatigue": {
+          "value": 5,
+          "max": 5
+        },
+        "sanity": {
+          "value": 5,
+          "max": 5
+        }
+      }
+    },
+    "character": {
+      "templates": ["base"],
+      "biography": "",
+      "background": "",
+      "backstory": "",
+      "gender": "",
+      "religion": "",
+      "age": 0,
+      "height": "",
+      "weight": "",
+      "wealth": 0,
+      "description": "",
+      "distincitve": "",
+      "move": 0,
+      "hand": "Right",
+      "lock": false,
+      "skillcategory": {
+        "zcmbtmod": {},
+        "cmmnmod": {},
+        "mnplmod": {},
+        "mntlmod": {},
+        "percmod": {},
+        "physmod": {}
+      }
+      }
+  },
+  "Item": {
+    "types": ["gear","skill","hit-location", "personality", "profession","power","magic","mutation","psychic","sorcery","super","failing","powerMod","armour","weapon"],
+    "templates": {
+      "base": {
+        "description": "",
+        "gmDescription": ""
+      }
+    },
+    "gear": {
+      "templates": ["base"],
+      "quantity": 1,
+      "enc": 0,
+      "actEnc": 0,
+      "price": "",
+      "equipStatus": "carried"
+    },
+    "skill": {
+      "templates": ["base"],
+      "subType": "",
+      "base": 0,
+      "xp": 0,
+      "profession": 0,
+      "personality": 0,
+      "personal": 0,
+      "effects": 0,
+      "baseFormula": {
+        "1":{
+              "stat":"fixed",
+              "value":0
+            },
+        "2":{
+              "stat":"fixed",
+              "value":0
+            },
+        "Func": "or"    
+      },
+      "noXP": false,
+      "category": "cmmnmod",
+      "chosen": false,
+      "specialism": false,
+      "group":false,
+      "groupSkills" : [],
+      "prsnlty": false,
+      "variable": false,
+      "specName": "",
+      "mainName": "",
+      "occupation": false,
+      "improve": false
+    },
+
+    "hit-location": {
+      "lowRoll": 0,
+      "highRoll": 0,
+      "fractionHP": 0,
+      "fractionENC": 0,
+      "map": 0,
+      "status": "",
+      "locType": false,
+      "bleeding": false,
+      "currHP": 0,
+      "maxHP": 0,
+      "wounds": []
+    },
+
+    "personality": {
+      "templates": ["base"],
+      "skills": [],
+      "groups": []
+    },
+
+    "profession": {
+      "templates": ["base"],
+      "skills": [],
+      "groups": [],
+      "powers": [],
+      "minWealth": 0,
+      "maxWealth":0
+    },
+
+    "power": {
+      "templates": ["base"],
+      "level": 0,
+      "category": ""
+    }, 
+
+    "magic": {
+      "templates": ["base"],
+      "base": 0,
+      "xp": 0,
+      "profession": 0,
+      "personality": 0,
+      "personal": 0,
+      "effects": 0,
+      "category": "mntlmod",
+      "impact": "other",
+      "range": "",
+      "duration": "",
+      "pppl": "1",
+      "damage": "",
+      "mem": false,
+      "improve": false
+    },
+
+    "mutation": {
+      "templates": ["base"],
+      "impact": "adv",
+      "minorOnly": false,
+      "minor": true
+    },
+
+    "psychic": {
+      "templates": ["base"],
+      "base": 0,
+      "xp": 0,
+      "profession": 0,
+      "personality": 0,
+      "personal": 0,
+      "effects": 0,
+      "category": "mntlmod",
+      "impact": "other",
+      "range": "",
+      "duration": "",
+      "pppl": "1",
+      "damage": "",
+      "improve": false
+    },
+
+    "sorcery": {
+      "templates": ["base"],
+      "mem": false,
+      "range": "",
+      "pppl": "1",
+      "powCost": "0",
+      "maxLvl": 1,
+      "currLvl": 1,
+      "memLvl":1,
+      "var": false
+    },
+
+    "super": {
+      "templates": ["base"],
+      "powerMod": [],
+      "category":"",
+      "cpc": "1",
+      "cpcSpent": 0,
+      "level": 1,
+      "range": "",
+      "duration": "",
+      "pppl": "1",
+      "specialism": false,
+      "specName": "",
+      "mainName": "",
+      "chosen": false
+    },
+    "failing": {
+      "templates": ["base"],
+      "shortDesc": "",
+      "cpcMod": 0
+    },
+    "powerMod": {
+      "templates": ["base"],
+      "shortDesc": "",
+      "cpcMod": 0,
+      "perLvl": false
+    },
+    "armour": {
+      "templates": ["base"],
+      "av1": 0,
+      "av2": 0,
+      "avr1": "",
+      "avr2": "",
+      "armVar": false,
+      "armBal": false,
+      "burden": "",
+      "enc": 0,
+      "actEnc": 0,
+      "mnplmod": 0,
+      "percmod": 0,
+      "physmod": 0,
+      "stealthmod": 0,
+      "sizRng": 0,
+      "time": 1,
+      "ppMax": 0,
+      "ppCurr": 0,
+      "price": "",
+      "hitlocID": "",
+      "equipStatus": "carried",
+      "HPL": false,
+      "coverage": ""
+    },
+    "Weapon": {
+      "templates": ["base"],
+      "weaponType": "",
+      "skill1": "none",
+      "skill2": "none",
+      "dmg1": "",
+      "dmg2": "",
+      "dmg3": "",
+      "burst": false,
+      "stun": false,
+      "entangle": false,
+      "explosive": false,
+      "fire": false,
+      "pierce": false,
+      "sonic": false,
+      "choke": false,
+      "emp": false,
+      "db": 0,
+      "att": 0,
+      "special": "",
+      "range1":  "",
+      "range2":  "",
+      "range3":  "",
+      "hands": "",
+      "crew": "",
+      "hp": 0,
+      "ap": 0,
+      "hpCurr": 0,
+      "ammoType": "",
+      "ammo": 0,
+      "ammoCurr": 0,
+      "mal":0,
+      "rof":0,
+      "radius": 0,
+      "parry": true,
+      "str":0,
+      "dex": 0,
+      "enc": 0,
+      "actEnc": 0,
+      "price": "",
+      "equipStatus": "carried",
+      "coverage": "",
+      "qty": 1
+    }   
+  }
+}
