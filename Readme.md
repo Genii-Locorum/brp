@@ -19,3 +19,11 @@ My immediate plans for development are (in no particular order):
 - Character creation
 - NPC sheets
 - Vehicles
+
+**BRP: Universal Game Engine Notice**
+This product is licensed under the ORC License held in the License of Congress at TX000 [number tbd] and available online at various locations including www.chaosium.com/orclicense, www.azoralaw.com/orclicense, www.gencon.com/orclicense and others. All warranties are disclaimed as set forth therein.
+This product is the original work of Chaosium.
+
+If you use our ORC Content, please also credit us as follows:
+
+Powered by BRP Logo for the ORC License
