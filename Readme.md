@@ -25,5 +25,7 @@ This product is licensed under the ORC License held in the License of Congress a
 This product is the original work of Chaosium.
 
 If you use our ORC Content, please also credit us as follows:
+
+
 ![image](https://github.com/Genii-Locorum/brp/assets/121451824/ca848b0d-40a6-4fd1-ab73-81c48e243b99)
 
