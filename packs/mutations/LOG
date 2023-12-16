@@ -1,3 +1,8 @@
-2023/12/16-08:04:59.910 1594 Recovering log #8
-2023/12/16-08:04:59.980 1594 Delete type=0 #8
-2023/12/16-08:04:59.980 1594 Delete type=3 #6
+2023/12/16-12:39:09.940 398 Recovering log #50
+2023/12/16-12:39:10.010 398 Delete type=0 #50
+2023/12/16-12:39:10.011 398 Delete type=3 #48
+2023/12/16-13:12:16.198 2ed0 Level-0 table #55: started
+2023/12/16-13:12:16.199 2ed0 Level-0 table #55: 0 bytes OK
+2023/12/16-13:12:16.242 2ed0 Delete type=0 #53
+2023/12/16-13:12:16.342 2ed0 Manual compaction at level-0 from '!items!1ECoPZDBuuzcjopC' @ 72057594037927935 : 1 .. '!items!x2PfR3WdttXIIKfB' @ 0 : 0; will stop at (end)
+2023/12/16-13:12:16.343 2ed0 Manual compaction at level-1 from '!items!1ECoPZDBuuzcjopC' @ 72057594037927935 : 1 .. '!items!x2PfR3WdttXIIKfB' @ 0 : 0; will stop at (end)
