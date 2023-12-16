@@ -20,6 +20,9 @@ My immediate plans for development are (in no particular order):
 - NPC sheets
 - Vehicles
 
+IMPORTANT:  When importing data from the Compendia - you need to tick "Keep Document IDs" as this is currently used to link weapons, professions, skills etc.  This may change in the future if/when I implement an internal ID (like the CoCID or RQGID for Call of Cthulhu or Runequest)
+
+
 **BRP: Universal Game Engine Notice**
 This product is licensed under the ORC License held in the License of Congress at TX000 [number tbd] and available online at various locations including www.chaosium.com/orclicense, www.azoralaw.com/orclicense, www.gencon.com/orclicense and others. All warranties are disclaimed as set forth therein.
 This product is the original work of Chaosium.
