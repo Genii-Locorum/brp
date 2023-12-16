@@ -1,5 +1,13 @@
 MIT License
 
+Chaosium
+Permission is given for users to make limited derivative use of this publication
+for personal use on the Foundry VTT platform. No rights for any commercial use
+are granted. No part of this publication may be reproduced or distributed for use
+outside of the Foundry VTT platform. All rights are reserved with Chaosium Inc.
+Basic Role Playing Universal Game Engine © copyright 1981–2023 Chaosium Inc. All
+rights reserved.
+
 Copyright (c) 2023 Genii-Locorum
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,14 +30,6 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
-Chaosium
-Permission is given for users to make limited derivative use of this publication
-for personal use on the Foundry VTT platform. No rights for any commercial use
-are granted. No part of this publication may be reproduced or distributed for use
-outside of the Foundry VTT platform. All rights are reserved with Chaosium Inc.
-Basic Role Playing Universal Game Engine © copyright 1981–2023 Chaosium Inc. All
-rights reserved.
 
 -----------------------------------------------------------------------------
 Built of the Boilerplate System
