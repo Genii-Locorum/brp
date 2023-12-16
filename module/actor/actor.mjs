@@ -159,7 +159,7 @@ export class BRPActor extends Actor {
   //Create a new actor - When creating an actor set basics including tokenlink, bars, displays sight
   static async create (data, options = {}) {
     if (data.type === 'character') {
-      data.prototypeToken = mergeObject(data.prototypeToken || {}, {
+      data.prototypeToken = mergeObject({
         actorLink: true,
         disposition: 1,
         displayName: CONST.TOKEN_DISPLAY_MODES.ALWAYS,
@@ -172,7 +172,7 @@ export class BRPActor extends Actor {
           range: 30,
           enabled: true
         }]
-      })
+      },data.prototypeToken || {})
     } 
     let actor = await super.create(data, options)
     return 

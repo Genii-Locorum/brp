@@ -26,7 +26,7 @@ export class BRPactorItemDrop {
           if(j.type === 'skill') {
             if (j.name === game.items.get(k.system.skill1).name) {
               skill1Test = 1  
-            } else if (j.name === game.items.get(k.system.skill1).name) {
+            } else if (k.system.skill2 != "none" && j.name === game.items.get(k.system.skill2).name) {
               skill2Test = 1  
             } 
           }
@@ -35,7 +35,7 @@ export class BRPactorItemDrop {
           if(j.type === 'skill') {
             if (j.name === game.items.get(k.system.skill1).name) {
               skill1Test = 1  
-            } else if (j.name === game.items.get(k.system.skill1).name) {
+            } else if (k.system.skill2 != "none" && j.name === game.items.get(k.system.skill2).name) {
               skill2Test = 1  
             } 
           }          
