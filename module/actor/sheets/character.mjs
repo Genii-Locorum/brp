@@ -9,17 +9,12 @@ export class BRPCharacterSheet extends ActorSheet {
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
       classes: ["brp", "sheet", "actor"],
-      template: "systems/brp/templates/actor/actor-sheet.html",
+      template: "systems/brp/templates/actor/character-sheet.html",
       width: 850,
       height: 850,
       scrollY: ['.bottom-panel'],
       tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "skills" }]
     });
-  }
-
-  /** @override */
-  get template() {
-    return `systems/BRP/templates/actor/${this.actor.type}-sheet.html`;
   }
 
   static confirmItemDelete(actor, itemId) {
