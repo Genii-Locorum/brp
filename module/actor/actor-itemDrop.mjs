@@ -14,6 +14,11 @@ export class BRPactorItemDrop {
     if (k.type != 'gear' && k.type != 'armour') {   
 
 
+      //When dropping get the base score
+      if (k.type === 'skill') {
+        k.system.base = await this._calcBase(k,actor)
+      }
+
       //When dropping a weapon check to see if character has the skills and if not add them to the character sheet
       if (k.type === 'weapon') {
       k.system.equipStatus = 'carried'
@@ -42,11 +47,15 @@ export class BRPactorItemDrop {
         }
         if (skill1Test === 0 && k.system.skill1 != 'none') {
           newSkill = game.items.get(k.system.skill1)
-          if (newSkill) {newItemData.push(newSkill)}
+          if (newSkill) {
+            newSkill.system.base = await this._calcBase(newSkill,actor)
+            newItemData.push(newSkill)}
         }
         if (skill2Test === 0 && k.system.skill2 != 'none') {
           newSkill = game.items.get(k.system.skill2)
-          if (newSkill) {newItemData.push(newSkill)}
+          if (newSkill) {
+            newSkill.system.base = await this._calcBase(newSkill,actor)            
+            newItemData.push(newSkill)}
         }
       }
 
@@ -115,6 +124,35 @@ export class BRPactorItemDrop {
       }
     }  
     return (newItemData);
+  }
+
+ //Calculate Base Skill on Dropping the item on actor
+ static async _calcBase(i,actor){
+  if (i.system.variable) {
+    let stat1 = i.system.baseFormula[1].stat
+    let stat2 = i.system.baseFormula[2].stat
+    let opt1 = 0
+    let opt2 = 0
+    let newScore = 0
+    if (stat1 !='fixed') {
+      if (stat1 != 'edu' || game.settings.get('brp', 'useEDU')) {
+        opt1 = Math.ceil((actor.system.stats[stat1].base + actor.system.stats[stat1].redist + actor.system.stats[stat1].culture) * i.system.baseFormula[1].value)
+      }  
+    }
+    if (stat2 !='fixed') {
+      if (stat2 != 'edu' || game.settings.get('brp', 'useEDU')) {
+        opt2 = Math.ceil((actor.system.stats[stat2].base + actor.system.stats[stat2].redist + actor.system.stats[stat2].culture) * i.system.baseFormula[2].value)
+      }  
+    }
+
+    if (i.system.baseFormula.Func === 'and') {
+      newScore = opt1 + opt2          
+    } else {
+      newScore = Math.max(opt1, opt2)
+    }
+    return newScore
+  }
+  return i.system.base
   }
 
 }

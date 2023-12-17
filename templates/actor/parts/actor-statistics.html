@@ -27,5 +27,11 @@
       {{/if}}
     {{/each}}
   </div>
+
+  <br>  
+  <div class="personal-stats-grid">
+  <div class="bold">{{localize 'BRP.xpBonus'}}</div>
+  <div class="attrib-disp centre"> {{actor.system.xpBonus}}%</div>
+  <div class="bold">{{localize 'BRP.hpBonus'}}</div>
+  <div class="centre" ><input class="attrib-inp" type="text" name="system.health.mod" value="{{system.health.mod}}" data-dtype="Number"/></div>
 </ol>
-<div class="xpBonus-name">{{localize 'BRP.xpBonus'}} ({{actor.system.xpBonus}}%)</div>

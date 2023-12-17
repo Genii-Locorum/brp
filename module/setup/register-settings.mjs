@@ -130,6 +130,16 @@ export async function registerSettings () {
     type: Boolean
   });
 
+  game.settings.register('brp', 'hpMod', {
+    name: 'BRP.Settings.hpMod',
+    hint: 'BRP.Settings.hpModHint',
+    requiresReload: true,
+    scope: 'world',
+    config: true,
+    default: 1,
+    type: Number,
+  });
+
   game.settings.register('brp', "background1", {
     name: "BRP.Settings.background1",
     hint: "BRP.Settings.backgroundHint",

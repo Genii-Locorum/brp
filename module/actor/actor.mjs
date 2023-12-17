@@ -46,6 +46,12 @@ export class BRPActor extends Actor {
 
 
     // Calculate derived scores
+    let hpMod = 1
+    if (actorData.type === 'character') {hpMod = game.settings.get('brp','hpMod')}
+    systemData.health.max = Math.ceil((systemData.stats.con.total + systemData.stats.siz.total) * hpMod/2)+systemData.health.mod;
+    systemData.health.mjrwnd = Math.ceil(systemData.health.max/2);
+    systemData.power.max = systemData.stats.pow.total;
+    systemData.fatigue.max = systemData.stats.str.total + systemData.stats.con.total;
     systemData.xpBonus = Math.ceil(systemData.stats.int.total/2)    
 
 

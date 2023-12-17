@@ -61,7 +61,16 @@ Hooks.on('renderSettingsConfig', (app, html, options) => {
         game.i18n.localize('BRP.optionalRules') +
         '</h3>'
     )
-    
+
+    systemTab
+    .find('input[name=brp\\.hpMod]')
+    .closest('div.form-group')
+    .before(
+      '<h3 class="setting-header">' +
+        game.i18n.localize('BRP.gameModifiers') +
+        '</h3>'
+    )
+
     systemTab
     .find('input[name=brp\\.background1]')
     .closest('div.form-group')

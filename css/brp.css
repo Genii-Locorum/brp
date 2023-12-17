@@ -84,6 +84,16 @@
   grid-template-columns: max-content auto;
 }
 
+.brp .personal-stats-grid {
+  display: grid;
+  margin:0px;
+  padding: 0px 5px 0px 5px;
+  row-gap: 0px;
+  column-gap: 5px;
+  font-size: 16px;
+  grid-template-columns: 100px 50px;
+}
+
 .brp .personal-grid {
   display: grid;
   margin:0px;
@@ -224,18 +234,34 @@
   grid-template-columns: auto 50px 20px 50px auto;
 }
 
-.brp .attrib-inp {
+.brp .attrib-inp,.attrib-disp{
   height:18px;
   font-size: 16px;
-  border-top : 0px;
-  border-left : 0px;
-  border-right : 0px;
+  border-top : 1px solid transparent;
+  border-left : 1px solid transparent;
+  border-right : 1px solid transparent;
   border-bottom : 1px solid rgb(87, 86, 86);
   border-radius: 0px;
   padding-top: 0px;
   padding-bottom: 0px;
   background-color: transparent;
   vertical-align: middle;
+}
+
+.brp .attrib-inp:hover{
+  height:18px;
+  font-size: 16px;
+  border-top : 1px solid rgb(87, 86, 86);
+  border-left : 1px solid rgb(87, 86, 86);
+  border-right : 1px solid rgb(87, 86, 86);
+  border-bottom : 1px solid rgb(87, 86, 86);
+  border-radius: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  background-color: transparent;
+  vertical-align: middle;
+  border-radius: 3px !important;
+  box-shadow: 0 0 10px red;
 }
 
 .brp .centre {
@@ -642,7 +668,6 @@ padding-top: 4px;
 }
 
 .brp .xpBonus-name {
-  align-self: center;
   font-weight: bolder;
   color: rgba(68, 7, 4, 1);
  }
