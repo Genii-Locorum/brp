@@ -128,7 +128,7 @@
       }
   },
   "Item": {
-    "types": ["gear","skill","hit-location", "personality", "profession","power","magic","mutation","psychic","sorcery","super","failing","powerMod","armour","weapon"],
+    "types": ["gear","skill","hit-location", "personality", "profession","power","magic","mutation","psychic","sorcery","super","failing","powerMod","armour","weapon","wound"],
     "templates": {
       "base": {
         "description": "",
@@ -188,7 +188,8 @@
       "bleeding": false,
       "currHP": 0,
       "maxHP": 0,
-      "wounds": []
+      "wounds": [],
+      "adj": 0
     },
 
     "personality": {
@@ -360,6 +361,12 @@
       "equipStatus": "carried",
       "coverage": "",
       "qty": 1
+    },
+    "wound": {
+      "value": 1,
+      "treated": false,
+      "created": false,
+      "locId": ""
     }   
   }
 }

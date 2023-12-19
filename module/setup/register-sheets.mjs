@@ -14,6 +14,7 @@ import { BRPFailingSheet } from '../item/sheets/failing.mjs'
 import { BRPPowerModSheet } from '../item/sheets/powerMod.mjs' 
 import { BRPArmourSheet } from '../item/sheets/armour.mjs' 
 import { BRPWeaponSheet } from '../item/sheets/weapon.mjs' 
+import { BRPWoundSheet } from '../item/sheets/wound.mjs' 
 
 export function registerSheets () {
     Actors.unregisterSheet("core", ActorSheet);
@@ -99,4 +100,9 @@ export function registerSheets () {
       types: ['weapon'],
       makeDefault: true
     })  
+    
+    Items.registerSheet('brp', BRPWoundSheet, {
+      types: ['wound'],
+      makeDefault: true
+    }) 
 }      

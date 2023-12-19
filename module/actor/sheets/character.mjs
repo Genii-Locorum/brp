@@ -65,7 +65,7 @@ export class BRPCharacterSheet extends ActorSheet {
     const gears = [];
     const skills = [];
     const skillsDev = [];
-    const hitloc = [];
+    const hitlocs = [];
     const magics = [];
     const mutations = [];
     const psychics = [];
@@ -74,6 +74,7 @@ export class BRPCharacterSheet extends ActorSheet {
     const failings = [];
     const armours = [];
     const weapons = [];
+    const wounds = [];
 
 
     // Iterate through items, allocating to containers
@@ -102,7 +103,9 @@ export class BRPCharacterSheet extends ActorSheet {
         this.actor.system.totalProf = this.actor.system.totalProf + i.system.profession
         this.actor.system.totalPers = this.actor.system.totalPers + i.system.personal
       } else if (i.type === 'hit-location') {
-        hitloc.push(i);
+        hitlocs.push(i);
+      } else if (i.type === 'wound') {
+        wounds.push(i);
       } else if (i.type === 'magic'){
         magics.push(i);
         this.actor.system.totalProf = this.actor.system.totalProf + i.system.profession
@@ -213,7 +216,7 @@ export class BRPCharacterSheet extends ActorSheet {
     });
 
     // Sort Hit Locations
-    hitloc.sort(function(a, b){
+    hitlocs.sort(function(a, b){
       let x = a.system.lowRoll;
       let y = b.system.lowRoll;
       if (x < y) {return -1};
@@ -225,7 +228,7 @@ export class BRPCharacterSheet extends ActorSheet {
     context.gears = gears;
     context.skills = skills;
     context.skillsDev= skillsDev;
-    context.hitloc = hitloc;
+    context.hitlocs = hitlocs;
     context.magics = magics;
     context.mutations = mutations;
     context.psychics = psychics;   
@@ -234,6 +237,7 @@ export class BRPCharacterSheet extends ActorSheet {
     context.failings = failings;
     context.armours = armours;
     context.weapons = weapons;
+    context.wounds = wounds;
 
     return context
   }
@@ -279,6 +283,7 @@ export class BRPCharacterSheet extends ActorSheet {
      //Context Menus
      new BRPContextMenu(html, ".profession.contextmenu", contextMenu.professionMenuOptions(this.actor, this.token));
      new BRPContextMenu(html, ".personality.contextmenu", contextMenu.personalityMenuOptions(this.actor, this.token));
+     new BRPContextMenu(html, ".combat-name.contextmenu", contextMenu.combatMenuOptions(this.actor, this.token));
      new BRPContextMenu(html, ".skill-name.contextmenu", contextMenu.skillMenuOptions(this.actor, this.token));
      new BRPContextMenu(html, ".skill-cell-name.contextmenu", contextMenu.skillMenuOptions(this.actor, this.token));
      new BRPContextMenu(html, ".hitloc-name.contextmenu", contextMenu.hitLocMenuOptions(this.actor, this.token));
@@ -291,6 +296,7 @@ export class BRPCharacterSheet extends ActorSheet {
      new BRPContextMenu(html, ".armour-name.contextmenu", contextMenu.armourMenuOptions(this.actor, this.token));
      new BRPContextMenu(html, ".gear-name.contextmenu", contextMenu.gearMenuOptions(this.actor, this.token));
      new BRPContextMenu(html, ".weapon-name.contextmenu", contextMenu.weaponMenuOptions(this.actor, this.token));
+     new BRPContextMenu(html, ".wound-name.contextmenu", contextMenu.woundMenuOptions(this.actor, this.token));
   }
 
   // Handle creating a new Owned Item for the actor using initial data defined in the HTML dataset
@@ -309,6 +315,13 @@ export class BRPCharacterSheet extends ActorSheet {
       type: type,
       system: data
     };
+
+    if (type ==='wound') {
+      let locId = header.dataset.itemId;
+      itemData.name = game.i18n.localize('BRP.wound')
+      itemData.system.locId = locId;
+      itemData.system.value = 1
+    }
     // Remove the type from the dataset since it's in the itemData.type prop.
     delete itemData.system["type"];
 
@@ -316,7 +329,7 @@ export class BRPCharacterSheet extends ActorSheet {
     const newItem = await Item.create(itemData, {parent: this.actor});
 
     //And in certain circumstances render the new item sheet
-    if (itemData.type === 'gear') {
+    if (itemData.type === 'gear' || itemData.type === 'wound') {
       newItem.sheet.render(true);
     }
 

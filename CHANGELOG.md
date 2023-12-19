@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 11.1.5
+- Hits per location autocalculated 
+- Added Wounds which autoupdate hits (total and HPL)
+- Added healing (treat wounds, natural healing, heal all wounds)
+- Add HP adjustment to hit locations
+
 ## 11.1.4
 - Updated item drop so base skill scores are automatically calculated
 - Autocalc for Max HP, PP & FP added

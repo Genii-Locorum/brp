@@ -447,6 +447,12 @@
 padding-top: 4px;
 }
 
+.brp .untreated{
+  color: rgb(150, 12, 4);
+  font-style: italic;
+  font-weight: bold;
+}
+
 .brp .toggle-active{
   color: white;
   background:rgb(150, 12, 4);
@@ -491,6 +497,13 @@ padding-top: 4px;
   font-weight: bold;
   border-color: rgba(68, 7, 4, 1);
   height: calc(100% - 2px);
+}
+
+.brp .armour-input-small input {
+  text-align: center;
+  font-weight: bold;
+  border-color: rgba(68, 7, 4, 1);
+  height: 18px;
 }
 
 .brp .stat-input-small input {
@@ -724,11 +737,16 @@ padding-top: 4px;
   row-gap: 0px;
   column-gap: 10px;
   font-size: 14px;
-  grid-template-columns: max-content 90px 40px 10px 40px 50px 90px auto;
+  grid-template-columns: 15px 110px 90px 40px 10px 40px 50px 90px 260px;
 }
 
-.brp .hitloc-name {
+.brp .wound-name {
+  display: flex;
   font-size: 16px;
+}
+
+.brp .wound-item {
+  width: 30px;
 }
 
 .brp .background-doc{

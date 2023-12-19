@@ -1,4 +1,5 @@
 import { BRPUtilities } from "../apps/utilities.mjs";
+import { BRPWounds } from "../apps/wounds.mjs";
 
 //Profession Name Context Menu Options
 export const professionMenuOptions = (actor,token) => [
@@ -51,6 +52,32 @@ export const personalityMenuOptions = (actor,token) => [
     }
   }
 ]  
+
+//Combat Tab Name Context Menu Options
+export const combatMenuOptions = (actor,token) => [
+  {
+    name: game.i18n.localize("BRP.combat"),
+    icon: "",
+    condition: () => true,
+    callback: (el) => {}
+  },
+  {
+    name: game.i18n.localize("BRP.naturalHealing"),
+    icon: '<i class="fas fa-clock"></i>',
+    condition: () => true,
+    callback: (el) => {
+      const itemId = BRPWounds.naturalHeal(el, actor);
+    }
+  },
+  {
+    name: game.i18n.localize("BRP.allHeal"),
+    icon: '<i class="fas fa-staff-snake"></i>',
+    condition: () => true,
+    callback: (el) => {
+      const itemId = BRPWounds.allHeal(el, actor);
+    }
+  }
+] 
 
 //Skill Name Context Menu Options
 export const skillMenuOptions = (actor,token) => [
@@ -336,4 +363,38 @@ export const skillMenuOptions = (actor,token) => [
               const itemId = BRPUtilities.triggerDelete(el, actor, "itemId");
             }
           }
+        ];        
+
+        //Wound Context Menu Options 
+        export const woundMenuOptions = (actor,token) => [
+          {
+            name: game.i18n.localize("BRP.wound"),
+            icon: "",
+            condition: () => true,
+            callback: (el) => {}
+          },
+          {
+            name: game.i18n.localize("BRP.view"),
+            icon: '<i class="fas fa-magnifying-glass"></i>',
+            condition: () => true,
+            callback: (el) => {
+              const itemId = BRPUtilities.triggerEdit(el, actor, "itemId");
+            }
+          },
+          {
+            name: game.i18n.localize("BRP.treatWound"),
+            icon: '<i class="fas fa-kit-medical"></i>',
+            condition: () => true,
+            callback: (el) => {
+              const itemId = BRPWounds.treatWound(el, actor, "itemId");
+            }
+          },
+          {
+            name: game.i18n.localize("BRP.delete"),
+            icon: '<i class="fas fa-trash"></i>',
+            condition: () => true,
+            callback: (el) => {
+              const itemId = BRPUtilities.triggerDelete(el, actor, "itemId");
+            }
+          }  
         ];        

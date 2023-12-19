@@ -32,6 +32,16 @@ Hooks.once('init', async function() {
   return preloadHandlebarsTemplates();
 });
 
+//Remove certain Items types from the list of options to create under the items menu (can still be created directly from the character sheet)
+Hooks.on("renderDialog", (dialog, html) => {
+  let deprecatedTypes = ["wound"]; // 
+  Array.from(html.find("#document-create option")).forEach(i => {
+      if (deprecatedTypes.includes(i.value))
+      {
+          i.remove()
+      }
+  })
+})
 
 // Ready Hook
 Hooks.once("ready", async function() {

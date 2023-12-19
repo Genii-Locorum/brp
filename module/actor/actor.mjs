@@ -49,10 +49,11 @@ export class BRPActor extends Actor {
     let hpMod = 1
     if (actorData.type === 'character') {hpMod = game.settings.get('brp','hpMod')}
     systemData.health.max = Math.ceil((systemData.stats.con.total + systemData.stats.siz.total) * hpMod/2)+systemData.health.mod;
+    systemData.health.value = systemData.health.max;
     systemData.health.mjrwnd = Math.ceil(systemData.health.max/2);
     systemData.power.max = systemData.stats.pow.total;
     systemData.fatigue.max = systemData.stats.str.total + systemData.stats.con.total;
-    systemData.xpBonus = Math.ceil(systemData.stats.int.total/2)    
+    systemData.xpBonus = Math.ceil(systemData.stats.int.total/2);
 
 
 
@@ -123,7 +124,17 @@ export class BRPActor extends Actor {
       } else if (i.type === 'profession') {
         systemData.profession = i.name
         systemData.professionId = i._id;
-      } 
+      } else if (i.type === 'hit-location' && game.settings.get('brp','useHPL')) {
+        i.system.maxHP = Math.max((Math.ceil(systemData.health.max / i.system.fractionHP) + i.system.adj),0);
+        i.system.currHP = i.system.maxHP
+        for (let j of actorData.items) {
+          if (j.type === 'wound' && j.system.locId === i._id) {
+            i.system.currHP= i.system.currHP - j.system.value 
+          }
+        }
+      } else if (i.type === 'wound') {
+        systemData.health.value = systemData.health.value - i.system.value
+      }
     }  
     systemData.dmgBonus = this._damageBonus (systemData.stats.str.total+systemData.stats.siz.total)
   }  

@@ -33,6 +33,8 @@ export class BRPItem extends Item {
         data.img = 'systems/brp/assets/Icons/knapsack.svg'
       } else if (data.type === 'weapon') {
         data.img = 'systems/brp/assets/Icons/saber-and-pistol.svg'
+      } else if (data.type === 'wound') {
+        data.img = 'systems/brp/assets/Icons/drop.svg'
       }
     }
     super(data, context)
