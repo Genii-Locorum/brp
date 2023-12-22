@@ -16,6 +16,27 @@ export class BRPSelectLists {
     return options;
   } 
   
+  //Additional Attribute List
+  static async addStatOptions (characteristic) {    
+    let options = {
+      "none": game.i18n.localize("BRP.none"),
+      "str": game.i18n.localize("BRP.StatsStrAbbr"),
+      "con": game.i18n.localize("BRP.StatsConAbbr"),
+      "siz": game.i18n.localize("BRP.StatsSizAbbr"),
+      "int": game.i18n.localize("BRP.StatsIntAbbr"),
+      "pow": game.i18n.localize("BRP.StatsPowAbbr"),
+      "dex": game.i18n.localize("BRP.StatsDexAbbr"),
+      "cha": game.i18n.localize("BRP.StatsChaAbbr"),
+    }  
+    if (game.settings.get('brp','useEDU')) {
+      options= Object.assign(options,{'edu': game.i18n.localize("BRP.StatsEduAbbr")})
+    }  
+
+    //options.remove(characteristic)
+    
+    return options;
+  } 
+
   //Skill Category List
   static async getCategoryOptions () {    
     let options = {
@@ -232,6 +253,20 @@ export class BRPSelectLists {
       "2H": game.i18n.localize("BRP.2H"),
       "1-2H": game.i18n.localize("BRP.1-2H"),
     };   
+    return options;
+  }
+
+  //Difficulty List
+  static async getDifficultyOptions () {    
+    let options = {
+      "easy": game.i18n.localize("BRP.easy"),
+      "average": game.i18n.localize("BRP.average"),
+      "difficult": game.i18n.localize("BRP.difficult")
+    };   
+
+    if (game.settings.get('brp','allowImp')) {
+      options= Object.assign(options,{"impossible": game.i18n.localize("BRP.impossible")})
+    }
     return options;
   }
 

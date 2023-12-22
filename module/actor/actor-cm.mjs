@@ -1,5 +1,58 @@
 import { BRPUtilities } from "../apps/utilities.mjs";
 import { BRPWounds } from "../apps/wounds.mjs";
+import { BRPCheck } from "../apps/check.mjs";
+
+//Characteristic Name Context Menu Options
+export const characteristicMenuOptions = (actor,token) => [
+  {
+    name: game.i18n.localize("BRP.characteristic"),
+    icon: "",
+    condition: () => true,
+    callback: (el) => {}
+  },
+  {
+    name: game.i18n.localize("BRP.card.NO"),
+    icon: '<i class="fas fa-dice-d20"></i>',
+    condition: () => true,
+    callback: (el) => {
+      BRPCheck._trigger({
+        rollType: 'CH',
+        cardType: 'NO',
+        characteristic: el[0].dataset.characteristic,
+        actor,
+        token,}
+      );
+    }
+  },
+  {
+    name: game.i18n.localize("BRP.card.RE"),
+    icon: '<i class="fas fa-hand-fist"></i>',
+    condition: () => true,
+    callback: (el) => {
+      BRPCheck._trigger({
+        rollType: 'CH',
+        cardType: 'RE',
+        characteristic: el[0].dataset.characteristic,
+        actor,
+        token,}
+        );
+    }
+  },
+  {
+    name: game.i18n.localize("BRP.card.PP"),
+    icon: '<i class="fas fa-hand-sparkles"></i>',
+    condition: (el) => (el[0].dataset.characteristic ==='pow'),
+    callback: (el) => {
+      BRPCheck._trigger({
+        rollType: 'CH',
+        cardType: 'PP',
+        characteristic: el[0].dataset.characteristic,
+        actor,
+        token,}
+        );
+    }
+  }
+]  
 
 //Profession Name Context Menu Options
 export const professionMenuOptions = (actor,token) => [

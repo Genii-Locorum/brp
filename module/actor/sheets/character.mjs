@@ -1,7 +1,8 @@
 import { BRPContextMenu } from '../../setup/context-menu.mjs';
 import * as contextMenu from "../actor-cm.mjs";
 import {BRPactorItemDrop} from '../actor-itemDrop.mjs';
-import {BRPUtilities} from '../../apps/utilities.mjs';
+import {BRPCheck} from '../../apps/check.mjs';
+import {isCtrlKey} from '../../apps/helper.mjs'
 
 export class BRPCharacterSheet extends ActorSheet {
 
@@ -219,8 +220,8 @@ export class BRPCharacterSheet extends ActorSheet {
     hitlocs.sort(function(a, b){
       let x = a.system.lowRoll;
       let y = b.system.lowRoll;
-      if (x < y) {return -1};
-      if (x > y) {return 1};
+      if (x < y) {return 1};
+      if (x > y) {return -1};
       return 0;
     });
 
@@ -260,7 +261,7 @@ export class BRPCharacterSheet extends ActorSheet {
     html.find(".actor-toggle").click(this._onActorToggle.bind(this));                // Actor Toggle
     html.find(".item-toggle").click(this._onItemToggle.bind(this));                  // Item Toggle
     html.find('.item-create').click(this._onItemCreate.bind(this));                  // Add Inventory Item
-    html.find('.rollable').click(this._onRoll.bind(this));                           // Rollable abilities
+    html.find('.rollable.stat-name').click(this._onStatRoll.bind(this));             // Rollable Characteristic
     
     // Delete Inventory Item
     html.find('.item-delete').click(ev => {
@@ -281,6 +282,7 @@ export class BRPCharacterSheet extends ActorSheet {
     }
 
      //Context Menus
+     new BRPContextMenu(html, ".stat-name.contextmenu", contextMenu.characteristicMenuOptions(this.actor, this.token));
      new BRPContextMenu(html, ".profession.contextmenu", contextMenu.professionMenuOptions(this.actor, this.token));
      new BRPContextMenu(html, ".personality.contextmenu", contextMenu.personalityMenuOptions(this.actor, this.token));
      new BRPContextMenu(html, ".combat-name.contextmenu", contextMenu.combatMenuOptions(this.actor, this.token));
@@ -425,4 +427,28 @@ export class BRPCharacterSheet extends ActorSheet {
     const newItemData = await BRPactorItemDrop._BRPonDropItemCreate(this.actor,itemData);
     return this.actor.createEmbeddedDocuments("Item", newItemData);
   }  
+
+  //Start Characteristic Roll
+  async _onStatRoll(event){
+    let altKey = event.altKey;
+    let ctrlKey = isCtrlKey(event ?? false);
+    let cardType = 'NO';
+    let characteristic = event.currentTarget.dataset.characteristic;
+    if (ctrlKey){ cardType='RE'}
+    if (altKey){ 
+      cardType='PP';
+      characteristic='pow'
+    }
+
+    BRPCheck._trigger({
+        rollType: 'CH',
+        cardType,
+        characteristic,
+        event,
+        actor: this.actor,
+        token: this.token
+    })
+  }
+
+
 }

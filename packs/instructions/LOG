@@ -1,15 +1,8 @@
-2023/12/19-05:56:16.269 7e0 Recovering log #86
-2023/12/19-05:56:16.335 7e0 Delete type=0 #86
-2023/12/19-05:56:16.335 7e0 Delete type=3 #84
-2023/12/19-06:10:02.325 164c Level-0 table #91: started
-2023/12/19-06:10:02.346 164c Level-0 table #91: 5446 bytes OK
-2023/12/19-06:10:02.373 164c Delete type=0 #89
-2023/12/19-06:10:02.401 164c Manual compaction at level-0 from '!journal!DgIeWGkxkwouUnTW' @ 72057594037927935 : 1 .. '!journal.pages!DgIeWGkxkwouUnTW.uwNw5mrRpNxH7HF7' @ 0 : 0; will stop at (end)
-2023/12/19-06:10:02.401 164c Manual compaction at level-1 from '!journal!DgIeWGkxkwouUnTW' @ 72057594037927935 : 1 .. '!journal.pages!DgIeWGkxkwouUnTW.uwNw5mrRpNxH7HF7' @ 0 : 0; will stop at '!journal.pages!DgIeWGkxkwouUnTW.uwNw5mrRpNxH7HF7' @ 11 : 1
-2023/12/19-06:10:02.402 164c Compacting 1@1 + 1@2 files
-2023/12/19-06:10:02.455 164c Generated table #92@1: 6 keys, 5423 bytes
-2023/12/19-06:10:02.455 164c Compacted 1@1 + 1@2 files => 5423 bytes
-2023/12/19-06:10:02.482 164c compacted to: files[ 0 0 1 0 0 0 0 ]
-2023/12/19-06:10:02.482 164c Delete type=2 #5
-2023/12/19-06:10:02.482 164c Delete type=2 #91
-2023/12/19-06:10:02.544 164c Manual compaction at level-1 from '!journal.pages!DgIeWGkxkwouUnTW.uwNw5mrRpNxH7HF7' @ 11 : 1 .. '!journal.pages!DgIeWGkxkwouUnTW.uwNw5mrRpNxH7HF7' @ 0 : 0; will stop at (end)
+2023/12/22-14:23:08.989 1288 Recovering log #152
+2023/12/22-14:23:09.057 1288 Delete type=0 #152
+2023/12/22-14:23:09.057 1288 Delete type=3 #150
+2023/12/22-14:23:22.519 b68 Level-0 table #157: started
+2023/12/22-14:23:22.520 b68 Level-0 table #157: 0 bytes OK
+2023/12/22-14:23:22.561 b68 Delete type=0 #155
+2023/12/22-14:23:22.603 b68 Manual compaction at level-0 from '!journal!DgIeWGkxkwouUnTW' @ 72057594037927935 : 1 .. '!journal.pages!DgIeWGkxkwouUnTW.uwNw5mrRpNxH7HF7' @ 0 : 0; will stop at (end)
+2023/12/22-14:23:22.636 b68 Manual compaction at level-1 from '!journal!DgIeWGkxkwouUnTW' @ 72057594037927935 : 1 .. '!journal.pages!DgIeWGkxkwouUnTW.uwNw5mrRpNxH7HF7' @ 0 : 0; will stop at (end)

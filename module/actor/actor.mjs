@@ -192,6 +192,20 @@ export class BRPActor extends Actor {
       },data.prototypeToken || {})
     } 
     let actor = await super.create(data, options)
+    if (actor.type ==='character' && game.settings.get('brp','useHPL')) {
+      const itemData = [{
+        name: game.i18n.localize('BRP.general'),
+        type: 'hit-location',
+        img: 'systems/brp/assets/Icons/arm-bandage.svg',
+        system: {
+          "fractionHP": 1,
+          "fractionENC": 1
+        }
+      }];
+  
+      // Create the item!
+      const newItem = await Item.createDocuments(itemData, {parent: actor});
+    }
     return 
   }
 

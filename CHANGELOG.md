@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 11.1.6
+- Minor change to natural healing
+- Added a "general" hit location when new character is created and the game is using HPL to hold poison damage etc
+- Moved Damage Bonus to show correctly in the derived stats area rather than the Combat Tab
+- Characteristic Rolls added along with instructions
+- Game settings added for Impossible rolls, Resistance rolls always having a 1% success/fail and detailed Resistance Roll results
+- Specialised skills, where "specialism chosen" is toggled on will now have the specialism name shown first so it is more visible in the skill list
+
 ## 11.1.5
 - Hits per location autocalculated 
 - Added Wounds which autoupdate hits (total and HPL)

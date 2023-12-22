@@ -72,7 +72,7 @@
         <div class="stats-grid">
           {{#each system.stats as |stat key|}}
             {{#if stat.visible}}       
-              <div class="stat-name left" data-label="{{stat.label}}" data-target="{{stat.total}}" data-type="characteristic">{{stat.labelShort}}</div>
+              <div class="rollable stat-name contextmenu left" title= "{{localize 'BRP.charHint'}}" data-characteristic = "{{key}}">{{stat.labelShort}}</div>
               <div class ="font16 tp2 centre">{{stat.total}}</div>
               {{#if (eq key "pow")}}
                 <div class="hitloc-name tp2 centre"><a class="actor-toggle" data-property="improve"><i class="{{#if stat.improve}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>
@@ -81,7 +81,11 @@
               {{/if}}
               <div></div>  
               <div class="deriv-name right" data-label="{{stat.labelDeriv}}" data-target="{{stat.deriv}}" data-type="derived">{{stat.labelDeriv}}</div>
-              <div class ="deriv-name centre">{{stat.deriv}}%</div>
+              {{#if (eq key "siz")}}
+                <div class ="deriv-name centre">{{../actor.system.dmgBonus.full}}</div>
+              {{else}}
+                <div class ="deriv-name centre">{{stat.deriv}}%</div>
+              {{/if}}  
             {{/if}}  
           {{/each}}
         </div>

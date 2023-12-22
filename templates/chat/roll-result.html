@@ -1,0 +1,63 @@
+<form class="brp">
+    <div class="dice-roll">
+      <div style="display: block">  
+        <div class="flavour-result"> 
+          {{label}} ({{targetScore}}%)
+        </div>
+
+        {{#if (eq cardType 'RE')}}
+          <div class="flavour-result">{{localize 'BRP.resistance'}} : {{resistance}}
+        {{else}}
+          {{#if (eq cardType 'PP')}}
+          <div class="flavour-result">{{localize 'BRP.powvpow'}}: {{resistance}}
+          {{else}}  
+            <div class="flavour-result">{{localize 'BRP.difficulty'}}: {{diffLabel}}
+          {{/if}}  
+        {{/if}}
+        {{#if (lt flatMod 0)}}
+          <span>({{flatMod}})</span>
+        {{/if}}  
+        {{#if (gt flatMod 0)}}
+          <span>(+{{flatMod}})</span>
+        {{/if}}
+        </div>
+
+        <div class="dice-tooltip">
+          <div class="owner-only" style="display:block">
+            <div class="card-buttons" style="padding: 2px 0;margin: 0;">
+
+              
+              <div class="bottomline"></div>
+
+          </div>
+          </div>
+        </div>
+
+        <div>
+          {{#if (eq resultLevel 4)}}
+            <div class="roll-succ">{{resultLabel}}: <i class="result-success fas fa-certificate"></i><i class="result-success fas fa-certificate"></i><i class="result-success fas fa-certificate"></i></div>
+          {{/if}}
+  
+          {{#if (eq resultLevel 3)}}
+            <div class="roll-succ">{{resultLabel}}: <i class="result-success fas fa-certificate"></i><i class="result-success fas fa-certificate"></i></div>
+          {{/if}}
+  
+          {{#if (eq resultLevel 2)}}
+            <div class="roll-succ">{{resultLabel}}: <i class="result-success fas fa-certificate"></i></div>
+          {{/if}}
+  
+          {{#if (eq resultLevel 1)}}
+            <div class="roll-fail">{{resultLabel}}: <i class="result-fail fas fa-skull"></i></div>
+          {{/if}}
+  
+          {{#if (eq resultLevel 0)}}
+            <div class="roll-fumb">{{resultLabel}}: <i class=" result-fail fas fa-skull"></i><i class="result-fail fas fa-skull"></i><i class=" result-fail fas fa-skull"></i></div>
+          {{/if}}
+   
+          <div class="dice-result">
+            <h3 class="align-center dice-total" >{{result}}</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>  

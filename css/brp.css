@@ -406,6 +406,9 @@
 
 .brp .skill-name {
   align-self: center;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow:ellipsis;
 }
 
 .brp .skill-name input {
@@ -972,4 +975,34 @@ padding-top: 4px;
   row-gap: 0px;
   column-gap: 5px;
   grid-template-columns: 150px 40px 150px 60px 50px 50px 30px 30px 60px 50px 75px;
+}
+
+.brp .result-success {
+  color:green;
+}
+
+.brp .result-fail {
+  color:red;
+}
+
+.brp .roll-succ{
+  text-align: center;
+  background: rgba(0, 128, 0, 0.25);
+  border: 1px solid var(--color-border-light-2);
+  border-radius: 3px;
+}
+
+.brp .roll-fail{
+  text-align: center;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--color-border-light-2);
+  border-radius: 3px;
+}
+
+.brp .roll-fumb{
+  text-align: center;
+  background: black;
+  color: red;
+  border: 1px solid var(--color-border-light-2);
+  border-radius: 3px;
 }

@@ -7,8 +7,7 @@ export async function registerSettings () {
 
 
 
-  //Optional Statistics
-
+  //Allow Powers
   game.settings.register('brp', 'magic', {
     name: 'BRP.Settings.useMagic',
     hint: 'BRP.Settings.useMagicHint',
@@ -59,6 +58,7 @@ export async function registerSettings () {
     default: true,
   });
 
+  //Optional Rules
   game.settings.register('brp', 'useHPL', {
     name: 'BRP.Settings.useHPL',
     hint: 'BRP.Settings.useHPLHint',
@@ -130,6 +130,37 @@ export async function registerSettings () {
     type: Boolean
   });
 
+  game.settings.register('brp', 'allowImp', {
+    name: 'BRP.Settings.allowImp',
+    hint: 'BRP.Settings.allowImpHint',
+    requiresReload: true,
+    scope: 'world',
+    config: true,
+    default: false,
+    type: Boolean,
+  });
+
+  game.settings.register('brp', 'resistRoll', {
+    name: 'BRP.Settings.resistRoll',
+    hint: 'BRP.Settings.resistRollHint',
+    requiresReload: true,
+    scope: 'world',
+    config: true,
+    default: false,
+    type: Boolean,
+  });
+
+  game.settings.register('brp', 'resistLevels', {
+    name: 'BRP.Settings.resistLevels',
+    hint: 'BRP.Settings.resistLevelsHint',
+    requiresReload: true,
+    scope: 'world',
+    config: true,
+    default: false,
+    type: Boolean,
+  });
+
+  //Game Modifiers
   game.settings.register('brp', 'hpMod', {
     name: 'BRP.Settings.hpMod',
     hint: 'BRP.Settings.hpModHint',
@@ -140,6 +171,7 @@ export async function registerSettings () {
     type: Number,
   });
 
+  //Optional Desciptors
   game.settings.register('brp', "background1", {
     name: "BRP.Settings.background1",
     hint: "BRP.Settings.backgroundHint",

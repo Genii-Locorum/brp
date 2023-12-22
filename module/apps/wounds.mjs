@@ -51,6 +51,8 @@ export class BRPWounds {
   static async naturalHeal (event, actor) {
     let usage = await BRPWounds.healingAmount (game.i18n.localize('BRP.treatWound'),actor.name)
     let healing = 0
+    let updates=[];
+    let deletes=[];
     if (usage) {
         healing = Number(usage.get('treat-wound'));
     }
@@ -60,7 +62,6 @@ export class BRPWounds {
     //Put wounds in array and sort lowest to highest damage
     let wounds=[];
     for (let i of actor.items) {
-      await i.update({'system.treated': true});
       if(i.type === 'wound'){
         wounds.push(i);
       }
@@ -75,16 +76,31 @@ export class BRPWounds {
 
     let nw= wounds.length;
     for (let i of wounds) {
-      let avgHeal=Math.ceil(healing/nw)
-      let woundHeal = Math.min(healing, i.system.value, avgHeal);
-      if (woundHeal > 0) {
-        const item= actor.items.get(i._id);
-        await item.update({'system.value': i.system.value - woundHeal});
+      if( i.system.value < 1) {
+        deletes.push(i._id)
+      } else {  
+        let avgHeal=Math.ceil(healing/nw)
+        let woundHeal = Math.min(healing, i.system.value, avgHeal);
         healing = healing - woundHeal;
-      }  
+        if (woundHeal >= i.system.value){
+          deletes.push(i._id)
+        } else if (woundHeal > 0) {
+          updates.push({
+            _id: i._id,
+            'system.treated.': true,
+            'system.value': i.system.value - woundHeal
+          })
+        } else {
+          updates.push({
+            _id: i._id,
+            'system.treated.': true
+          })
+        }
+      } 
       nw--;
     }
-    await BRPWounds.cleanseWounds(actor)
+    await Item.updateDocuments(updates,{parent:actor});
+    await Item.deleteDocuments(deletes,{parent:actor});
   }
 
 

@@ -1,0 +1,38 @@
+<form class="brp" id="difficulty-roll-form">
+    <div class = "diff-label">{{label}}</div>
+    <br>
+    <div class="flexcol">
+
+
+      {{#if (eq cardType 'RE')}}
+        <div class="flexrow">
+        <label class="resource-label-diff">{{ localize 'BRP.addStat' }}</label>
+        <select data-handle-change name="addStat">
+          {{selectOptions addStatOptions selected=addStat}}
+        </select>
+        </div>
+        <br>
+      {{/if}}
+
+      <div class="flexrow">
+        {{#if (eq cardType 'NO')}}
+          <label class="resource-label-diff">{{ localize 'BRP.difficulty' }}</label>
+          <select data-handle-change name="difficulty">
+            {{selectOptions difficultyOptions selected=difficulty}}
+          </select>
+        {{/if}}
+
+        {{#isOr (eq cardType 'RE') (eq cardType 'PP')}} 
+        <label>{{#if (eq cardType 'RE')}}{{localize "BRP.resistVal"}}{{else}}{{localize "BRP.vsPOW"}}{{/if}}</label>   
+          <input data-handle-change class="diff-number-input" type="text" value="{{formData.resistance}}" name="resistance">
+        {{/isOr}}           
+      </div>
+      <br>
+  
+      <div class="flexrow">
+        <label title = "{{ localize 'BRP.flatModHint' }}" >{{localize "BRP.flatMod"}}</label>   
+          <input data-handle-change class="diff-number-input" type="text" value="{{formData.flatMod}}" name="flatMod">
+      </div>
+    </div>
+    <br>
+  </form>

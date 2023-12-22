@@ -180,8 +180,8 @@
     "hit-location": {
       "lowRoll": 0,
       "highRoll": 0,
-      "fractionHP": 0,
-      "fractionENC": 0,
+      "fractionHP": 1,
+      "fractionENC": 1,
       "map": 0,
       "status": "",
       "locType": false,

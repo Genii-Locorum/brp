@@ -13,7 +13,7 @@
           {{else}}
             <li class="item skill-listitem" data-item-id="{{skill._id}}">
             <div class="item-name">
-              <div class="skill-name contextmenu">{{skill.name}}</div>
+              <div class="skill-name contextmenu truncate" title="{{skill.name}}">{{skill.name}}</div>
             </div>
             {{#unless skill.system.noXP}}
               <div class="" title = "{{ localize 'BRP.improve' }}"><a class="item-toggle" data-property="improve"><i class="{{#if skill.system.improve}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>
