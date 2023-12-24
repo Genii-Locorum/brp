@@ -6,7 +6,7 @@
       {{#if isGM}}  
         <div class="stat-input"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></div>
       {{else}}
-        <div class="skill-name bold center boxed">{{item.name}}</div>
+        <div class="title-name bold center boxed">{{item.name}}</div>
       {{/if}}
       </div>  
     
@@ -27,6 +27,12 @@
           <div class="stat-input"><input name="system.fractionHP" type="text" value="{{item.system.fractionHP}}" data-dtype="Number"/></div>
           <div class="skill-display" title="{{localize 'BRP.hitLocFractionHint'}}">{{localize 'BRP.hitLocENCFraction'}}</div>
           <div class="stat-input"><input name="system.fractionENC" type="text" value="{{item.system.fractionENC}}" data-dtype="Number"/></div>
+          <div class="skill-display" title="{{localize 'BRP.hitLocTypeHint'}}">{{localize 'BRP.hitLocType'}}</div>
+          <div class="hitloc-input-small">
+            <select data-handle-change name="system.locType">
+              {{selectOptions locTypeOptions selected=item.system.locType}}
+            </select>
+          </div>
         {{else}}
           <div class="skill-display">{{localize 'BRP.hitLocLowRoll'}}</div>
           <div class="hitloc-display centre boxed">{{item.system.lowRoll}}</div>
@@ -36,17 +42,33 @@
           <div class="hitloc-display centre boxed">{{item.system.fractionHP}}</div>
           <div class="skill-display" title="{{localize 'BRP.hitLocFractionHint'}}">{{localize 'BRP.hitLocENCFraction'}}</div>
           <div class="hitloc-display centre boxed">{{item.system.fractionENC}}</div>
+          <div class="skill-display" title="{{localize 'BRP.hitLocTypeHint'}}">{{localize 'BRP.hitLocType'}}</div>
+          <div class="hitloc-display centre boxed">{{hitLocName}}</div>
         {{/if}}
+        </div>  
         <br>
         {{#if hasOwner}}
+        <div class="hitloc-scores">
           <div class="skill-display new-row" title="{{localize 'BRP.hpAdjHint'}}">{{localize 'BRP.hpAdj'}}</div>
           <div class="stat-input"><input name="system.adj" type="text" value="{{item.system.adj}}" data-dtype="Number"/></div>
           <br>
+        </div>
+
+          <div class="item-title"> {{localize 'BRP.options'}}:</div>
+          <div class="base-4grid">
+            <div class="skill-cat item-toggle {{#if item.system.injured}} toggle-active  {{/if}}" title ="{{localize 'BRP.injuredHint'}}" data-property = "injured">{{localize 'BRP.injured'}}</div>
+            <div class="skill-cat item-toggle {{#if item.system.incapacitated}} toggle-active  {{/if}}" title ="{{localize 'BRP.incapacitatedHint'}}" data-property = "incapacitated">{{localize 'BRP.incapacitated'}}</div>
+            {{#if (eq item.system.locType 'limb')}}
+              <div class="skill-cat item-toggle {{#if item.system.severed}} toggle-active  {{/if}}" title ="{{localize 'BRP.severedHint'}}" data-property = "severed">{{localize 'BRP.severed'}}</div>
+            {{else}}
+              <div class="skill-cat item-toggle {{#if item.system.unconscious}} toggle-active  {{/if}}" title ="{{localize 'BRP.unconsciousHint'}}" data-property = "unconscious">{{localize 'BRP.unconscious'}}</div>
+              <div class="skill-cat item-toggle {{#if item.system.dead}} toggle-active  {{/if}}" title ="{{localize 'BRP.deadHint'}}" data-property = "dead">{{localize 'BRP.dead'}}</div>
+            {{/if}}
+            <div class="skill-cat item-toggle {{#if item.system.bleeding}} toggle-active  {{/if}}" title ="{{localize 'BRP.bleedingHint'}}" data-property = "bleeding">{{localize 'BRP.bleeding'}}</div>
+
+          </div>  
         {{/if}}        
 
-        <div class="new-row"></div>
-        <div class="skill-cat {{#if isGM}} item-toggle {{/if}} {{#if item.system.locType}} toggle-active  {{/if}}" title="{{ localize 'BRP.locTypeHint'}}" data-property = "locType">{{localize 'BRP.body'}}</div>
-      </div>  
       <br>
     </section>
   </form>

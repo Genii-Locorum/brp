@@ -6,7 +6,7 @@
     {{#if isGM}}  
       <div class="stat-input"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></div>
     {{else}}
-      <div class="skill-name bold center boxed">{{item.name}}</div>
+      <div class="title-name bold center boxed">{{item.name}}</div>
     {{/if}}
     </div>  
   
@@ -246,7 +246,7 @@
           <br>
 
           <div class="item-title"> {{localize 'BRP.options'}}:</div>
-          <div class="base-4grid">
+          <div class="base-5grid">
             <div class="skill-cat {{#if isGM}} item-toggle {{/if}} {{#if item.system.parry}} toggle-active  {{/if}}" title ="{{localize 'BRP.parryHint'}}" data-property = "parry">{{localize 'BRP.parry'}}</div>
             <div class="skill-cat {{#if isGM}} item-toggle {{/if}} {{#if item.system.burst}} toggle-active  {{/if}}" data-property = "burst">{{localize 'BRP.burst'}}</div>
             <div class="skill-cat {{#if isGM}} item-toggle {{/if}} {{#if item.system.choke}} toggle-active  {{/if}}" data-property = "choke">{{localize 'BRP.choke'}}</div>

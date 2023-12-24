@@ -261,7 +261,9 @@ export class BRPSelectLists {
     let options = {
       "easy": game.i18n.localize("BRP.easy"),
       "average": game.i18n.localize("BRP.average"),
-      "difficult": game.i18n.localize("BRP.difficult")
+      "difficult": game.i18n.localize("BRP.difficult"),
+      "hard": game.i18n.localize("BRP.hard"),
+      "extreme": game.i18n.localize("BRP.extreme"),
     };   
 
     if (game.settings.get('brp','allowImp')) {
@@ -270,4 +272,15 @@ export class BRPSelectLists {
     return options;
   }
 
+  //Hit Location List
+  static async getHitLocOptions () {    
+    let options = {
+      "limb": game.i18n.localize("BRP.limb"),
+      "abdomen": game.i18n.localize("BRP.abdomen"),
+      "chest": game.i18n.localize("BRP.chest"),
+      "head": game.i18n.localize("BRP.head"),
+      "general": game.i18n.localize("BRP.general"),
+    };   
+    return options;
+  }  
 }

@@ -11,6 +11,8 @@ export class BRPCheck {
     if ( typeof options.event === 'undefined') {
       if (typeof options.characteristic !="undefined" && typeof options.actor.system.stats[options.characteristic] !== 'undefined') {
         options.rollType ="CH"
+      } else  if (typeof options.skillId !="undefined") {
+        options.rollType ="SK"
       } else {
         ui.notifications.error(game.i18n.localize('BRP.ErrorRollNotFound'))
         return false          
@@ -40,6 +42,7 @@ export class BRPCheck {
       dialogTemplate: 'systems/brp/templates/dialog/difficulty.html',
       chatTemplate: 'systems/brp/templates/chat/roll-result.html',
       diff:"average",
+      diffVal: 1,
       rollFormula: "1D100",
       flatMod: 0,
       resultLevel:0
@@ -50,6 +53,11 @@ export class BRPCheck {
       case 'CH':
         config.label = options.actor.system.stats[config.characteristic].labelShort ?? "";
         config.targetScore = options.actor.system.stats[config.characteristic].total*5 ?? 999;
+        break;
+      case 'SK':
+        let skill = options.actor.items.get(config.skillId)
+        config.label = options.actor.items.get(config.skillId).name ?? "";
+        config.targetScore = skill.system.total + options.actor.system.skillcategory[skill.system.category].bonus ?? 999;
         break;
      }
 
@@ -88,7 +96,8 @@ export class BRPCheck {
           config.diff = usage.get('difficulty');
           config.addStat= usage.get('addStat');
           config.resistance = Number(usage.get('resistance'));
-          config.flatMod = Number(usage.get('flatMod'));
+          config.flatMod = Number(usage.get('flatMod'));  
+          config.diffVal = Number(usage.get('diffVal'));
       }
     } 
  
@@ -99,21 +108,34 @@ export class BRPCheck {
     }
 
     //Adjust the targetScore for Difficulty
-    switch (config.diff) {
-      case "easy":
-        config.targetScore = config.targetScore *2;
-        break;
-      case "difficult":
-        config.targetScore = Math.ceil(config.targetScore *0.5);
-        break;
-      case "impossible":
-        config.targetScore = 1;
-        break;  
-    }
-
-    //If this is not an impossible roll then add the flatModifier.
-    if (config.diff !='impossible') {
-      config.targetScore = Number(config.targetScore) + Number(config.flatMod);
+    if (game.settings.get('brp','diffValue')) {
+      if (config.rollType === 'CH') {
+        config.targetScore = Math.ceil(config.targetScore * config.diffVal/5)
+      }  else {
+        config.targetScore = Math.ceil(config.targetScore * config.diffVal)
+      }
+    } else {
+      switch (config.diff) {
+        case "easy":
+          config.targetScore = config.targetScore *2;
+          break;
+        case "difficult":
+          config.targetScore = Math.ceil(config.targetScore *0.5);
+          break;
+        case "hard":
+          config.targetScore = Math.ceil(config.targetScore *0.4);
+          break;
+        case "extreme":
+          config.targetScore = Math.ceil(config.targetScore *0.2);
+          break;  
+        case "impossible":
+          config.targetScore = 1;
+          break;  
+      }
+      //If this is not an impossible roll then add the flatModifier.
+      if (config.diff !='impossible') {
+        config.targetScore = Number(config.targetScore) + Number(config.flatMod);
+      }
     }
 
     await BRPCheck.makeRoll(config) 
@@ -167,6 +189,7 @@ export class BRPCheck {
     const data = {
       type : options.rollType,
       cardType: options.cardType,
+      useDiffValue: game.settings.get('brp','diffValue'),
       label: options.label,
       difficulty: "average",
       difficultyOptions,
@@ -225,6 +248,11 @@ export class BRPCheck {
   // Prep the chat card
   static async startChat(config) {
     let actor = await BRPactorDetails._getParticipant(config.partic.particId,config.partic.particType)
+    let diffLabel = game.i18n.localize('BRP.'+config.diff)
+    if (game.settings.get('brp','diffValue')) {
+      diffLabel = "* " + config.diffVal
+      console.log(diffLabel, config.diffVal)
+    }
 
     let messageData = {
       origin: config.origin,
@@ -236,7 +264,7 @@ export class BRPCheck {
       actorId: actor._id,
       diff: config.diff,
       resistance:config.resistance,
-      diffLabel:game.i18n.localize('BRP.'+config.diff),
+      diffLabel,
       flatMod: config.flatMod,
       partic: config.partic,
       resultLevel : config.resultLevel,

@@ -73,6 +73,15 @@ Hooks.on('renderSettingsConfig', (app, html, options) => {
     )
 
     systemTab
+    .find('input[name=brp\\.diffValue]')
+    .closest('div.form-group')
+    .before(
+      '<h3 class="setting-header">' +
+        game.i18n.localize('BRP.rollOptions') +
+        '</h3>'
+    )
+
+    systemTab
     .find('input[name=brp\\.hpMod]')
     .closest('div.form-group')
     .before(

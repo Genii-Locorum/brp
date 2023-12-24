@@ -3,6 +3,7 @@ import * as contextMenu from "../actor-cm.mjs";
 import {BRPactorItemDrop} from '../actor-itemDrop.mjs';
 import {BRPCheck} from '../../apps/check.mjs';
 import {isCtrlKey} from '../../apps/helper.mjs'
+import {BRPDamage} from '../../apps/damage.mjs';
 
 export class BRPCharacterSheet extends ActorSheet {
 
@@ -261,7 +262,9 @@ export class BRPCharacterSheet extends ActorSheet {
     html.find(".actor-toggle").click(this._onActorToggle.bind(this));                // Actor Toggle
     html.find(".item-toggle").click(this._onItemToggle.bind(this));                  // Item Toggle
     html.find('.item-create').click(this._onItemCreate.bind(this));                  // Add Inventory Item
-    html.find('.rollable.stat-name').click(this._onStatRoll.bind(this));             // Rollable Characteristic
+    html.find('.rollable.charac-name').click(this._onStatRoll.bind(this));           // Rollable Characteristic
+    html.find('.rollable.skill-name').click(this._onSkillRoll.bind(this));           // Rollable Skill
+    html.find('.addWound').click(this._addWound.bind(this));                         // Add Inventory Item
     
     // Delete Inventory Item
     html.find('.item-delete').click(ev => {
@@ -331,7 +334,7 @@ export class BRPCharacterSheet extends ActorSheet {
     const newItem = await Item.create(itemData, {parent: this.actor});
 
     //And in certain circumstances render the new item sheet
-    if (itemData.type === 'gear' || itemData.type === 'wound') {
+    if (itemData.type === 'gear') {
       newItem.sheet.render(true);
     }
 
@@ -388,6 +391,12 @@ export class BRPCharacterSheet extends ActorSheet {
       checkProp = {[`system.${prop}`] : !this.actor.system[prop]}
     }  else if (prop === 'improve'){
       checkProp = {'system.stats.pow.improve': !this.actor.system.stats.pow.improve}  
+    } else if (prop === 'minorWnd'){
+      checkProp = {'system.minorWnd': !this.actor.system.minorWnd,
+                  'system.health.daily': 0}  
+    } else if (prop === 'majorWnd'){
+      checkProp = {'system.majorWnd': !this.actor.system.majorWnd,
+                  'system.health.daily': 0}  
     } else {return} 
 
     await this.actor.update(checkProp);
@@ -400,8 +409,9 @@ export class BRPCharacterSheet extends ActorSheet {
     const li = $(event.currentTarget).closest(".item");
     const item = this.actor.items.get(li.data("itemId"));
     const prop = element.dataset.property;
+    console.log(prop,li)
     let checkProp={};
-    if (prop === 'improve' || prop === 'mem') {
+    if (prop === 'improve' || prop === 'mem' || prop ==='injured' || prop ==='bleeding' || prop ==='incapacitated' || prop ==='severed' || prop ==='dead' || prop ==='unconscious' ) {
       checkProp = {[`system.${prop}`] : !item.system[prop]}
     } else if (prop === 'equipStatus') {
       if (item.system.equipStatus === 'carried' && item.type === 'armour') {
@@ -428,6 +438,11 @@ export class BRPCharacterSheet extends ActorSheet {
     return this.actor.createEmbeddedDocuments("Item", newItemData);
   }  
 
+  //Add a Wound
+  async _addWound(event) {
+    await BRPDamage.takeDamage(event, this.actor, this.token,0)
+  }
+
   //Start Characteristic Roll
   async _onStatRoll(event){
     let altKey = event.altKey;
@@ -439,11 +454,29 @@ export class BRPCharacterSheet extends ActorSheet {
       cardType='PP';
       characteristic='pow'
     }
-
     BRPCheck._trigger({
         rollType: 'CH',
         cardType,
         characteristic,
+        event,
+        actor: this.actor,
+        token: this.token
+    })
+  }
+
+  //Start Skill Roll
+  async _onSkillRoll(event){
+    let altKey = event.altKey;
+    let ctrlKey = isCtrlKey(event ?? false);
+    let cardType = 'NO';
+    let skillId = event.currentTarget.closest('.item').dataset.itemId;
+    // if (ctrlKey){cardType='OP'}
+    // if (altKey){cardType='GR'}
+  
+    BRPCheck._trigger({
+        rollType: 'SK',
+        cardType,
+        skillId,
         event,
         actor: this.actor,
         token: this.token

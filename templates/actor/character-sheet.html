@@ -72,8 +72,8 @@
         <div class="stats-grid">
           {{#each system.stats as |stat key|}}
             {{#if stat.visible}}       
-              <div class="rollable stat-name contextmenu left" title= "{{localize 'BRP.charHint'}}" data-characteristic = "{{key}}">{{stat.labelShort}}</div>
-              <div class ="font16 tp2 centre">{{stat.total}}</div>
+              <div class="stat-name contextmenu left" data-characteristic = "{{key}}">{{stat.labelShort}}</div>
+              <div class ="rollable charac-name font16 tp2 centre" title= "{{localize 'BRP.charHint'}}" data-characteristic = "{{key}}">{{stat.total}}</div>
               {{#if (eq key "pow")}}
                 <div class="hitloc-name tp2 centre"><a class="actor-toggle" data-property="improve"><i class="{{#if stat.improve}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>
               {{else}}
@@ -94,6 +94,20 @@
       {{!-- Character Portrait --}}
       <section class="portrait">  
         <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100"/>
+        <br>
+        <div class="centre largeIcon">
+          {{#if useHPL}}
+            <a class="{{#if system.bleeding}}active-status{{/if}}" title="{{ localize 'BRP.bleeding' }}"><i class="fas fa-droplet"></i></a>
+            <a class="{{#if system.incapacitated}}active-status{{/if}}" title="{{ localize 'BRP.incapacitated' }}"><i class="fas fa-face-dizzy"></i></a>
+            <a class="{{#if system.injured}}active-status{{/if}}" title="{{ localize 'BRP.injured' }}"><i class="fas fa-face-head-bandage"></i></a> 
+            <a class="{{#if system.severed}}active-status{{/if}}" title="{{ localize 'BRP.severed' }}"><i class="fas fa-bone-break"></i></a> 
+          {{else}}
+            <a class="{{#if system.minorWnd}}active-status{{/if}} actor-toggle" data-property="minorWnd" title="{{ localize 'BRP.minorWnd' }}"><i class="fas fa-crutch"></i></a>
+            <a class="{{#if system.majorWnd}}active-status{{/if}} actor-toggle" data-property="majorWnd" title="{{ localize 'BRP.majorWound' }}"><i class="fas fa-crutches"></i></a>
+          {{/if}}  
+          <a class="{{#if system.unconscious}}active-status{{/if}}" title="{{ localize 'BRP.unconscious' }}"><i class="fas fa-snooze"></i></a> 
+          <a class="{{#if system.dead}}active-status{{/if}}" title="{{ localize 'BRP.dead' }}"><i class="fas fa-skull"></i></a> 
+        </div>
       </section>
     </section> 
 
@@ -110,6 +124,7 @@
               <div class="attrib-disp">{{system.health.value}}</div>
               <span class="divider"> / </span>
               <div class="attrib-disp">{{system.health.max}}</div>
+              <div title="{{localize 'BRP.dailyHP'}}">{{#unless useHPL}}{{system.health.daily}}{{/unless}}</div> 
             </div>
           </div>
   

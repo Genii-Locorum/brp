@@ -1,5 +1,5 @@
 import { BRPUtilities } from "../apps/utilities.mjs";
-import { BRPWounds } from "../apps/wounds.mjs";
+import { BRPDamage } from "../apps/damage.mjs";
 import { BRPCheck } from "../apps/check.mjs";
 
 //Characteristic Name Context Menu Options
@@ -119,7 +119,7 @@ export const combatMenuOptions = (actor,token) => [
     icon: '<i class="fas fa-clock"></i>',
     condition: () => true,
     callback: (el) => {
-      const itemId = BRPWounds.naturalHeal(el, actor);
+      const itemId = BRPDamage.naturalHeal(el, actor);
     }
   },
   {
@@ -127,7 +127,15 @@ export const combatMenuOptions = (actor,token) => [
     icon: '<i class="fas fa-staff-snake"></i>',
     condition: () => true,
     callback: (el) => {
-      const itemId = BRPWounds.allHeal(el, actor);
+      const itemId = BRPDamage.allHeal(el, actor);
+    }
+  },
+  {
+    name: game.i18n.localize("BRP.resetDaily"),
+    icon: '<i class="fas fa-sunrise"></i>',
+    condition: () => !game.settings.get('brp','useHPL'),
+    callback: (el) => {
+      const itemId = BRPDamage.resetDaily(el, actor);
     }
   }
 ] 
@@ -139,6 +147,20 @@ export const skillMenuOptions = (actor,token) => [
       icon: "",
       condition: () => true,
       callback: (el) => {}
+    },
+    {
+      name: game.i18n.localize("BRP.card.NO"),
+      icon: '<i class="fas fa-dice-d20"></i>',
+      condition: () => true,
+      callback: (el) => {
+        BRPCheck._trigger({
+          rollType: 'SK',
+          cardType: 'NO',
+          skillId: el[0].dataset.itemId,
+          actor,
+          token,}
+        );
+      }
     },
     {
       name: game.i18n.localize("BRP.view"),
@@ -439,7 +461,15 @@ export const skillMenuOptions = (actor,token) => [
             icon: '<i class="fas fa-kit-medical"></i>',
             condition: () => true,
             callback: (el) => {
-              const itemId = BRPWounds.treatWound(el, actor, "itemId");
+              const itemId = BRPDamage.treatWound(el, actor, "itemId","medical");
+            }
+          },
+          {
+            name: game.i18n.localize("BRP.castHealing"),
+            icon: '<i class="fas fa-hand-sparkles"></i>',
+            condition: () => true,
+            callback: (el) => {
+              const itemId = BRPDamage.treatWound(el, actor, "itemId","magic");
             }
           },
           {

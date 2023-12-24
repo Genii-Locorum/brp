@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 11.1.7
+- Added wound/hit point statuses, minor and major wounds
+- Update hit locations for wound statuses
+- Characteristics now roll off the value not the name (context menus are off the name)
+
 ## 11.1.6
 - Minor change to natural healing
 - Added a "general" hit location when new character is created and the game is using HPL to hold poison damage etc

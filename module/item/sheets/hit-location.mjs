@@ -1,3 +1,5 @@
+import { BRPSelectLists } from "../../apps/select-lists.mjs";
+
 export class BRPHitLocSheet extends ItemSheet {
     constructor (...args) {
       super(...args)
@@ -15,11 +17,15 @@ export class BRPHitLocSheet extends ItemSheet {
       })
     }
 
-    getData () {
+    async getData () {
       const sheetData = super.getData()
       const itemData = sheetData.item
       sheetData.hasOwner = this.item.isEmbedded === true
       sheetData.isGM = game.user.isGM
+      //Get drop down options from select-lists.mjs
+      sheetData.locTypeOptions = await BRPSelectLists.getHitLocOptions();
+      sheetData.hitLocName = game.i18n.localize('BRP.'+this.item.system.locType)
+
       return sheetData
     }
   
@@ -39,8 +45,8 @@ export class BRPHitLocSheet extends ItemSheet {
     event.preventDefault();
     const prop=event.currentTarget.closest('.item-toggle').dataset.property;
     let checkProp={};
-    if (prop === 'locType') {
-      checkProp = {'system.locType': !this.object.system.locType};
+    if (prop === 'dead' || prop === 'severed' || prop === 'bleeding' || prop === 'unconscious') {
+      checkProp = {[`system.${prop}`] : !this.object.system[prop]};
     } else {return} 
   
     const item = await this.object.update(checkProp);

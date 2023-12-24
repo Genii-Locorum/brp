@@ -1,7 +1,11 @@
 <form class= "brp" id="treat-wound-form">
     <br>    
     <div class="flexcol">
-        <div class="stat-name centre">{{localize 'BRP.healPrompt'}}</div>
+        {{#if (eq type 'damage')}}
+            <div class="stat-name centre">{{localize 'BRP.damagePrompt'}}</div>
+        {{else}}    
+            <div class="stat-name centre">{{localize 'BRP.healPrompt'}}</div>
+        {{/if}}
         <br>
         <div class="flexrow">
             <input class="stat-name centre" name="treat-wound" type="text" placeholder=0 data-dtype="Number"/>

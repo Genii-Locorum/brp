@@ -130,6 +130,17 @@ export async function registerSettings () {
     type: Boolean
   });
 
+  //Dice Roll Options
+  game.settings.register('brp', 'diffValue', {
+    name: 'BRP.Settings.diffValue',
+    hint: 'BRP.Settings.diffValueHint',
+    requiresReload: true,
+    scope: 'world',
+    config: true,
+    default: false,
+    type: Boolean,
+  });
+
   game.settings.register('brp', 'allowImp', {
     name: 'BRP.Settings.allowImp',
     hint: 'BRP.Settings.allowImpHint',

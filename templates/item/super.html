@@ -7,19 +7,19 @@
 
       {{#if item.system.specialism}}  
         {{#if isGM}}  
-          <div class="skill-name bold"><input name="system.mainName" type="text" value="{{item.system.mainName}}" placeholder="Name"/></div>
+          <div class="title-name bold"><input name="system.mainName" type="text" value="{{item.system.mainName}}" placeholder="Name"/></div>
           <div class="skillgap-name"> / </div>
         {{else}}
-          <div class="skill-name bold boxed centre">{{item.system.mainName}}</div>
+          <div class="title-name bold boxed centre">{{item.system.mainName}}</div>
           <div class="skillgap-name"> / </div>
         {{/if}}
 
-        <div class="skill-name bold"><input name="system.specName" type="text" value="{{item.system.specName}}" placeholder="specify"/></div>  
+        <div class="title-name bold"><input name="system.specName" type="text" value="{{item.system.specName}}" placeholder="specify"/></div>  
       {{else}}  
         {{#if isGM}} 
-          <div class="skill-name bold"><input name="system.mainName" type="text" value="{{item.system.mainName}}" placeholder="Name"/></div>
+          <div class="title-name bold"><input name="system.mainName" type="text" value="{{item.system.mainName}}" placeholder="Name"/></div>
         {{else}}
-          <div class="skill-name bold centre boxed">{{item.system.mainName}}</div>
+          <div class="title-name bold centre boxed">{{item.system.mainName}}</div>
         {{/if}}
         <div></div>
         <div></div>  

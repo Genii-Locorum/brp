@@ -111,6 +111,14 @@ export class BRPActor extends Actor {
       systemData.skillcategory[key].bonus=modifiervalue;
     }
 
+    //Initialise health statuses
+    systemData.dead = false;
+    systemData.severed = false;
+    systemData.unconscious = false;
+    systemData.injured = false;
+    systemData.incapacitated = false;
+    systemData.bleeding = false
+
     //Calcualte/adjust scores for items
     for (let i of actorData.items) {
       if (i.type === 'skill' || i.type === 'magic' || i.type === 'psychic') {
@@ -125,6 +133,7 @@ export class BRPActor extends Actor {
         systemData.profession = i.name
         systemData.professionId = i._id;
       } else if (i.type === 'hit-location' && game.settings.get('brp','useHPL')) {
+        i.system.injured = false;
         i.system.maxHP = Math.max((Math.ceil(systemData.health.max / i.system.fractionHP) + i.system.adj),0);
         i.system.currHP = i.system.maxHP
         for (let j of actorData.items) {
@@ -132,11 +141,35 @@ export class BRPActor extends Actor {
             i.system.currHP= i.system.currHP - j.system.value 
           }
         }
+        if (i.system.currHP<1 && i.system.locType === 'limb') {
+          i.system.injured = true
+        } else if (i.system.currHP<1 && i.system.locType === 'abdomen') {
+          i.system.injured = true
+          systemData.injured = true
+        } else if (i.system.currHP<1 && i.system.locType === 'abdomen') {
+          i.system.incapacitated = true
+          systemData.incapacitated = true
+        } else if (i.system.currHP<1 && i.system.locType === 'head') {
+          i.system.unconscious = true
+          systemData.unconscious = true
+        } 
+        if (i.system.bleeding) {systemData.bleeding = true}
+        if (i.system.unconscious) {systemData.unconscious = true}
+        if (i.system.incapacitated) {systemData.incapacitated = true}
+        if (i.system.severed) {systemData.severed = true}
+        if (i.system.dead) {systemData.dead = true}
       } else if (i.type === 'wound') {
         systemData.health.value = systemData.health.value - i.system.value
       }
     }  
     systemData.dmgBonus = this._damageBonus (systemData.stats.str.total+systemData.stats.siz.total)
+
+    //Derive Health Statuses from total HP
+    if (systemData.health.value <1) {
+      systemData.dead = true;
+    } else if (systemData.health.value <3) {
+      systemData.unconscious = true;
+    }
   }  
 
   //Prepare NPC specific data.
@@ -199,7 +232,11 @@ export class BRPActor extends Actor {
         img: 'systems/brp/assets/Icons/arm-bandage.svg',
         system: {
           "fractionHP": 1,
-          "fractionENC": 1
+          "fractionENC": 1,
+          "lowRoll": 0,
+          "highRoll":0,
+          "locType": "general"
+
         }
       }];
   
