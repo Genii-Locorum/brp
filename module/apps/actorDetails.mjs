@@ -3,15 +3,18 @@ export class BRPactorDetails {
     // Get token/actor ID and type
     static async _getParticipantId(token,actor){
       let particId = "";
-        let particType ="";
+      let particType ="";
+      let particName ="";
           if (token && !token.actorLink){
             particId = token._id;
-            particType = "token"; 
+            particType = "token";
+            particName = token.name; 
           } else {
             particId = actor._id;
             particType = "actor";
+            particName = actor.name;
           }
-        let partic = ({particId, particType})
+        let partic = ({particId, particType, particName})
         return partic;
       }
 
@@ -57,4 +60,12 @@ export class BRPactorDetails {
         return result;
       }
     
+    //Get Actor Image for Id  
+    static async getParticImg (particId,particType) {
+      if (!particId || !particType) return null
+      const actor = await BRPactorDetails._getParticipant(particId, particType)
+      return actor.img
     }
+
+
+}

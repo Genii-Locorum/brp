@@ -409,7 +409,6 @@ export class BRPCharacterSheet extends ActorSheet {
     const li = $(event.currentTarget).closest(".item");
     const item = this.actor.items.get(li.data("itemId"));
     const prop = element.dataset.property;
-    console.log(prop,li)
     let checkProp={};
     if (prop === 'improve' || prop === 'mem' || prop ==='injured' || prop ==='bleeding' || prop ==='incapacitated' || prop ==='severed' || prop ==='dead' || prop ==='unconscious' ) {
       checkProp = {[`system.${prop}`] : !item.system[prop]}
@@ -470,8 +469,8 @@ export class BRPCharacterSheet extends ActorSheet {
     let ctrlKey = isCtrlKey(event ?? false);
     let cardType = 'NO';
     let skillId = event.currentTarget.closest('.item').dataset.itemId;
-    // if (ctrlKey){cardType='OP'}
-    // if (altKey){cardType='GR'}
+     if (ctrlKey){cardType='OP'}
+    if (altKey){cardType='GR'}
   
     BRPCheck._trigger({
         rollType: 'SK',

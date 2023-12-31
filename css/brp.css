@@ -362,6 +362,10 @@
   font-size: 20px;
 }
 
+.brp .font20 {
+  font-size: 20px;
+}
+
 .brp .font16 {
   font-size: 16px;
 }
@@ -404,7 +408,7 @@
   padding: 3px 0px 3px 0px;
 }
 
-.brp .title-name {
+.brp .truncate {
   align-self: center;
   overflow: hidden;
   white-space: nowrap;
@@ -1016,6 +1020,10 @@ padding-top: 4px;
   color:red;
 }
 
+.brp .result-yellow {
+  color:rgb(255, 174, 0);
+}
+
 .brp .roll-succ{
   text-align: center;
   background: rgba(0, 128, 0, 0.25);
@@ -1036,4 +1044,88 @@ padding-top: 4px;
   color: red;
   border: 1px solid var(--color-border-light-2);
   border-radius: 3px;
+}
+
+.brp .GR-item{
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--color-border-light-2);
+  border-radius: 3px;
+  margin-bottom: 2px;
+  padding-left: 2px;
+  font-size: 12px;
+}
+
+.brp .actor-roll {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  width: 100%;
+  align-items: center;
+  margin-bottom: 2px;
+}
+
+.brp .actor-roll .roll-details {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.brp .actor-roll .roll-details .header {
+  height: 16px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.brp .actor-roll .roll-details .header .name{
+  flex: 1;
+  font-size: 14px;
+  font-weight: bold;
+  padding-left: 2px;
+}
+
+.brp .actor-roll .roll-details .header .a{
+  height: 16px;
+  line-height: 16px;
+}
+
+.brp .actor-roll span.pending {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid #b5b3a4;
+  border-radius: 3px;
+  font-size: 14px;
+  height: 20px;
+  line-height: 20px;
+  margin: 2px 0;
+  display: inline-block;
+  text-align: center;
+}
+
+.brp .rollHidden {
+  margin-left: 40px;
+  font-size: 12px;
+}
+
+.brp .gr-list{
+  padding: 0px;
+  margin: 0px;
+  list-style: none;
+  background: none;
+  box-shadow: none;
+  border: none;
+}
+
+.brp .chat-dice {
+  margin: 0;
+  line-height: 24px;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--color-border-light-2);
+  border-radius: 3px;
+  box-shadow: 0 0 2px #FFF inset;
+  font-size: var(--font-size-20);
+  font-weight: bold;
 }

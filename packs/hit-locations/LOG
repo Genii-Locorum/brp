@@ -1,15 +1,15 @@
-2023/12/24-17:09:58.459 38e0 Recovering log #212
-2023/12/24-17:09:58.541 38e0 Delete type=0 #212
-2023/12/24-17:09:58.541 38e0 Delete type=3 #211
-2023/12/24-17:10:35.494 1fa4 Level-0 table #216: started
-2023/12/24-17:10:35.525 1fa4 Level-0 table #216: 1768 bytes OK
-2023/12/24-17:10:35.557 1fa4 Delete type=0 #214
-2023/12/24-17:10:35.654 1fa4 Manual compaction at level-0 from '!items!JLwaB3YuOyVlE6Mi' @ 72057594037927935 : 1 .. '!items!ykVMEqU4m3Hcylq1' @ 0 : 0; will stop at (end)
-2023/12/24-17:10:35.654 1fa4 Manual compaction at level-1 from '!items!JLwaB3YuOyVlE6Mi' @ 72057594037927935 : 1 .. '!items!ykVMEqU4m3Hcylq1' @ 0 : 0; will stop at '!items!ykVMEqU4m3Hcylq1' @ 17 : 1
-2023/12/24-17:10:35.654 1fa4 Compacting 1@1 + 1@2 files
-2023/12/24-17:10:35.720 1fa4 Generated table #217@1: 8 keys, 1768 bytes
-2023/12/24-17:10:35.720 1fa4 Compacted 1@1 + 1@2 files => 1768 bytes
-2023/12/24-17:10:35.749 1fa4 compacted to: files[ 0 0 1 0 0 0 0 ]
-2023/12/24-17:10:35.749 1fa4 Delete type=2 #140
-2023/12/24-17:10:35.749 1fa4 Delete type=2 #216
-2023/12/24-17:10:35.795 1fa4 Manual compaction at level-1 from '!items!ykVMEqU4m3Hcylq1' @ 17 : 1 .. '!items!ykVMEqU4m3Hcylq1' @ 0 : 0; will stop at (end)
+2023/12/31-07:02:31.421 2df0 Recovering log #322
+2023/12/31-07:02:31.521 2df0 Delete type=0 #322
+2023/12/31-07:02:31.521 2df0 Delete type=3 #320
+2023/12/31-08:36:52.426 2e00 Level-0 table #327: started
+2023/12/31-08:36:52.464 2e00 Level-0 table #327: 1770 bytes OK
+2023/12/31-08:36:52.502 2e00 Delete type=0 #325
+2023/12/31-08:36:52.569 2e00 Manual compaction at level-0 from '!items!JLwaB3YuOyVlE6Mi' @ 72057594037927935 : 1 .. '!items!ykVMEqU4m3Hcylq1' @ 0 : 0; will stop at (end)
+2023/12/31-08:36:52.569 2e00 Manual compaction at level-1 from '!items!JLwaB3YuOyVlE6Mi' @ 72057594037927935 : 1 .. '!items!ykVMEqU4m3Hcylq1' @ 0 : 0; will stop at '!items!ykVMEqU4m3Hcylq1' @ 25 : 1
+2023/12/31-08:36:52.570 2e00 Compacting 1@1 + 1@2 files
+2023/12/31-08:36:52.638 2e00 Generated table #328@1: 8 keys, 1770 bytes
+2023/12/31-08:36:52.638 2e00 Compacted 1@1 + 1@2 files => 1770 bytes
+2023/12/31-08:36:52.677 2e00 compacted to: files[ 0 0 1 0 0 0 0 ]
+2023/12/31-08:36:52.677 2e00 Delete type=2 #217
+2023/12/31-08:36:52.678 2e00 Delete type=2 #327
+2023/12/31-08:36:52.867 2e00 Manual compaction at level-1 from '!items!ykVMEqU4m3Hcylq1' @ 25 : 1 .. '!items!ykVMEqU4m3Hcylq1' @ 0 : 0; will stop at (end)

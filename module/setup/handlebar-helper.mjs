@@ -1,3 +1,5 @@
+import { BRPactorDetails } from '../apps/actorDetails.mjs'
+
 // Additional Handlebar helpers
 
 export const handlebarsHelper = function () {

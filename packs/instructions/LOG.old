@@ -1,3 +1,8 @@
-2023/12/24-11:21:02.590 3bac Recovering log #210
-2023/12/24-11:21:02.665 3bac Delete type=0 #210
-2023/12/24-11:21:02.665 3bac Delete type=3 #208
+2023/12/30-19:02:28.599 190c Recovering log #319
+2023/12/30-19:02:28.675 190c Delete type=0 #319
+2023/12/30-19:02:28.675 190c Delete type=3 #317
+2023/12/30-19:44:54.292 11cc Level-0 table #324: started
+2023/12/30-19:44:54.292 11cc Level-0 table #324: 0 bytes OK
+2023/12/30-19:44:54.325 11cc Delete type=0 #322
+2023/12/30-19:44:54.325 11cc Manual compaction at level-0 from '!journal!DgIeWGkxkwouUnTW' @ 72057594037927935 : 1 .. '!journal.pages!DgIeWGkxkwouUnTW.uwNw5mrRpNxH7HF7' @ 0 : 0; will stop at (end)
+2023/12/30-19:44:54.325 11cc Manual compaction at level-1 from '!journal!DgIeWGkxkwouUnTW' @ 72057594037927935 : 1 .. '!journal.pages!DgIeWGkxkwouUnTW.uwNw5mrRpNxH7HF7' @ 0 : 0; will stop at (end)

@@ -233,13 +233,26 @@ export class BRPSelectLists {
       options= Object.assign(options,newOption)      
     }
 
+    let itemsList = []
     //To do - replace hard coded "Throw" & "Demolitions" with a brpID when it's created
     for (let i of game.items) {
       if (i.type ==='skill' && (i.system.category ==='zcmbtmod' || i.name === 'Throw' || i.name === 'Demolition')) {
-        if(i._id != skillId) {
-          newOption ={[i.id]: i.name,};
-          options= Object.assign(options,newOption)
-        }  
+        itemsList.push(i)
+      }
+    }
+
+    itemsList.sort(function(a, b){
+      let x = a.name;
+      let y = b.name;
+      if (x < y) {return -1};
+      if (x > y) {return 1};
+      return 0;
+    });
+
+    for (let i of itemsList) {
+      if(i._id != skillId) {
+        newOption ={[i.id]: i.name,};
+        options= Object.assign(options,newOption)
       }  
     }
     return options

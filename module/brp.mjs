@@ -5,6 +5,8 @@ import { handlebarsHelper } from './setup/handlebar-helper.mjs';
 import { BRP } from "./setup/config.mjs";
 import { BRPHooks } from './hooks/index.mjs'
 import { registerSettings } from './setup/register-settings.mjs'
+import { BRPSystemSocket } from "./apps/socket.mjs"
+import * as Chat from "./apps/chat.mjs";
 
 //  Init Hook
 Hooks.once('init', async function() {
@@ -32,6 +34,13 @@ Hooks.once('init', async function() {
   return preloadHandlebarsTemplates();
 });
 
+//Turn sockets on
+Hooks.on('ready', async () => {
+  game.socket.on('system.brp', async data => {
+    BRPSystemSocket.callSocket(data)
+  });
+});
+
 //Remove certain Items types from the list of options to create under the items menu (can still be created directly from the character sheet)
 Hooks.on("renderDialog", (dialog, html) => {
   let deprecatedTypes = ["wound"]; // 
@@ -49,6 +58,9 @@ Hooks.once("ready", async function() {
 });
 
 BRPHooks.listen()
+
+//Add Chat Log Hooks
+Hooks.on("renderChatLog", (app, html, data) => Chat.addChatListeners(html));
 
 //Add sub-titles in Config Settings for BRP- Advanced Rules
 Hooks.on('renderSettingsConfig', (app, html, options) => {

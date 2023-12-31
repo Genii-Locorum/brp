@@ -15,14 +15,14 @@
       {{/if}}
 
       <div class="flexrow">
-        {{#if (eq cardType 'NO')}}
+        {{#if needDiff}}
           {{#if useDiffValue}}
             <label title = "{{ localize 'BRP.diffValHint' }}" >{{localize "BRP.diffVal"}}</label>   
             <input data-handle-change class="diff-number-input" type="text" value="{{formData.diffVal}}" name="diffVal">
           {{else}}
             <label class="resource-label-diff">{{ localize 'BRP.difficulty' }}</label>
             <select data-handle-change name="difficulty">
-              {{selectOptions difficultyOptions selected=difficulty}}
+              {{selectOptions difficultyOptions selected=diff}}
             </select>
           {{/if}}
         {{/if}}

@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 11.1.8
+- Added Socket functionality (pre-cursor to combined/opposed rolls)
+- Combined and Opposed skill rolls added
+- Skills now roll off the values not the name (context menus are off the name).  Clicking on the name opens the skill item sheet
+- Some changes to skills and weapons (additional skills added - Lasso, Net, Thrown Axe) and which weapons use which skills changed
+  based on discussions with author.  Rates of Fire also added to advanced missile weapons
+
 ## 11.1.7
 - Added wound/hit point statuses, minor and major wounds
 - Update hit locations for wound statuses
