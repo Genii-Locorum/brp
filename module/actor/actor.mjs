@@ -274,17 +274,17 @@ export class BRPActor extends Actor {
       dmgBonus.full = '-1D4'
       dmgBonus.half = '-1D2'
     } else if (value < 25) {
-      dmgBonus.full = ''
-      dmgBonus.half = ''
+      dmgBonus.full = '+0'
+      dmgBonus.half = '+0'
     } else if (value < 33) {
-      dmgBonus.full = '1D4'
-      dmgBonus.half = '1D2'
+      dmgBonus.full = '+1D4'
+      dmgBonus.half = '+1D2'
     } else if (value < 41) {
-      dmgBonus.full = '1D6'
-      dmgBonus.half = '1D3'
+      dmgBonus.full = '+1D6'
+      dmgBonus.half = '+1D3'
     } else {
-      dmgBonus.full = (Math.ceil((value-40)/16)+1) + "D6"
-      dmgBonus.half = (Math.ceil((value-40)/16)+1) + "D3"
+      dmgBonus.full = "+" + (Math.ceil((value-40)/16)+1) + "D6"
+      dmgBonus.half = "+" + (Math.ceil((value-40)/16)+1) + "D3"
     }
     return dmgBonus
   }

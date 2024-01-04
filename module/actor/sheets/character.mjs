@@ -158,6 +158,7 @@ export class BRPCharacterSheet extends ActorSheet {
         // Get the highest scoring skill that relates to this weapon
         let skillId ="";
         let score = 0;
+        let category = "";
         let skill1Name = ""
         let skill2Name = ""
         let skillSelect = "";
@@ -174,12 +175,13 @@ export class BRPCharacterSheet extends ActorSheet {
             if (j.system.total > score) {
               score = j.system.total
               skillId = j._id
+              category = j.system.category
             }  
           }
         }
         i.system.skillId = skillId
         if (i.system.skillId) {
-          i.system.skillScore = this.actor.items.get(i.system.skillId).system.total
+          i.system.skillScore = this.actor.items.get(i.system.skillId).system.total + this.actor.system.skillcategory[category].bonus
           i.system.skillName = this.actor.items.get(i.system.skillId).name
         } else {
           i.system.skillScore = 0
@@ -265,6 +267,8 @@ export class BRPCharacterSheet extends ActorSheet {
     html.find('.rollable.charac-name').click(this._onStatRoll.bind(this));           // Rollable Characteristic
     html.find('.rollable.skill-name').click(this._onSkillRoll.bind(this));           // Rollable Skill
     html.find('.addWound').click(this._addWound.bind(this));                         // Add Inventory Item
+    html.find('.rollable.damage-name').click(this._onDamageRoll.bind(this));         // Damage Roll
+    html.find('.rollable.weapon-name').click(this._onWeaponRoll.bind(this));         // Weapon Skill Roll
     
     // Delete Inventory Item
     html.find('.item-delete').click(ev => {
@@ -288,7 +292,8 @@ export class BRPCharacterSheet extends ActorSheet {
      new BRPContextMenu(html, ".stat-name.contextmenu", contextMenu.characteristicMenuOptions(this.actor, this.token));
      new BRPContextMenu(html, ".profession.contextmenu", contextMenu.professionMenuOptions(this.actor, this.token));
      new BRPContextMenu(html, ".personality.contextmenu", contextMenu.personalityMenuOptions(this.actor, this.token));
-     new BRPContextMenu(html, ".combat-name.contextmenu", contextMenu.combatMenuOptions(this.actor, this.token));
+     new BRPContextMenu(html, ".skills-tab.contextmenu", contextMenu.skillstabMenuOptions(this.actor, this.token));
+     new BRPContextMenu(html, ".combat-tab.contextmenu", contextMenu.combatMenuOptions(this.actor, this.token));
      new BRPContextMenu(html, ".skill-name.contextmenu", contextMenu.skillMenuOptions(this.actor, this.token));
      new BRPContextMenu(html, ".skill-cell-name.contextmenu", contextMenu.skillMenuOptions(this.actor, this.token));
      new BRPContextMenu(html, ".hitloc-name.contextmenu", contextMenu.hitLocMenuOptions(this.actor, this.token));
@@ -482,5 +487,35 @@ export class BRPCharacterSheet extends ActorSheet {
     })
   }
 
+  //Start Damage Roll
+  async _onDamageRoll(event){
+    let itemId = event.currentTarget.closest('.item').dataset.itemId;    
+    let cardType = 'NO'
+    BRPCheck._trigger({
+      rollType: 'DM',
+      cardType,
+      itemId,
+      event,
+      actor: this.actor,
+      token: this.token
+    })
+  }
 
+  
+  //Start Weapon Skill Roll
+  async _onWeaponRoll(event){
+    let itemId = event.currentTarget.closest('.item').dataset.itemId;    
+    let skillId = event.currentTarget.closest('.item').dataset.skillId;    
+    console.log(skillId, itemId)
+    let cardType = 'NO'
+    BRPCheck._trigger({
+      rollType: 'CM',
+      cardType,
+      itemId,
+      skillId,
+      event,
+      actor: this.actor,
+      token: this.token
+    })
+  }
 }

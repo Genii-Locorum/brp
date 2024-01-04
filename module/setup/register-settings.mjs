@@ -182,6 +182,35 @@ export async function registerSettings () {
     type: Number,
   });
 
+  //XP Modifiers
+  game.settings.register('brp', 'autoXP', {
+    name: 'BRP.Settings.autoXP',
+    hint: 'BRP.Settings.autoXPHint',
+    requiresReload: true,
+    scope: 'world',
+    config: true,
+    default: false,
+    type: Boolean,
+  });
+
+  game.settings.register('brp', "xpFormula", {
+    name: "BRP.Settings.xpFormula",
+    hint: 'BRP.Settings.xpFormulaHint',
+    scope: "world",
+    config: true,
+    type: String,
+    default: '1D6'
+  });
+
+  game.settings.register('brp', "xpFixed", {
+    name: "BRP.Settings.xpFixed",
+    hint: 'BRP.Settings.xpFixedHint',
+    scope: "world",
+    config: true,
+    type: Number,
+    default: 3
+  });
+
   //Optional Desciptors
   game.settings.register('brp', "background1", {
     name: "BRP.Settings.background1",
@@ -209,5 +238,19 @@ export async function registerSettings () {
     type: String,
     default: "Backstory"
   });
+
+  //Invisible Game Settings 
+  game.settings.register('brp', "development", {
+    name: "",
+    hint: "",
+    scope: "world",
+    requiresReload:false,
+    config: false,
+    type: Boolean,
+    default: false
+  });
+
+
+
 }
 

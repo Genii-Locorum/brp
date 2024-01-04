@@ -6,6 +6,8 @@ import { BRP } from "./setup/config.mjs";
 import { BRPHooks } from './hooks/index.mjs'
 import { registerSettings } from './setup/register-settings.mjs'
 import { BRPSystemSocket } from "./apps/socket.mjs"
+import { BRPCharDev } from "./apps/charDev.mjs"
+import { BRPLayer } from "./setup/layers.mjs"
 import * as Chat from "./apps/chat.mjs";
 
 //  Init Hook
@@ -34,6 +36,10 @@ Hooks.once('init', async function() {
   return preloadHandlebarsTemplates();
 });
 
+// Set Up Layers for Toolbar
+const layers = { BRPgmtools: { layerClass: BRPLayer, group: "primary" } };
+CONFIG.Canvas.layers = foundry.utils.mergeObject(Canvas.layers, layers);
+
 //Turn sockets on
 Hooks.on('ready', async () => {
   game.socket.on('system.brp', async data => {
@@ -54,13 +60,17 @@ Hooks.on("renderDialog", (dialog, html) => {
 
 // Ready Hook
 Hooks.once("ready", async function() {
+  // Always reset GM Tool toggles to False
+  if (game.user.isGM) {
+    if (game.settings.get('brp' , 'development')) {game.settings.set('brp','development', false)};
+  }  
   Hooks.on("hotbarDrop", (bar, data, slot) => createItemMacro(data, slot));
 });
 
 BRPHooks.listen()
 
 //Add Chat Log Hooks
-Hooks.on("renderChatLog", (app, html, data) => Chat.addChatListeners(html));
+Hooks.on('renderChatLog', (app, html, data) => Chat.addChatListeners(html));
 
 //Add sub-titles in Config Settings for BRP- Advanced Rules
 Hooks.on('renderSettingsConfig', (app, html, options) => {
@@ -103,6 +113,15 @@ Hooks.on('renderSettingsConfig', (app, html, options) => {
     )
 
     systemTab
+    .find('input[name=brp\\.autoXP]')
+    .closest('div.form-group')
+    .before(
+      '<h3 class="setting-header">' +
+        game.i18n.localize('BRP.xpModifiers') +
+        '</h3>'
+    )
+
+    systemTab
     .find('input[name=brp\\.background1]')
     .closest('div.form-group')
     .before(
@@ -111,6 +130,31 @@ Hooks.on('renderSettingsConfig', (app, html, options) => {
         '</h3>'
     )
 });
+
+//Add GM controls to Scene - first bit is adding the GM Tools button
+Hooks.on('getSceneControlButtons', (buttons) => {
+  if(game.user.isGM) {
+    const BRPGMTool = {
+      icon: "fas fa-tools",
+      layer: "BRPgmtools",
+      name: "BRPgmtools",
+      title: game.i18n.localize('BRP.gmTools'),
+      tools: [],
+      visible: true
+    };
+
+    // This adds a sub-button - the Development Phase - same as WinterPhase but without the year and history changes
+    BRPGMTool.tools.push({
+      name: "Development",
+      icon: "fas fa-chevrons-up",
+      title:  game.i18n.localize('BRP.developmentPhase'),
+      active: game.settings.get('brp','development'),
+      toggle: true,
+      onClick: async toggle => await BRPCharDev.developmentPhase(toggle)
+    });
+       buttons.push(BRPGMTool);
+    };
+  })
 
 // Hotbar Macros
 async function createItemMacro(data, slot) {

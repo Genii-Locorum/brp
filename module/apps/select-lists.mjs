@@ -234,7 +234,7 @@ export class BRPSelectLists {
     }
 
     let itemsList = []
-    //To do - replace hard coded "Throw" & "Demolitions" with a brpID when it's created
+    //TODO - replace hard coded "Throw" & "Demolitions" with a brpID when it's created
     for (let i of game.items) {
       if (i.type ==='skill' && (i.system.category ==='zcmbtmod' || i.name === 'Throw' || i.name === 'Demolition')) {
         itemsList.push(i)
@@ -296,4 +296,14 @@ export class BRPSelectLists {
     };   
     return options;
   }  
+
+  //Success Level List
+  static async getSuccessOptions (){
+    let options = {
+      "4": game.i18n.localize("BRP.resultLevel.4"),
+      "3": game.i18n.localize("BRP.resultLevel.3"),
+      "2": game.i18n.localize("BRP.resultLevel.2"),
+    };   
+    return options;
+  }
 }

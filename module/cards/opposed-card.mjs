@@ -47,7 +47,8 @@ export class OPCard {
                             'flags.brp.state': 'closed',
                           })
     const pushhtml = await BRPCheck.startChat(targetMsg.flags.brp)
-    await targetMsg.update({content: pushhtml})                        
+    await targetMsg.update({content: pushhtml})    
+    await BRPCheck.tickXP (targetMsg.flags.brp)
     return
   }  
 }

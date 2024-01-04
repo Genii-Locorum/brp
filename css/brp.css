@@ -12,7 +12,9 @@
   font-family: "Roboto", sans-serif;
 }
 
-
+#controls ol.control-tools li.toggle.active {
+  color: goldenrod;
+}
 
 .rollable:hover, .rollable:focus,.contextmenu:hover, .contextmenu:focus, .item-toggle:hover, .item-toggle:focus{
   color: #000;
@@ -1009,7 +1011,7 @@ padding-top: 4px;
   padding: 2px 2px 2px 2px;
   row-gap: 0px;
   column-gap: 5px;
-  grid-template-columns: 150px 40px 150px 60px 50px 50px 30px 30px 60px 50px 75px;
+  grid-template-columns: 150px 40px 130px 80px 60px 50px 30px 30px 85px 50px 40px;
 }
 
 .brp .result-success {
@@ -1120,12 +1122,25 @@ padding-top: 4px;
 
 .brp .chat-dice {
   margin: 0;
-  line-height: 24px;
+  line-height: 20px;
   text-align: center;
   background: rgba(0, 0, 0, 0.1);
   border: 1px solid var(--color-border-light-2);
   border-radius: 3px;
   box-shadow: 0 0 2px #FFF inset;
-  font-size: var(--font-size-20);
+  font-size: 18px;
   font-weight: bold;
 }
+
+.brp .XPCheck{
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid black;
+  border-radius: 3px;
+  padding-left: 5px;
+}
+
+.brp .bottom-line {
+  border-bottom: 1px solid black;
+}
+
+

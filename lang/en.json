@@ -81,6 +81,9 @@
     "armour": "Armour",
     "armVar": "Variable Armour",
     "armVarHint": "The user can vary the amount of armour points - genereally used for Energy Shields",
+    "askHands": "Wielded",
+    "askRange": "Target Range",
+    "askSuccess": "Attack Success Level",
     "att": "#Att",
     "attack": "Attack",
     "chance": "%",
@@ -146,6 +149,9 @@
     "deleteItem": "Delete Item",
     "description": "Description",
     "details": "Details",
+    "developmentPhase": "Development Phase",
+    "devPhaseOn": "Development Phase Enabled",
+    "devPhaseOff": "Development Phase Disabled",
     "dice": "Dice",
     "diceRoll": "Dice Roll",
     "difficult": "Difficult",
@@ -190,6 +196,7 @@
     "gender": "Gender",
     "general": "General",
     "gmNotes": "GM Notes",
+    "gmTools": "GM Tools",
     "grp": "Group",
     "group": "Skill Group",
     "groupHint": "A group of skills for professions and personalities",
@@ -293,6 +300,7 @@
     "packed": "Packed",
     "parry": "Parry",
     "parryHint": "Can parry with this weapon",
+    "partial": "Partial Success",
     "percmod": "Perception",
     "percPen": "Perception Modifier:",
     "perLvl":"per level",
@@ -308,6 +316,7 @@
     "portrait": "Portrait",
     "powCost": "POW Cost",
     "power": "Power",
+    "powImprove": "POW Improve",
     "powerMod": "Power Modifier",
     "powers": "Powers",
     "powvpow": "vs POW",
@@ -348,6 +357,8 @@
     "rule2": "Rule 2",
     "sanity": "Sanity Points",
     "scores": "Scores",
+    "scoreExcHint": "This percentage excludes the category bonus",
+    "scoreIncHint": "This percentage includes the category bonus",
     "severed": "Severed",
     "shield": "Shield",
     "simple": "Simple",
@@ -372,6 +383,7 @@
     "spells": "Spells",
     "statistics": "Characteristics",
     "status": "Status",
+    "statusShort": "St",
     "stealthPen": "Stealth Modifier",
     "stopPersonality": "This character already has a Personality",
     "stopProfession": "This character already has a Profession",
@@ -412,7 +424,11 @@
     "wounds": "Wounds",
     "woundTreated": "This wound has already been treated",
     "xp": "XP",
+    "xpAllGain": "All Improvement Checks",
     "xpBonus": "XP Bonus",
+    "xpGain": "XP Gain",
+    "xpModifiers": "XP Settings",
+    "xpRoll": "Improvement Checks",
     "zcmbtmod": "Combat",
 
     "resultLevel": {
@@ -424,11 +440,13 @@
     },
 
     "card": {
-      "NO": "Normal Roll",
+      "NO": "Regular Roll",
       "PP": "POW v POW",
       "RE": "Resistance Roll",
       "GR": "Combined Roll",
-      "OP": "Opposed Roll"
+      "OP": "Opposed Roll",
+      "CO": "Cooperative Card",
+      "DM": "Damage Roll"
     },
 
     "ErrorRollNotFound": "Type of roll not found!",
@@ -436,6 +454,8 @@
     "Settings":{
       "allowImp": "Allow Impossible Rolls",
       "allowImpHint": "Allow Impossible Rolls, which only succeed on a roll of 01",
+      "autoXP": "Auto tick XP check",
+      "autoXPHint": "Automatically tick XP checks when successful",
       "background1": "Background#1",
       "background2": "Background#2",
       "background3": "Background#3",
@@ -471,7 +491,11 @@
       "useSorcery": "Include Sorcery",
       "useSorceryHint": "Tick this to allow characters to have Sorcery spells",
       "useSuper": "Include Superpowers",
-      "useSuperHint": "Tick this to allow characters to have Super-powers"
+      "useSuperHint": "Tick this to allow characters to have Super-powers",
+      "xpFixed": "XP Fixed Increase",
+      "xpFixedHint": "Fixed increase when an XP improvement succeeds",
+      "xpFormula": "XP Improvement Dice",
+      "xpFormulaHint": "Dice to roll when an XP improvement succeeds"
     }
   }
 }

@@ -1,13 +1,17 @@
-import { BRPactorDetails } from "../apps/actorDetails.mjs"
-import { BRPSelectLists } from "../apps/select-lists.mjs"
+import { BRPactorDetails } from "./actorDetails.mjs"
+import { BRPSelectLists } from "./select-lists.mjs"
+import { BRPCombat } from "./combat.mjs"
 import { GRCard} from "../cards/combined-card.mjs"
 import { OPCard} from "../cards/opposed-card.mjs"
+import { COCard} from "../cards/cooperative-card.mjs"
 
 export class BRPCheck {
 
   //Roll Types
   //CH = Characteristic
   //SK = Skill
+  //DM = Damage
+  //CM = Combat
 
   //Card Types
   //NO = Normnal Roll
@@ -50,6 +54,9 @@ export class BRPCheck {
     //Set Basic Config
     let partic =await BRPactorDetails._getParticipantId(options.token,options.actor)
     let particImg = await BRPactorDetails.getParticImg(partic.particId,partic.particType)
+    let particActor = await BRPactorDetails._getParticipant(partic.particId,partic.particType)
+    let weapon = ""
+    let skill = ""
     let config = {
       rollType: options.rollType,
       cardType: options.cardType,
@@ -65,6 +72,7 @@ export class BRPCheck {
       particImg,
       characteristic: options.characteristic ?? false,
       skillId: options.skillId ??  false,
+      itemId: options.itemId?? false,
       addStat: "none",
       targetScore: 0,
       rawScore:0,
@@ -74,25 +82,46 @@ export class BRPCheck {
       rollFormula: "1D100",
       flatMod: 0,
       diceMod: 0,
-      resultLevel:0,
+      resultLevel: 0,
+      malfunction: 0,
       shiftKey: options.shiftKey ?? false,
       needDiff: true,
       label: "",
+      specLabel: ""
     }
 
     //Adjust Config based on roll type
     switch(options.rollType){
       case 'CH':
-        config.label = options.actor.system.stats[config.characteristic].labelShort ?? ""
-        config.rawScore = options.actor.system.stats[config.characteristic].total*5
-        config.targetScore = options.actor.system.stats[config.characteristic].total*5 ?? 0
+        config.label = particActor.system.stats[config.characteristic].labelShort ?? ""
+        config.rawScore = particActor.system.stats[config.characteristic].total*5
+        config.targetScore = particActor.system.stats[config.characteristic].total*5 ?? 0
         break
       case 'SK':
-        let skill = options.actor.items.get(config.skillId)
+        skill = particActor.items.get(config.skillId)
         config.label = skill.name ?? ""
         config.rawScore = skill.system.total
         config.targetScore = skill.system.total + options.actor.system.skillcategory[skill.system.category].bonus ?? 0
         break
+      case 'DM':  
+        weapon = particActor.items.get(config.itemId)
+        config.label = weapon.name ?? ""
+        let damageData = await BRPCombat.damageFormula(weapon, particActor)
+        config.specLabel = game.i18n.localize('BRP.'+weapon.system.special)
+        config.rollFormula = damageData.damage
+        config.resultLevel = damageData.success
+        config.shiftKey = true
+        config.chatTemplate =  'systems/brp/templates/chat/roll-damage.html'
+        break
+      case 'CM':  
+        weapon = particActor.items.get(config.itemId)
+        config.label = weapon.name ?? ""
+        skill = particActor.items.get(config.skillId)
+        config.label = skill.name ?? ""
+        config.rawScore = skill.system.total
+        config.targetScore = skill.system.total + options.actor.system.skillcategory[skill.system.category].bonus ?? 0     
+        config.malfunction = weapon.system.mal          
+        break        
       default: 
         ui.notifications.error(options.rollType +": " + game.i18n.format('BRP.errorRollInvalid')) 
         return false
@@ -118,6 +147,10 @@ export class BRPCheck {
           config.chatType = CONST.CHAT_MESSAGE_TYPES.OTHER
           config.chatTemplate =  'systems/brp/templates/chat/roll-opposed.html'
           break
+        case 'CO':
+          config.chatType = CONST.CHAT_MESSAGE_TYPES.OTHER
+          config.chatTemplate =  'systems/brp/templates/chat/roll-cooperative.html'
+          break          
       default: 
         ui.notifications.error(options.cardType +": " + game.i18n.format('BRP.errorCardInvalid')) 
         return false
@@ -220,6 +253,7 @@ export class BRPCheck {
         characteristic: config.characteristic ?? false,
         label: config.label,
         skillId: config.skillId,
+        itemId: config.itemId,
         addStat: config.addStat,
         targetScore: config.targetScore,
         rawScore: config.rawScore,
@@ -230,17 +264,19 @@ export class BRPCheck {
         rollFormula: config.rollFormula,
         flatMod: config.flatMod,
         diceMod: config.diceMod,
+        malfunction: config.malfunction,
         rollResult: config.rollResult,
         rollVal: config.rollVal,
         roll: config.roll,
         resultLevel: config.resultLevel,
         resultLabel: game.i18n.localize('BRP.resultLevel.'+config.resultLevel),
+        specLabel: config.specLabel
       }]
     }
 
 
     //Create the ChatMessage and Roll Dice
-    if ((['GR', 'OP'].includes(config.cardType))) {
+    if ((['GR', 'OP', 'CO'].includes(config.cardType))) {
       let checkMsgId = await BRPCheck.checkNewMsg (chatMsgData)
       if (checkMsgId != false) {
         //Trigger adding check to the card.
@@ -252,19 +288,34 @@ export class BRPCheck {
 
     const html = await BRPCheck.startChat(chatMsgData)
     let msgId =  await BRPCheck.showChat(html,chatMsgData)
+
+    //Check for adding Improvement tick
+    if (game.settings.get('brp','autoXP')) {
+      await BRPCheck.tickXP (chatMsgData)
+    }  
+
     return msgId
   }
 
   //Call Dice Roll, calculate Result and store original results in rollVal
   static async makeRoll(config) {
     let roll = new Roll(config.rollFormula)
-    await roll.roll({ async: true})
+    await roll.roll({ maximize: true, async: true})
     config.roll = roll
-    config.rollResult = Number(roll.result)
+    config.rollResult = Number(roll.total)
     config.rollVal = Number(config.rollResult)
+
+
+    //Don't need success levels in some cases
+    if (config.rollType === 'DM') {return}
 
     //Get the level of Success
     config.resultLevel = await BRPCheck.successLevel(config)
+
+    //If a Combat Roll and with a malfunction chance > 0 then make the check
+    if (config.rollType === 'CM' && config.malfunction > 0 && config.rollVal >= config.malfunction) {
+      config.malfunction = -config.malfunction
+    }
 
     //If Resistance roll and not using detailed results then change result to simple Success/Failure
     if ((config.cardType === 'RE' || config.cardType === 'PP') && !game.settings.get('brp','resistLevels')) {
@@ -278,19 +329,36 @@ export class BRPCheck {
 
   //Function to call the Difficulty & Modifier Dialog box 
   static async RollDialog (options) {
-    const difficultyOptions = await BRPSelectLists.getDifficultyOptions()
-    const addStatOptions = await BRPSelectLists.addStatOptions(options.characteristic)
-    const data = {
-      type : options.rollType,
-      addStat: options.addStat,
-      diffVal: options.diffVal,
-      cardType: options.cardType,
-      needDiff: options.needDiff,
-      useDiffValue: game.settings.get('brp','diffValue'),
-      label: options.label,
-      diff: options.diff,
-      difficultyOptions,
-      addStatOptions,
+    let data =""
+    switch (options.rollType) {
+      case 'DM':
+        data = {
+          type : options.rollType,
+          rangeOptions: options.rangeOptions,
+          handOptions: options.handOptions,
+          successOptions: options.successOptions,
+          label: options.label,
+          askHands: options.askHands,
+          askRange: options.askRange,
+          askSuccess: options.askSuccess       
+        }
+        break
+      default:  
+        const difficultyOptions = await BRPSelectLists.getDifficultyOptions()
+        const addStatOptions = await BRPSelectLists.addStatOptions(options.characteristic)
+        data = {
+          type : options.rollType,
+          addStat: options.addStat,
+          diffVal: options.diffVal,
+          cardType: options.cardType,
+          needDiff: options.needDiff,
+          useDiffValue: game.settings.get('brp','diffValue'),
+          label: options.label,
+          diff: options.diff,
+          difficultyOptions,
+          addStatOptions,
+        }
+      break  
     }
     const html = await renderTemplate(options.dialogTemplate,data)
     return new Promise(resolve => {
@@ -374,12 +442,50 @@ export class BRPCheck {
         },
       }
 
-    if ((['NO', 'RE','PP', 'OP'].includes(chatMsgData.cardType))) {
+    if (['NO', 'RE','PP', 'OP'].includes(chatMsgData.cardType)) {
       chatData.rolls = [chatMsgData.rolls]
     }  
 
     let msg = await ChatMessage.create(chatData)
     return msg._id
+  }
+
+
+  //Handle XP tickbox
+  static async tickXP (msg) {
+    let item=""
+    let actor=""
+    //Don't do XP check until card is closed
+    if(msg.state != 'closed') {return}
+    //Don't do XP checks here for Resist, Group, Opposed or Coop rolls - triggered from those sections as more than 1 skill
+    switch (msg.cardType) {
+
+      case "RE":
+        //No checks for a resist card
+        return
+      case "PP":  
+        //If a POW v POW check target POW greater than current POW
+        actor = await BRPactorDetails._getParticipant(msg.chatCard[0].particId,msg.chatCard[0].particType)
+        if (msg.chatCard[0].resistance <= actor.system.stats.pow.total || msg.chatCard[0].resultLevel <2) {return}
+        await actor.update({'system.stats.pow.improve': true})
+        break
+      
+      case "NO":
+      case "GR":
+      case "OP":
+      case "CO":  
+        //Allow checks for Normal,Combined and Oppossed cards, unless it's a Characteristic check
+        if (['CH', 'DM'].includes(msg.rollType)) {return}  
+        for (let i of msg.chatCard) {
+          if(i.diff != 'easy' && i.diffVal <= 1 && i.resultLevel>1) {
+            actor = await BRPactorDetails._getParticipant(i.particId,i.particType)
+            item = await actor.items.get(i.skillId)
+            await item.update({'system.improve': true})
+          }   
+        }
+        break  
+      } 
+    return  
   }
 
 
@@ -427,6 +533,9 @@ export class BRPCheck {
       case "resolve-op-card":
         await OPCard.OPResolve(data)        
         break  
+      case "resolve-co-card":
+        await COCard.COResolve(data)        
+        break          
       default:
         return
       }

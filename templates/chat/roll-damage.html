@@ -1,0 +1,22 @@
+<form class="brp gr-card">
+  <div class="">
+    <div class="bold">{{localize 'BRP.card.DM'}}</div>  
+    <ol class="gr-list">
+      {{#each chatCard as |c key|}}
+        <div class="dice-roll">
+          <li class='actor-roll'>
+            <img class="open-actor" src="{{c.particImg}}" height="40" width="40" title="{{c.particName}}"/>
+            <div class="roll-details">
+              <div class="header">
+                <div class='name'>
+                  <span class="tag">{{c.label}} ({{c.rollFormula}}) {{c.resultLabel}}</span>
+                </div>
+              </div>
+                <span class="pending">{{c.rollVal}} {{#if (eq c.resultLevel "3")}}{{c.specLabel}} {{/if}}</span>
+            </div>
+          </li>
+        </div>  
+      {{/each}}
+    </ol>
+  </div>
+</form> 

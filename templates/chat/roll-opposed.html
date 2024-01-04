@@ -59,7 +59,7 @@
                 {{/if}}
               </div>
               <div class="rollHidden">{{localize 'BRP.diceRoll'}}: {{c.rollVal}}</div>
-              <div class="rollHidden">{{localize 'BRP.origResult'}}: {{c.origResLabel}}</div>
+              <div class="rollHidden bottom-line">{{localize 'BRP.origResult'}}: {{c.origResLabel}}</div>
             </div>
           </div>  
         {{/if}}
@@ -70,7 +70,5 @@
   {{#unless (eq state 'closed')}}
     <button class='cardbutton gm-visible-only' data-preset='resolve-op-card' type="button">{{localize 'BRP.resolveCard'}}</button>
     <button class='cardbutton gm-visible-only' data-preset='close-card' type="button">{{localize 'BRP.closeCard'}}</button>
-  {{else}} 
-    <h3 class="chat-dice" >{{rollResult}}</h3>
   {{/unless}}
 </form>  

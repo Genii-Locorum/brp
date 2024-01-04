@@ -1,6 +1,7 @@
 import { BRPUtilities } from "../apps/utilities.mjs";
 import { BRPDamage } from "../apps/damage.mjs";
 import { BRPCheck } from "../apps/check.mjs";
+import { BRPCharDev } from "../apps/charDev.mjs";
 
 //Characteristic Name Context Menu Options
 export const characteristicMenuOptions = (actor,token) => [
@@ -50,6 +51,22 @@ export const characteristicMenuOptions = (actor,token) => [
         actor,
         token,}
         );
+    }
+  },
+  {
+    name: game.i18n.localize("BRP.powImprove")+"(1D3-1)",
+    icon: '<i class="fas fa-dice-d6"></i>',
+    condition: (el) => (el[0].dataset.characteristic ==='pow' && game.settings.get('brp','development') && actor.system.stats.pow.improve),
+    callback: (el) => {
+      BRPCharDev.powImprov(actor, token, "roll");
+    }
+  },
+  {
+    name: game.i18n.localize("BRP.powImprove")+"(1)",
+    icon: '<i class="fas fa-dice-one"></i>',
+    condition: (el) => (el[0].dataset.characteristic ==='pow' && game.settings.get('brp','development') && actor.system.stats.pow.improve),
+    callback: (el) => {
+      BRPCharDev.powImprov(actor, token, "fixed");
     }
   }
 ]  
@@ -106,6 +123,33 @@ export const personalityMenuOptions = (actor,token) => [
   }
 ]  
 
+//Skills Tab Name Context Menu Options
+export const skillstabMenuOptions = (actor,token) => [
+  {
+    name: game.i18n.localize("BRP.skills"),
+    icon: "",
+    condition: () => true,
+    callback: (el) => {}
+  },
+  {
+    name: game.i18n.localize("BRP.xpAllGain")+ " (" + game.settings.get('brp','xpFormula') + ")",
+    icon: '<i class="fas fa-dice-d6"></i>',
+    condition: () => game.settings.get('brp','development'),
+    callback: (el) => {
+      const itemId = BRPCharDev.onXPGainAll(actor, token,"roll");
+    }
+  },
+  {
+    name: game.i18n.localize("BRP.xpAllGain")+ " (" + game.settings.get('brp','xpFixed') + ")",
+    icon: '<i class="fas fa-dice-three"></i>',
+    condition: () => game.settings.get('brp','development'),
+    callback: (el) => {
+      const itemId = BRPCharDev.onXPGainAll(actor, token, "fixed");
+    }
+  }
+]
+
+
 //Combat Tab Name Context Menu Options
 export const combatMenuOptions = (actor,token) => [
   {
@@ -153,6 +197,7 @@ export const skillMenuOptions = (actor,token) => [
       icon: '<i class="fas fa-dice-d20"></i>',
       condition: () => true,
       callback: (el) => {
+        console.log(el)
         BRPCheck._trigger({
           rollType: 'SK',
           cardType: 'NO',
@@ -178,7 +223,7 @@ export const skillMenuOptions = (actor,token) => [
     },
     {
       name: game.i18n.localize("BRP.card.OP"),
-      icon: '<i class="fas fa-hand-fist"></i>',
+      icon: '<i class="fas fa-handshake-simple"></i>',
       condition: () => true,
       callback: (el) => {
         BRPCheck._trigger({
@@ -190,6 +235,36 @@ export const skillMenuOptions = (actor,token) => [
         );
       }
     },
+    {
+      name: game.i18n.localize("BRP.card.CO"),
+      icon: '<i class="fas fa-hand-fist"></i>',
+      condition: () => true,
+      callback: (el) => {
+        BRPCheck._trigger({
+          rollType: 'SK',
+          cardType: 'CO',
+          skillId: el[0].dataset.itemId,
+          actor,
+          token,}
+        );
+      }
+    },
+    {
+      name: game.i18n.localize("BRP.xpGain")+ " (" + game.settings.get('brp','xpFormula') + ")",
+      icon: '<i class="fas fa-dice-d6"></i>',
+      condition: (el) => (game.settings.get('brp','development') && el[0].dataset.xp === 'true'),
+      callback: (el) => {
+        BRPCharDev.onXPGainSingle(el[0].dataset.itemId,actor,token,"formula");
+      }
+    },    
+    {
+      name: game.i18n.localize("BRP.xpGain")+ " (" + game.settings.get('brp','xpFixed') + ")",
+      icon: '<i class="fas fa-dice-three"></i>',
+      condition: (el) => (game.settings.get('brp','development') && el[0].dataset.xp === 'true'),
+      callback: (el) => {
+        BRPCharDev.onXPGainSingle(el[0].dataset.itemId,actor,token,"fixed");
+      }
+    },    
     {
       name: game.i18n.localize("BRP.view"),
       icon: '<i class="fas fa-magnifying-glass"></i>',
