@@ -35,16 +35,19 @@ export class BRPCheck {
   static async normaliseRequest (options){
 
     //Set Roll Type based on options handed in if not already defined
-    if ( typeof options.event === 'undefined') {
-      if (typeof options.characteristic !="undefined" && typeof options.actor.system.stats[options.characteristic] !== 'undefined') {
-        options.rollType ="CH"
-      } else  if (typeof options.skillId !="undefined") {
-        options.rollType ="SK"
-      } else {
-        ui.notifications.error(game.i18n.localize('BRP.ErrorRollNotFound'))
-        return false          
+    if (typeof options.rollType === 'undefined') {
+      if ( typeof options.event === 'undefined') {
+        console.log(options)
+        if (typeof options.characteristic !="undefined" && typeof options.actor.system.stats[options.characteristic] !== 'undefined') {
+          options.rollType ="CH"
+        } else  if (typeof options.skillId !="undefined") {
+          options.rollType ="SK"
+        } else {
+          ui.notifications.error(game.i18n.localize('BRP.ErrorRollNotFound'))
+          return false          
+        }
       }
-     }
+    } 
      
     //If hand in has an associated event set SHIFT key option 
     if (typeof options.event != 'undefined'){
@@ -300,7 +303,7 @@ export class BRPCheck {
   //Call Dice Roll, calculate Result and store original results in rollVal
   static async makeRoll(config) {
     let roll = new Roll(config.rollFormula)
-    await roll.roll({ maximize: true, async: true})
+    await roll.roll({ async: true})
     config.roll = roll
     config.rollResult = Number(roll.total)
     config.rollVal = Number(config.rollResult)

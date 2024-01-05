@@ -446,7 +446,8 @@
       "GR": "Combined Roll",
       "OP": "Opposed Roll",
       "CO": "Cooperative Card",
-      "DM": "Damage Roll"
+      "DM": "Damage Roll",
+      "CM": "Combat Roll"
     },
 
     "ErrorRollNotFound": "Type of roll not found!",

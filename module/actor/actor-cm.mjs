@@ -526,6 +526,35 @@ export const skillMenuOptions = (actor,token) => [
             callback: (el) => {}
           },
           {
+            name: game.i18n.localize("BRP.card.CM"),
+            icon: '<i class="fas fa-swords"></i>',
+            condition: () => true,
+            callback: (el) => {
+              BRPCheck._trigger({
+                rollType: 'CM',
+                cardType: 'NO',
+                itemId: el[0].dataset.itemId,
+                skillId: el[0].dataset.skillId,
+                actor,
+                token,}
+              );
+            }
+          },
+          {
+            name: game.i18n.localize("BRP.card.DM"),
+            icon: '<i class="fas fa-bullseye-arrow"></i>',
+            condition: () => true,
+            callback: (el) => {
+              BRPCheck._trigger({
+                rollType: 'DM',
+                cardType: 'NO',
+                itemId: el[0].dataset.itemId,
+                actor,
+                token,}
+              );
+            }
+          },
+          {
             name: game.i18n.localize("BRP.view"),
             icon: '<i class="fas fa-magnifying-glass"></i>',
             condition: () => true,

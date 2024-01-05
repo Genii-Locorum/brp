@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 11.1.10
+- Removed a testing element left in (oops) that forced max dice roll values
+- Added context menu options for weapon skill and damage rolls
+
 ## 11.1.9
 - Added GM Tools to the scene tools and a Development Phase
 - Added XP improvement checks, only available when Development Phase is turned on by the GM.  Applies to Normal Skill, Combined, Oppossed and POW v POW rolls.
