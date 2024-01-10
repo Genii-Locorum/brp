@@ -23,7 +23,7 @@ export class BRPHitLocSheet extends ItemSheet {
       sheetData.hasOwner = this.item.isEmbedded === true
       sheetData.isGM = game.user.isGM
       //Get drop down options from select-lists.mjs
-      sheetData.locTypeOptions = await BRPSelectLists.getHitLocOptions();
+      sheetData.locTypeOptions = await BRPSelectLists.getHitLocType();
       sheetData.hitLocName = game.i18n.localize('BRP.'+this.item.system.locType)
 
       return sheetData

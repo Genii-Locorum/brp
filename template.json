@@ -141,7 +141,6 @@
       "templates": ["base"],
       "quantity": 1,
       "enc": 0,
-      "actEnc": 0,
       "price": "",
       "equipStatus": "carried"
     },
@@ -176,7 +175,8 @@
       "specName": "",
       "mainName": "",
       "occupation": false,
-      "improve": false
+      "improve": false,
+      "basic": false
     },
 
     "hit-location": {
@@ -307,13 +307,13 @@
       "armBal": false,
       "burden": "",
       "enc": 0,
-      "actEnc": 0,
       "mnplmod": 0,
       "percmod": 0,
       "physmod": 0,
       "stealthmod": 0,
       "sizRng": 0,
       "time": 1,
+      "quantity": 1,
       "ppMax": 0,
       "ppCurr": 0,
       "price": "",
@@ -353,18 +353,17 @@
       "ammoType": "",
       "ammo": 0,
       "ammoCurr": 0,
-      "mal":0,
-      "rof":0,
+      "mal": 0,
+      "rof": 0,
       "radius": 0,
       "parry": true,
       "str":0,
       "dex": 0,
       "enc": 0,
-      "actEnc": 0,
       "price": "",
       "equipStatus": "carried",
       "coverage": "",
-      "qty": 1
+      "quantity": 1
     },
     "wound": {
       "value": 1,

@@ -5,10 +5,12 @@ import {BRPCheck} from '../../apps/check.mjs';
 import {isCtrlKey} from '../../apps/helper.mjs'
 import {BRPDamage} from '../../apps/damage.mjs';
 
+
 export class BRPCharacterSheet extends ActorSheet {
 
   /** @override */
   static get defaultOptions() {
+    
     return mergeObject(super.defaultOptions, {
       classes: ["brp", "sheet", "actor"],
       template: "systems/brp/templates/actor/character-sheet.html",
@@ -32,6 +34,7 @@ export class BRPCharacterSheet extends ActorSheet {
     const actorData = this.actor.toObject(false);
     context.system = actorData.system;
     context.flags = actorData.flags;
+    context.logo = game.settings.get('brp','charSheetLogo');
     context.useEDU = game.settings.get('brp','useEDU');
     context.useMP = game.settings.get('brp','useMP');
     context.useFP = game.settings.get('brp','useFP');
@@ -100,8 +103,10 @@ export class BRPCharacterSheet extends ActorSheet {
         i.system.equippedName = game.i18n.localize('BRP.'+i.system.equipStatus)
         gears.push(i);
       } else if (i.type ==='skill') {
-        skills.push(i);
         skillsDev.push(i)
+          i.system.grandTotal = i.system.total + this.actor.system.skillcategory[i.system.category].bonus
+        skills.push(i);
+          
         this.actor.system.totalProf = this.actor.system.totalProf + i.system.profession
         this.actor.system.totalPers = this.actor.system.totalPers + i.system.personal
       } else if (i.type === 'hit-location') {
@@ -269,6 +274,8 @@ export class BRPCharacterSheet extends ActorSheet {
     html.find('.addWound').click(this._addWound.bind(this));                         // Add Inventory Item
     html.find('.rollable.damage-name').click(this._onDamageRoll.bind(this));         // Damage Roll
     html.find('.rollable.weapon-name').click(this._onWeaponRoll.bind(this));         // Weapon Skill Roll
+    html.find('.rollable.attribute').click(this._onAttribute.bind(this));            // Attribute modifier
+    html.find('.rollable.ap-name').click(this._onArmour.bind(this));                 // Armour roll
     
     // Delete Inventory Item
     html.find('.item-delete').click(ev => {
@@ -307,6 +314,8 @@ export class BRPCharacterSheet extends ActorSheet {
      new BRPContextMenu(html, ".gear-name.contextmenu", contextMenu.gearMenuOptions(this.actor, this.token));
      new BRPContextMenu(html, ".weapon-name.contextmenu", contextMenu.weaponMenuOptions(this.actor, this.token));
      new BRPContextMenu(html, ".wound-name.contextmenu", contextMenu.woundMenuOptions(this.actor, this.token));
+     new BRPContextMenu(html, ".power.contextmenu", contextMenu.powerAttMenuOptions(this.actor, this.token));
+     new BRPContextMenu(html, ".fatigue.contextmenu", contextMenu.fatigueAttMenuOptions(this.actor, this.token));
   }
 
   // Handle creating a new Owned Item for the actor using initial data defined in the HTML dataset
@@ -506,13 +515,68 @@ export class BRPCharacterSheet extends ActorSheet {
   async _onWeaponRoll(event){
     let itemId = event.currentTarget.closest('.item').dataset.itemId;    
     let skillId = event.currentTarget.closest('.item').dataset.skillId;    
-    console.log(skillId, itemId)
     let cardType = 'NO'
     BRPCheck._trigger({
       rollType: 'CM',
       cardType,
       itemId,
       skillId,
+      event,
+      actor: this.actor,
+      token: this.token
+    })
+  }
+
+
+  //Start Attribute modify
+  async _onAttribute(event) {
+    let att = event.currentTarget.closest('.attribute').dataset.att
+    let adj = event.currentTarget.closest('.attribute').dataset.adj
+    let checkprop = ""
+    let newVal = this.actor.system[att].value
+    let newMax = this.actor.system[att].max
+    if (adj === 'spend'){
+      checkprop = {[`system.${att}.value`] : newVal-1}
+    } else if (adj === 'recover' && newVal < newMax){
+      checkprop = {[`system.${att}.value`] : newVal+1}      
+    } else {return}
+    
+    this.actor.update(checkprop)    
+  }
+
+
+  //Armour Rolling when using variable armour
+  async _onArmour (event){
+    let prop = event.currentTarget.closest('.ap-name').dataset.property
+    let AVform = ""
+    let label=""
+    switch (prop) {
+      case "cap":
+        AVform = this.actor.system.avr1
+        label = game.i18n.localize('BRP.armour')
+        break
+      case "cbap":
+        AVform = this.actor.system.avr2
+        label = game.i18n.localize('BRP.ballistic')
+        break
+      case "ap":
+        let item = this.actor.items.get(event.currentTarget.closest('.ap-name').dataset.itemId)
+        if (event.shiftKey) {
+          AVform = item.system.avr2
+          label = item.name + ": " + game.i18n.localize('BRP.ballistic')
+        } else {
+          AVform = item.system.avr1
+          label = item.name + ": " + game.i18n.localize('BRP.armour')
+        }
+        break 
+      default:
+        return
+    }
+    BRPCheck._trigger({
+      rollType: 'AR',
+      cardType: 'NO',
+      label,
+      AVform,
       event,
       actor: this.actor,
       token: this.token

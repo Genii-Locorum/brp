@@ -4,11 +4,13 @@
   <section class="main-sheet">
     <section>
       <div class="sheet-title main-title char-title-grid">
-        <div>
+        <div style="max-height: 58px">
           <img class="logo-img" src="systems/brp/assets/brp-logo-powered_by-02.png" height="58" width="58"/>
         </div>
-        <div class="brp-header">{{ localize 'BRP.brp' }}</div>
-        <div></div>
+        <div style="max-height: 58px">
+          <img class="long-logo" src={{logo}} height="58" />
+        </div> 
+        <div style="max-height: 58px"></div>
       </div>  
     </section>  
 
@@ -117,7 +119,7 @@
         <div class="resources {{#if (eq resource 4)}} resource-4col{{else}} {{#if (eq resource 3)}} resource-3col{{else}} resource-2col{{/if}}{{/if}}">
   
           <div class="each-resource centre">
-            <div data-target="system.health" class="resource-label">{{localize 'BRP.health'}}
+            <div data-target="system.health" class="resource-label attribute-name contextmenu">{{localize 'BRP.health'}}
             </div>
             <div class="resource-grid">
               <div></div> 
@@ -130,28 +132,28 @@
   
           <div class="each-resource centre">
             {{#if useMP}}
-              <label for="system.power.value" class="resource-label">{{localize 'BRP.mp'}}</label>
+              <label for="system.power.value" class="resource-label power contextmenu">{{localize 'BRP.mp'}}</label>
             {{else}}
-              <label for="system.power.value" class="resource-label">{{localize 'BRP.pp'}}</label>
+              <label for="system.power.value" class="resource-label power contextmenu">{{localize 'BRP.pp'}}</label>
             {{/if}}
             <div class="resource-grid">
-              <div></div> 
+              <div class="right rollable attribute" data-att="power" data-adj="spend"><a title="{{localize 'BRP.ppSpend'}}"><i class="fas fa-bolt"></i></a></div>
               <input class="attrib-inp" type="text" name="system.power.value" value="{{system.power.value}}" data-dtype="Number"/>
               <span class="divider"> / </span>
               <div class="attrib-disp">{{system.power.max}}</div>
-              <div></div>   
+              <div class="left rollable attribute" data-att="power" data-adj="recover"><a title="{{localize 'BRP.ppRecover'}}"><i class="fas fa-circle-bolt"></i></a></div>
             </div>
           </div>
   
           {{#if useFP}}
           <div class="each-resource centre">
-            <label for="system.fatigue.value" class="resource-label">{{localize 'BRP.fatigue'}}</label>
+            <label for="system.fatigue.value" class="resource-label fatigue contextmenu">{{localize 'BRP.fatigue'}}</label>
             <div class="resource-grid">
-              <div></div> 
+              <div class="right rollable attribute" data-att="fatigue" data-adj="spend"><a title="{{localize 'BRP.fpSpend'}}"><i class="fas fa-person-running"></i></a></div> 
               <input class="attrib-inp" type="text" name="system.fatigue.value" value="{{system.fatigue.value}}" data-dtype="Number"/>
               <span class="divider"> / </span>
               <div class="attrib-disp">{{system.fatigue.max}}</div>
-              <div></div>   
+              <div class="left rollable attribute" data-att="fatigue" data-adj="recover"><a title="{{localize 'BRP.fpRecover'}}"><i class="fas fa-bed-empty"></i></a></div>   
             </div>
           </div>
           {{/if}}

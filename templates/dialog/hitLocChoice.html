@@ -1,0 +1,14 @@
+<form class="brp" id="hitLocChoice-form">
+    <div class = "diff-label">{{label}}</div>
+    <br>
+    <div class="flexcol">
+      <div class="flexrow">
+        <label class="resource-label-diff">{{ localize 'BRP.hitLoc' }}</label>
+        <select data-handle-change name="hitLoc">
+          {{selectOptions hitLocOptions selected=hitLoc}}
+        </select>
+        </div>
+        <br>
+    </div>
+    <br>
+  </form>

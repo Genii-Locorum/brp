@@ -64,7 +64,13 @@ Hooks.once("ready", async function() {
   if (game.user.isGM) {
     if (game.settings.get('brp' , 'development')) {game.settings.set('brp','development', false)};
   }  
-  Hooks.on("hotbarDrop", (bar, data, slot) => createItemMacro(data, slot));
+
+  Hooks.on("hotbarDrop", (bar, data, slot) => {
+    if (game.user) {
+      createItemMacro(data, slot);
+      return false;
+    }
+  }); 
 });
 
 BRPHooks.listen()
@@ -122,7 +128,7 @@ Hooks.on('renderSettingsConfig', (app, html, options) => {
     )
 
     systemTab
-    .find('input[name=brp\\.background1]')
+    .find('input[name=brp\\.starterSkills]')
     .closest('div.form-group')
     .before(
       '<h3 class="setting-header">' +

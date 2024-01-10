@@ -11,15 +11,24 @@ export class BRPContextMenu extends ContextMenu
     this.element.on(this.eventName, this.selector, (event) =>
     {
       event.preventDefault();
-       this._position = { left: event.pageX, top: event.pageY };
+      this._position = { left: event.pageX, top: event.pageY };
     });
+
+
     super.bind();
   }
 
   _setPosition(html, target)
   {
     super._setPosition(html, target);
+
+    //If the projected context menu is going to go off the bottom of the screen then adjust the starting top position
+    if (this._position.top + html[0].clientHeight > window.screen.height- 50) {
+      this._position.top = this._position.top - html[0].clientHeight
+    } 
+
     html.css(foundry.utils.mergeObject(this._position, s_DEFAULT_STYLE));
+
   }
 }
 
@@ -27,6 +36,7 @@ export class BRPContextMenu extends ContextMenu
 const s_DEFAULT_STYLE = {
    position: 'fixed',
    width: 'fit-content',
+   bottom: '0px',
    'font-family': '"Signika", sans-serif',
    'font-weight': 'normal',
    'font-style': 'normal',

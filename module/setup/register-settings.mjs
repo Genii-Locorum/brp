@@ -1,5 +1,6 @@
 import { BRPSelectLists } from "../apps/select-lists.mjs";
 
+
 export async function registerSettings () {
 
   //Get option lists from select-lists.mjs
@@ -211,7 +212,17 @@ export async function registerSettings () {
     default: 3
   });
 
-  //Optional Desciptors
+  //Configuration
+  game.settings.register('brp', "starterSkills", {
+    name: "BRP.Settings.starterSkills",
+    hint: "BRP.Settings.starterSkillsHint",
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: false
+  });
+
+
   game.settings.register('brp', "background1", {
     name: "BRP.Settings.background1",
     hint: "BRP.Settings.backgroundHint",
@@ -237,6 +248,17 @@ export async function registerSettings () {
     config: true,
     type: String,
     default: "Backstory"
+  });
+
+  game.settings.register('brp', "charSheetLogo", {
+    name: "BRP.Settings.charSheetLogo",
+    hint: "BRP.Settings.charSheetLogoHint",
+    requiresReload: true,
+    scope: "world",
+    config: true,
+    type: String,
+    filePicker: 'Image',
+    default: 'systems/brp/assets/char-sheet-logo.png',
   });
 
   //Invisible Game Settings 

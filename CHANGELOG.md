@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## 11.1.11
+- Context menus should now render upwards if they would drop off the bottom of the screen
+- Skills will roll from the macro bar (you can roll weapon skills from the Skills tab, but not weapons from the items tab - yet)
+- Skill tab percentages now include the category bonus
+- ENC now calculated (shown on Characteristics tab).  FP adjusted an
+- "Carry status" is now shown as icon rather than words (the words are available as a tooltip)
+- Auto calc of Encumberance (Items, Armour Weapons) which in turn updates the Max Fatigue Points
+- Changed the combat tab.  Rate of Fire is now visible by hovering over "Attack".  Added ENC (hover to see quantity).
+- Fatigue and Power point spend and recovery added
+- Added error check on dropping Weapon on character sheet to make sure a Skill has been added to the weapon if first skill slot
+- Added an game setting  to change the logo at the top centre of the character sheet.  58px height and 700px wide max.
+- Added a setting in Skills for "Starter Skills".  Any skill flagged as a starter skill we be automatically added to a new character sheet
+  if the relevant game setting is on (this may get added in time)
+
 ## 11.1.10
 - Removed a testing element left in (oops) that forced max dice roll values
 - Added context menu options for weapon skill and damage rolls

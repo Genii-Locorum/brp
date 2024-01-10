@@ -1,3 +1,5 @@
+import {BRPSelectLists} from '../apps/select-lists.mjs'
+
 export class BRPactorItemDrop {
 
   // Change default on Drop Item Create routine for requirements (single items and folder drop)-----------------------------------------------------------------
@@ -9,10 +11,26 @@ export class BRPactorItemDrop {
     for (let k of itemData) {
       let reqResult = 1;
       let errMsg = "";
-
     //Automatically allow gear to be added
-    if (k.type != 'gear' && k.type != 'armour') {   
+    if (k.type != 'gear') {   
 
+      //When dropping armour check against using HPL and HPL compatabaility
+    if (k.type === 'armour') {
+      if (game.settings.get('brp','useHPL') && k.system.HPL) {
+        reqResult = 0;
+        errMsg = k.name + " : " +   game.i18n.localize('BRP.armourNotHPL');               
+      }
+      //If using hit locations select a Hit Location for the armour
+      if (game.settings.get('brp','useHPL')) {
+        let usage = await BRPactorItemDrop.hitLocationDialog (actor)
+        if (usage) {
+          k.system.hitlocID = usage.get('hitLoc')
+        } else {
+          reqResult = 0;
+          errMsg = k.name + " : " +   game.i18n.localize('BRP.armourNoHitLoc');              
+        }
+      }
+    }  
 
       //When dropping get the base score
       if (k.type === 'skill') {
@@ -21,41 +39,48 @@ export class BRPactorItemDrop {
 
       //When dropping a weapon check to see if character has the skills and if not add them to the character sheet
       if (k.type === 'weapon') {
-      k.system.equipStatus = 'carried'
-      k.system.actEnc = k.system.enc
-      k.system.hpCurr = k.system.hp
-      let skill1Test = 0
-      let skill2Test = 0  
-      let newSkill = "";  
-        for (let j of actor.items) {
-          if(j.type === 'skill') {
-            if (j.name === game.items.get(k.system.skill1).name) {
-              skill1Test = 1  
-            } else if (k.system.skill2 != "none" && j.name === game.items.get(k.system.skill2).name) {
-              skill2Test = 1  
-            } 
+        //If there isn't a skill1 then give an error message
+        if(k.system.skill1 === "" || k.system.skill1 === "none") {
+          reqResult = 0;
+          errMsg = k.name + " : " +   game.i18n.localize('BRP.weaponNeedsSkill');     
+        } else {
+
+          k.system.equipStatus = 'carried'
+          k.system.actEnc = k.system.enc
+          k.system.hpCurr = k.system.hp
+          let skill1Test = 0
+          let skill2Test = 0  
+          let newSkill = "";  
+          for (let j of actor.items) {
+            if(j.type === 'skill') {
+              if (j.name === game.items.get(k.system.skill1).name) {
+                skill1Test = 1  
+              } else if (k.system.skill2 != "none" && j.name === game.items.get(k.system.skill2).name) {
+                skill2Test = 1  
+              } 
+            }
           }
-        }
-        for (let j of newItemData) {
-          if(j.type === 'skill') {
-            if (j.name === game.items.get(k.system.skill1).name) {
-              skill1Test = 1  
-            } else if (k.system.skill2 != "none" && j.name === game.items.get(k.system.skill2).name) {
-              skill2Test = 1  
-            } 
-          }          
-        }
-        if (skill1Test === 0 && k.system.skill1 != 'none') {
-          newSkill = game.items.get(k.system.skill1)
-          if (newSkill) {
-            newSkill.system.base = await this._calcBase(newSkill,actor)
-            newItemData.push(newSkill)}
-        }
-        if (skill2Test === 0 && k.system.skill2 != 'none') {
-          newSkill = game.items.get(k.system.skill2)
-          if (newSkill) {
-            newSkill.system.base = await this._calcBase(newSkill,actor)            
-            newItemData.push(newSkill)}
+          for (let j of newItemData) {
+            if(j.type === 'skill') {
+              if (j.name === game.items.get(k.system.skill1).name) {
+                skill1Test = 1  
+              } else if (k.system.skill2 != "none" && j.name === game.items.get(k.system.skill2).name) {
+                skill2Test = 1  
+              } 
+            }          
+          }
+          if (skill1Test === 0 && k.system.skill1 != 'none') {
+            newSkill = game.items.get(k.system.skill1)
+            if (newSkill) {
+              newSkill.system.base = await this._calcBase(newSkill,actor)
+              newItemData.push(newSkill)}
+          }
+          if (skill2Test === 0 && k.system.skill2 != 'none') {
+            newSkill = game.items.get(k.system.skill2)
+            if (newSkill) {
+              newSkill.system.base = await this._calcBase(newSkill,actor)            
+              newItemData.push(newSkill)}
+          }
         }
       }
 
@@ -127,32 +152,61 @@ export class BRPactorItemDrop {
   }
 
  //Calculate Base Skill on Dropping the item on actor
- static async _calcBase(i,actor){
-  if (i.system.variable) {
-    let stat1 = i.system.baseFormula[1].stat
-    let stat2 = i.system.baseFormula[2].stat
+ static async _calcBase(itm,actor){
+  if (itm.system.variable) {
+    let stat1 = itm.system.baseFormula[1].stat
+    let stat2 = itm.system.baseFormula[2].stat
     let opt1 = 0
     let opt2 = 0
     let newScore = 0
     if (stat1 !='fixed') {
       if (stat1 != 'edu' || game.settings.get('brp', 'useEDU')) {
-        opt1 = Math.ceil((actor.system.stats[stat1].base + actor.system.stats[stat1].redist + actor.system.stats[stat1].culture) * i.system.baseFormula[1].value)
+        opt1 = Math.ceil((actor.system.stats[stat1].base + actor.system.stats[stat1].redist + actor.system.stats[stat1].culture) * itm.system.baseFormula[1].value)
       }  
     }
     if (stat2 !='fixed') {
       if (stat2 != 'edu' || game.settings.get('brp', 'useEDU')) {
-        opt2 = Math.ceil((actor.system.stats[stat2].base + actor.system.stats[stat2].redist + actor.system.stats[stat2].culture) * i.system.baseFormula[2].value)
+        opt2 = Math.ceil((actor.system.stats[stat2].base + actor.system.stats[stat2].redist + actor.system.stats[stat2].culture) * itm.system.baseFormula[2].value)
       }  
     }
 
-    if (i.system.baseFormula.Func === 'and') {
+    if (itm.system.baseFormula.Func === 'and') {
       newScore = opt1 + opt2          
     } else {
       newScore = Math.max(opt1, opt2)
     }
     return newScore
   }
-  return i.system.base
+  return itm.system.base
+  }
+
+  static async hitLocationDialog (actor) {
+    let hitLocOptions = await BRPSelectLists.getHitLocOptions(actor)
+    let label = game.i18n.localize('BRP.chooseHitLoc')
+    let data = {
+      hitLocOptions,
+      label,
+    }
+    const html = await renderTemplate('systems/brp/templates/dialog/hitLocChoice.html',data)
+    return new Promise(resolve => {
+      let formData = null
+      const dlg = new Dialog({
+        title: "",
+        content: html,
+        buttons: {
+          roll: {
+            label: game.i18n.localize("BRP.proceed"),
+            callback: html => {
+              formData = new FormData(html[0].querySelector('#hitLocChoice-form'))
+              return resolve(formData)
+            }
+          }
+        },
+        default: 'roll',
+        close: () => {}
+      })
+      dlg.render(true)
+    })
   }
 
 }

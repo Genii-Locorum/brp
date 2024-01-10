@@ -9,12 +9,17 @@
             <div class="roll-details">
               <div class="header">
                 <div class='name'>
-                  <span class="tag">{{c.label}} ({{c.rollFormula}}) {{c.resultLabel}}</span>
+                  <span class="tag">{{c.label}} ({{c.rollFormula}})</span>
                 </div>
               </div>
                 <span class="pending">{{c.rollVal}} {{#if (eq c.resultLevel "3")}}{{c.specLabel}} {{/if}}</span>
             </div>
           </li>
+          <div class="actor-roll dice-tooltip" style="display:none">
+            <div class="owner-only" data-partic-id="{{c.particId}}" data-partic-type="{{c.particType}}">
+              <div class="rollHidden bottom-line">{{c.resultLabel}}</div>
+            </div>
+          </div>  
         </div>  
       {{/each}}
     </ol>

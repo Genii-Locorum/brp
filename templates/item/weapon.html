@@ -264,7 +264,7 @@
         {{#if hasOwner}}
           <div class="weapon-2main-scores">  
             <div class="skill-display" title="{{ localize 'BRP.actualENCHint'}}">{{localize 'BRP.actualENC'}}/{{localize 'BRP.status'}}</div>
-            <div class="weapon-input"><input name="system.actEnc" type="text" value="{{item.system.actEnc}}" data-dtype="Number"/></div>
+            <div class="gear-display">{{item.system.actlEnc}}</div>
             <div class="stat-input-small">
               <select data-handle-change name="system.equipStatus">
                 {{selectOptions equippedOptions selected=item.system.equipStatus}}
@@ -274,7 +274,7 @@
             <div class="weapon-input"><input name="system.hpCurr" type="text" value="{{item.system.hpCurr}}" data-dtype="Number"/></div>
             <div class="weapon-input"><input name="system.ammoCurr" type="text" value="{{item.system.ammoCurr}}" data-dtype="Number"/></div>
             <div class="skill-display">{{localize 'BRP.quantity'}}</div>
-            <div class="weapon-input"><input name="system.qty" type="text" value="{{item.system.qty}}" data-dtype="Number"/></div>
+            <div class="weapon-input"><input name="system.quantity" type="text" value="{{item.system.quantity}}" data-dtype="Number"/></div>
           </div>    
         {{/if}}  
        </div>

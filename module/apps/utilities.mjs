@@ -1,4 +1,5 @@
 import { BRPCharacterSheet } from '../actor/sheets/character.mjs';
+import { BRPactorDetails } from './actorDetails.mjs';
 
 export class BRPUtilities {
 
@@ -73,5 +74,24 @@ export class BRPUtilities {
     if (!confirmation) {return}
 
   }
+
+
+  //Update attributes
+  static async updateAttribute(actor,token,att,adj) {
+    let partic = await BRPactorDetails._getParticipantPriority(token,actor)
+    let checkprop = ""
+    let newVal = partic.system[att].value
+    let newMax = partic.system[att].max
+    if (adj === 'spend'){
+      checkprop = {[`system.${att}.value`] : newVal-1}
+    } else if (adj === 'recover' && newVal < newMax){
+      checkprop = {[`system.${att}.value`] : newVal+1}      
+    } else if (adj === 'restore'){
+      checkprop = {[`system.${att}.value`] : newMax}      
+    } else {return}
+    partic.update(checkprop)    
+  }
+
+
 
 }    

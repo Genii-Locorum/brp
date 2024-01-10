@@ -38,10 +38,15 @@
           <div>&nbsp</div>
         {{/if}}
 
-        <div class="hitloc-name centre">{{armour.system.actEnc}}</div>
+        <div class="hitloc-name centre">{{armour.system.actlEnc}}</div>
         <div class="hitloc-name centre">{{armour.system.mnplmod}}/{{armour.system.percmod}}/{{armour.system.physmod}}/{{armour.system.stealthmod}}</div>
         <div class="hitloc-name centre">{{armour.system.hitlocName}}</div>
-        <div class="hitloc-name centre item item-toggle" data-item-id="{{armour._id}}" data-property = "equipStatus">{{armour.system.equippedName}}</div>
+        <div class="hitloc-name centre item item-toggle" title="{{armour.system.equippedName}}" data-item-id="{{armour._id}}" data-property = "equipStatus">
+          {{#if (eq armour.system.equipStatus 'worn')}}<i class="fas fa-shirt"></i>{{/if}}
+          {{#if (eq armour.system.equipStatus 'carried')}}<i class="fas fa-hand-holding"></i>{{/if}}
+          {{#if (eq armour.system.equipStatus 'packed')}}<i class="fas fa-treasure-chest"></i>{{/if}}
+          {{#if (eq armour.system.equipStatus 'stored')}}<i class="fas fa-warehouse"></i>{{/if}}
+        </div>
       {{/each}}          
     </div>
     <br>
@@ -57,8 +62,12 @@
       {{#each gears as |gear key|}}
         <div class="item item-edit font16 gear-name contextmenu" data-item-id="{{gear._id}}">{{gear.name}}</div>
         <div class="hitloc-name centre">{{gear.system.quantity}}</div>
-        <div class="hitloc-name centre">{{gear.system.actEnc}}</div>
-        <div class="hitloc-name centre item item-toggle" data-item-id="{{gear._id}}" data-property = "equipStatus">{{gear.system.equippedName}}</div>
+        <div class="hitloc-name centre">{{gear.system.actlEnc}}</div>
+        <div class="hitloc-name centre item item-toggle" title="{{gear.system.equippedName}}" data-item-id="{{gear._id}}" data-property = "equipStatus">
+          {{#if (eq gear.system.equipStatus 'carried')}}<i class="fas fa-hand-holding"></i>{{/if}}
+          {{#if (eq gear.system.equipStatus 'packed')}}<i class="fas fa-treasure-chest"></i>{{/if}}
+          {{#if (eq gear.system.equipStatus 'stored')}}<i class="fas fa-warehouse"></i>{{/if}}
+        </div>
         <div class="mediumIcon centre item item-delete" data-item-id="{{gear._id}}" title="{{ localize 'BRP.deleteGear' }}">
           <a><i class="item-control fas fa-trash"></i></a>
         </div>

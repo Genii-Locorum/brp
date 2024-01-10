@@ -1,3 +1,6 @@
+import {BRPCheck} from "../apps/check.mjs"
+import {isCtrlKey} from '../apps/helper.mjs'
+
 export class BRPItem extends Item {
   constructor (data, context) {
     if (typeof data.img === 'undefined') {
@@ -54,35 +57,28 @@ export class BRPItem extends Item {
 
   async roll() {
     const item = this;
-    // Initialize chat data.
-    const speaker = ChatMessage.getSpeaker({ actor: this.actor });
-    const rollMode = game.settings.get('core', 'rollMode');
-    const label = `[${item.type}] ${item.name}`;
-
-    // If there's no roll data, send a chat message.
-    if (!this.system.formula) {
-      ChatMessage.create({
-        speaker: speaker,
-        rollMode: rollMode,
-        flavor: label,
-        content: item.system.description ?? ''
-      });
+    const actor = this.actor;
+    let altKey = event.altKey;
+    let ctrlKey = isCtrlKey(event ?? false);
+    let cardType = "";
+    let skillId = "";
+    let itemId = "";
+  
+    if (item.type === 'skill') {
+      cardType = 'NO';
+      skillId = item._id;
+        if (ctrlKey){cardType='OP'}
+        if (altKey){cardType='GR'}
+      BRPCheck._trigger({
+          rollType: 'SK',
+          cardType,
+          skillId,
+          event,
+          actor,
+      })
+    } else {
+      item.sheet.render(true);
     }
-    // Otherwise, create a roll and send a chat message from it.
-    else {
-      // Retrieve roll data.
-      const rollData = this.getRollData();
-
-      // Invoke the roll and submit it to chat.
-      const roll = new Roll(rollData.item.formula, rollData);
-      // If you need to store the value first, uncomment the next line.
-      // let result = await roll.roll({async: true});
-      roll.toMessage({
-        speaker: speaker,
-        rollMode: rollMode,
-        flavor: label,
-      });
-      return roll;
-    }
+    return
   }
 }

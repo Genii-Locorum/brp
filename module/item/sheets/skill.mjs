@@ -81,7 +81,7 @@ export class BRPSkillSheet extends ItemSheet {
     event.preventDefault();
     const prop=event.currentTarget.closest('.item-toggle').dataset.property;
     let checkProp={};
-    if (prop === 'noXP' || prop === 'specialism' || prop === 'variable' || prop === 'group' || prop === 'chosen') {
+    if (['noXP', 'specialism', 'variable','group','chosen','basic'].includes(prop)) {
       checkProp = {[`system.${prop}`] : !this.object.system[prop]}
     } else {return }      
     

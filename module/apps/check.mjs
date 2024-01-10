@@ -12,6 +12,7 @@ export class BRPCheck {
   //SK = Skill
   //DM = Damage
   //CM = Combat
+  //AR = Armour (Random)
 
   //Card Types
   //NO = Normnal Roll
@@ -37,7 +38,6 @@ export class BRPCheck {
     //Set Roll Type based on options handed in if not already defined
     if (typeof options.rollType === 'undefined') {
       if ( typeof options.event === 'undefined') {
-        console.log(options)
         if (typeof options.characteristic !="undefined" && typeof options.actor.system.stats[options.characteristic] !== 'undefined') {
           options.rollType ="CH"
         } else  if (typeof options.skillId !="undefined") {
@@ -124,7 +124,13 @@ export class BRPCheck {
         config.rawScore = skill.system.total
         config.targetScore = skill.system.total + options.actor.system.skillcategory[skill.system.category].bonus ?? 0     
         config.malfunction = weapon.system.mal          
-        break        
+        break     
+      case 'AR':
+        config.label = options.label
+        config.rollFormula = options.AVform  
+        config.shiftKey = true
+        config.chatTemplate =  'systems/brp/templates/chat/roll-armour.html'
+        break
       default: 
         ui.notifications.error(options.rollType +": " + game.i18n.format('BRP.errorRollInvalid')) 
         return false
@@ -279,7 +285,7 @@ export class BRPCheck {
 
 
     //Create the ChatMessage and Roll Dice
-    if ((['GR', 'OP', 'CO'].includes(config.cardType))) {
+    if (['GR', 'OP', 'CO'].includes(config.cardType)) {
       let checkMsgId = await BRPCheck.checkNewMsg (chatMsgData)
       if (checkMsgId != false) {
         //Trigger adding check to the card.
@@ -310,7 +316,7 @@ export class BRPCheck {
 
 
     //Don't need success levels in some cases
-    if (config.rollType === 'DM') {return}
+    if (['DM', 'AR'].includes(config.rollType)) {return}
 
     //Get the level of Success
     config.resultLevel = await BRPCheck.successLevel(config)

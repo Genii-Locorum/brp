@@ -76,6 +76,9 @@
         <div class="skill-cat {{#if isGM}} item-toggle {{/if}} {{#if item.system.specialism}} toggle-active  {{/if}}" title ="{{localize 'BRP.specialismHint'}}" data-property = "specialism">{{localize 'BRP.specialism'}}</div>
         <div class="skill-cat {{#if isGM}} item-toggle {{/if}} {{#if item.system.variable}} toggle-active  {{/if}}" title ="{{localize 'BRP.variableHint'}}" data-property = "variable">{{localize 'BRP.variable'}}</div>
         <div class="skill-cat {{#if isGM}} item-toggle {{/if}} {{#if item.system.group}} toggle-active  {{/if}}" title ="{{localize 'BRP.groupHint'}}" data-property = "group">{{localize 'BRP.group'}}</div>
+        {{#unless item.system.group}}
+          <div class="skill-cat {{#if isGM}} item-toggle {{/if}} {{#if item.system.basic}} toggle-active  {{/if}}" title ="{{localize 'BRP.basicHint'}}" data-property = "basic">{{localize 'BRP.basic'}}</div>
+        {{/unless}}
         {{#if item.system.specialism}}
           <div class="skill-cat {{#if isGM}} item-toggle {{/if}} {{#if item.system.chosen}} toggle-active  {{/if}}" title ="{{localize 'BRP.chosenHint'}}" data-property = "chosen">{{localize 'BRP.chosen'}}</div>
         {{/if}}

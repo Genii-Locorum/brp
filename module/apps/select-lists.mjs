@@ -197,8 +197,13 @@ export class BRPSelectLists {
     let newOption ={}
     for (let i of actor.items) {
       if (i.type === 'hit-location') {
-        newOption ={[i.id]: i.name,};
-        options= Object.assign(options,newOption)
+        if (game.settings.get('brp','useHPL') && i.system.locType != 'general') {
+          newOption ={[i.id]: i.name,}; 
+          options= Object.assign(options,newOption)
+        } else if (!game.settings.get('brp','useHPL') && i.system.locType === 'general') {
+          newOption ={[i.id]: i.name,}; 
+          options= Object.assign(options,newOption)
+        }  
       }  
     }
     return options
@@ -228,7 +233,7 @@ export class BRPSelectLists {
   static getWeaponSkillOptions(wpnType,skillId) {
     let options={}
     let newOption ={}
-    if (skillId) {
+    if (skillId !="1") {
       newOption = {"none": game.i18n.localize("BRP.none")};
       options= Object.assign(options,newOption)      
     }
@@ -286,7 +291,7 @@ export class BRPSelectLists {
   }
 
   //Hit Location List
-  static async getHitLocOptions () {    
+  static async getHitLocType () {    
     let options = {
       "limb": game.i18n.localize("BRP.limb"),
       "abdomen": game.i18n.localize("BRP.abdomen"),

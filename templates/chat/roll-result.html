@@ -1,6 +1,10 @@
 <form class="brp gr-card">
   <div class="">
-    <div class="bold">{{localize 'BRP.card.NO'}}</div>  
+    {{#if (eq rollType 'CM')}}
+      <div class="bold">{{localize 'BRP.card.CM'}}</div>  
+    {{else}}    
+      <div class="bold">{{localize 'BRP.card.NO'}}</div>  
+    {{/if}}
     <ol class="gr-list">
       {{#each chatCard as |c key|}}
         <div class="dice-roll">
