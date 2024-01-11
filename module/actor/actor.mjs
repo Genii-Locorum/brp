@@ -29,6 +29,7 @@ export class BRPActor extends Actor {
       stat.label = game.i18n.localize(CONFIG.BRP.stats[key]) ?? key;
       stat.labelShort = game.i18n.localize(CONFIG.BRP.statsAbbreviations[key]) ?? key;
       stat.labelDeriv = game.i18n.localize(CONFIG.BRP.statsDerived[key]) ?? key;
+      stat.total = Number(stat.base) + Number(stat.redist) + Number(stat.culture) + Number(stat.exp) + Number(stat.effects) + Number(stat.age);
       stat.deriv = stat.total * 5;
 
 
