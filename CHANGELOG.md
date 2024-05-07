@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## 11.1.14
+- Added combat rolls from weapons on the hotbar
+- Tidied up some of the chat message outputs
+- Can cast Magic spells - click on the spell total score
+
+## 11.1.13
+- Tweaked context menus so they go up if the start point is in the bottom half of the screen
+- Roll cards fixed so the correct roll is deleted rather than always the first roll
+- Dice rolls now visible on opposed, cooperative and combined rolls when using Dice so Nice when roll is resolved
+- Updated roll chat messages to add extra info when expanding the roll (GM or owner can click on the indidividual result lines)
+
+## 11.1.12
+- Hotfix to reinsert code to calculate stats total
+
 ## 11.1.11
 - Context menus should now render upwards if they would drop off the bottom of the screen
 - Skills will roll from the macro bar (you can roll weapon skills from the Skills tab, but not weapons from the items tab - yet)

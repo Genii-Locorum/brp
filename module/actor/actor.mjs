@@ -236,6 +236,35 @@ export class BRPActor extends Actor {
       } else if (itm.type === 'wound') {
         systemData.health.value = systemData.health.value - itm.system.value
       }
+
+      //Add the relevant actor skill to a weapon
+      if (itm.type === 'weapon') {
+        let skillId ="";
+        let score = 0;
+        let category = "";
+        let skill1Name = ""
+        let skill2Name = ""
+        let skillSelect = "";
+        if (itm.system.skill1 != "none") {
+          skillSelect = game.items.get(itm.system.skill1)
+          skill1Name = skillSelect ? skillSelect.name : "";
+        }
+        if (itm.system.skill2 != "none") {
+          skillSelect = game.items.get(itm.system.skill2)
+          skill2Name = skillSelect ? skillSelect.name : "";
+        }  
+        for (let actItm of actorData.items) {
+          if (actItm.type === 'skill' && (actItm.name === skill1Name || actItm.name === skill2Name)) {
+            if (actItm.system.total > score) {
+              score = actItm.system.total
+              skillId = actItm._id
+              category = actItm.system.category
+            }  
+          }
+        }
+        itm.system.sourceID = skillId
+      }
+
     } 
     
    
@@ -272,8 +301,8 @@ export class BRPActor extends Actor {
     if (this.type !== 'character') return;
 
     // Copy the ability scores to the top level
-    if (data.abilities) {
-      for (let [k, v] of Object.entries(data.abilities)) {
+    if (data.stats) {
+      for (let [k, v] of Object.entries(data.stats)) {
         data[k] = foundry.utils.deepClone(v);
       }
     }

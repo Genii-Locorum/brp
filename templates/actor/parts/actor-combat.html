@@ -1,5 +1,5 @@
 <section>
-  <div class="weapon-tab-grid">
+  <div class=" weapon-tab-grid">
     <div class="diff-label ">{{ localize 'BRP.weapon'}}</div>
     <div class="diff-label centre" title = "{{localize 'BRP.scoreIncHint'}}">{{ localize 'BRP.chance'}}</div>  
     <div class="diff-label centre">{{ localize 'BRP.damage'}}</div>  
@@ -10,37 +10,41 @@
     <div class="diff-label centre">{{ localize 'BRP.enc'}}</div>
     <div class="diff-label centre" title="{{ localize 'BRP.ammoHint' }}">{{ localize 'BRP.ammo'}}</div>
     <div class="diff-label centre" title="{{ localize 'BRP.status' }}">{{ localize 'BRP.statusShort'}}</div>
-    {{#each weapons as |weapon key|}}
-      <div class="item item-edit weapon-name contextmenu" data-item-id="{{weapon._id}}" data-skill-id="{{weapon.system.skillId}}">{{weapon.name}}</div>
-      <div class="item font16 centre rollable weapon-name" title ="{{weapon.system.skillName}}" data-item-id="{{weapon._id}}" data-skill-id="{{weapon.system.skillId}}">{{weapon.system.skillScore}}</div>
-      <div class="item font16 {{#unless weapon.system.specialDmg}}rollable damage-name{{/unless}} centre"  data-item-id="{{weapon._id}}">{{weapon.system.dmgName}}</div>
-      <div class="font16 centre">{{weapon.system.rangeName}}</div>
-      <div class="font16 centre" title="{{localize 'BRP.rof'}} : {{weapon.system.rof}}">{{weapon.system.att}}</div>
-      {{#if (eq weapon.type 'artillery')}}
-        <div class="font16 centre">{{weapon.system.crew}}</div>
-      {{else}}
-        <div class="font16 centre">{{weapon.system.hands}}</div>        
-      {{/if}}
-      {{#if (gt weapon.system.hp 0)}}
-        <div class="combat-input-small"> <input class="item centre font16 inline-edit" data-field ="hpCurr" data-item-id="{{weapon._id}}" name="weapon.system.hpCurr" type="text" value="{{weapon.system.hpCurr}}" data-dtype="Number"/></div>
-        <div class="font16 centre">{{weapon.system.hp}}</div>
-      {{else}}
-        <div></div>
-        <div></div>
-      {{/if}}  
-      <div class="font16 centre" title ="{{localize 'BRP.quantity'}} : {{weapon.system.quantity}}">{{weapon.system.actlEnc}}</div>
-      {{#isOr (eq weapon.system.ammo null) (eq weapon.system.ammo 0)}}
-        <div></div>
-      {{else}}  
-        <div class="combat-input-small"> <input class="item centre font16 inline-edit" title ="{{ localize 'BRP.ammoCap' }}: {{weapon.system.ammo}}" data-field ="ammoCurr" data-item-id="{{weapon._id}}" name="weapon.system.ammoCurr" type="text" value="{{weapon.system.ammoCurr}}" data-dtype="Number"/></div>
-      {{/isOr}}
-      <div class="font16 centre item item-toggle" data-item-id="{{weapon._id}}" data-property = "equipStatus" title="{{weapon.system.equippedName}}">
-        {{#if (eq weapon.system.equipStatus 'carried')}}<i class="fas fa-hand-holding"></i>{{/if}}
-        {{#if (eq weapon.system.equipStatus 'packed')}}<i class="fas fa-treasure-chest"></i>{{/if}}
-        {{#if (eq weapon.system.equipStatus 'stored')}}<i class="fas fa-warehouse"></i>{{/if}}
-      </div>
-    {{/each}}  
   </div>
+  <ol class = "gr-list">
+    {{#each weapons as |weapon key|}}
+      <li class="item weapon-tab-grid" data-item-id="{{weapon._id}}">
+        <div class="item item-edit weapon-name contextmenu" data-item-id="{{weapon._id}}" data-skill-id="{{weapon.system.sourceID}}">{{weapon.name}}</div>
+        <div class="item font16 centre rollable weapon-name" title ="{{weapon.system.skillName}}" data-item-id="{{weapon._id}}" data-skill-id="{{weapon.system.sourceID}}">{{weapon.system.skillScore}}</div>
+        <div class="item font16 {{#unless weapon.system.specialDmg}}rollable damage-name{{/unless}} centre"  data-item-id="{{weapon._id}}">{{weapon.system.dmgName}}</div>
+        <div class="font16 centre">{{weapon.system.rangeName}}</div>
+        <div class="font16 centre" title="{{localize 'BRP.rof'}} : {{weapon.system.rof}}">{{weapon.system.att}}</div>
+        {{#if (eq weapon.type 'artillery')}}
+          <div class="font16 centre">{{weapon.system.crew}}</div>
+        {{else}}
+          <div class="font16 centre">{{weapon.system.hands}}</div>        
+        {{/if}}
+        {{#if (gt weapon.system.hp 0)}}
+          <div class="combat-input-small"> <input class="item centre font16 inline-edit" data-field ="hpCurr" data-item-id="{{weapon._id}}" name="weapon.system.hpCurr" type="text" value="{{weapon.system.hpCurr}}" data-dtype="Number"/></div>
+          <div class="font16 centre">{{weapon.system.hp}}</div>
+        {{else}}
+          <div></div>
+          <div></div>
+        {{/if}}  
+        <div class="font16 centre" title ="{{localize 'BRP.quantity'}} : {{weapon.system.quantity}}">{{weapon.system.actlEnc}}</div>
+        {{#isOr (eq weapon.system.ammo null) (eq weapon.system.ammo 0)}}
+          <div></div>
+        {{else}}  
+          <div class="combat-input-small"> <input class="item centre font16 inline-edit" title ="{{ localize 'BRP.ammoCap' }}: {{weapon.system.ammo}}" data-field ="ammoCurr" data-item-id="{{weapon._id}}" name="weapon.system.ammoCurr" type="text" value="{{weapon.system.ammoCurr}}" data-dtype="Number"/></div>
+        {{/isOr}}
+        <div class="font16 centre item item-toggle" data-item-id="{{weapon._id}}" data-property = "equipStatus" title="{{weapon.system.equippedName}}">
+          {{#if (eq weapon.system.equipStatus 'carried')}}<i class="fas fa-hand-holding"></i>{{/if}}
+          {{#if (eq weapon.system.equipStatus 'packed')}}<i class="fas fa-treasure-chest"></i>{{/if}}
+          {{#if (eq weapon.system.equipStatus 'stored')}}<i class="fas fa-warehouse"></i>{{/if}}
+        </div>
+      </li>
+    {{/each}}  
+  </ol>
   <br> 
 
   {{#if useHPL}}

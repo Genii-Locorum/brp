@@ -17,23 +17,23 @@
             </div>
             {{#if (eq ../state 'closed')}}
                   {{#if (eq c.resultLevel 4)}}
-                    <span class="pending">{{#if (eq key 0)}}<i class="result-yellow fas fa-crown"></i>&nbsp{{/if}}{{c.resultLabel}}: <i class="result-success fas fa-certificate"></i><i class="result-success fas fa-certificate"></i><i class="result-success fas fa-certificate"></i></span>
+                    <span class="pending">{{#if (eq key 0)}}<i class="result-yellow fas fa-crown"></i>&nbsp{{/if}}{{c.resultLabel}}: {{c.rollResult}} <i class="result-success fas fa-certificate"></i><i class="result-success fas fa-certificate"></i><i class="result-success fas fa-certificate"></i></span>
                   {{/if}}
           
                   {{#if (eq c.resultLevel 3)}}
-                    <span class="pending">{{#if (eq key 0)}}<i class="result-yellow fas fa-crown"></i>&nbsp{{/if}}{{c.resultLabel}}: <i class="result-success fas fa-certificate"></i><i class="result-success fas fa-certificate"></i></span>
+                    <span class="pending">{{#if (eq key 0)}}<i class="result-yellow fas fa-crown"></i>&nbsp{{/if}}{{c.resultLabel}}: {{c.rollResult}} <i class="result-success fas fa-certificate"></i><i class="result-success fas fa-certificate"></i></span>
                   {{/if}}
           
                   {{#if (eq c.resultLevel 2)}}
-                    <span class="pending">{{#if (eq key 0)}}<i class="result-yellow fas fa-crown"></i>&nbsp{{/if}}{{c.resultLabel}}: <i class="result-success fas fa-certificate"></i></span>
+                    <span class="pending">{{#if (eq key 0)}}<i class="result-yellow fas fa-crown"></i>&nbsp{{/if}}{{c.resultLabel}}: {{c.rollResult}} <i class="result-success fas fa-certificate"></i></span>
                   {{/if}}
 
                   {{#if (eq c.resultLevel 1)}}
-                    <span class="pending">{{c.resultLabel}}: <i class="result-fail fas fa-skull"></i></span>
+                    <span class="pending">{{c.resultLabel}}: {{c.rollResult}} <i class="result-fail fas fa-skull"></i></span>
                   {{/if}}
           
                   {{#if (eq c.resultLevel 0)}}
-                    <span class="pending">{{c.resultLabel}}: <i class=" result-fail fas fa-skull"></i><i class="result-fail fas fa-skull"></i><i class=" result-fail fas fa-skull"></i></span>
+                    <span class="pending">{{c.resultLabel}}: {{c.rollResult}} <i class=" result-fail fas fa-skull"></i><i class="result-fail fas fa-skull"></i><i class=" result-fail fas fa-skull"></i></span>
                   {{/if}}
             {{else}}
               <span class='pending' title="{{localize 'BRP.grTag'}}">{{localize 'BRP.difficulty'}}: {{c.diffLabel}} 
@@ -50,16 +50,18 @@
         {{#if (eq ../state 'closed')}}
           <div class="actor-roll dice-tooltip" style="display:none">
             <div class="owner-only" data-partic-id="{{c.particId}}" data-partic-type="{{c.particType}}">
-              <div class="rollHidden">{{localize 'BRP.difficulty'}}: {{c.diffLabel}} 
+              <div class="rollHidden">{{localize 'BRP.rawScore'}}: {{c.rawScore}}</div>
+              <div class="rollHidden">{{localize 'BRP.difficulty'}}: {{c.diffLabel}}</div>
+              <div class="rollHidden"> {{localize 'BRP.flatMod'}}: 
                 {{#if (lt c.flatMod 0)}}
-                  ({{c.flatMod}})
+                  {{c.flatMod}}
                 {{/if}}  
                 {{#if (gt c.flatMod 0)}}
                   (+{{c.flatMod}})
                 {{/if}}
               </div>
-              <div class="rollHidden">{{localize 'BRP.diceRoll'}}: {{c.rollVal}}</div>
-              <div class="rollHidden bottom-line">{{localize 'BRP.origResult'}}: {{c.origResLabel}}</div>
+              <div class="rollHidden">{{localize 'BRP.origResult'}}: {{c.origResLabel}}</div>
+              <div class="rollHidden bottom-line">{{localize 'BRP.diceRoll'}}: {{c.rollVal}}</div>
             </div>
           </div>  
         {{/if}}

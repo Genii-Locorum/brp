@@ -352,6 +352,7 @@
     "random": "Random",
     "range": "Range",
     "rangePsyHint": "Range is multiplied by users POW",
+    "rawScore": "Raw Score",
     "redistribute": "Redistribute",
     "religion": "Religion",
     "remove": "Remove",
@@ -463,7 +464,8 @@
       "CO": "Cooperative Card",
       "DM": "Damage Roll",
       "CM": "Combat Roll",
-      "AR": "Armour Roll"
+      "AR": "Armour Roll",
+      "CB": "Combat Roll"
     },
 
     "ErrorRollNotFound": "Type of roll not found!",
@@ -491,6 +493,8 @@
       "skillBonusHint": "Select no bonus, simple (prime characteristic) calc or advanced method",
       "starterSkills": "Starter Skills",
       "starterSkillsHint": "Add starter skills to new characters on creation",
+      "switchShift": "Toggle SHIFT click",
+      "switchShiftHint": "When on this causes check rolls to default to no dialogue box.",
       "useAVRand":"Use Random Armour Values",
       "useAVRandHint": "Uses random armour values (e.g. 1D6 instead of fixed value)",
       "useEDU": "Include Education",

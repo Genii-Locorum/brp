@@ -343,6 +343,78 @@ export const magicMenuOptions = (actor,token) => [
     callback: (el) => {}
   },
   {
+    name: game.i18n.localize("BRP.card.NO"),
+    icon: '<i class="fas fa-dice-d20"></i>',
+    condition: () => true,
+    callback: (el) => {
+      BRPCheck._trigger({
+        rollType: 'SK',
+        cardType: 'NO',
+        skillId: el[0].dataset.itemId,
+        actor,
+        token,}
+      );
+    }
+  },
+  {
+    name: game.i18n.localize("BRP.card.GR"),
+    icon: '<i class="fas fa-list-check"></i>',
+    condition: () => true,
+    callback: (el) => {
+      BRPCheck._trigger({
+        rollType: 'SK',
+        cardType: 'GR',
+        skillId: el[0].dataset.itemId,
+        actor,
+        token,}
+      );
+    }
+  },
+  {
+    name: game.i18n.localize("BRP.card.OP"),
+    icon: '<i class="fas fa-handshake-simple"></i>',
+    condition: () => true,
+    callback: (el) => {
+      BRPCheck._trigger({
+        rollType: 'SK',
+        cardType: 'OP',
+        skillId: el[0].dataset.itemId,
+        actor,
+        token,}
+      );
+    }
+  },
+  {
+    name: game.i18n.localize("BRP.card.CO"),
+    icon: '<i class="fas fa-hand-fist"></i>',
+    condition: () => true,
+    callback: (el) => {
+      BRPCheck._trigger({
+        rollType: 'SK',
+        cardType: 'CO',
+        skillId: el[0].dataset.itemId,
+        actor,
+        token,}
+      );
+    }
+  },
+  {
+    name: game.i18n.localize("BRP.xpGain")+ " (" + game.settings.get('brp','xpFormula') + ")",
+    icon: '<i class="fas fa-dice-d6"></i>',
+    condition: (el) => (game.settings.get('brp','development') && el[0].dataset.xp === 'true'),
+    callback: (el) => {
+      BRPCharDev.onXPGainSingle(el[0].dataset.itemId,actor,token,"formula");
+    }
+  },    
+  {
+    name: game.i18n.localize("BRP.xpGain")+ " (" + game.settings.get('brp','xpFixed') + ")",
+    icon: '<i class="fas fa-dice-three"></i>',
+    condition: (el) => (game.settings.get('brp','development') && el[0].dataset.xp === 'true'),
+    callback: (el) => {
+      BRPCharDev.onXPGainSingle(el[0].dataset.itemId,actor,token,"fixed");
+    }
+  },    
+  {
     name: game.i18n.localize("BRP.view"),
     icon: '<i class="fas fa-magnifying-glass"></i>',
     condition: () => true,
@@ -531,7 +603,7 @@ export const weaponMenuOptions = (actor,token) => [
     callback: (el) => {
       BRPCheck._trigger({
         rollType: 'CM',
-        cardType: 'NO',
+        cardType: 'CB',
         itemId: el[0].dataset.itemId,
         skillId: el[0].dataset.skillId,
         actor,

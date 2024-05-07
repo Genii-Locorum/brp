@@ -1,4 +1,5 @@
 import { BRPactorDetails} from './actorDetails.mjs'
+import { OPCard} from "../cards/opposed-card.mjs"
 
 export class BRPCharDev {
 
@@ -66,6 +67,7 @@ export class BRPCharDev {
       name: item.name,
       level: result.level,
       diceRoll: result.diceRoll,
+      rollResult: result.rollResult,
       score: score,
       improvVal,
     })  
@@ -82,7 +84,8 @@ export class BRPCharDev {
       resultLevel = 1
     }
     return ({'level': resultLevel,
-             'diceRoll': Number(roll.total)+bonus
+             'diceRoll': Number(roll.total)+bonus,
+             'rollResult': Number(roll.total)
             })
   }
 
@@ -147,6 +150,7 @@ export class BRPCharDev {
       name: game.i18n.localize('BRP.StatsPowAbbr'),
       level: resultLevel,
       diceRoll: roll.total,
+      rollResult: roll.total,
       score: chance,
       improvVal,
     }) 

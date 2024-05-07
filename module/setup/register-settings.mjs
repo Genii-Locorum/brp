@@ -222,6 +222,14 @@ export async function registerSettings () {
     default: false
   });
 
+  game.settings.register('brp', "switchShift", {
+    name: "BRP.Settings.switchShift",
+    hint: "BRP.Settings.switchShiftHint",
+    scope: "client",
+    config: true,
+    type: Boolean,
+    default: false
+  });
 
   game.settings.register('brp', "background1", {
     name: "BRP.Settings.background1",

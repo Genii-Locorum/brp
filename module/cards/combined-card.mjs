@@ -1,4 +1,5 @@
 import { BRPCheck} from "../apps/check.mjs"
+import { OPCard} from "./opposed-card.mjs"
 
 export class GRCard {
 
@@ -37,7 +38,7 @@ export class GRCard {
   //Remove a skill from a combined card
   static async GRRemove (config) {
     let targetMsg = await game.messages.get(config.targetChatId)
-    let rank = config.event.currentTarget.dataset.rank
+    let rank = config.dataset.rank
     let newChatCards =targetMsg.flags.brp.chatCard
     newChatCards.splice(rank, 1)
     await targetMsg.update({'flags.brp.chatCard' :newChatCards})
@@ -73,8 +74,8 @@ export class GRCard {
       i.resultLabel = game.i18n.localize('BRP.resultLevel.'+i.resultLevel)
       newchatCards.push(i)
     }
+    await OPCard.showDiceRoll(chatCards[0])
     successes = successes/chatCards.length    
-    AudioHelper.play({ src: CONFIG.sounds.dice }, true)
     await targetMsg.update({'flags.brp.chatCard' :newchatCards,
                             'flags.brp.state': 'closed',
                             'flags.brp.successLevel': successes,

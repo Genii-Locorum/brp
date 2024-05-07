@@ -60,25 +60,40 @@ export class BRPItem extends Item {
     const actor = this.actor;
     let altKey = event.altKey;
     let ctrlKey = isCtrlKey(event ?? false);
-    let cardType = "";
+    let cardType = "NO";
+    let rollType =""
     let skillId = "";
     let itemId = "";
+    let shiftKey = event.shiftKey;
+    if (game.settings.get('brp','switchShift')) {
+      shiftKey = !shiftKey
+    }
   
-    if (item.type === 'skill') {
-      cardType = 'NO';
-      skillId = item._id;
+    switch (item.type) {
+      case 'skill':
+        rollType="SK"
+        skillId = item._id
         if (ctrlKey){cardType='OP'}
         if (altKey){cardType='GR'}
-      BRPCheck._trigger({
-          rollType: 'SK',
-          cardType,
-          skillId,
-          event,
-          actor,
-      })
-    } else {
-      item.sheet.render(true);
+        break
+      case 'weapon' :
+        rollType="CM"
+        itemId = item._id
+        skillId = actor.items.get(itemId).system.sourceID
+        break
+      default:
+        item.sheet.render(true);
+        return
     }
-    return
-  }
+
+    BRPCheck._trigger({
+      rollType,
+      cardType,
+      skillId,
+      itemId,
+      shiftKey,
+      actor,
+    })
+  }  
+  
 }

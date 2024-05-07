@@ -23,7 +23,7 @@ export class BRPContextMenu extends ContextMenu
     super._setPosition(html, target);
 
     //If the projected context menu is going to go off the bottom of the screen then adjust the starting top position
-    if (this._position.top + html[0].clientHeight > window.screen.height- 50) {
+    if (this._position.top  > Math.floor(window.screen.height/2)) {
       this._position.top = this._position.top - html[0].clientHeight
     } 
 

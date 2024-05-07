@@ -1,9 +1,8 @@
 import { BRPContextMenu } from '../../setup/context-menu.mjs';
 import * as contextMenu from "../actor-cm.mjs";
 import {BRPactorItemDrop} from '../actor-itemDrop.mjs';
-import {BRPCheck} from '../../apps/check.mjs';
-import {isCtrlKey} from '../../apps/helper.mjs'
 import {BRPDamage} from '../../apps/damage.mjs';
+import {BRPRollType} from '../../apps/rollType.mjs';
 
 
 export class BRPCharacterSheet extends ActorSheet {
@@ -114,6 +113,7 @@ export class BRPCharacterSheet extends ActorSheet {
       } else if (i.type === 'wound') {
         wounds.push(i);
       } else if (i.type === 'magic'){
+        i.system.grandTotal = i.system.total + this.actor.system.skillcategory[i.system.category].bonus
         magics.push(i);
         this.actor.system.totalProf = this.actor.system.totalProf + i.system.profession
         this.actor.system.totalPers = this.actor.system.totalPers + i.system.personal
@@ -161,33 +161,9 @@ export class BRPCharacterSheet extends ActorSheet {
           i.system.dmgName= i.system.dmg1
         }
         // Get the highest scoring skill that relates to this weapon
-        let skillId ="";
-        let score = 0;
-        let category = "";
-        let skill1Name = ""
-        let skill2Name = ""
-        let skillSelect = "";
-        if (i.system.skill1 != "none") {
-          skillSelect = game.items.get(i.system.skill1)
-          skill1Name = skillSelect ? skillSelect.name : "";
-        }
-        if (i.system.skill2 != "none") {
-          skillSelect = game.items.get(i.system.skill2)
-          skill2Name = skillSelect ? skillSelect.name : "";
-        }  
-        for (let j of this.actor.items) {
-          if (j.type === 'skill' && (j.name === skill1Name || j.name === skill2Name)) {
-            if (j.system.total > score) {
-              score = j.system.total
-              skillId = j._id
-              category = j.system.category
-            }  
-          }
-        }
-        i.system.skillId = skillId
-        if (i.system.skillId) {
-          i.system.skillScore = this.actor.items.get(i.system.skillId).system.total + this.actor.system.skillcategory[category].bonus
-          i.system.skillName = this.actor.items.get(i.system.skillId).name
+        if (i.system.sourceID) {
+          i.system.skillScore = this.actor.items.get(i.system.sourceID).system.total + this.actor.system.skillcategory[this.actor.items.get(i.system.sourceID).system.category].bonus
+          i.system.skillName = this.actor.items.get(i.system.sourceID).name
         } else {
           i.system.skillScore = 0
           i.system.skillName = ""
@@ -269,13 +245,13 @@ export class BRPCharacterSheet extends ActorSheet {
     html.find(".actor-toggle").click(this._onActorToggle.bind(this));                // Actor Toggle
     html.find(".item-toggle").click(this._onItemToggle.bind(this));                  // Item Toggle
     html.find('.item-create').click(this._onItemCreate.bind(this));                  // Add Inventory Item
-    html.find('.rollable.charac-name').click(this._onStatRoll.bind(this));           // Rollable Characteristic
-    html.find('.rollable.skill-name').click(this._onSkillRoll.bind(this));           // Rollable Skill
+    html.find('.rollable.charac-name').click(BRPRollType._onStatRoll.bind(this));           // Rollable Characteristic
+    html.find('.rollable.skill-name').click(BRPRollType._onSkillRoll.bind(this));           // Rollable Skill
     html.find('.addWound').click(this._addWound.bind(this));                         // Add Inventory Item
-    html.find('.rollable.damage-name').click(this._onDamageRoll.bind(this));         // Damage Roll
-    html.find('.rollable.weapon-name').click(this._onWeaponRoll.bind(this));         // Weapon Skill Roll
+    html.find('.rollable.damage-name').click(BRPRollType._onDamageRoll.bind(this));         // Damage Roll
+    html.find('.rollable.weapon-name').click(BRPRollType._onWeaponRoll.bind(this));         // Weapon Skill Roll
     html.find('.rollable.attribute').click(this._onAttribute.bind(this));            // Attribute modifier
-    html.find('.rollable.ap-name').click(this._onArmour.bind(this));                 // Armour roll
+    html.find('.rollable.ap-name').click(BRPRollType._onArmour.bind(this));                 // Armour roll
     
     // Delete Inventory Item
     html.find('.item-delete').click(ev => {
@@ -456,80 +432,9 @@ export class BRPCharacterSheet extends ActorSheet {
     await BRPDamage.takeDamage(event, this.actor, this.token,0)
   }
 
-  //Start Characteristic Roll
-  async _onStatRoll(event){
-    let altKey = event.altKey;
-    let ctrlKey = isCtrlKey(event ?? false);
-    let cardType = 'NO';
-    let characteristic = event.currentTarget.dataset.characteristic;
-    if (ctrlKey){ cardType='RE'}
-    if (altKey){ 
-      cardType='PP';
-      characteristic='pow'
-    }
-    BRPCheck._trigger({
-        rollType: 'CH',
-        cardType,
-        characteristic,
-        event,
-        actor: this.actor,
-        token: this.token
-    })
-  }
-
-  //Start Skill Roll
-  async _onSkillRoll(event){
-    let altKey = event.altKey;
-    let ctrlKey = isCtrlKey(event ?? false);
-    let cardType = 'NO';
-    let skillId = event.currentTarget.closest('.item').dataset.itemId;
-     if (ctrlKey){cardType='OP'}
-    if (altKey){cardType='GR'}
-  
-    BRPCheck._trigger({
-        rollType: 'SK',
-        cardType,
-        skillId,
-        event,
-        actor: this.actor,
-        token: this.token
-    })
-  }
-
-  //Start Damage Roll
-  async _onDamageRoll(event){
-    let itemId = event.currentTarget.closest('.item').dataset.itemId;    
-    let cardType = 'NO'
-    BRPCheck._trigger({
-      rollType: 'DM',
-      cardType,
-      itemId,
-      event,
-      actor: this.actor,
-      token: this.token
-    })
-  }
-
-  
-  //Start Weapon Skill Roll
-  async _onWeaponRoll(event){
-    let itemId = event.currentTarget.closest('.item').dataset.itemId;    
-    let skillId = event.currentTarget.closest('.item').dataset.skillId;    
-    let cardType = 'NO'
-    BRPCheck._trigger({
-      rollType: 'CM',
-      cardType,
-      itemId,
-      skillId,
-      event,
-      actor: this.actor,
-      token: this.token
-    })
-  }
-
 
   //Start Attribute modify
-  async _onAttribute(event) {
+    async _onAttribute(event) {
     let att = event.currentTarget.closest('.attribute').dataset.att
     let adj = event.currentTarget.closest('.attribute').dataset.adj
     let checkprop = ""
@@ -545,41 +450,4 @@ export class BRPCharacterSheet extends ActorSheet {
   }
 
 
-  //Armour Rolling when using variable armour
-  async _onArmour (event){
-    let prop = event.currentTarget.closest('.ap-name').dataset.property
-    let AVform = ""
-    let label=""
-    switch (prop) {
-      case "cap":
-        AVform = this.actor.system.avr1
-        label = game.i18n.localize('BRP.armour')
-        break
-      case "cbap":
-        AVform = this.actor.system.avr2
-        label = game.i18n.localize('BRP.ballistic')
-        break
-      case "ap":
-        let item = this.actor.items.get(event.currentTarget.closest('.ap-name').dataset.itemId)
-        if (event.shiftKey) {
-          AVform = item.system.avr2
-          label = item.name + ": " + game.i18n.localize('BRP.ballistic')
-        } else {
-          AVform = item.system.avr1
-          label = item.name + ": " + game.i18n.localize('BRP.armour')
-        }
-        break 
-      default:
-        return
-    }
-    BRPCheck._trigger({
-      rollType: 'AR',
-      cardType: 'NO',
-      label,
-      AVform,
-      event,
-      actor: this.actor,
-      token: this.token
-    })
-  }
 }

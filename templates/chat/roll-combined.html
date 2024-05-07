@@ -50,14 +50,16 @@
           {{#if (eq ../state 'closed')}}
             <div class="actor-roll dice-tooltip" style="display:none">
               <div class="owner-only" data-partic-id="{{c.particId}}" data-partic-type="{{c.particType}}">
-                <div class="rollHidden bottom-line">{{localize 'BRP.difficulty'}}: {{c.diffLabel}} 
+                <div class="rollHidden">{{localize 'BRP.rawScore'}}: {{c.rawScore}}</div>
+                <div class="rollHidden">{{localize 'BRP.difficulty'}}: {{c.diffLabel}}</div>
+                <div class="rollHidden"> {{localize 'BRP.flatMod'}}:
                   {{#if (lt c.flatMod 0)}}
-                    ({{c.flatMod}})
-                  {{/if}}  
-                  {{#if (gt c.flatMod 0)}}
-                    (+{{c.flatMod}})
+                    {{c.flatMod}}
+                  {{else}}
+                    +{{c.flatMod}}
                   {{/if}}
                 </div>
+                <div class="rollHidden bottom-line">{{localize 'BRP.diceRoll'}}: {{c.rollResult}}</div>
               </div>
             </div>  
           {{/if}}

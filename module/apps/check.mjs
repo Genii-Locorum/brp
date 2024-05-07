@@ -21,6 +21,7 @@ export class BRPCheck {
   //GR = Combined (Group) Roll
   //CO = Cooperative Roll
   //OP = Opposed Roll
+  //CB = Combat Roll
 
 
   //Start to prepare the config
@@ -35,25 +36,6 @@ export class BRPCheck {
   //Check the request and build out the config 
   static async normaliseRequest (options){
 
-    //Set Roll Type based on options handed in if not already defined
-    if (typeof options.rollType === 'undefined') {
-      if ( typeof options.event === 'undefined') {
-        if (typeof options.characteristic !="undefined" && typeof options.actor.system.stats[options.characteristic] !== 'undefined') {
-          options.rollType ="CH"
-        } else  if (typeof options.skillId !="undefined") {
-          options.rollType ="SK"
-        } else {
-          ui.notifications.error(game.i18n.localize('BRP.ErrorRollNotFound'))
-          return false          
-        }
-      }
-    } 
-     
-    //If hand in has an associated event set SHIFT key option 
-    if (typeof options.event != 'undefined'){
-      options. shiftKey = options.event.shiftKey ?? false
-    }
- 
     //Set Basic Config
     let partic =await BRPactorDetails._getParticipantId(options.token,options.actor)
     let particImg = await BRPactorDetails.getParticImg(partic.particId,partic.particType)
@@ -65,45 +47,45 @@ export class BRPCheck {
       cardType: options.cardType,
       dialogTemplate: 'systems/brp/templates/dialog/difficulty.html',
       chatTemplate: 'systems/brp/templates/chat/roll-result.html',
-      state: "open",
-      wait: false,
+      state: options.state ?? "open",
+      wait: options.wait ?? false,
       successLevel: -1,
-      chatType: CONST.CHAT_MESSAGE_TYPES.ROLL,
+      chatType: options.chatType ?? CONST.CHAT_MESSAGE_TYPES.ROLL,
       particName: partic.particName,
       particId: partic.particId,
       particType: partic.particType,
       particImg,
       characteristic: options.characteristic ?? false,
-      skillId: options.skillId ??  false,
+      skillId: options.skillId ?? false,
       itemId: options.itemId?? false,
-      addStat: "none",
-      targetScore: 0,
-      rawScore:0,
-      resistance: 0,
-      diff:"average",
-      diffVal: 1,
-      rollFormula: "1D100",
-      flatMod: 0,
-      diceMod: 0,
-      resultLevel: 0,
-      malfunction: 0,
+      addStat: options.addStat ?? "none",
+      targetScore: options.targetScore ?? 0,
+      rawScore: options.rawScore ?? 0,
+      resistance: options.resistance ?? 0,
+      diff: options.diff ?? "average",
+      diffVal: options.diffVal ?? 1,
+      rollFormula: options.rollFormula ?? "1D100",
+      flatMod: options.flatMod ?? 0,
+      diceMod: options.diceMod ?? 0,
+      resultLevel: options.resultLevel ?? 0,
+      malfunction: options.malfunction ?? 0,
       shiftKey: options.shiftKey ?? false,
-      needDiff: true,
-      label: "",
-      specLabel: ""
+      needDiff: options.needDiff ?? true,
+      label: options.label ?? "",
+      specLabel: options. specLable ?? ""
     }
 
     //Adjust Config based on roll type
     switch(options.rollType){
       case 'CH':
         config.label = particActor.system.stats[config.characteristic].labelShort ?? ""
-        config.rawScore = particActor.system.stats[config.characteristic].total*5
+        config.rawScore = particActor.system.stats[config.characteristic].total
         config.targetScore = particActor.system.stats[config.characteristic].total*5 ?? 0
         break
       case 'SK':
         skill = particActor.items.get(config.skillId)
         config.label = skill.name ?? ""
-        config.rawScore = skill.system.total
+        config.rawScore = skill.system.total + options.actor.system.skillcategory[skill.system.category].bonus
         config.targetScore = skill.system.total + options.actor.system.skillcategory[skill.system.category].bonus ?? 0
         break
       case 'DM':  
@@ -121,7 +103,7 @@ export class BRPCheck {
         config.label = weapon.name ?? ""
         skill = particActor.items.get(config.skillId)
         config.label = skill.name ?? ""
-        config.rawScore = skill.system.total
+        config.rawScore = skill.system.total + options.actor.system.skillcategory[skill.system.category].bonus
         config.targetScore = skill.system.total + options.actor.system.skillcategory[skill.system.category].bonus ?? 0     
         config.malfunction = weapon.system.mal          
         break     
@@ -152,14 +134,18 @@ export class BRPCheck {
         config.chatType = CONST.CHAT_MESSAGE_TYPES.OTHER
         config.chatTemplate =  'systems/brp/templates/chat/roll-combined.html'
         break
-        case 'OP':
-          config.chatType = CONST.CHAT_MESSAGE_TYPES.OTHER
-          config.chatTemplate =  'systems/brp/templates/chat/roll-opposed.html'
-          break
-        case 'CO':
-          config.chatType = CONST.CHAT_MESSAGE_TYPES.OTHER
-          config.chatTemplate =  'systems/brp/templates/chat/roll-cooperative.html'
-          break          
+      case 'OP':
+        config.chatType = CONST.CHAT_MESSAGE_TYPES.OTHER
+        config.chatTemplate =  'systems/brp/templates/chat/roll-opposed.html'
+        break
+      case 'CO':
+        config.chatType = CONST.CHAT_MESSAGE_TYPES.OTHER
+        config.chatTemplate =  'systems/brp/templates/chat/roll-cooperative.html'
+        break
+      case 'CB':
+        config.chatType = CONST.CHAT_MESSAGE_TYPES.OTHER
+        config.chatTemplate =  'systems/brp/templates/chat/roll-combat.html'
+        break
       default: 
         ui.notifications.error(options.cardType +": " + game.i18n.format('BRP.errorCardInvalid')) 
         return false
@@ -255,6 +241,7 @@ export class BRPCheck {
       successLevel: config.successLevel,
       rollResult: config.rollResult,
       chatCard: [{
+        rollType: config.rollType,
         particName: config.particName,
         particId: config.particId,
         particType: config.particType,
@@ -285,7 +272,7 @@ export class BRPCheck {
 
 
     //Create the ChatMessage and Roll Dice
-    if (['GR', 'OP', 'CO'].includes(config.cardType)) {
+    if (['GR', 'OP', 'CO', 'CB'].includes(config.cardType)) {
       let checkMsgId = await BRPCheck.checkNewMsg (chatMsgData)
       if (checkMsgId != false) {
         //Trigger adding check to the card.
@@ -487,6 +474,7 @@ export class BRPCheck {
         if (['CH', 'DM'].includes(msg.rollType)) {return}  
         for (let i of msg.chatCard) {
           if(i.diff != 'easy' && i.diffVal <= 1 && i.resultLevel>1) {
+            
             actor = await BRPactorDetails._getParticipant(i.particId,i.particType)
             item = await actor.items.get(i.skillId)
             await item.update({'system.improve': true})
@@ -502,13 +490,14 @@ export class BRPCheck {
   static async triggerChatButton(event){
     const targetElement = event.currentTarget
     const presetType = targetElement.dataset?.preset
+    const dataset = targetElement.dataset
     const targetChat = $(targetElement).closest('.message')
     let targetChatId = targetChat[0].dataset.messageId
     let origin = game.user.id
     let originGM = game.user.isGM
 
     if (game.user.isGM){
-      BRPCheck.handleChatButton ({presetType, targetChatId, origin, originGM,event})
+      BRPCheck.handleChatButton ({presetType, targetChatId, origin, originGM,event,dataset})
     } else {
       const availableGM = game.users.find(d => d.active && d.isGM)?.id
       if (availableGM) {

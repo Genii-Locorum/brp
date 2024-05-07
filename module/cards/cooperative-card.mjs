@@ -1,9 +1,10 @@
 import { BRPCheck} from "../apps/check.mjs"
+import { OPCard} from "./opposed-card.mjs"
 
 export class COCard {
 
  
-  //Resolve a combined card - roll dice, update and close
+  //Resolve a cooperative card - roll dice, update and close
   static async COResolve (config) {
     let targetMsg = await game.messages.get(config.targetChatId)
     let card=""
@@ -46,9 +47,10 @@ export class COCard {
     for (let i = 1; i < chatCards.length; i++) {
       card=chatCards[i]
       newchatCards.push(card)
+      await OPCard.showDiceRoll(card)
     }
+    await OPCard.showDiceRoll(chatCards[0])
 
-    AudioHelper.play({ src: CONFIG.sounds.dice }, true)
     await targetMsg.update({'flags.brp.chatCard' :newchatCards,
                             'flags.brp.successLevel': newConfig.resultLevel,
                             'flags.brp.successLabel': game.i18n.localize('BRP.resultLevel.'+newConfig.resultLevel), 

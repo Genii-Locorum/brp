@@ -2,22 +2,22 @@
   <div class="magic-listitem">
     <div class="diff-label">{{ localize 'BRP.magic'}}</div>
     <div></div>
+    <div class="diff-label centre">{{ localize 'BRP.total'}}</div>
     <div class="diff-label centre">{{ localize 'BRP.range'}}</div>
     <div class="diff-label centre">{{ localize 'BRP.duration'}}</div>
     <div class="diff-label centre" title = "{{ localize 'BRP.ppplHint' }}">{{#if useMP}}{{ localize "BRP.mpCost" }}{{else}}{{ localize "BRP.ppCost" }}{{/if}}</div>
     <div class="diff-label centre" title = "{{ localize 'BRP.impactHint' }}">{{ localize 'BRP.impact'}}</div>
-    <div class="diff-label centre">{{ localize 'BRP.total'}}</div>
     <div class="diff-label centre" title = "{{ localize 'BRP.memHint' }}">{{ localize 'BRP.mem'}}</div>
   </div>    
   {{#each magics as |magic id|}}
     <li class="item magic-listitem" data-item-id="{{magic._id}}">
-      <div class="magic-name contextmenu">{{magic.name}}</div>
+      <div class="item-edit magic-name contextmenu" data-item-id="{{magic._id}}" data-xp="{{magic.system.improve}}">{{magic.name}}</div>
       <div title = "{{ localize 'BRP.improve' }}"><a class="item-toggle" data-property="improve"><i class="{{#if magic.system.improve}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>
+      <div class = "centre rollable skill-name" >{{magic.system.grandTotal}}%</div>
       <div class = "centre">{{magic.system.range}}</div>
       <div class = "centre">{{magic.system.duration}}</div>
       <div class = "centre">{{magic.system.pppl}}</div>
       <div class = "centre">{{magic.system.damage}}</div>
-      <div class = "centre" title = "{{ localize 'BRP.bonusHint' }}">{{magic.system.total}}%  {{#if (gte ../actor.system.skillcategory.mntlmod.bonus 0)}}(+{{else}}(-{{/if}}{{../actor.system.skillcategory.mntlmod.bonus}})</div>
       <div class = "centre"><a class="item-toggle" data-property="mem"><i class="{{#if magic.system.mem}}fa-solid fa-book-open-cover{{else}}fa-light fa-book-open-cover{{/if}}"></i></a></div>
     </li>  
   {{/each}}

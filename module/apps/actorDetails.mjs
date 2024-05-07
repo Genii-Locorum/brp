@@ -2,7 +2,28 @@ export class BRPactorDetails {
 
     // Get token/actor ID and type
     static async _getParticipantId(token,actor){
-      let particId = "";
+      let particId = ""
+      let particType = ""
+      let particName = ""
+      if (!token){
+        particId = actor.id
+        particType = "actor"
+        particName = actor.name
+      } else {
+        let tokenId = token.uuid.split(".")[3]
+        if (game.actors.tokens[tokenId]) {
+          particId = tokenId
+          particType = "token"
+          particName = token.name
+        } else {
+          particId = token.actor.id
+          particType = "actor"
+          particName = token.actor.name
+        }
+      }  
+
+      //TODO TEST THEM REMOVE BELOW
+      /*let particId = "";
       let particType ="";
       let particName ="";
           if (token && !token.actorLink){
@@ -13,7 +34,7 @@ export class BRPactorDetails {
             particId = actor._id;
             particType = "actor";
             particName = actor.name;
-          }
+          }*/
         let partic = ({particId, particType, particName})
         return partic;
       }

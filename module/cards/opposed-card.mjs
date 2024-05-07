@@ -3,7 +3,7 @@ import { BRPCheck} from "../apps/check.mjs"
 export class OPCard {
 
  
-  //Resolve a combined card - roll dice, update and close
+  //Resolve an opposed card - roll dice, update and close
   static async OPResolve (config) {
     let targetMsg = await game.messages.get(config.targetChatId)
     let chatCards =targetMsg.flags.brp.chatCard
@@ -40,9 +40,9 @@ export class OPCard {
       i.resultLabel = game.i18n.localize('BRP.resultLevel.'+i.resultLevel)  
       i.origResLabel = game.i18n.localize('BRP.resultLevel.'+i.origResLevel)
       newchatCards.push(i)
+      await OPCard.showDiceRoll(i)  
     }  
 
-    AudioHelper.play({ src: CONFIG.sounds.dice }, true)
     await targetMsg.update({'flags.brp.chatCard' :newchatCards,
                             'flags.brp.state': 'closed',
                           })
@@ -51,4 +51,37 @@ export class OPCard {
     await BRPCheck.tickXP (targetMsg.flags.brp)
     return
   }  
+
+  static async showDiceRoll(chatCard) {  
+    //If this is an Opposed or Combat roll then for the dice to roll if Dice so Nice used
+      if (game.modules.get('dice-so-nice')?.active) {
+        let tens = Math.floor(chatCard.rollResult/10)
+        let units = chatCard.rollResult-(10*tens)
+        if (chatCard.rollResult === 100) {
+          tens=0
+          units = 0
+        }
+        const diceData = {
+          throws:[{
+            dice:[
+              {
+                resultLabel:chatCard.rollResult,
+                result:tens,
+                type:"d100",
+                options: {},  
+                vectors:[]
+              },
+              {
+                resultLabel:chatCard.rollResult,
+                result:units,
+                type:"d10",
+                options: {},  
+                vectors:[]
+              }
+            ]
+          }]
+        }
+        game.dice3d.show(diceData,game.user,true,null,false)  //Dice Data,user,sync,whispher,blind
+      }  
+  }
 }

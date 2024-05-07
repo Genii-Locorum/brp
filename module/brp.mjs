@@ -28,9 +28,22 @@ Hooks.once('init', async function() {
   registerSettings();
   handlebarsHelper();
 
+
+
+
   // Define custom Document classes
   CONFIG.Actor.documentClass = BRPActor;
   CONFIG.Item.documentClass = BRPItem;
+
+  /**
+   * Set an initiative formula for the system
+   * @type {String}
+   */
+  CONFIG.Combat.initiative = {
+    formula: "1d10 + @stats.dex.total",
+    decimals: 0
+  };
+
 
   // Preload Handlebars templates.
   return preloadHandlebarsTemplates();
