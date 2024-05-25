@@ -22,6 +22,12 @@ export class BRPSkillSheet extends ItemSheet {
       const sheetData = super.getData()
       const itemData = sheetData.item
       sheetData.hasOwner = this.item.isEmbedded === true
+      sheetData.pcOwner = false
+      if (sheetData.hasOwner) {
+        if (this.item.parent.type === 'character') {
+          sheetData.pcOwner = true
+        }
+      }      
       sheetData.isGM = game.user.isGM
       //Get drop down options from select-lists.mjs
         sheetData.statOptions = await BRPSelectLists.getStatOptions();

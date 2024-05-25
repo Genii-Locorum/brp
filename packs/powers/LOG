@@ -1,3 +1,8 @@
-2024/05/07-05:37:44.270 5a4 Recovering log #570
-2024/05/07-05:37:44.360 5a4 Delete type=0 #570
-2024/05/07-05:37:44.360 5a4 Delete type=3 #568
+2024/05/25-09:39:12.321 8e8 Recovering log #654
+2024/05/25-09:39:12.397 8e8 Delete type=0 #654
+2024/05/25-09:39:12.397 8e8 Delete type=3 #652
+2024/05/25-09:39:36.389 168 Level-0 table #659: started
+2024/05/25-09:39:36.390 168 Level-0 table #659: 0 bytes OK
+2024/05/25-09:39:36.422 168 Delete type=0 #657
+2024/05/25-09:39:36.456 168 Manual compaction at level-0 from '!items!4RRGhdQIsQVI54Al' @ 72057594037927935 : 1 .. '!items!pXzHkDm16vejgfEz' @ 0 : 0; will stop at (end)
+2024/05/25-09:39:36.456 168 Manual compaction at level-1 from '!items!4RRGhdQIsQVI54Al' @ 72057594037927935 : 1 .. '!items!pXzHkDm16vejgfEz' @ 0 : 0; will stop at (end)

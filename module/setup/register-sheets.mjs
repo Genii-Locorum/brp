@@ -1,4 +1,5 @@
 import { BRPCharacterSheet } from '../actor/sheets/character.mjs';
+import { BRPNpcSheet } from '../actor/sheets/npc.mjs';
 import { BRPGearSheet } from '../item/sheets/gear.mjs';
 import { BRPSkillSheet } from '../item/sheets/skill.mjs';
 import { BRPHitLocSheet } from '../item/sheets/hit-location.mjs';
@@ -15,16 +16,21 @@ import { BRPPowerModSheet } from '../item/sheets/powerMod.mjs'
 import { BRPArmourSheet } from '../item/sheets/armour.mjs' 
 import { BRPWeaponSheet } from '../item/sheets/weapon.mjs' 
 import { BRPWoundSheet } from '../item/sheets/wound.mjs' 
+import { BRPAllegianceSheet } from '../item/sheets/allegiance.mjs' 
+import { BRPPassionSheet } from '../item/sheets/passion.mjs' 
 
 export function registerSheets () {
     Actors.unregisterSheet("core", ActorSheet);
-
     Actors.registerSheet('brp', BRPCharacterSheet, {
         types: ['character'],
         makeDefault: true
       })
-    
 
+      Actors.registerSheet('brp', BRPNpcSheet, {
+        types: ['npc'],
+        makeDefault: true
+      })      
+    
     Items.unregisterSheet('core', ItemSheet)
     Items.registerSheet('brp', BRPGearSheet, {
       types: ['gear'],
@@ -103,6 +109,16 @@ export function registerSheets () {
     
     Items.registerSheet('brp', BRPWoundSheet, {
       types: ['wound'],
+      makeDefault: true
+    }) 
+
+    Items.registerSheet('brp', BRPAllegianceSheet, {
+      types: ['allegiance'],
+      makeDefault: true
+    }) 
+
+    Items.registerSheet('brp', BRPPassionSheet, {
+      types: ['passion'],
       makeDefault: true
     }) 
 }      

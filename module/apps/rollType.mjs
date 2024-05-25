@@ -48,6 +48,42 @@ static async _onStatRoll(event){
     })
   }
 
+  //Start Allegiance Roll
+  static async _onAllegianceRoll(event){
+    let cardType = 'NO';
+    let skillId = event.currentTarget.closest('.item').dataset.itemId;
+    if (game.settings.get('brp','switchShift')) {
+        event.shiftKey = !event.shiftKey
+    }
+    BRPCheck._trigger({
+        rollType: 'AL',
+        cardType,
+        skillId,
+        shiftKey: event.shiftKey,
+        actor: this.actor,
+        token: this.token
+    })
+  }
+
+  //Start Passion Roll
+  static async _onPassionRoll(event){
+    let ctrlKey = isCtrlKey(event ?? false);
+    let cardType = 'NO';
+    let skillId = event.currentTarget.closest('.item').dataset.itemId;
+    if (ctrlKey){cardType='OP'}
+    if (game.settings.get('brp','switchShift')) {
+        event.shiftKey = !event.shiftKey
+    }
+    BRPCheck._trigger({
+        rollType: 'PA',
+        cardType,
+        skillId,
+        shiftKey: event.shiftKey,
+        actor: this.actor,
+        token: this.token
+    })
+  }
+
   //Start Damage Roll
   static async _onDamageRoll(event){
     let itemId = event.currentTarget.closest('.item').dataset.itemId;    
@@ -108,7 +144,26 @@ static async _onStatRoll(event){
           AVform = item.system.avr1
           label = item.name + ": " + game.i18n.localize('BRP.armour')
         }
-        break 
+        break
+      case "nap":
+      case "nbap":  
+        let hitLoc = this.actor.items.get(event.currentTarget.closest('.item').dataset.itemId)           
+        if (prop === 'nap') {
+          AVform = hitLoc.system.apRnd
+          label = hitLoc.name + ": " + game.i18n.localize('BRP.armour')
+        } else {
+          AVform = hitLoc.system.bapRnd
+          label = hitLoc.name + ": " + game.i18n.localize('BRP.ballistic')
+        }
+        break
+      case "ncap":
+        AVform = this.actor.system.apRnd
+        label = game.i18n.localize('BRP.armour')
+        break
+      case "ncbap":
+        AVform = this.actor.system.bapRnd
+        label = game.i18n.localize('BRP.ballistic')
+        break  
       default:
         return
     }

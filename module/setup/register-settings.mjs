@@ -131,6 +131,26 @@ export async function registerSettings () {
     type: Boolean
   });
 
+  game.settings.register('brp', 'useAlleg', {
+    name: 'BRP.Settings.useAlleg',
+    hint: 'BRP.Settings.useAllegHint',
+    requiresReload: true,
+    scope: 'world',
+    config: true,
+    default: false,
+    type: Boolean
+  });
+
+  game.settings.register('brp', 'usePassion', {
+    name: 'BRP.Settings.usePassion',
+    hint: 'BRP.Settings.usePassionHint',
+    requiresReload: true,
+    scope: 'world',
+    config: true,
+    default: false,
+    type: Boolean
+  });
+
   //Dice Roll Options
   game.settings.register('brp', 'diffValue', {
     name: 'BRP.Settings.diffValue',

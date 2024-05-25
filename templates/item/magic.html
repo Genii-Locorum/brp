@@ -81,7 +81,7 @@
           {{#if isGM}}  
             <div class="skill-display">{{localize 'BRP.base'}}</div>
             <div class="stat-input"><input name="system.base" type="text" value="{{item.system.base}}" data-dtype="Number"/></div>
-            {{#if hasOwner}}
+            {{#if pcOwner}}
               <div class="skill-display">{{localize 'BRP.xp'}}</div>
               <div class="stat-input"><input name="system.xp" type="text" value="{{item.system.xp}}" data-dtype="Number"/></div>
               <div class="skill-display">{{localize 'BRP.profession'}}</div>
@@ -98,7 +98,7 @@
           {{else}}
             <div class="skill-display">{{localize 'BRP.base'}}</div>
             <div class="skill-display centre">{{item.system.base}}</div>
-            {{#if hasOwner}}
+            {{#if pcOwner}}
               <div class="skill-display">{{localize 'BRP.xp'}}</div>
               <div class="skill-display centre bold">{{item.system.xp}}</div>
               <div class="skill-display">{{localize 'BRP.profession'}}</div>

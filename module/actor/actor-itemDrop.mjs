@@ -123,6 +123,34 @@ export class BRPactorItemDrop {
         errMsg = k.name + " : " + game.i18n.localize('BRP.nopower');
       }
 
+      //If an allegiance check that the appropriate game setting is true
+      if (k.type === 'allegiance') {
+        if (!game.settings.get('brp','useAlleg')) {
+          reqResult = 0;
+          errMsg = k.name + " : " + game.i18n.localize('BRP.noAlleg');
+        } else {
+          let dupItm = await actor.items.filter(itm =>itm.type==='allegiance' && itm.name===k.name)
+          if (dupItm.length > 0) {
+            reqResult = 0;
+            errMsg = k.name + " : " + game.i18n.localize('BRP.dupItem');
+          }
+        }
+      }
+
+      //If a passion check that the appropriate game setting is true
+      if (k.type === 'passion') {
+        if (!game.settings.get('brp','usePassion')) {
+          reqResult = 0;
+          errMsg = k.name + " : " + game.i18n.localize('BRP.noPassion');
+        } else {
+          let dupItm = await actor.items.filter(itm =>itm.type==='passion' && itm.name===k.name)
+          if (dupItm.length > 0) {
+            reqResult = 0;
+            errMsg = k.name + " : " + game.i18n.localize('BRP.dupItem');
+          }
+        }
+      }
+
       //If a magic spell, mutation, psychic ability, sorcery spell or super-power check that the appropriate power is present
       if (k.type === 'magic' || k.type === 'mutation' || k.type === 'psychic' || k.type === 'sorcery' || k.type === 'super') {
         if (actor.system[k.type] === "") {

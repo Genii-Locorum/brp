@@ -23,21 +23,11 @@ export class BRPActor extends Actor {
   _prepareCharacterData(actorData) {
     if (actorData.type !== 'character') return;
     const systemData = actorData.system;
-   
-    // Loop through ability scores, calculating total and derived scores
-    for (let [key, stat] of Object.entries(systemData.stats)) {
-      stat.label = game.i18n.localize(CONFIG.BRP.stats[key]) ?? key;
-      stat.labelShort = game.i18n.localize(CONFIG.BRP.statsAbbreviations[key]) ?? key;
-      stat.labelDeriv = game.i18n.localize(CONFIG.BRP.statsDerived[key]) ?? key;
-      stat.total = Number(stat.base) + Number(stat.redist) + Number(stat.culture) + Number(stat.exp) + Number(stat.effects) + Number(stat.age);
-      stat.deriv = stat.total * 5;
+    this._prepStats(actorData)
+    this._prepDerivedStats(actorData)
 
-
-      //Mark all stats as visible except for EDU where it's not being used
-      stat.visible = true;
-      if (key === 'edu' && !game.settings.get('brp','useEDU')) {stat.visible = false}
-    }
-
+    systemData.health.value = systemData.health.max;
+ 
     //Initialise Powers, Personality item IDs
     systemData.magic = "";
     systemData.mutation = "";
@@ -45,17 +35,6 @@ export class BRPActor extends Actor {
     systemData.sorcery = "";
     systemData.super = "";
     systemData.personality = "";
-
-
-    // Calculate derived scores
-    let hpMod = 1
-    if (actorData.type === 'character') {hpMod = game.settings.get('brp','hpMod')}
-    systemData.health.max = Math.ceil((systemData.stats.con.total + systemData.stats.siz.total) * hpMod/2)+systemData.health.mod;
-    systemData.health.value = systemData.health.max;
-    systemData.health.mjrwnd = Math.ceil(systemData.health.max/2);
-    systemData.power.max = systemData.stats.pow.total;
-    systemData.xpBonus = Math.ceil(systemData.stats.int.total/2);
-
 
 
     // Calculate the Skill Category Bonuses */ 
@@ -135,8 +114,6 @@ export class BRPActor extends Actor {
       }
     }
     
-    
-
     //Calcualte/adjust scores for items (itm)
     for (let itm of actorData.items) {
       //If skill, magic or psychic calculate the total score and record the category bonus
@@ -144,6 +121,15 @@ export class BRPActor extends Actor {
         itm.system.total = itm.system.base + itm.system.xp + itm.system.effects + itm.system.profession + itm.system.personality + itm.system.personal
         itm.system.catBonus = systemData.skillcategory[itm.system.category].bonus
 
+      //If Allegiance the set total and potential Ally status
+      } else if (itm.type === 'allegiance') {  
+        itm.system.total = itm.system.allegPoints + itm.system.xp
+        itm.system.potAlly = false
+
+      //If Passion the set total 
+      } else if (itm.type === 'passion') {  
+        itm.system.total = itm.system.base + itm.system.xp
+        
       //If gear/weapon, calculates the encumbrance
       } else if (['gear' , 'weapon'].includes (itm.type)) {
         if (itm.system.equipStatus === 'carried') {
@@ -267,9 +253,27 @@ export class BRPActor extends Actor {
 
     } 
     
-   
-    systemData.dmgBonus = this._damageBonus (systemData.stats.str.total+systemData.stats.siz.total)
-    systemData.fatigue.max = Math.ceil(systemData.stats.str.total + systemData.stats.con.total - systemData.enc);
+
+    //Calculate allegiance target
+    let allegiances = actorData.items.filter(itm=>itm.type === 'allegiance')
+      allegiances.sort(function(a, b){
+        let x = a.system.total;
+        let y = b.system.total;
+        if (x < y) {return 1};
+        if (x > y) {return -1};
+        return 0;
+      });
+      //If there is one allegiance
+      let ally=""
+      if (allegiances.length === 1 && allegiances[0].system.total >=20) {
+        actorData.items.get(allegiances[0]._id).system.potAlly = true
+      } else if (allegiances.length > 1 && (allegiances[0].system.total - allegiances[1].system.total) >=20) {
+        actorData.items.get(allegiances[0]._id).system.potAlly = true
+      }
+
+
+      
+      systemData.fatigue.max = Math.ceil(systemData.stats.str.total + systemData.stats.con.total - systemData.enc);
 
     //Derive Health Statuses from total HP
     if (systemData.health.value <1) {
@@ -283,8 +287,38 @@ export class BRPActor extends Actor {
   _prepareNpcData(actorData) {
     if (actorData.type !== 'npc') return;
     const systemData = actorData.system;
-    systemData.xp = (systemData.cr * systemData.cr) * 100;
-  }
+    this._prepStats(actorData)
+    this._prepDerivedStats(actorData)
+
+    for (let [key, stat] of Object.entries(actorData.system.baseStats)) {
+      stat.label = game.i18n.localize(CONFIG.BRP.stats[key]) ?? key;
+      stat.labelShort = game.i18n.localize(CONFIG.BRP.statsAbbreviations[key]) ?? key;
+      //Mark all stats as visible except for EDU where it's not being used
+      stat.visible = true;
+      if (key === 'edu' && !game.settings.get('brp','useEDU')) {stat.visible = false}
+    }
+
+
+    let damage = 0
+
+    for (let itm of actorData.items) {
+      if (['skill','psychic','magic'].includes(itm.type)) {
+      itm.system.total = itm.system.base;
+      } else if (itm.type === 'hit-location' && game.settings.get('brp','useHPL')) {
+        itm.system.injured = false;
+        itm.system.maxHP = Math.max((Math.ceil(systemData.health.max / itm.system.fractionHP) + itm.system.adj),0);
+        damage = damage + Math.max(itm.system.maxHP - itm.system.currHP,0)
+      } 
+    }
+
+    //If using HPL then set current health
+    if (game.settings.get('brp','useHPL')) {
+      systemData.health.value = systemData.health.max - damage
+    }
+  }  
+
+
+
 
   getRollData() {
     const data = super.getRollData();
@@ -313,6 +347,34 @@ export class BRPActor extends Actor {
     if (this.type !== 'npc') return;
   }
 
+
+  //Prepare Stats
+  _prepStats(actorData) {
+    // Loop through ability scores, calculating total and derived scores
+    for (let [key, stat] of Object.entries(actorData.system.stats)) {
+      stat.label = game.i18n.localize(CONFIG.BRP.stats[key]) ?? key;
+      stat.labelShort = game.i18n.localize(CONFIG.BRP.statsAbbreviations[key]) ?? key;
+      stat.labelDeriv = game.i18n.localize(CONFIG.BRP.statsDerived[key]) ?? key;
+      stat.total = Number(stat.base) + Number(stat.redist) + Number(stat.culture) + Number(stat.exp) + Number(stat.effects) + Number(stat.age);
+      stat.deriv = stat.total * 5;
+ 
+      //Mark all stats as visible except for EDU where it's not being used
+      stat.visible = true;
+      if (key === 'edu' && !game.settings.get('brp','useEDU')) {stat.visible = false}
+    }
+  }
+
+  // Calculate derived scores
+  _prepDerivedStats(actorData) {
+    let systemData = actorData.system
+    let hpMod = 1
+    if (actorData.type === 'character') {hpMod = game.settings.get('brp','hpMod')}
+    systemData.health.max = Math.ceil((systemData.stats.con.total + systemData.stats.siz.total) * hpMod/2)+systemData.health.mod;
+    systemData.health.mjrwnd = Math.ceil(systemData.health.max/2);
+    systemData.power.max = systemData.stats.pow.total;
+    systemData.xpBonus = Math.ceil(systemData.stats.int.total/2);
+    systemData.dmgBonus = this._damageBonus (systemData.stats.str.total+systemData.stats.siz.total)
+  }
 
   //Create a new actor - When creating an actor set basics including tokenlink, bars, displays sight
   static async create (data, options = {}) {

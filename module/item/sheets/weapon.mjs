@@ -21,7 +21,13 @@ export class BRPWeaponSheet extends ItemSheet {
       const sheetData = super.getData();
       const itemData = sheetData.item;
       sheetData.hasOwner = this.item.isEmbedded === true;
-      const actor = this.item.parent;
+      sheetData.npcOwner = false
+      if (sheetData.hasOwner) {
+        if (this.item.parent.type === 'npc') {
+          sheetData.npcOwner = true
+        }
+      }      
+      //const actor = this.item.parent;
       let skillSelect = "";
       sheetData.isGM = game.user.isGM;
       //Get drop down options from select-lists.mjs

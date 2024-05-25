@@ -38,6 +38,10 @@ export class BRPItem extends Item {
         data.img = 'systems/brp/assets/Icons/saber-and-pistol.svg'
       } else if (data.type === 'wound') {
         data.img = 'systems/brp/assets/Icons/drop.svg'
+      } else if (data.type === 'allegiance') {
+        data.img = 'systems/brp/assets/Icons/all-seeing-eye.svg'
+      } else if (data.type === 'passion') {
+        data.img = 'systems/brp/assets/Icons/shining-heart.svg'
       }
     }
     super(data, context)
@@ -76,6 +80,10 @@ export class BRPItem extends Item {
         if (ctrlKey){cardType='OP'}
         if (altKey){cardType='GR'}
         break
+        case 'allegiance':
+          rollType="AL"
+          skillId = item._id
+          break  
       case 'weapon' :
         rollType="CM"
         itemId = item._id

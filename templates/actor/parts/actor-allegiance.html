@@ -1,0 +1,24 @@
+<ol class="magic-list">
+  <div class="magic-listitem">
+    <div class="diff-label">{{ localize 'BRP.allegiance'}}</div>
+    <div></div>
+    <div class="diff-label centre">{{ localize 'BRP.total'}}</div>
+    <div class="diff-label centre">{{ localize 'BRP.title'}}</div>
+    <div class="diff-label centre">{{ localize 'BRP.rank'}}</div>
+    <div class="diff-label centre">{{ localize "BRP.enemy" }}</div>
+    <div class="diff-label centre">{{ localize "BRP.opposed" }}</div>
+    <div class="diff-label centre"></div>
+  </div>    
+  {{#each allegiances as |allegiance id|}}
+    <li class="item magic-listitem" data-item-id="{{allegiance._id}}">
+      <div class="item-edit allegiance-name contextmenu"  data-item-id="{{allegiance._id}}" data-xp="{{allegiance.system.improve}}">{{allegiance.name}}</div>
+      <div title = "{{ localize 'BRP.improve' }}"><a class="item-toggle" data-property="improve"><i class="{{#if allegiance.system.improve}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>
+      <div class = "centre rollable allegiance-name" >{{allegiance.system.total}}%</div>
+      <div class = "centre">{{allegiance.system.allegTitle}}</div>
+      <div class = "centre">{{allegiance.system.rank}}</div>
+      <div class = "centre"><a><i class="{{#if allegiance.system.allegEnemy}}fa-solid fa-skull{{/if}}"></i></a></div>
+      <div class = "centre truncate">{{allegiance.system.opposeAlleg}}</div>
+      <div class = "centre">{{allegiance.system.potAlly}}</div>
+    </li>  
+  {{/each}}
+</ol>

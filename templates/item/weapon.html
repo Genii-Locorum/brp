@@ -275,6 +275,10 @@
             <div class="weapon-input"><input name="system.ammoCurr" type="text" value="{{item.system.ammoCurr}}" data-dtype="Number"/></div>
             <div class="skill-display">{{localize 'BRP.quantity'}}</div>
             <div class="weapon-input"><input name="system.quantity" type="text" value="{{item.system.quantity}}" data-dtype="Number"/></div>
+            {{#if npcOwner}}
+              <div class="skill-display new-row">{{localize 'BRP.base'}}%</div>
+              <div class="weapon-input"><input name="system.npcVal" type="text" value="{{item.system.npcVal}}" data-dtype="Number"/></div>
+            {{/if}}
           </div>    
         {{/if}}  
        </div>

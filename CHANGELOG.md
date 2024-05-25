@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## 11.1.15
+- Added NPC actor type
+- Added a game settings for Allegiances
+- Added Allegiance item, and an allegiance roll (normal roll only)
+- Allegiance Improvement has an XP check like skills and magic
+- Added a game settings for Passions
+- Added Passion item, and a passion roll (normal and opposed)
+- Passion Improvement has an XP check like skills and magic
+- Fixed issue with not being able to add Wounds to an unlinked token (and couldn't roll XP checks either)
+- Can open mutation, psychic, sorcery and superpower item sheets on Character sheet by clicking on the names
+
 ## 11.1.14
 - Added combat rolls from weapons on the hotbar
 - Tidied up some of the chat message outputs

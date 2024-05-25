@@ -5,9 +5,11 @@ export class BRPDamage {
 
   // Add a wound
   static async takeDamage(event,actor,token,damage){
-    let partic =await BRPactorDetails._getParticipantPriority(token,actor)
+    let partic = await BRPactorDetails._getParticipantPriority(token, actor)
     let locationId = event.currentTarget.dataset.itemId;
-    let location = partic.items.get(locationId)
+    let location=""
+    location = token.actor.items.get(locationId)
+
     //If damage is zero then get damage dialog
     if (damage < 1) {
       let usage = await this.healingAmount ('damage',partic.name)

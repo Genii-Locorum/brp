@@ -1,6 +1,6 @@
 {
   "Actor": {
-    "types": ["character"],
+    "types": ["character","npc"],
     "templates": {
       "base": {
         "stats": {
@@ -107,6 +107,7 @@
       "background": "",
       "backstory": "",
       "gender": "",
+      "culture": "",
       "religion": "",
       "age": 0,
       "height": "",
@@ -127,10 +128,57 @@
         "percmod": {},
         "physmod": {}
       }
+      },
+      "npc": {
+        "templates": ["base"],
+        "description": "",
+        "majorWnd": false,
+        "minorWnd": false,
+        "move": 0,
+        "lock": false,
+        "viewStat": false,
+        "ap": 0,      
+        "bap": 0,
+        "apRnd": "",
+        "bapRnd": "",
+        "baseStats": {
+          "str": {
+            "random": "3D6",
+            "average": "1D2+9"
+          },
+          "con": {
+            "random": "3D6",
+            "average": "1D2+9"
+          },
+          "int": {
+            "random": "3D6",
+            "average": "1D2+9"
+          },
+          "siz": {
+            "random": "3D6",
+            "average": "1D2+9"
+          },
+          "pow": {
+            "random": "3D6",
+            "average": "1D2+9"
+          },
+          "dex": {
+            "random": "3D6",
+            "average": "1D2+9"
+          },
+          "cha": {
+            "random": "3D6",
+            "average": "1D2+9"
+          },
+          "edu": {
+            "random": "3D6",
+            "average": "1D2+9"
+          }
+        }  
       }
   },
   "Item": {
-    "types": ["gear","skill","hit-location", "personality", "profession","power","magic","mutation","psychic","sorcery","super","failing","powerMod","armour","weapon","wound"],
+    "types": ["gear","skill","hit-location", "personality", "profession","power","magic","mutation","psychic","sorcery","super","failing","powerMod","armour","weapon","wound","allegiance","passion"],
     "templates": {
       "base": {
         "description": "",
@@ -193,7 +241,9 @@
       "currHP": 0,
       "maxHP": 0,
       "wounds": [],
-      "adj": 0
+      "adj": 0,
+      "apRnd": "",
+      "bapRnd": ""
     },
 
     "personality": {
@@ -363,13 +413,32 @@
       "price": "",
       "equipStatus": "carried",
       "coverage": "",
-      "quantity": 1
+      "quantity": 1,
+      "npcVal": 0
     },
     "wound": {
       "value": 1,
       "treated": false,
       "created": false,
       "locId": ""
-    }   
+    },
+    "allegiance": {
+      "templates": ["base"],
+      "allegPoints": 0,
+      "opposeAlleg": "",
+      "allegTitle": "",
+      "improve": false,
+      "allegEnemy": false,
+      "allegAllied": false,
+      "allegApoth": false,
+      "benefits": "",
+      "xp": 0      
+    },
+    "passion": {
+      "templates": ["base"],
+      "base": 0,
+      "improve": false,
+      "xp": 0      
+    }      
   }
 }

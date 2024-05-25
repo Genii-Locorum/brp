@@ -182,11 +182,13 @@
         <a class="item combat-tab contextmenu" data-tab="combat">{{localize 'BRP.combat'}}</a>
         <a class="item" data-tab="items">{{localize 'BRP.items'}}</a>
         {{#unless (eq actor.system.magic "")}}<a class="item power-name contextmenu" data-item-id="{{system.magic}}" data-tab="magic">{{localize 'BRP.magic'}}</a>{{/unless}}
-        {{#unless (eq actor.system.mutation "")}}<a class="item power-name contextmenu" data-item-id="{{system.mutation}}" data-tab="mutations">{{localize 'BRP.mutations'}}</a>{{/unless}}
+        {{#unless (eq actor.system.mutation "")}}<a class="item power-name contextmenu" data-item-id="{{system.mutation}}" data-tab="mutations">{{localize 'BRP.mutationAbbr'}}</a>{{/unless}}
         {{#unless (eq actor.system.psychic "")}}<a class="item power-name contextmenu" data-item-id="{{system.psychic}}" data-tab="psychics">{{localize 'BRP.psychics'}}</a>{{/unless}}
         {{#unless (eq actor.system.sorcery "")}}<a class="item power-name contextmenu" data-item-id="{{system.sorcery}}" data-tab="sorcery">{{localize 'BRP.sorcery'}}</a>{{/unless}}
-        {{#unless (eq actor.system.super "")}}<a class="item power-name contextmenu" data-item-id="{{system.super}}" data-tab="super">{{localize 'BRP.super'}}</a>{{/unless}}
-        <a class="item" data-tab="statistics">{{localize 'BRP.statistics'}}</a>
+        {{#unless (eq actor.system.super "")}}<a class="item power-name contextmenu" data-item-id="{{system.super}}" data-tab="super">{{localize 'BRP.superAbbr'}}</a>{{/unless}}
+        {{#if useAlleg}}<a class="item" data-tab="allegiance">{{localize 'BRP.allegianceAbbr'}}</a>{{/if}}
+        {{#if usePassion}}<a class="item" data-tab="passion">{{localize 'BRP.passion'}}</a>{{/if}}
+        <a class="item" data-tab="statistics">{{localize 'BRP.characteristicAbbr'}}</a>
         <a class="item" data-tab="background">{{localize 'BRP.story'}}</a>
         <a class="lock-icon grid-middle actor-toggle" title="{{ localize 'BRP.lock' }}" data-property="lock"> <i class="{{#if system.lock}}fas fa-lock{{else}}fas fa-lock-open{{/if}}"></i> </a>
       </nav>
@@ -246,6 +248,16 @@
       {{!-- Owned Super Tab --}}
       <div class="tab super" data-group="primary" data-tab="super">
         {{> "systems/brp/templates/actor/parts/actor-super.html"}}
+      </div>
+
+      {{!-- Owned Allegiance Tab --}}
+      <div class="tab allegiance" data-group="primary" data-tab="allegiance">
+        {{> "systems/brp/templates/actor/parts/actor-allegiance.html"}}
+      </div>
+
+      {{!-- Owned Passion Tab --}}
+      <div class="tab passion" data-group="primary" data-tab="passion">
+        {{> "systems/brp/templates/actor/parts/actor-passion.html"}}
       </div>
 
       {{!-- Statistics Tab --}}

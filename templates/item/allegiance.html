@@ -1,0 +1,97 @@
+<form class="{{cssClass}} brp" autocomplete="off">
+  <header class="sheet-header">
+  
+    <div class="hitlocgrid">
+    <div class="item-title"> {{localize 'BRP.allegiance'}}:</div>
+    {{#if isGM}}  
+      <div class="stat-input"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></div>
+    {{else}}
+      <div class="title-name bold center boxed">{{item.name}}</div>
+    {{/if}}
+    </div>  
+  
+    <img class="item-image" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="50" width="50"/>
+
+  </header>
+
+  {{!-- Item Sheet Navigation --}}
+  <section class="nav-panel">
+    <nav class="sheet-tabs tabs" data-group="primary">
+      <a class="item" data-tab="details">{{ localize "BRP.details" }}</a>
+      <a class="item" data-tab="description">{{ localize "BRP.description" }}</a>
+      <a class="item" data-tab="benefits">{{ localize "BRP.benefits" }}</a>
+      {{#if isGM}}<a class="item" data-tab="gmNotes">{{ localize "BRP.gmNotes" }}</a>{{/if}}
+    </nav>
+  </section>
+
+  {{!-- Sheet Body --}}
+  <section class="item-bottom-panel">
+    <section class="sheet-body">
+      <br>
+  
+      {{!-- Details Tab --}}
+      <div class="tab active" data-group="primary" data-tab="details">  
+        <div class="armour-scores">
+            <div class="skill-display">{{localize 'BRP.opposeAlleg'}}</div>
+            <div class="weapon-input centre"><input name="system.opposeAlleg" type="text" value="{{item.system.opposeAlleg}}"/></div>
+        </div>
+        <br>
+
+
+        {{#if hasOwner}}
+        <div class="item-title"> {{localize 'BRP.allegPoints'}}:</div>
+        <div class="armour-scores">
+          <div class="skill-display new-row indent">{{localize 'BRP.base'}}</div>
+          <div class="weapon-input centre"><input name="system.allegPoints" type="text" value="{{item.system.allegPoints}}" data-dtype="Number"/></div>
+          <div class="skill-display indent">{{localize 'BRP.allegImprov'}}</div>
+          <div class="weapon-input centre"><input name="system.xp" type="text" value="{{item.system.xp}}" data-dtype="Number"/></div>
+          <div class="skill-display indent">{{localize 'BRP.total'}}</div>
+          <div class="weapon-input centre">{{item.system.total}}</div>
+          <br>
+          <div class="skill-display new-row">{{localize 'BRP.title'}}</div>
+          <div class="weapon-input centre"><input name="system.allegTitle" type="text" value="{{item.system.allegTitle}}"/></div>
+          {{#isOr item.system.potAlly item.system.allegAllied}}
+            <br>
+            <div class="skill-display new-row">{{localize 'BRP.allegAllied'}}</div>
+            <div class="centre itemIcon"><a class="item-toggle nopad" data-property="allegAllied"><i class="{{#if item.system.allegAllied}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>
+            {{#isAnd item.system.allegAllied (gt item.system.total 99)}}
+              <div class="skill-display">{{localize 'BRP.allegApoth'}}</div>
+              <div class="centre itemIcon"><a class="item-toggle nopad" data-property="allegApoth"><i class="{{#if item.system.allegApoth}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>
+            {{/isAnd}}         
+          {{/isOr}}
+          <br>
+          <div class="skill-display new-row">{{localize 'BRP.allegEnemy'}}</div>
+          <div class="centre itemIcon"><a class="item-toggle nopad" data-property="allegEnemy"><i class="{{#if item.system.allegEnemy}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>
+          <br>
+          <div class="skill-display new-row">{{localize 'BRP.allegCheck'}}</div>
+          <div class="centre itemIcon"><a class="item-toggle nopad" data-property="improve"><i class="{{#if item.system.improve}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>
+        </div>    
+        {{/if}}  
+      </div>
+
+      {{!-- Description Tab --}}
+      <div class="tab active" data-group="primary" data-tab="description">
+        <div class="bold"> {{localize 'BRP.description'}}:</div>
+        <div>
+          {{editor item.system.description class="description-doc" target="system.description" button=true owner=owner editable=editable}}
+        </div>
+      </div>
+
+      {{!-- Benefits Tab --}}
+      <div class="tab active" data-group="primary" data-tab="benefits">
+        <div class="bold"> {{localize 'BRP.benefits'}}:</div>
+        <div>
+          {{editor item.system.benefits class="description-doc" target="system.benefits" button=true owner=owner editable=editable}}
+        </div>
+      </div>
+
+      {{!-- GM Description Tab --}}
+      <div class="tab active" data-group="primary" data-tab="gmNotes">
+        <div class="bold"> {{localize 'BRP.gmNotes'}}:</div>
+        <div>
+          {{editor item.system.gmDescription class="description-doc" target="system.gmDescription" button=true owner=owner editable=editable}}
+        </div>
+      </div>
+    </section>
+  </section>
+</form>

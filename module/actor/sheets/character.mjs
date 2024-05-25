@@ -39,6 +39,8 @@ export class BRPCharacterSheet extends ActorSheet {
     context.useFP = game.settings.get('brp','useFP');
     context.useSAN = game.settings.get('brp','useSAN');
     context.useHPL = game.settings.get('brp','useHPL');
+    context.useAlleg = game.settings.get('brp','useAlleg');
+    context.usePassion = game.settings.get('brp','usePassion');    
     context.useAVRand = game.settings.get('brp','useAVRand');
     context.background1 = game.settings.get('brp','background1');
     context.background2 = game.settings.get('brp','background2');
@@ -79,6 +81,8 @@ export class BRPCharacterSheet extends ActorSheet {
     const armours = [];
     const weapons = [];
     const wounds = [];
+    const allegiances = [];
+    const passions = [];
 
 
     // Iterate through items, allocating to containers
@@ -96,81 +100,90 @@ export class BRPCharacterSheet extends ActorSheet {
 
 
     // Add items to containers.
-    for (let i of context.items) {
-      i.img = i.img || DEFAULT_TOKEN;
-      if (i.type === 'gear') {
-        i.system.equippedName = game.i18n.localize('BRP.'+i.system.equipStatus)
-        gears.push(i);
-      } else if (i.type ==='skill') {
-        skillsDev.push(i)
-          i.system.grandTotal = i.system.total + this.actor.system.skillcategory[i.system.category].bonus
-        skills.push(i);
+    for (let itm of context.items) {
+      itm.img = itm.img || DEFAULT_TOKEN;
+      if (itm.type === 'gear') {
+        itm.system.equippedName = game.i18n.localize('BRP.'+itm.system.equipStatus)
+        gears.push(itm);
+      } else if (itm.type ==='skill') {
+        skillsDev.push(itm)
+          itm.system.grandTotal = itm.system.total + this.actor.system.skillcategory[itm.system.category].bonus
+        skills.push(itm);
           
-        this.actor.system.totalProf = this.actor.system.totalProf + i.system.profession
-        this.actor.system.totalPers = this.actor.system.totalPers + i.system.personal
-      } else if (i.type === 'hit-location') {
-        hitlocs.push(i);
-      } else if (i.type === 'wound') {
-        wounds.push(i);
-      } else if (i.type === 'magic'){
-        i.system.grandTotal = i.system.total + this.actor.system.skillcategory[i.system.category].bonus
-        magics.push(i);
-        this.actor.system.totalProf = this.actor.system.totalProf + i.system.profession
-        this.actor.system.totalPers = this.actor.system.totalPers + i.system.personal
-      } else if (i.type === 'mutation'){
-        mutations.push(i);
-      } else if (i.type === 'psychic'){
-        psychics.push(i);
-        this.actor.system.totalProf = this.actor.system.totalProf + i.system.profession
-        this.actor.system.totalPers = this.actor.system.totalPers + i.system.personal
-      } else if (i.type === 'sorcery'){
-        i.system.ppCost = i.system.currLvl * i.system.pppl
-        if (i.system.mem) {
-          i.system.ppCost = i .system.memLvl * i.system.pppl
+        this.actor.system.totalProf = this.actor.system.totalProf + itm.system.profession
+        this.actor.system.totalPers = this.actor.system.totalPers + itm.system.personal
+      } else if (itm.type === 'hit-location') {
+        hitlocs.push(itm);
+      } else if (itm.type === 'wound') {
+        wounds.push(itm);
+      } else if (itm.type === 'magic'){
+        itm.system.grandTotal = itm.system.total + this.actor.system.skillcategory[itm.system.category].bonus
+        magics.push(itm);
+        this.actor.system.totalProf = this.actor.system.totalProf + itm.system.profession
+        this.actor.system.totalPers = this.actor.system.totalPers + itm.system.personal
+      } else if (itm.type === 'mutation'){
+        mutations.push(itm);
+      } else if (itm.type === 'psychic'){
+        psychics.push(itm);
+        this.actor.system.totalProf = this.actor.system.totalProf + itm.system.profession
+        this.actor.system.totalPers = this.actor.system.totalPers + itm.system.personal
+      } else if (itm.type === 'sorcery'){
+        itm.system.ppCost = itm.system.currLvl * itm.system.pppl
+        if (itm.system.mem) {
+          itm.system.ppCost = itm .system.memLvl * itm.system.pppl
         }
-        sorceries.push(i);
-      } else if (i.type === 'super'){
-        superpowers.push(i);
-      }  else if (i.type === 'failing'){
-        failings.push(i);
-      } else if (i.type === 'armour'){
-        if(i.system.hitlocID) {
-          let hitLocTemp = this.actor.items.get(i.system.hitlocID)
+        sorceries.push(itm);
+      } else if (itm.type === 'super'){
+        superpowers.push(itm);
+      }  else if (itm.type === 'failing'){
+        failings.push(itm);
+      } else if (itm.type === 'armour'){
+        if(itm.system.hitlocID) {
+          let hitLocTemp = this.actor.items.get(itm.system.hitlocID)
           if (hitLocTemp) {
-            i.system.hitlocName = hitLocTemp.name
+            itm.system.hitlocName = hitLocTemp.name
           }  
         }
-        i.system.equippedName = game.i18n.localize('BRP.'+i.system.equipStatus)
-        armours.push(i);
-      }  else if (i.type === 'weapon'){
-        if(i.system.range3 !="") {
-          i.system.rangeName= i.system.range1 + "/" + i.system.range2 + "/" + i.system.range3
-        } else if( i.system.range2 !="") {
-          i.system.rangeName= i.system.range1 + "/" + i.system.range2
+        itm.system.equippedName = game.i18n.localize('BRP.'+itm.system.equipStatus)
+        armours.push(itm);
+      }  else if (itm.type === 'weapon'){
+        if(itm.system.range3 !="") {
+          itm.system.rangeName= itm.system.range1 + "/" + itm.system.range2 + "/" + itm.system.range3
+        } else if( itm.system.range2 !="") {
+          itm.system.rangeName= itm.system.range1 + "/" + itm.system.range2
         } else {
-          i.system.rangeName= i.system.range1
+          itm.system.rangeName= itm.system.range1
         }
 
-        if (i.system.specialDmg) {
-          i.system.dmgName = game.i18n.localize('BRP.special')
-        } else if (i.system.dmg3 != "") {
-          i.system.dmgName= i.system.dmg1 + "/" + i.system.dmg2 + "/" + i.system.dmg3
-        } else if( i.system.dmg2 !="") {
-          i.system.dmgName= i.system.dmg1 + "/" + i.system.dmg2
+        if (itm.system.specialDmg) {
+          itm.system.dmgName = game.i18n.localize('BRP.special')
+        } else if (itm.system.dmg3 != "") {
+          itm.system.dmgName= itm.system.dmg1 + "/" + itm.system.dmg2 + "/" + itm.system.dmg3
+        } else if( itm.system.dmg2 !="") {
+          itm.system.dmgName= itm.system.dmg1 + "/" + itm.system.dmg2
         } else {
-          i.system.dmgName= i.system.dmg1
+          itm.system.dmgName= itm.system.dmg1
         }
         // Get the highest scoring skill that relates to this weapon
-        if (i.system.sourceID) {
-          i.system.skillScore = this.actor.items.get(i.system.sourceID).system.total + this.actor.system.skillcategory[this.actor.items.get(i.system.sourceID).system.category].bonus
-          i.system.skillName = this.actor.items.get(i.system.sourceID).name
+        if (itm.system.sourceID) {
+          itm.system.skillScore = this.actor.items.get(itm.system.sourceID).system.total + this.actor.system.skillcategory[this.actor.items.get(itm.system.sourceID).system.category].bonus
+          itm.system.skillName = this.actor.items.get(itm.system.sourceID).name
         } else {
-          i.system.skillScore = 0
-          i.system.skillName = ""
+          itm.system.skillScore = 0
+          itm.system.skillName = ""
         }        
-        i.system.equippedName = game.i18n.localize('BRP.'+i.system.equipStatus)
-        weapons.push(i);
-      }
+        itm.system.equippedName = game.i18n.localize('BRP.'+itm.system.equipStatus)
+        weapons.push(itm);
+      } else if (itm.type === 'allegiance'){
+        if (itm.system.allegApoth) {
+          itm.system.rank=game.i18n.localize('BRP.allegApoth')
+        } else if (itm.system.allegAllied) {
+          itm.system.rank=game.i18n.localize('BRP.allegAllied')
+        }
+        allegiances.push(itm);
+      } else if (itm.type === 'passion'){
+        passions.push(itm);
+      } 
     }  
 
     //Add Cateogry Headings to Skills 
@@ -223,6 +236,8 @@ export class BRPCharacterSheet extends ActorSheet {
     context.armours = armours;
     context.weapons = weapons;
     context.wounds = wounds;
+    context.allegiances = allegiances;
+    context.passions = passions;
 
     return context
   }
@@ -247,6 +262,8 @@ export class BRPCharacterSheet extends ActorSheet {
     html.find('.item-create').click(this._onItemCreate.bind(this));                  // Add Inventory Item
     html.find('.rollable.charac-name').click(BRPRollType._onStatRoll.bind(this));           // Rollable Characteristic
     html.find('.rollable.skill-name').click(BRPRollType._onSkillRoll.bind(this));           // Rollable Skill
+    html.find('.rollable.allegiance-name').click(BRPRollType._onAllegianceRoll.bind(this));           // Rollable Allegiance
+    html.find('.rollable.passion-name').click(BRPRollType._onPassionRoll.bind(this));           // Rollable Passion
     html.find('.addWound').click(this._addWound.bind(this));                         // Add Inventory Item
     html.find('.rollable.damage-name').click(BRPRollType._onDamageRoll.bind(this));         // Damage Roll
     html.find('.rollable.weapon-name').click(BRPRollType._onWeaponRoll.bind(this));         // Weapon Skill Roll
@@ -292,6 +309,8 @@ export class BRPCharacterSheet extends ActorSheet {
      new BRPContextMenu(html, ".wound-name.contextmenu", contextMenu.woundMenuOptions(this.actor, this.token));
      new BRPContextMenu(html, ".power.contextmenu", contextMenu.powerAttMenuOptions(this.actor, this.token));
      new BRPContextMenu(html, ".fatigue.contextmenu", contextMenu.fatigueAttMenuOptions(this.actor, this.token));
+     new BRPContextMenu(html, ".allegiance-name.contextmenu", contextMenu.allegianceMenuOptions(this.actor, this.token));
+     new BRPContextMenu(html, ".passion-name.contextmenu", contextMenu.passionMenuOptions(this.actor, this.token));
   }
 
   // Handle creating a new Owned Item for the actor using initial data defined in the HTML dataset
@@ -400,7 +419,7 @@ export class BRPCharacterSheet extends ActorSheet {
     const item = this.actor.items.get(li.data("itemId"));
     const prop = element.dataset.property;
     let checkProp={};
-    if (prop === 'improve' || prop === 'mem' || prop ==='injured' || prop ==='bleeding' || prop ==='incapacitated' || prop ==='severed' || prop ==='dead' || prop ==='unconscious' ) {
+    if (['improve','mem','injured','bleeding','incapacitated','severed','dead','unconscious'].includes(prop)) {
       checkProp = {[`system.${prop}`] : !item.system[prop]}
     } else if (prop === 'equipStatus') {
       if (item.system.equipStatus === 'carried' && item.type === 'armour') {

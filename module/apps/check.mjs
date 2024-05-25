@@ -13,6 +13,8 @@ export class BRPCheck {
   //DM = Damage
   //CM = Combat
   //AR = Armour (Random)
+  //AL = Allegiance Roll
+  //PA - Passion Roll
 
   //Card Types
   //NO = Normnal Roll
@@ -85,8 +87,20 @@ export class BRPCheck {
       case 'SK':
         skill = particActor.items.get(config.skillId)
         config.label = skill.name ?? ""
-        config.rawScore = skill.system.total + options.actor.system.skillcategory[skill.system.category].bonus
-        config.targetScore = skill.system.total + options.actor.system.skillcategory[skill.system.category].bonus ?? 0
+        if (options.actor.type === 'npc') {
+          config.rawScore = skill.system.total
+          config.targetScore = skill.system.total
+        } else {
+          config.rawScore = skill.system.total + options.actor.system.skillcategory[skill.system.category].bonus ?? 0
+          config.targetScore = skill.system.total + options.actor.system.skillcategory[skill.system.category].bonus ?? 0
+        }
+        break
+      case 'AL':  
+      case 'PA':
+      skill = particActor.items.get(config.skillId)
+        config.label = skill.name ?? ""
+        config.rawScore = skill.system.total
+        config.targetScore = skill.system.total
         break
       case 'DM':  
         weapon = particActor.items.get(config.itemId)
@@ -101,10 +115,15 @@ export class BRPCheck {
       case 'CM':  
         weapon = particActor.items.get(config.itemId)
         config.label = weapon.name ?? ""
-        skill = particActor.items.get(config.skillId)
-        config.label = skill.name ?? ""
-        config.rawScore = skill.system.total + options.actor.system.skillcategory[skill.system.category].bonus
-        config.targetScore = skill.system.total + options.actor.system.skillcategory[skill.system.category].bonus ?? 0     
+        if (particActor.type === 'npc') {
+          config.rawScore = weapon.system.npcVal
+          config.targetScore = weapon.system.npcVal         
+        } else {
+          skill = particActor.items.get(config.skillId)
+          config.label = skill.name ?? ""
+          config.rawScore = skill.system.total + options.actor.system.skillcategory[skill.system.category].bonus
+          config.targetScore = skill.system.total + options.actor.system.skillcategory[skill.system.category].bonus ?? 0     
+        }
         config.malfunction = weapon.system.mal          
         break     
       case 'AR':
@@ -470,8 +489,8 @@ export class BRPCheck {
       case "GR":
       case "OP":
       case "CO":  
-        //Allow checks for Normal,Combined and Oppossed cards, unless it's a Characteristic check
-        if (['CH', 'DM'].includes(msg.rollType)) {return}  
+        //Allow checks for Normal,Combined and Oppossed cards, unless it's a Characteristic or Allegiance Check or a Damage Roll
+        if (['CH', 'AL', 'DM'].includes(msg.rollType)) {return}  
         for (let i of msg.chatCard) {
           if(i.diff != 'easy' && i.diffVal <= 1 && i.resultLevel>1) {
             

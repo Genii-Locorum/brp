@@ -18,7 +18,8 @@
 
 .rollable:hover, .rollable:focus,.contextmenu:hover, .contextmenu:focus, .item-toggle:hover, .item-toggle:focus{
   color: #000;
-  text-shadow: 0 0 10px red;
+  text-shadow: 0px 0px 5px red;
+  font-weight:bold;
   cursor: pointer;
 }
 
@@ -965,7 +966,7 @@ padding-top: 4px;
   padding: 2px 2px 2px 2px;
   row-gap: 0px;
   column-gap: 10px;
-  grid-template-columns: 225px 60px 60px 40px 35px 40px 100px 100px 75px;
+  grid-template-columns: 215px 60px 60px 40px 35px 40px 100px 100px 75px;
 }
 
 .brp .gear-tab-grid {
@@ -979,7 +980,19 @@ padding-top: 4px;
 
 .brp .mediumIcon{
   font-size: 16px;
+  color:  rgb(129, 19, 13);
+}
+
+.brp .itemIcon{
+  font-size: 19px;
   color:  rgba(68, 7, 4, 1);
+  
+}
+
+.brp .nopad {
+  padding: 0px;
+  margin: 0px;
+  max-height: 19px;
 }
 
 .brp .largeIcon{
@@ -1171,3 +1184,197 @@ padding-top: 4px;
   grid-template-columns: 125px 250px
 }
 
+.brp .indent{
+  padding-left: 10px;
+}
+
+.brp .npc-name-grid {
+  display: grid;
+  margin:0px;
+  padding: 2px 5px 0px 5px;
+  row-gap: 0px;
+  column-gap: 5px;
+  font-size: 14px;
+  grid-template-columns: 70px 340px 30px 30px 30px 30px;
+  border-bottom: 2px solid rgba(68, 7, 4, 1);
+}
+
+.brp .npc-main-grid {
+  display:grid;
+  grid-template-columns: 180px 140px 145px 85px;
+  gap: 0px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  border-bottom: 2px solid rgba(68, 7, 4, 1);
+  height: 90px;
+}
+
+.brp .npc-stats-grid {
+  display: grid; 
+  margin:0px;
+  padding: 5px 0px 0px 5px;
+  gap: 0px;
+  font-size: 14px;
+  border-right: 2px solid rgba(68, 7, 4, 1);
+  grid-template-columns: 35px 50px 35px 50px;
+}
+
+.brp .npc-baseStats-grid {
+  display: grid; 
+  margin:0px;
+  padding: 5px;
+  gap: 0px;
+  font-size: 14px;
+  grid-template-columns: 35px 100px 100px;
+}
+
+.brp .npc-points-grid {
+  display: grid;
+  margin: 0px;
+  padding: 5px 0px 0px 5px;
+  gap: 0px;
+  font-size: 14px;
+  border-right: 2px solid rgba(68, 7, 4, 1);
+  grid-template-columns: 25px 40px 25px 40px;
+}
+
+.brp .npc-inp {
+  height:16px;
+  font-size: 14px;
+  border: 0px solid rgb(87, 86, 86);
+  border-radius: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  background-color: transparent;
+  vertical-align: middle;
+}
+
+.brp .npc-img {
+  flex: 0 0 100px;
+  height: 85px;
+  border:none;
+}
+
+.brp .npc-secondary{
+  display: grid; 
+  margin:0px;
+  padding: 5px 0px 0px 5px;
+  gap: 0px;
+  font-size: 14px;
+  grid-template-columns: 70px 70px;
+  border-right: 2px solid rgba(68, 7, 4, 1);  
+}
+
+.brp .npc-skills-grid{
+  display: grid; 
+  margin:0px;
+  padding: 5px 0px 5px 5px;
+  column-gap: 9px;
+  font-size: 14px;
+  grid-template-columns: 175px 175px 175px;
+  border-bottom: 2px solid rgba(68, 7, 4, 1);
+}
+
+.brp .npc-skill-cell{
+  display: grid; 
+  margin:0px;
+  grid-template-columns: 125px 50px;
+}
+
+.brp .npc-skill-cell-unlock{
+  display: grid; 
+  margin:0px;
+  grid-template-columns: 15px 110px;
+}
+
+.brp .npc-weapons-grid{
+  display: grid; 
+  margin:0px;
+  padding: 5px 0px 5px 5px;
+  font-size: 14px;
+  grid-template-columns: 150px 40px 130px 80px 60px 30px 40px;
+  border-bottom: 2px solid rgba(68, 7, 4, 1);
+}
+
+.brp .npc-weapons-cell{
+  display: grid; 
+  margin:0px;
+  font-size: 14px;
+  grid-template-columns: 150px 40px 130px 80px 60px 30px 40px;
+}
+
+.brp .npc-weapon-title {
+  display: grid; 
+  margin:0px;
+  grid-template-columns: 100px 50px;
+}
+
+.brp .npc-weapon-cell-unlock{
+  display: grid; 
+  margin:0px;
+  grid-template-columns: 15px 135px;
+}
+
+.brp .npc-armour-grid{
+  display: grid; 
+  margin:0px;
+  padding: 5px 0px 5px 5px;
+  font-size: 14px;
+  grid-template-columns: 130px 40px 170px 40px 170px;
+  border-bottom: 2px solid rgba(68, 7, 4, 1);
+}
+
+.brp .npc-hitloc-grid {
+  display: grid; 
+  margin:0px;
+  padding: 5px 0px 5px 5px;
+  font-size: 14px;
+  grid-template-columns: 540px;
+  border-bottom: 2px solid rgba(68, 7, 4, 1);
+}
+
+.brp .npc-hitloc-cell {
+  display: grid; 
+  margin:0px;
+  font-size: 14px;
+  grid-template-columns: 100px 80px 40px 10px 40px 135px 135px;
+}
+
+.brp .npc-hitloc-cell-unlock {
+  display: grid; 
+  margin:0px;
+  font-size: 14px;
+  grid-template-columns: 15px 85px 40px 40px 40px 10px 40px 135px 135px;
+}
+
+.brp .npc-hitloc-title {
+  display: grid; 
+  margin:0px;
+  grid-template-columns: 85px 15px;
+}
+
+.brp .npc-notes {
+  margin:0px;
+  padding: 5px 0px 5px 5px;
+  font-size: 14px;
+}
+
+.brp .notes-doc{
+  font-size:14px;
+  height: 120px;
+  width: 540px;
+}
+
+.brp .npc-powers-cell {
+  display: grid; 
+  margin:0px;
+  font-size: 14px;
+  grid-template-columns: 120px 40px 100px 100px 100px 80px;
+}
+
+.brp .npc-powers-cell-unlock {
+  display: grid; 
+  margin:0px;
+  font-size: 14px;
+  grid-template-columns: 15px 105px;
+}

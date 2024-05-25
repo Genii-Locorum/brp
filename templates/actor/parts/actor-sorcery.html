@@ -9,7 +9,7 @@
   </div>    
   {{#each sorceries as |sorcery id|}}
     <li class="item sorcery-listitem" data-item-id="{{sorcery._id}}">
-      <div class="magic-name contextmenu">{{sorcery.name}}</div>
+      <div class="item-edit magic-name contextmenu">{{sorcery.name}}</div>
       <div class = "centre">{{sorcery.system.range}}</div>
       <div class = "centre">{{sorcery.system.currLvl}}{{#if sorcery.system.var}}({{sorcery.system.memLvl}}){{/if}}</div>
       <div class = "centre">{{sorcery.system.ppCost}}</div>

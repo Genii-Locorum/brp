@@ -8,7 +8,7 @@
   </div>    
   {{#each superpowers as |super id|}}
     <li class="item super-listitem" data-item-id="{{super._id}}">
-      <div class="super-name contextmenu">{{super.name}}</div>
+      <div class="item-edit super-name contextmenu">{{super.name}}</div>
       <div class = "centre">{{super.system.range}}</div>
       <div class = "centre">{{super.system.duration}}</div>
       <div class = "centre">{{super.system.pppl}}</div>
@@ -21,7 +21,7 @@
   </div>    
   {{#each failings as |failing id|}}
   <li class="item failing-listitem" data-item-id="{{failing._id}}">
-    <div class="failing-name contextmenu">{{failing.system.shortDesc}}</div>
+    <div class="item-edit failing-name contextmenu">{{failing.system.shortDesc}}</div>
   </li>  
 {{/each}}  
 

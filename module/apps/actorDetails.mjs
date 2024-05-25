@@ -41,12 +41,8 @@ export class BRPactorDetails {
 
     // Get token/actor - determine precedence
     static async _getParticipantPriority(token,actor){
-        let partic ="";  
-        if (token && !token.actorLink){
-            partic = token;
-          } else {
-            partic = actor
-          }
+        let target = await this._getParticipantId(token,actor);
+        let partic = await this._getParticipant(target.particId, target.particType); 
         return partic;
       }
 

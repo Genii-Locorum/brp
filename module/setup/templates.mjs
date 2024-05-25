@@ -15,5 +15,7 @@
     "systems/brp/templates/actor/parts/actor-psychicsDev.html",
     "systems/brp/templates/actor/parts/actor-sorcery.html",
     "systems/brp/templates/actor/parts/actor-super.html",
+    "systems/brp/templates/actor/parts/actor-allegiance.html",
+    "systems/brp/templates/actor/parts/actor-passion.html",
   ]);
 };
