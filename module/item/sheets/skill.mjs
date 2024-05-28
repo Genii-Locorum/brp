@@ -8,7 +8,7 @@ export class BRPSkillSheet extends ItemSheet {
     }
   
     static get defaultOptions () {
-      return mergeObject(super.defaultOptions, {
+      return foundry.utils.mergeObject(super.defaultOptions, {
         classes: ['brp', 'sheet', 'item'],
         template: 'systems/brp/templates/item/skill.html',
         width: 520,
@@ -109,7 +109,7 @@ export class BRPSkillSheet extends ItemSheet {
       formData.name = skillName
     }
 
-    const system = expandObject(formData)?.system
+    const system = foundry.utils.expandObject(formData)?.system
     if(typeof system !='undefined') {
       if (system.groups) {
         formData['system.groups'] = Object.values(

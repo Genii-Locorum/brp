@@ -7,7 +7,7 @@ import { BRPHooks } from './hooks/index.mjs'
 import { registerSettings } from './setup/register-settings.mjs'
 import { BRPSystemSocket } from "./apps/socket.mjs"
 import { BRPCharDev } from "./apps/charDev.mjs"
-import { BRPLayer } from "./setup/layers.mjs"
+import { BRPMenu } from "./setup/layers.mjs"
 import * as Chat from "./apps/chat.mjs";
 
 //  Init Hook
@@ -28,9 +28,6 @@ Hooks.once('init', async function() {
   registerSettings();
   handlebarsHelper();
 
-
-
-
   // Define custom Document classes
   CONFIG.Actor.documentClass = BRPActor;
   CONFIG.Item.documentClass = BRPItem;
@@ -48,10 +45,6 @@ Hooks.once('init', async function() {
   // Preload Handlebars templates.
   return preloadHandlebarsTemplates();
 });
-
-// Set Up Layers for Toolbar
-const layers = { BRPgmtools: { layerClass: BRPLayer, group: "primary" } };
-CONFIG.Canvas.layers = foundry.utils.mergeObject(Canvas.layers, layers);
 
 //Turn sockets on
 Hooks.on('ready', async () => {
@@ -150,30 +143,8 @@ Hooks.on('renderSettingsConfig', (app, html, options) => {
     )
 });
 
-//Add GM controls to Scene - first bit is adding the GM Tools button
-Hooks.on('getSceneControlButtons', (buttons) => {
-  if(game.user.isGM) {
-    const BRPGMTool = {
-      icon: "fas fa-tools",
-      layer: "BRPgmtools",
-      name: "BRPgmtools",
-      title: game.i18n.localize('BRP.gmTools'),
-      tools: [],
-      visible: true
-    };
-
-    // This adds a sub-button - the Development Phase - same as WinterPhase but without the year and history changes
-    BRPGMTool.tools.push({
-      name: "Development",
-      icon: "fas fa-chevrons-up",
-      title:  game.i18n.localize('BRP.developmentPhase'),
-      active: game.settings.get('brp','development'),
-      toggle: true,
-      onClick: async toggle => await BRPCharDev.developmentPhase(toggle)
-    });
-       buttons.push(BRPGMTool);
-    };
-  })
+Hooks.on('getSceneControlButtons', BRPMenu.getButtons)
+Hooks.on('renderSceneControls', BRPMenu.renderControls)
 
 // Hotbar Macros
 async function createItemMacro(data, slot) {

@@ -2,11 +2,11 @@
   "id": "brp",
   "title": "Basic Role Playing",
   "description": "Basic Role Playing system for FoundryVTT!",
-  "version": "11.1.15",
+  "version": "12.1.1",
   "compatibility": {
     "minimum": 11,
-    "verified": "11.315",
-    "maximum": 11
+    "verified": "12.324",
+    "maximum": 12
   },
   "authors": [{
     "name": "Dangermouse"
@@ -167,8 +167,10 @@
       "path": "lang/en.json"
     }
   ],
-  "gridDistance": 5,
-  "gridUnits": "ft",
+  "grid":{
+    "distance": 5,
+    "units": "ft"
+  },  
   "primaryTokenAttribute": "health",
   "secondaryTokenAttribute": "power",
   "socket": true,

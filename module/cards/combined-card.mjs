@@ -58,7 +58,7 @@ export class GRCard {
     
     let newchatCards = []
     let roll = new Roll(chatCards[0].rollFormula)
-    await roll.roll({ async: true})
+    await roll.evaluate()
     let rollResult = Number(roll.result)
 
     let successes = 0

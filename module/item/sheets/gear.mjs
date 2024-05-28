@@ -7,7 +7,7 @@ export class BRPGearSheet extends ItemSheet {
     }
   
     static get defaultOptions () {
-      return mergeObject(super.defaultOptions, {
+      return foundry.utils.mergeObject(super.defaultOptions, {
         classes: ['brp', 'sheet', 'item'],
         template: 'systems/brp/templates/item/gear.html',
         width: 520,

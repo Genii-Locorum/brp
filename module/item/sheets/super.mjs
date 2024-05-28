@@ -2,7 +2,7 @@ import { BRPUtilities } from '../../apps/utilities.mjs'
 
 export class BRPSuperSheet extends ItemSheet {
   static get defaultOptions () {
-    return mergeObject(super.defaultOptions, {
+    return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ['brp', 'sheet', 'super'],
       template: 'systems/brp/templates/item/super.html',
       width: 525,

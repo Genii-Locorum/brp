@@ -52,7 +52,7 @@ export class BRPCheck {
       state: options.state ?? "open",
       wait: options.wait ?? false,
       successLevel: -1,
-      chatType: options.chatType ?? CONST.CHAT_MESSAGE_TYPES.ROLL,
+      chatType: options.chatType,
       particName: partic.particName,
       particId: partic.particId,
       particType: partic.particType,
@@ -150,19 +150,19 @@ export class BRPCheck {
         break
       case 'GR':
         config.wait = true  
-        config.chatType = CONST.CHAT_MESSAGE_TYPES.OTHER
+        config.chatType = CONST.CHAT_MESSAGE_STYLES.OTHER
         config.chatTemplate =  'systems/brp/templates/chat/roll-combined.html'
         break
       case 'OP':
-        config.chatType = CONST.CHAT_MESSAGE_TYPES.OTHER
+        config.chatType = CONST.CHAT_MESSAGE_STYLES.OTHER
         config.chatTemplate =  'systems/brp/templates/chat/roll-opposed.html'
         break
       case 'CO':
-        config.chatType = CONST.CHAT_MESSAGE_TYPES.OTHER
+        config.chatType = CONST.CHAT_MESSAGE_STYLES.OTHER
         config.chatTemplate =  'systems/brp/templates/chat/roll-cooperative.html'
         break
       case 'CB':
-        config.chatType = CONST.CHAT_MESSAGE_TYPES.OTHER
+        config.chatType = CONST.CHAT_MESSAGE_STYLES.OTHER
         config.chatTemplate =  'systems/brp/templates/chat/roll-combat.html'
         break
       default: 
@@ -315,7 +315,7 @@ export class BRPCheck {
   //Call Dice Roll, calculate Result and store original results in rollVal
   static async makeRoll(config) {
     let roll = new Roll(config.rollFormula)
-    await roll.roll({ async: true})
+    await roll.evaluate()
     config.roll = roll
     config.rollResult = Number(roll.total)
     config.rollVal = Number(config.rollResult)

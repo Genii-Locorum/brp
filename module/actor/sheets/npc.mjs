@@ -6,7 +6,7 @@ export class BRPNpcSheet extends ActorSheet {
   /** @override */
   static get defaultOptions() {
     
-    return mergeObject(super.defaultOptions, {
+    return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ["brp", "sheet", "actor"],
       template: "systems/brp/templates/actor/npc-sheet.html",
       width: 580,
@@ -301,7 +301,7 @@ export class BRPNpcSheet extends ActorSheet {
         checkProp = {[`system.stats.${key}.base`]: 0}
       } else {
         let roll = new Roll(rollForm)
-        await roll.roll({ async: true})
+        await roll.evaluate()
         let newVal = Math.round(Number(roll.total))
         checkProp = {[`system.stats.${key}.base`]: newVal}
       }

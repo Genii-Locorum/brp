@@ -10,7 +10,7 @@ export class BRPCharacterSheet extends ActorSheet {
   /** @override */
   static get defaultOptions() {
     
-    return mergeObject(super.defaultOptions, {
+    return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ["brp", "sheet", "actor"],
       template: "systems/brp/templates/actor/character-sheet.html",
       width: 850,

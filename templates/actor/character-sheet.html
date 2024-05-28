@@ -178,19 +178,19 @@
     {{!-- Sheet Tab Navigation --}}
     <section class="nav-panel">
       <nav class="sheet-tabs tabs" data-group="primary">
-        <a class="item skills-tab contextmenu" data-tab="skills">{{localize 'BRP.skills'}}</a>
-        <a class="item combat-tab contextmenu" data-tab="combat">{{localize 'BRP.combat'}}</a>
-        <a class="item" data-tab="items">{{localize 'BRP.items'}}</a>
-        {{#unless (eq actor.system.magic "")}}<a class="item power-name contextmenu" data-item-id="{{system.magic}}" data-tab="magic">{{localize 'BRP.magic'}}</a>{{/unless}}
-        {{#unless (eq actor.system.mutation "")}}<a class="item power-name contextmenu" data-item-id="{{system.mutation}}" data-tab="mutations">{{localize 'BRP.mutationAbbr'}}</a>{{/unless}}
-        {{#unless (eq actor.system.psychic "")}}<a class="item power-name contextmenu" data-item-id="{{system.psychic}}" data-tab="psychics">{{localize 'BRP.psychics'}}</a>{{/unless}}
-        {{#unless (eq actor.system.sorcery "")}}<a class="item power-name contextmenu" data-item-id="{{system.sorcery}}" data-tab="sorcery">{{localize 'BRP.sorcery'}}</a>{{/unless}}
-        {{#unless (eq actor.system.super "")}}<a class="item power-name contextmenu" data-item-id="{{system.super}}" data-tab="super">{{localize 'BRP.superAbbr'}}</a>{{/unless}}
-        {{#if useAlleg}}<a class="item" data-tab="allegiance">{{localize 'BRP.allegianceAbbr'}}</a>{{/if}}
-        {{#if usePassion}}<a class="item" data-tab="passion">{{localize 'BRP.passion'}}</a>{{/if}}
-        <a class="item" data-tab="statistics">{{localize 'BRP.characteristicAbbr'}}</a>
-        <a class="item" data-tab="background">{{localize 'BRP.story'}}</a>
-        <a class="lock-icon grid-middle actor-toggle" title="{{ localize 'BRP.lock' }}" data-property="lock"> <i class="{{#if system.lock}}fas fa-lock{{else}}fas fa-lock-open{{/if}}"></i> </a>
+        <div><a class="item skills-tab contextmenu" data-tab="skills">{{localize 'BRP.skills'}}</a></div>
+        <div><a class="item combat-tab contextmenu" data-tab="combat">{{localize 'BRP.combat'}}</a></div>
+        <div><a class="item" data-tab="items">{{localize 'BRP.items'}}</a></div>
+        {{#unless (eq actor.system.magic "")}}<div><a class="item power-name contextmenu" data-item-id="{{system.magic}}" data-tab="magic">{{localize 'BRP.magic'}}</a></div>{{/unless}}
+        {{#unless (eq actor.system.mutation "")}}<div><a class="item power-name contextmenu" data-item-id="{{system.mutation}}" data-tab="mutations">{{localize 'BRP.mutationAbbr'}}</a></div>{{/unless}}
+        {{#unless (eq actor.system.psychic "")}}<div><a class="item power-name contextmenu" data-item-id="{{system.psychic}}" data-tab="psychics">{{localize 'BRP.psychics'}}</a></div>{{/unless}}
+        {{#unless (eq actor.system.sorcery "")}}<div><a class="item power-name contextmenu" data-item-id="{{system.sorcery}}" data-tab="sorcery">{{localize 'BRP.sorcery'}}</a></div>{{/unless}}
+        {{#unless (eq actor.system.super "")}}<div><a class="item power-name contextmenu" data-item-id="{{system.super}}" data-tab="super">{{localize 'BRP.superAbbr'}}</a></div>{{/unless}}
+        {{#if useAlleg}}<div><a class="item" data-tab="allegiance">{{localize 'BRP.allegianceAbbr'}}</a></div>{{/if}}
+        {{#if usePassion}}<div><a class="item" data-tab="passion">{{localize 'BRP.passion'}}</a></div>{{/if}}
+        <div><a class="item" data-tab="statistics">{{localize 'BRP.characteristicAbbr'}}</a></div>
+        <div><a class="item" data-tab="background">{{localize 'BRP.story'}}</a></div>
+        <div><a class="lock-icon grid-middle actor-toggle" title="{{ localize 'BRP.lock' }}" data-property="lock"> <i class="{{#if system.lock}}fas fa-lock{{else}}fas fa-lock-open{{/if}}"></i> </a></div>
       </nav>
     </section> 
 

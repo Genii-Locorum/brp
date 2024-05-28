@@ -55,7 +55,7 @@ export class BRPCharDev {
         improvVal = game.settings.get('brp','xpFixed')
       }  else {
         let roll = new Roll(game.settings.get('brp','xpFormula'))
-        await roll.roll({ async: true});
+        await roll.evaluate();
         improvVal = roll.total
       }
     }
@@ -78,7 +78,7 @@ export class BRPCharDev {
   static async xpRoll(target,bonus) {
     let resultLevel = 0
     let roll = new Roll('1D100')
-    await roll.roll({ async: true});
+    await roll.evaluate();
     target =Math.min(target,100)
     if (Number(roll.total)+bonus > target) {
       resultLevel = 1
@@ -114,7 +114,7 @@ export class BRPCharDev {
     let chatData={};
     chatData = {
       user: game.user.id,
-      type: CONST.CHAT_MESSAGE_TYPES.OTHER,
+      type: CONST.CHAT_MESSAGE_STYLES.OTHER,
       content: html,
       speaker: {
         actor: actor._id,
@@ -122,7 +122,7 @@ export class BRPCharDev {
       },
       }
     let msg = await ChatMessage.create(chatData);
-    AudioHelper.play({ src: CONFIG.sounds.dice }, true)
+    foundry.audio.AudioHelper.play({ src: CONFIG.sounds.dice }, true)
     return 
   }
 
@@ -135,14 +135,14 @@ export class BRPCharDev {
     let chance = (max-score)*5
     let resultLevel = 0
     let roll = new Roll('1D100')
-    await roll.roll({ async: true});
+    await roll.evaluate();
     if (roll.total <= chance) {
       resultLevel = 1
     }
     let improvVal = 1
     if (type != "fixed"){
       let impRoll = new Roll ('1D3-1')
-      await impRoll.roll({ async: true})
+      await impRoll.evaluate()
       improvVal = impRoll.total
     }  
     let success = []

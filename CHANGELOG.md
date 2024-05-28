@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 12.1.16
+- Updated for V12 release 324
+
 ## 11.1.15
 - Added NPC actor type
 - Added a game settings for Allegiances

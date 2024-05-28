@@ -4,7 +4,7 @@ import { BRPSelectLists } from "../../apps/select-lists.mjs";
 export class BRPProfessionSheet extends ItemSheet {
 
   static get defaultOptions () {
-    return mergeObject(super.defaultOptions, {
+    return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ['brp', 'sheet', 'profession'],
       template: 'systems/brp/templates/item/profession.html',
       width: 525,
@@ -227,7 +227,7 @@ export class BRPProfessionSheet extends ItemSheet {
   }
     
   _updateObject (event, formData) {
-    const system = expandObject(formData)?.system
+    const system = foundry.utils.expandObject(formData)?.system
     if(typeof system !='undefined') {
       if (system.groups) {
         formData['system.groups'] = Object.values(

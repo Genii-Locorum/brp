@@ -7,7 +7,7 @@ export class BRPPowerSheet extends ItemSheet {
   }
   
   static get defaultOptions () {
-    return mergeObject(super.defaultOptions, {
+    return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ['brp', 'sheet', 'item'],
       template: 'systems/brp/templates/item/power.html',
       width: 520,

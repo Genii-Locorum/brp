@@ -7,7 +7,7 @@ export class BRPMagicSheet extends ItemSheet {
   }
   
   static get defaultOptions () {
-    return mergeObject(super.defaultOptions, {
+    return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ['brp', 'sheet', 'item'],
       template: 'systems/brp/templates/item/magic.html',
       width: 520,

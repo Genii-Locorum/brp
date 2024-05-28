@@ -5,7 +5,7 @@ export class BRPSorcerySheet extends ItemSheet {
   }
   
   static get defaultOptions () {
-    return mergeObject(super.defaultOptions, {
+    return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ['brp', 'sheet', 'item'],
       template: 'systems/brp/templates/item/sorcery.html',
       width: 520,
@@ -53,7 +53,7 @@ export class BRPSorcerySheet extends ItemSheet {
   }
 
   _updateObject (event, formData) {
-    const system = expandObject(formData)?.system
+    const system = foundry.utils.expandObject(formData)?.system
     if (!this.object.system.var) {
       formData['system.maxLvl'] = Math.max(formData['system.maxLvl'],1)
       formData['system.currLvl'] = formData['system.maxLvl']

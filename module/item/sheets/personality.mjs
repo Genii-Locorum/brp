@@ -3,7 +3,7 @@ import { BRPUtilities } from '../../apps/utilities.mjs'
 export class BRPPersonalitySheet extends ItemSheet {
 
   static get defaultOptions () {
-    return mergeObject(super.defaultOptions, {
+    return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ['brp', 'sheet', 'personality'],
       template: 'systems/brp/templates/item/personality.html',
       width: 525,
@@ -187,7 +187,7 @@ export class BRPPersonalitySheet extends ItemSheet {
   }
     
   _updateObject (event, formData) {
-    const system = expandObject(formData)?.system
+    const system = foundry.utils.expandObject(formData)?.system
     if(typeof system !='undefined') {
       if (system.groups) {
         formData['system.groups'] = Object.values(

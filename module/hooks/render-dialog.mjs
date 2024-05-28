@@ -5,7 +5,7 @@ export function listen () {
       const entityCreateSelectTag = form.find("[name='type']")
       const entitySortedList = []
       entityCreateSelectTag.children().each((o, entityOption) => {
-        const key = entityOption.textContent?.capitalize()
+        const key = (entityOption.textContent.split(".")[2])?.capitalize()
         if (game.i18n.has(`BRP.Entities.${key}`)) {
           entityOption.textContent = game.i18n.localize(`BRP.Entities.${key}`)
         }
