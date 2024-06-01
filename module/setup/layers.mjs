@@ -11,7 +11,7 @@ class BRPLayer extends PlaceablesLayer {
 
   static get layerOptions () {
     return foundry.utils.mergeObject(super.layerOptions, {
-      name: 'coc7menu',
+      name: 'brpmenu',
       zIndex: 60
     })
   }

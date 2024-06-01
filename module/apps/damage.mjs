@@ -8,7 +8,11 @@ export class BRPDamage {
     let partic = await BRPactorDetails._getParticipantPriority(token, actor)
     let locationId = event.currentTarget.dataset.itemId;
     let location=""
-    location = token.actor.items.get(locationId)
+    if (actor) {
+      location = actor.items.get(locationId)
+    } else {
+      location = token.actor.items.get(locationId)
+    }  
 
     //If damage is zero then get damage dialog
     if (damage < 1) {

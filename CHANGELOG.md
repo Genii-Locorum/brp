@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 12.1.17
+- Fixed issue with Wounds not being created if not using HPL on actors (worked for tokens)
+
 ## 12.1.16
 - Updated for V12 release 324
 

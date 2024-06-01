@@ -379,7 +379,7 @@ export class BRPActor extends Actor {
   //Create a new actor - When creating an actor set basics including tokenlink, bars, displays sight
   static async create (data, options = {}) {
     if (data.type === 'character') {
-      data.prototypeToken = mergeObject({
+      data.prototypeToken = foundry.utils.mergeObject({
         actorLink: true,
         disposition: 1,
         displayName: CONST.TOKEN_DISPLAY_MODES.ALWAYS,
