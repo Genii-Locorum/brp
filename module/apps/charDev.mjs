@@ -112,9 +112,18 @@ export class BRPCharDev {
   // Display the XP chat card
   static async showXPChat(html, actor) {
     let chatData={};
+    let chatType=""
+    if (!foundry.utils.isNewerVersion(game.version,'11')) {
+      chatType = CONST.CHAT_MESSAGE_STYLES.OTHER
+    } else {
+      chatType = CONST.CHAT_MESSAGE_OTHER
+    }
+
+
+
     chatData = {
       user: game.user.id,
-      type: CONST.CHAT_MESSAGE_STYLES.OTHER,
+      type: chatType,
       content: html,
       speaker: {
         actor: actor._id,
@@ -122,7 +131,7 @@ export class BRPCharDev {
       },
       }
     let msg = await ChatMessage.create(chatData);
-    foundry.audio.AudioHelper.play({ src: CONFIG.sounds.dice }, true)
+    AudioHelper.play({ src: CONFIG.sounds.dice }, true)
     return 
   }
 

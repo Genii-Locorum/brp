@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 12.1.18
+- Fixed issue with Combined/Oppossed/Cooperative rolls in V11 (Issue#16)
+- Fixed issue with AudioHelper error on XP rolls.
+
 ## 12.1.17
 - Fixed issue with Wounds not being created if not using HPL on actors (worked for tokens)
 
