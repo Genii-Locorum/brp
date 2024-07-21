@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 12.1.19
+- Added Dodge to list of weapon skills available when creating weapon.  Added Dodge as a weapon to the compendium.  Use this to "Dodge" in combat (this is a a workaround pending a better option)
+
 ## 12.1.18
 - Fixed issue with Combined/Oppossed/Cooperative rolls in V11 (Issue#16)
 - Fixed issue with AudioHelper error on XP rolls.
