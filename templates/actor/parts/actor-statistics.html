@@ -34,6 +34,8 @@
   <div class="attrib-disp centre"> {{actor.system.xpBonus}}%</div>
   <div class="bold">{{localize 'BRP.hpBonus'}}</div>
   <div class="centre" ><input class="attrib-inp" type="text" name="system.health.mod" value="{{system.health.mod}}" data-dtype="Number"/></div>
+  <div class="bold">{{#if useMP}}{{localize 'BRP.mpBonus'}}{{else}}{{localize 'BRP.ppBonus'}}{{/if}}</div>
+  <div class="centre" ><input class="attrib-inp" type="text" name="system.power.mod" value="{{system.power.mod}}" data-dtype="Number"/></div>
   <div class="bold">{{localize 'BRP.totalENC'}}</div>
   <div class="attrib-disp centre"> {{actor.system.enc}}</div>
 </ol>

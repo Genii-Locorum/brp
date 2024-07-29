@@ -6,7 +6,8 @@
     <div class="diff-label centre">{{ localize 'BRP.range'}}</div>  
     <div class="diff-label centre">{{ localize 'BRP.att'}}</div>
     <div class="diff-label centre" title ="{{localize 'BRP.handCrewHint'}}">{{ localize 'BRP.handCrew'}}</div>
-    <div class="diff-label centre" title ="{{localize 'BRP.hpApHint'}}" style="grid-column: 7 / span 2;">{{ localize 'BRP.hp'}}</div>
+    <div class="diff-label centre" style="grid-column: 7 / span 2;" title="{{ localize 'BRP.ppStoreHint' }}">{{#if useMP}}{{localize 'BRP.mpShort'}}{{else}}{{localize 'BRP.ppShort'}}{{/if}}</div>
+    <div class="diff-label centre" title ="{{localize 'BRP.hpApHint'}}" style="grid-column: 9 / span 2;">{{ localize 'BRP.hp'}}</div>
     <div class="diff-label centre">{{ localize 'BRP.enc'}}</div>
     <div class="diff-label centre" title="{{ localize 'BRP.ammoHint' }}">{{ localize 'BRP.ammo'}}</div>
     <div class="diff-label centre" title="{{ localize 'BRP.status' }}">{{ localize 'BRP.statusShort'}}</div>
@@ -15,29 +16,39 @@
     {{#each weapons as |weapon key|}}
       <li class="item weapon-tab-grid" data-item-id="{{weapon._id}}">
         <div class="item item-edit weapon-name contextmenu" data-item-id="{{weapon._id}}" data-skill-id="{{weapon.system.sourceID}}">{{weapon.name}}</div>
-        <div class="item font16 centre rollable weapon-name" title ="{{weapon.system.skillName}}" data-item-id="{{weapon._id}}" data-skill-id="{{weapon.system.sourceID}}">{{weapon.system.skillScore}}</div>
-        <div class="item font16 {{#unless weapon.system.specialDmg}}rollable damage-name{{/unless}} centre"  data-item-id="{{weapon._id}}">{{weapon.system.dmgName}}</div>
-        <div class="font16 centre">{{weapon.system.rangeName}}</div>
-        <div class="font16 centre" title="{{localize 'BRP.rof'}} : {{weapon.system.rof}}">{{weapon.system.att}}</div>
+        <div class="item font14 centre rollable weapon-name" title ="{{weapon.system.skillName}}" data-item-id="{{weapon._id}}" data-skill-id="{{weapon.system.sourceID}}">{{weapon.system.skillScore}}</div>
+        <div class="item font14 {{#unless weapon.system.specialDmg}}rollable damage-name{{/unless}} centre"  data-item-id="{{weapon._id}}">{{weapon.system.dmgName}}</div>
+        <div class="font14 centre">{{weapon.system.rangeName}}</div>
+        <div class="font14 centre" title="{{localize 'BRP.rof'}} : {{weapon.system.rof}}">{{weapon.system.att}}</div>
         {{#if (eq weapon.type 'artillery')}}
-          <div class="font16 centre">{{weapon.system.crew}}</div>
+          <div class="font14 centre">{{weapon.system.crew}}</div>
         {{else}}
-          <div class="font16 centre">{{weapon.system.hands}}</div>        
+          <div class="font14 centre">{{weapon.system.hands}}</div>        
         {{/if}}
-        {{#if (gt weapon.system.hp 0)}}
-          <div class="combat-input-small"> <input class="item centre font16 inline-edit" data-field ="hpCurr" data-item-id="{{weapon._id}}" name="weapon.system.hpCurr" type="text" value="{{weapon.system.hpCurr}}" data-dtype="Number"/></div>
-          <div class="font16 centre">{{weapon.system.hp}}</div>
+
+        {{#if (gt weapon.system.pSMax 0)}}
+          <div class="combat-input-small"> <input class="item centre inline-edit" data-field ="pSCurr" data-item-id="{{weapon._id}}" name="weapon.system.pSCurr" type="text" value="{{weapon.system.pSCurr}}" data-dtype="Number"/></div>
+          <div class="hitloc-name centre">{{weapon.system.pSMax}}</div>
         {{else}}
           <div></div>
           <div></div>
         {{/if}}  
-        <div class="font16 centre" title ="{{localize 'BRP.quantity'}} : {{weapon.system.quantity}}">{{weapon.system.actlEnc}}</div>
+
+
+        {{#if (gt weapon.system.hp 0)}}
+          <div class="combat-input-small"> <input class="item centre font14 inline-edit" data-field ="hpCurr" data-item-id="{{weapon._id}}" name="weapon.system.hpCurr" type="text" value="{{weapon.system.hpCurr}}" data-dtype="Number"/></div>
+          <div class="font14 centre">{{weapon.system.hp}}</div>
+        {{else}}
+          <div></div>
+          <div></div>
+        {{/if}}  
+        <div class="font14 centre" title ="{{localize 'BRP.quantity'}} : {{weapon.system.quantity}}">{{weapon.system.actlEnc}}</div>
         {{#isOr (eq weapon.system.ammo null) (eq weapon.system.ammo 0)}}
           <div></div>
         {{else}}  
-          <div class="combat-input-small"> <input class="item centre font16 inline-edit" title ="{{ localize 'BRP.ammoCap' }}: {{weapon.system.ammo}}" data-field ="ammoCurr" data-item-id="{{weapon._id}}" name="weapon.system.ammoCurr" type="text" value="{{weapon.system.ammoCurr}}" data-dtype="Number"/></div>
+          <div class="combat-input-small"> <input class="item centre font14 inline-edit" title ="{{ localize 'BRP.ammoCap' }}: {{weapon.system.ammo}}" data-field ="ammoCurr" data-item-id="{{weapon._id}}" name="weapon.system.ammoCurr" type="text" value="{{weapon.system.ammoCurr}}" data-dtype="Number"/></div>
         {{/isOr}}
-        <div class="font16 centre item item-toggle" data-item-id="{{weapon._id}}" data-property = "equipStatus" title="{{weapon.system.equippedName}}">
+        <div class="font14 centre item item-toggle" data-item-id="{{weapon._id}}" data-property = "equipStatus" title="{{weapon.system.equippedName}}">
           {{#if (eq weapon.system.equipStatus 'carried')}}<i class="fas fa-hand-holding"></i>{{/if}}
           {{#if (eq weapon.system.equipStatus 'packed')}}<i class="fas fa-treasure-chest"></i>{{/if}}
           {{#if (eq weapon.system.equipStatus 'stored')}}<i class="fas fa-warehouse"></i>{{/if}}
@@ -62,7 +73,7 @@
         <div class="centre addWound" title="{{ localize 'BRP.addWound' }}" data-item-id="{{hitloc._id}}" data-type="wound">
           <a><i class="item-control fas fa-plus"></i></a>
         </div>
-        <div class="item item-edit font16 {{#unless (eq hitloc.system.lowRoll 0)}}hitloc-name contextmenu{{/unless}}" data-item-id="{{hitloc._id}}">{{hitloc.name}}</div>
+        <div class="item item-edit font14 {{#unless (eq hitloc.system.lowRoll 0)}}hitloc-name contextmenu{{/unless}}" data-item-id="{{hitloc._id}}">{{hitloc.name}}</div>
         {{#if (eq hitloc.system.locType 'general')}}
           <div>&nbsp</div>
           <div>&nbsp</div>
@@ -72,13 +83,13 @@
           <div>&nbsp</div>
         {{else}}
           {{#if (eq hitloc.system.lowRoll hitloc.system.highRoll)}}
-            <div class="font16 centre">{{hitloc.system.lowRoll}}</div>
+            <div class="font14 centre">{{hitloc.system.lowRoll}}</div>
           {{else}}
-            <div class="font16 centre">{{hitloc.system.lowRoll}} - {{hitloc.system.highRoll}}</div>
+            <div class="font14 centre">{{hitloc.system.lowRoll}} - {{hitloc.system.highRoll}}</div>
           {{/if}}
-          <div class="font16 centre">{{hitloc.system.currHP}}</div>
-          <div class="font16 centre">/</div>
-          <div class="font16 centre">{{hitloc.system.maxHP}}</div>
+          <div class="font14 centre">{{hitloc.system.currHP}}</div>
+          <div class="font14 centre">/</div>
+          <div class="font14 centre">{{hitloc.system.maxHP}}</div>
           {{#if ../useAVRand}}
             <div class="stat-display rollable ap-name" data-item-id ="{{hitloc._id}}" data-property="ap" title="{{localize 'BRP.bap'}}: {{hitloc.system.avr2}}">{{hitloc.system.avr1}}</div>
           {{else}}

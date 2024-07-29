@@ -91,7 +91,7 @@ export class BRPActor extends Actor {
       systemData.skillcategory[key].bonus=modifiervalue;
     }
 
-    //Initialise health statuses
+    //Initialise health statuses and other values
     systemData.dead = false;
     systemData.severed = false;
     systemData.unconscious = false;
@@ -103,6 +103,8 @@ export class BRPActor extends Actor {
     systemData.av2 = 0;
     systemData.avr1 = "";
     systemData.avr2 = "";
+    systemData.psCurr = 0;
+    systemData.psMax = 0;
 
     //Set Hit Location AP to zero
     for (let itm of actorData.items) {
@@ -137,6 +139,11 @@ export class BRPActor extends Actor {
           systemData.enc = Number(systemData.enc + itm.system.actlEnc)
         } else {itm.system.actlEnc = 0}
 
+        if (itm.system.equipStatus != 'stored') {
+          if (itm.system.pSCurr > 0) {systemData.psCurr = systemData.psCurr + itm.system.pSCurr}
+          if (itm.system.pSMax > 0) {systemData.psMax = systemData.psMax + itm.system.pSMax}
+        }  
+
       //If armour
       } else if (itm.type === 'armour') {
         //Calc encumbrance based on carry status and if using HPL
@@ -151,7 +158,12 @@ export class BRPActor extends Actor {
           itm.system.actlEnc = 0
         } 
         systemData.enc = systemData.enc + itm.system.actlEnc
-        
+        if (itm.system.equipStatus != 'stored') {
+          if (itm.system.pSCurr > 0) {systemData.psCurr = systemData.psCurr + itm.system.pSCurr}
+          if (itm.system.pSMax > 0) {systemData.psMax = systemData.psMax + itm.system.pSMax}
+        }  
+
+
         //Add the Armour Point Score to the Hit Location if worn
         if (itm.system.equipStatus === 'worn'){
           if (game.settings.get('brp','useHPL')) {
@@ -272,7 +284,8 @@ export class BRPActor extends Actor {
       }
 
 
-      
+      //Round ENC to 2 decimals and then adjust fatigue
+      systemData.enc = (systemData.enc).toFixed(2)
       systemData.fatigue.max = Math.ceil(systemData.stats.str.total + systemData.stats.con.total - systemData.enc);
 
     //Derive Health Statuses from total HP
@@ -371,7 +384,7 @@ export class BRPActor extends Actor {
     if (actorData.type === 'character') {hpMod = game.settings.get('brp','hpMod')}
     systemData.health.max = Math.ceil((systemData.stats.con.total + systemData.stats.siz.total) * hpMod/2)+systemData.health.mod;
     systemData.health.mjrwnd = Math.ceil(systemData.health.max/2);
-    systemData.power.max = systemData.stats.pow.total;
+    systemData.power.max = systemData.stats.pow.total+systemData.power.mod;
     systemData.xpBonus = Math.ceil(systemData.stats.int.total/2);
     systemData.dmgBonus = this._damageBonus (systemData.stats.str.total+systemData.stats.siz.total)
   }

@@ -87,6 +87,7 @@
         },
         "power": {
           "value": 5,
+          "mod": 0,
           "max": 5,
           "battVal": 0,
           "battMax": 0
@@ -190,7 +191,9 @@
       "quantity": 1,
       "enc": 0,
       "price": "",
-      "equipStatus": "carried"
+      "equipStatus": "carried",
+      "pSCurr":0,
+      "pSMax": 0
     },
     "skill": {
       "templates": ["base"],
@@ -370,7 +373,9 @@
       "hitlocID": "",
       "equipStatus": "carried",
       "HPL": false,
-      "coverage": ""
+      "coverage": "",
+      "pSCurr":0,
+      "pSMax": 0
     },
     "Weapon": {
       "templates": ["base"],
@@ -414,7 +419,9 @@
       "equipStatus": "carried",
       "coverage": "",
       "quantity": 1,
-      "npcVal": 0
+      "npcVal": 0,
+      "pSCurr":0,
+      "pSMax": 0
     },
     "wound": {
       "value": 1,

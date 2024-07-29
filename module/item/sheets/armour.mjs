@@ -11,7 +11,7 @@ export class BRPArmourSheet extends ItemSheet {
         classes: ['brp', 'sheet', 'item'],
         template: 'systems/brp/templates/item/armour.html',
         width: 520,
-        height: 600,
+        height: 625,
         scrollY: ['.tab.description'],
         tabs: [{navSelector: '.sheet-tabs',contentSelector: '.sheet-body',initial: 'details'}]
       })
@@ -21,6 +21,7 @@ export class BRPArmourSheet extends ItemSheet {
       const sheetData = super.getData()
       const itemData = sheetData.item
       sheetData.hasOwner = this.item.isEmbedded === true
+      sheetData.useMP = game.settings.get('brp','useMP');
       const actor = this.item.parent
       sheetData.isGM = game.user.isGM
       //Get drop down options from select-lists.mjs

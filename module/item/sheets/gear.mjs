@@ -20,6 +20,7 @@ export class BRPGearSheet extends ItemSheet {
     async getData () {
       const sheetData = super.getData()
       const itemData = sheetData.item
+      sheetData.useMP = game.settings.get('brp','useMP');
       sheetData.hasOwner = this.item.isEmbedded === true
       const actor = this.item.parent
       sheetData.isGM = game.user.isGM

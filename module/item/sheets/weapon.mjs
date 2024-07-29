@@ -11,7 +11,7 @@ export class BRPWeaponSheet extends ItemSheet {
         classes: ['brp', 'sheet', 'item'],
         template: 'systems/brp/templates/item/weapon.html',
         width: 600,
-        height: 620,
+        height: 640,
         scrollY: ['.tab.description'],
         tabs: [{navSelector: '.sheet-tabs',contentSelector: '.sheet-body',initial: 'details'}]
       })
@@ -21,6 +21,7 @@ export class BRPWeaponSheet extends ItemSheet {
       const sheetData = super.getData();
       const itemData = sheetData.item;
       sheetData.hasOwner = this.item.isEmbedded === true;
+      sheetData.useMP = game.settings.get('brp','useMP');
       sheetData.npcOwner = false
       if (sheetData.hasOwner) {
         if (this.item.parent.type === 'npc') {

@@ -160,6 +160,10 @@
             </div>
             <div class="skill-display">{{localize 'BRP.encSiz'}}</div>
             <div class="weapon-input"><input name="system.enc" type="text" value="{{item.system.enc}}" data-dtype="Number"/></div>
+            <div class="skill-display">{{#if useMP}}{{localize 'BRP.mpStoreCurr'}}{{else}}{{localize 'BRP.ppStoreCurr'}}{{/if}}</div> 
+            <div class="weapon-input"><input name="system.pSCurr" type="text" value="{{item.system.pSCurr}}" data-dtype="Number"/></div>              
+            <div class="skill-display">{{#if useMP}}{{localize 'BRP.mpStoreMax'}}{{else}}{{localize 'BRP.ppStoreMax'}}{{/if}}</div>
+            <div class="weapon-input"><input name="system.pSMax" type="text" value="{{item.system.pSMax}}" data-dtype="Number"/></div>
             {{#if (eq item.system.weaponType 'shield')}}
               <div class="skill-display">{{localize 'BRP.coverage'}}</div>
               <div class="weapon-input"><input name="system.coverage" type="text" value="{{item.system.coverage}}"/></div>
@@ -237,12 +241,18 @@
               <div class="weapon-display centre boxed">{{priceName}}</div>            
               <div class="skill-display">{{localize 'BRP.enc'}}</div>
               <div class="weapon-display centre boxed">{{item.system.enc}}</div>
+              <div class="skill-display">{{#if useMP}}{{localize 'BRP.mpStoreCurr'}}{{else}}{{localize 'BRP.ppStoreCurr'}}{{/if}}</div> 
+              <div class="weapon-input"><input name="system.pSCurr" type="text" value="{{item.system.pSCurr}}" data-dtype="Number"/></div>              
+              <div class="skill-display">{{#if useMP}}{{localize 'BRP.mpStoreMax'}}{{else}}{{localize 'BRP.ppStoreMax'}}{{/if}}</div>
+              <div class="weapon-input"><input name="system.pSMax" type="text" value="{{item.system.pSMax}}" data-dtype="Number"/></div>
               {{#if (eq item.system.weaponType 'shield')}}
                 <div class="skill-display">{{localize 'BRP.coverage'}}</div>
                 <div class="weapon-display centre boxed">{{item.system.coverage}}</div>
               {{/if}}
+
             </div>  
           {{/if}}
+
           <br>
 
           <div class="item-title"> {{localize 'BRP.options'}}:</div>

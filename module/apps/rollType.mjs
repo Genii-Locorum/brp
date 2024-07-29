@@ -167,6 +167,9 @@ static async _onStatRoll(event){
       default:
         return
     }
+    //If the Armour Value is blank then don't make the roll
+    
+    if(AVform===""){return}
     BRPCheck._trigger({
       rollType: 'AR',
       cardType: 'NO',

@@ -31,7 +31,6 @@
       {{!-- Details Tab --}}
       <div class="tab active" data-group="primary" data-tab="details">  
         <div class="armour-scores">
-          {{#if isGM}}
             <div class="skill-display">{{localize 'BRP.enc'}}</div>
             <div class="weapon-input"><input name="system.enc" type="text" value="{{item.system.enc}}" data-dtype="Number"/></div>
             <div class="skill-display">{{localize 'BRP.price'}}</div>
@@ -40,12 +39,10 @@
                 {{selectOptions priceOptions selected=item.system.price}}
               </select>
             </div>
-          {{else}}
-            <div class="skill-display">{{localize 'BRP.enc'}}</div>
-            <div class="weapon-display centre boxed">{{item.system.enc}}</div>
-            <div class="skill-display">{{localize 'BRP.price'}}</div>
-            <div class="weapon-display centre boxed">{{priceName}}</div>
-          {{/if}}
+            <div class="skill-display">{{#if useMP}}{{localize 'BRP.mpStoreCurr'}}{{else}}{{localize 'BRP.ppStoreCurr'}}{{/if}}</div> 
+            <div class="weapon-input"><input name="system.pSCurr" type="text" value="{{item.system.pSCurr}}" data-dtype="Number"/></div>              
+            <div class="skill-display">{{#if useMP}}{{localize 'BRP.mpStoreMax'}}{{else}}{{localize 'BRP.ppStoreMax'}}{{/if}}</div>
+            <div class="weapon-input"><input name="system.pSMax" type="text" value="{{item.system.pSMax}}" data-dtype="Number"/></div>
         </div>
         <br>
 

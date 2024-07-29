@@ -131,11 +131,7 @@
           </div>
   
           <div class="each-resource centre">
-            {{#if useMP}}
-              <label for="system.power.value" class="resource-label power contextmenu">{{localize 'BRP.mp'}}</label>
-            {{else}}
-              <label for="system.power.value" class="resource-label power contextmenu">{{localize 'BRP.pp'}}</label>
-            {{/if}}
+            <label for="system.power.value" class="resource-label power contextmenu" title="{{localize 'BRP.storedPower'}}{{system.psCurr}}/{{system.psMax}}">{{#if useMP}}{{localize 'BRP.mp'}}{{else}}{{localize 'BRP.pp'}}{{/if}}</label>
             <div class="resource-grid">
               <div class="right rollable attribute" data-att="power" data-adj="spend"><a title="{{localize 'BRP.ppSpend'}}"><i class="fas fa-bolt"></i></a></div>
               <input class="attrib-inp" type="text" name="system.power.value" value="{{system.power.value}}" data-dtype="Number"/>

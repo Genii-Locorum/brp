@@ -99,7 +99,7 @@
   row-gap: 0px;
   column-gap: 5px;
   font-size: 16px;
-  grid-template-columns: 100px 50px;
+  grid-template-columns: 150px 50px;
 }
 
 .brp .personal-grid {
@@ -790,7 +790,7 @@ padding-top: 4px;
 
 .brp .wound-name {
   display: flex;
-  font-size: 16px;
+  font-size: 14px;
 }
 
 .brp .wound-item {
@@ -965,8 +965,8 @@ padding-top: 4px;
   margin: 0px;
   padding: 2px 2px 2px 2px;
   row-gap: 0px;
-  column-gap: 10px;
-  grid-template-columns: 215px 60px 60px 40px 35px 40px 100px 100px 75px;
+  column-gap: 5px;
+  grid-template-columns: 200px 60px 60px 40px 35px 40px 35px 40px 80px 100px 60px;
 }
 
 .brp .gear-tab-grid {
@@ -975,7 +975,7 @@ padding-top: 4px;
   padding: 2px 2px 2px 2px;
   row-gap: 0px;
   column-gap: 10px;
-  grid-template-columns: max-content 100px 100px 75px 30px;
+  grid-template-columns: max-content 100px 100px 40px 35px 75px 30px;
 }
 
 .brp .mediumIcon{
@@ -1040,10 +1040,10 @@ padding-top: 4px;
 .brp .weapon-tab-grid {
   display: grid;
   margin: 0px;
-  padding: 2px 2px 2px 2px;
+  padding: 1px 2px 1px 2px;
   row-gap: 0px;
   column-gap: 5px;
-  grid-template-columns: 150px 40px 130px 80px 60px 50px 30px 30px 85px 50px 40px;
+  grid-template-columns: 140px 40px 120px 80px 50px 50px 30px 30px 30px 30px 50px 50px 40px;
 }
 
 .brp .result-success {

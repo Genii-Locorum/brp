@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 12.1.20
+- Added option to adjust maximum magic points to character (on the CHAR tab)
+- Gear, Weapons and Armour can now have stored magic/power points.  Enter them on the item sheet (default is zero).  The current value can be edited directly on the character sheet.
+- If you hover over Power/Magic points then a tool tip shows current and maximum stored power points.  If an item is "stored" then it is not included
+- A few tweaks to the character sheet Combat/Item tab with font size to accomodate the Stored PP/MP.  These are only shown if the Max is set to 1 or more.
+
 ## 12.1.19
 - Added Dodge to list of weapon skills available when creating weapon.  Added Dodge as a weapon to the compendium.  Use this to "Dodge" in combat (this is a a workaround pending a better option)
 

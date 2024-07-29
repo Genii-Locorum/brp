@@ -239,9 +239,9 @@ export class BRPSelectLists {
     }
 
     let itemsList = []
-    //TODO - replace hard coded "Throw" & "Demolitions" with a brpID when it's created
+    //TODO - replace hard coded "Dodge, Throw" & "Demolitions" with a brpID when it's created
     for (let i of game.items) {
-      if (i.type ==='skill' && (i.system.category ==='zcmbtmod' || i.name === 'Throw' || i.name === 'Demolition')) {
+      if (i.type ==='skill' && (i.system.category ==='zcmbtmod' || i.name === 'Throw' || i.name === 'Demolition' || i.name === 'Dodge')) {
         itemsList.push(i)
       }
     }
