@@ -112,6 +112,7 @@
     "background": "Background",
     "ballistic": "Ballistic Armour",
     "bap": "BAP",
+    "bapHint": "Ballistic Armour Points - Armour vs Firearms",
     "base": "Base",
     "baseScore": "Base Score",
     "baseScoreHint": "Select 'Fixed' for no rule in the relevant characterstic and multiple",

@@ -200,7 +200,7 @@ export class BRPNpcSheet extends ActorSheet {
     if (['base','currHP','quantity','npcVal'].includes(field)) {
       newScore = Number(newScore)
       field = 'system.'+field;  
-    } else if (['ap','bap','apRnd','bapRnd'].includes(field)) {
+    } else if (['ap','bap','apRnd','bapRnd','att'].includes(field)) {
       field = 'system.'+field;  
     } else if (field === 'name') {
     } else {return}

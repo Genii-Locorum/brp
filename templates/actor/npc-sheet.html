@@ -169,8 +169,8 @@
           {{/if}}  
           <div class="charname centre">{{ localize 'BRP.d20'}}</div>    
           <div class="charname centre" style="grid-column: 3 / 6">{{ localize 'BRP.hp'}}</div>        
-          <div class="charname centre">{{ localize 'BRP.ap'}}</div>        
-          <div class="charname centre">{{ localize 'BRP.bap'}}</div>        
+          <div class="charname centre" title="{{localize 'BRP.armourPoints'}}">{{ localize 'BRP.ap'}}</div>        
+          <div class="charname centre" title="{{ localize 'BRP.bapHint'}}">{{ localize 'BRP.bap'}}</div>        
         </div>  
         {{#each hitlocs as |hitloc key|}}
           {{#if ../system.lock}}
@@ -216,7 +216,7 @@
     {{! if not using Hits Per Location}}
       <section class="npc-armour-grid">
         <div class="charname">{{ localize 'BRP.armour'}}</div>
-        <div class="font14">{{ localize 'BRP.ap'}}:</div>
+        <div class="font14" title="{{localize 'BRP.armourPoints'}}">{{ localize 'BRP.ap'}}:</div>
         {{#if system.lock}}
           {{#if useAVRand}}
             <div class="font14 rollable ap-name" data-property="ncap">{{system.apRnd}}</div>
@@ -230,7 +230,7 @@
             <div class="font14"><input class="personal-inp" name="system.ap" type="text" value="{{system.ap}}" data-dtype="Number"/></div>  
           {{/if}}  
         {{/if}}
-        <div class="font14">{{ localize 'BRP.bap'}}:</div>
+        <div class="font14" title="{{ localize 'BRP.bapHint'}}">{{ localize 'BRP.bap'}}:</div>
         {{#if system.lock}}
           {{#if useAVRand}}
             <div class="font14 rollable ap-name" data-property="ncbap">{{system.bapRnd}}</div>

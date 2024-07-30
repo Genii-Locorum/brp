@@ -2,7 +2,7 @@
   "id": "brp",
   "title": "Basic Role Playing",
   "description": "Basic Role Playing system for FoundryVTT!",
-  "version": "12.1.20",
+  "version": "12.1.21",
   "compatibility": {
     "minimum": 11,
     "verified": "12.330",
@@ -175,8 +175,8 @@
   "secondaryTokenAttribute": "power",
   "socket": true,
   "url": "",
-  "manifest": "https://github.com/Genii-Locorum/brp/releases/download/Betav1.20/system.json",
-  "download": "https://github.com/Genii-Locorum/brp/releases/download/Betav1.20/system.zip",
+  "manifest": "https://github.com/Genii-Locorum/brp/releases/download/Betav1.21/system.json",
+  "download": "https://github.com/Genii-Locorum/brp/releases/download/Betav1.21/system.zip",
   "license": "LICENSE.txt",
   "changelog": "CHANGELOG.md"
 }

@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 12.1.21
+- Fix to NPC sheet to allow in line edit of #ATT on weapons ((it was failing to make the update after a new value was entered))
+- Tooltip added on NPC sheet explaining BAP
+
 ## 12.1.20
 - Added option to adjust maximum magic points to character (on the CHAR tab)
 - Gear, Weapons and Armour can now have stored magic/power points.  Enter them on the item sheet (default is zero).  The current value can be edited directly on the character sheet.
