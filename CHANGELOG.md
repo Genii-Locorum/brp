@@ -1,4 +1,6 @@
 # CHANGELOG
+## 12.1.22
+- Change to manifest URL to correct it
 
 ## 12.1.21
 - Fix to NPC sheet to allow in line edit of #ATT on weapons ((it was failing to make the update after a new value was entered))
