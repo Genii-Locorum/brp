@@ -184,6 +184,7 @@
         {{#unless (eq actor.system.super "")}}<div><a class="item power-name contextmenu" data-item-id="{{system.super}}" data-tab="super">{{localize 'BRP.superAbbr'}}</a></div>{{/unless}}
         {{#if useAlleg}}<div><a class="item" data-tab="allegiance">{{localize 'BRP.allegianceAbbr'}}</a></div>{{/if}}
         {{#if usePassion}}<div><a class="item" data-tab="passion">{{localize 'BRP.passion'}}</a></div>{{/if}}
+        {{#if usePersTrait}}<div><a class="item" data-tab="persTrait">{{localize 'BRP.trait'}}</a></div>{{/if}}
         <div><a class="item" data-tab="statistics">{{localize 'BRP.characteristicAbbr'}}</a></div>
         <div><a class="item" data-tab="background">{{localize 'BRP.story'}}</a></div>
         <div><a class="lock-icon grid-middle actor-toggle" title="{{ localize 'BRP.lock' }}" data-property="lock"> <i class="{{#if system.lock}}fas fa-lock{{else}}fas fa-lock-open{{/if}}"></i> </a></div>
@@ -254,6 +255,11 @@
       {{!-- Owned Passion Tab --}}
       <div class="tab passion" data-group="primary" data-tab="passion">
         {{> "systems/brp/templates/actor/parts/actor-passion.html"}}
+      </div>
+
+      {{!-- Owned Personality Trait Tab --}}
+      <div class="tab persTrait" data-group="primary" data-tab="persTrait">
+        {{> "systems/brp/templates/actor/parts/actor-persTrait.html"}}
       </div>
 
       {{!-- Statistics Tab --}}

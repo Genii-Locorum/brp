@@ -27,6 +27,23 @@ export class BRPPowerSheet extends ItemSheet {
       sheetData.catName = game.i18n.localize("BRP." + this.item.system.category);
       sheetData.lvlOptions = await BRPSelectLists.getPowerLvlOptions();
       sheetData.lvlName = game.i18n.localize("BRP." + this.item.system.level);
+
+      sheetData.enrichedDescriptionValue = await TextEditor.enrichHTML(
+        sheetData.data.system.description,
+        {
+          async: true,
+          secrets: sheetData.editable
+        }
+      )  
+      
+      sheetData.enrichedGMDescriptionValue = await TextEditor.enrichHTML(
+        sheetData.data.system.gmDescription,
+        {
+          async: true,
+          secrets: sheetData.editable
+        }
+      )  
+
     return sheetData
   }
   

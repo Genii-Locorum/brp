@@ -65,6 +65,12 @@ export class BRPActor extends Actor {
           case "physmod":
             modifiervalue=this._categoryprimary(systemData.stats.dex.total)+this._categorysecondary(systemData.stats.str.total)+this._categorysecondary(systemData.stats.con.total)+this._categorynegative(systemData.stats.siz.total);
             break;
+          case "spnlmod":
+            modifiervalue=this._categoryprimary(systemData.stats.pow.total)+this._categorysecondary(systemData.stats.int.total)+this._categorysecondary(systemData.stats.cha.total);
+            break;  
+          case "soclmod":
+            modifiervalue=0;
+            break;               
         }
       } else if (game.settings.get('brp','skillBonus') === "1") {
         switch (categoryid) {
@@ -85,7 +91,13 @@ export class BRPActor extends Actor {
             break;
           case "physmod":
             modifiervalue=Math.ceil(systemData.stats.str.total/2);
-            break;        
+            break;     
+          case "spnlmod":
+            modifiervalue=Math.ceil(systemData.stats.pow.total/2);
+            break;    
+          case "soclmod":
+            modifiervalue=0;
+            break;                    
         } 
       }
       systemData.skillcategory[key].bonus=modifiervalue;
@@ -132,6 +144,11 @@ export class BRPActor extends Actor {
       } else if (itm.type === 'passion') {  
         itm.system.total = itm.system.base + itm.system.xp
         
+      //If Personality Trait the set total 
+      } else if (itm.type === 'persTrait') {  
+        itm.system.total = Math.max(0,Math.min(100,itm.system.base + itm.system.xp))
+        itm.system.opptotal = 100-itm.system.total
+
       //If gear/weapon, calculates the encumbrance
       } else if (['gear' , 'weapon'].includes (itm.type)) {
         if (itm.system.equipStatus === 'carried') {
@@ -315,9 +332,15 @@ export class BRPActor extends Actor {
     let damage = 0
 
     for (let itm of actorData.items) {
-      if (['skill','psychic','magic'].includes(itm.type)) {
+      if (['skill','psychic','magic', 'passion'].includes(itm.type)) {
       itm.system.total = itm.system.base;
-      } else if (itm.type === 'hit-location' && game.settings.get('brp','useHPL')) {
+      } else if (['allegiance'].includes(itm.type)) {
+        itm.system.total = itm.system.allegPoints;
+      } else if (['persTrait'].includes(itm.type)) {
+        itm.system.total = itm.system.base;
+        itm.system.opptotal = 100 - itm.system.base;
+      }
+      else if (itm.type === 'hit-location' && game.settings.get('brp','useHPL')) {
         itm.system.injured = false;
         itm.system.maxHP = Math.max((Math.ceil(systemData.health.max / itm.system.fractionHP) + itm.system.adj),0);
         damage = damage + Math.max(itm.system.maxHP - itm.system.currHP,0)

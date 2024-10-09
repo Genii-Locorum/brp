@@ -17,5 +17,6 @@
     "systems/brp/templates/actor/parts/actor-super.html",
     "systems/brp/templates/actor/parts/actor-allegiance.html",
     "systems/brp/templates/actor/parts/actor-passion.html",
+    "systems/brp/templates/actor/parts/actor-persTrait.html",
   ]);
 };

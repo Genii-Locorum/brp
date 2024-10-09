@@ -1,4 +1,15 @@
 # CHANGELOG
+## 12.1.23
+- Skill categories on the actor sheet get to use the full width of the skill list column to prevent wrap around issues
+- Add Supernatural as a skill category and a game setting.  If unticked then any skills with Supernatural won't be shown on the character sheet 
+- Add Social as a skill category and a game setting.  If unticked then any skills with Social won't be shown on the character sheet 
+- Personality Traits have been added.  You can roll on the Personality Trait or the Opposed Trait and do XP improvements as well. 
+- You can drag Personality Traits to the hotbar for a macro.  Using the ALT key when clicking on it triggers the Opposed roll.
+- Added macro roll functionality for Passions (previously only displayed the item sheet).
+- All item Descriptions and GM Descriptions are now rich text.
+- Background, backstory and biography are now rich text.
+- NPC sheets now have Passions, Allegiance and Personality Traits.  Unless you have an item on the NPC or the sheet is unlocked you won't see the sections (to save space) - you can drag and drop an item on and it will appear.  This has been added for Powers as well.
+
 ## 12.1.22
 - Change to manifest URL to correct it
 

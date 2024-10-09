@@ -15,6 +15,7 @@ export class BRPCheck {
   //AR = Armour (Random)
   //AL = Allegiance Roll
   //PA - Passion Roll
+  //PT - Personality Trait Roll
 
   //Card Types
   //NO = Normnal Roll
@@ -44,6 +45,7 @@ export class BRPCheck {
     let particActor = await BRPactorDetails._getParticipant(partic.particId,partic.particType)
     let weapon = ""
     let skill = ""
+    let opp = 'false'
     let config = {
       rollType: options.rollType,
       cardType: options.cardType,
@@ -74,7 +76,8 @@ export class BRPCheck {
       shiftKey: options.shiftKey ?? false,
       needDiff: options.needDiff ?? true,
       label: options.label ?? "",
-      specLabel: options. specLable ?? ""
+      specLabel: options.specLabel ?? "",
+      opp: options.opp ?? "false"
     }
 
     //Adjust Config based on roll type
@@ -102,6 +105,17 @@ export class BRPCheck {
         config.rawScore = skill.system.total
         config.targetScore = skill.system.total
         break
+      case 'PT':
+        skill = particActor.items.get(config.skillId)
+        config.label = skill.name ?? ""
+        config.rawScore = skill.system.total
+        config.targetScore = skill.system.total
+        if (config.opp === 'true') {
+          config.label = skill.system.oppName ?? ""
+          config.rawScore = skill.system.opptotal
+          config.targetScore = skill.system.opptotal
+        }          
+        break;
       case 'DM':  
         weapon = particActor.items.get(config.itemId)
         config.label = weapon.name ?? ""
@@ -301,7 +315,8 @@ export class BRPCheck {
         roll: config.roll,
         resultLevel: config.resultLevel,
         resultLabel: game.i18n.localize('BRP.resultLevel.'+config.resultLevel),
-        specLabel: config.specLabel
+        specLabel: config.specLabel,
+        opp: config.opp
       }]
     }
 
@@ -466,6 +481,7 @@ export class BRPCheck {
           wait: chatMsgData.wait,
           successLevel: chatMsgData.successLevel,
           chatCard: chatMsgData.chatCard,
+          opp: chatMsgData.opp,
         }},
         speaker: {
           actor: chatMsgData.chatCard[0].particId,
@@ -473,7 +489,7 @@ export class BRPCheck {
         },
       }
 
-    if (['NO', 'RE','PP', 'OP'].includes(chatMsgData.cardType)) {
+    if (['NO', 'RE','PP'].includes(chatMsgData.cardType)) {
       chatData.rolls = [chatMsgData.rolls]
     }  
 
@@ -512,7 +528,11 @@ export class BRPCheck {
             
             actor = await BRPactorDetails._getParticipant(i.particId,i.particType)
             item = await actor.items.get(i.skillId)
-            await item.update({'system.improve': true})
+            if (item.type === 'persTrait' && i.opp === 'true') {
+              await item.update({'system.oppimprove': true})
+            } else {
+              await item.update({'system.improve': true})
+            }
           }   
         }
         break  

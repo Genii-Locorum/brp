@@ -35,6 +35,22 @@ export class BRPSuperSheet extends ItemSheet {
       this.object.update({'system.mainName': this.item.name});
     }
 
+    sheetData.enrichedDescriptionValue = await TextEditor.enrichHTML(
+      sheetData.data.system.description,
+      {
+        async: true,
+        secrets: sheetData.editable
+      }
+    )  
+    
+    sheetData.enrichedGMDescriptionValue = await TextEditor.enrichHTML(
+      sheetData.data.system.gmDescription,
+      {
+        async: true,
+        secrets: sheetData.editable
+      }
+    )  
+
     return sheetData
   }
 
@@ -59,7 +75,7 @@ export class BRPSuperSheet extends ItemSheet {
     //If the item isn't owned by an actor then don't allow the drop
     if (!this.item.parent) {return}
     const dataList = await BRPUtilities.getDataFromDropEvent(event, 'Item')
-    const collection = this.item.system[collectionName] ? duplicate(this.item.system[collectionName]) : []
+    const collection = this.item.system[collectionName] ? foundry.utils.duplicate(this.item.system[collectionName]) : []
  
     for (const item of dataList) {
       if (!item || !item.system) continue
@@ -75,7 +91,7 @@ export class BRPSuperSheet extends ItemSheet {
 
       //Create Embedded PowerMod on Actor Sheet and push the ID in to the collection (i.e. don't push the item)
       const actor = this.item.parent
-      const itemData = duplicate(item)
+      const itemData = foundry.utils.duplicate(item)
       let newItem = await Item.create(itemData, {parent: actor});
       collection.push(newItem.id)
     }
@@ -101,7 +117,7 @@ export class BRPSuperSheet extends ItemSheet {
     const itemId = item.data('item-id')
     const itemIndex = this.item.system[collectionName].findIndex(i => (itemId && i === itemId))
     if (itemIndex > -1) {
-      const collection = this.item.system[collectionName] ? duplicate(this.item.system[collectionName]) : []
+      const collection = this.item.system[collectionName] ? foundry.utils.duplicate(this.item.system[collectionName]) : []
       collection.splice(itemIndex, 1)
       await this.item.update({ [`system.${collectionName}`]: collection })
       const oldItem = this.actor.items.get(itemId);

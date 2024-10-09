@@ -18,6 +18,7 @@ import { BRPWeaponSheet } from '../item/sheets/weapon.mjs'
 import { BRPWoundSheet } from '../item/sheets/wound.mjs' 
 import { BRPAllegianceSheet } from '../item/sheets/allegiance.mjs' 
 import { BRPPassionSheet } from '../item/sheets/passion.mjs' 
+import { BRPPersTraitSheet } from '../item/sheets/persTrait.mjs' 
 
 export function registerSheets () {
     Actors.unregisterSheet("core", ActorSheet);
@@ -119,6 +120,11 @@ export function registerSheets () {
 
     Items.registerSheet('brp', BRPPassionSheet, {
       types: ['passion'],
+      makeDefault: true
+    }) 
+    
+    Items.registerSheet('brp', BRPPersTraitSheet, {
+      types: ['persTrait'],
       makeDefault: true
     }) 
 }      

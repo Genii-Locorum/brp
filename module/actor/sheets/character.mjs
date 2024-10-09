@@ -28,7 +28,7 @@ export class BRPCharacterSheet extends ActorSheet {
   /* -------------------------------------------- */
 
   /** @override */
-  getData() {
+  async getData() {
     const context = super.getData();
     const actorData = this.actor.toObject(false);
     context.system = actorData.system;
@@ -41,6 +41,7 @@ export class BRPCharacterSheet extends ActorSheet {
     context.useHPL = game.settings.get('brp','useHPL');
     context.useAlleg = game.settings.get('brp','useAlleg');
     context.usePassion = game.settings.get('brp','usePassion');    
+    context.usePersTrait = game.settings.get('brp','usePersTrait');
     context.useAVRand = game.settings.get('brp','useAVRand');
     context.background1 = game.settings.get('brp','background1');
     context.background2 = game.settings.get('brp','background2');
@@ -57,6 +58,30 @@ export class BRPCharacterSheet extends ActorSheet {
 
     // Add roll data for TinyMCE editors.
     context.rollData = context.actor.getRollData();
+
+    context.enrichedBiographyValue = await TextEditor.enrichHTML(
+      context.system.biography,
+      {
+        async: true,
+        secrets: context.editable
+      }
+    )  
+    
+    context.enrichedBackgroundValue = await TextEditor.enrichHTML(
+      context.system.background,
+      {
+        async: true,
+        context: context.editable
+      }
+    )  
+
+    context.enrichedBackstoryValue = await TextEditor.enrichHTML(
+      context.system.backstory,
+      {
+        async: true,
+        context: context.editable
+      }
+    )   
 
     return context;
   }
@@ -83,6 +108,7 @@ export class BRPCharacterSheet extends ActorSheet {
     const wounds = [];
     const allegiances = [];
     const passions = [];
+    const persTraits=[];
 
 
     // Iterate through items, allocating to containers
@@ -106,12 +132,25 @@ export class BRPCharacterSheet extends ActorSheet {
         itm.system.equippedName = game.i18n.localize('BRP.'+itm.system.equipStatus)
         gears.push(itm);
       } else if (itm.type ==='skill') {
-        skillsDev.push(itm)
-          itm.system.grandTotal = itm.system.total + this.actor.system.skillcategory[itm.system.category].bonus
-        skills.push(itm);
-          
-        this.actor.system.totalProf = this.actor.system.totalProf + itm.system.profession
-        this.actor.system.totalPers = this.actor.system.totalPers + itm.system.personal
+        if (itm.system.category ==='spnlmod'){
+          if (game.settings.get('brp','useSupernatural'))  {
+          skillsDev.push(itm)
+            itm.system.grandTotal = itm.system.total + this.actor.system.skillcategory[itm.system.category].bonus
+          skills.push(itm);
+          }
+        } else if (itm.system.category ==='soclmod'){
+            if (game.settings.get('brp','useSocial'))  {
+            skillsDev.push(itm)
+              itm.system.grandTotal = itm.system.total + this.actor.system.skillcategory[itm.system.category].bonus
+            skills.push(itm);
+            }  
+          } else {
+            skillsDev.push(itm)
+              itm.system.grandTotal = itm.system.total + this.actor.system.skillcategory[itm.system.category].bonus
+            skills.push(itm);
+          }   
+          this.actor.system.totalProf = this.actor.system.totalProf + itm.system.profession
+          this.actor.system.totalPers = this.actor.system.totalPers + itm.system.personal
       } else if (itm.type === 'hit-location') {
         hitlocs.push(itm);
       } else if (itm.type === 'wound') {
@@ -183,6 +222,8 @@ export class BRPCharacterSheet extends ActorSheet {
         allegiances.push(itm);
       } else if (itm.type === 'passion'){
         passions.push(itm);
+      } else if (itm.type === 'persTrait'){
+        persTraits.push(itm);
       } 
     }  
 
@@ -195,6 +236,18 @@ export class BRPCharacterSheet extends ActorSheet {
       {name : game.i18n.localize("BRP.physmod"), isType: true, system: {category: "physmod", total: this.actor.system.skillcategory.physmod.bonus}},
       {name : game.i18n.localize("BRP.zcmbtmod"), isType: true, system: {category: "zcmbtmod", total: this.actor.system.skillcategory.zcmbtmod.bonus}}
     );
+
+    if (game.settings.get('brp','useSupernatural')) {
+      skills.push(
+       {name : game.i18n.localize("BRP.spnlmod"), isType: true, system: {category: "spnlmod", total: this.actor.system.skillcategory.spnlmod.bonus}},
+      );  
+    }
+
+    if (game.settings.get('brp','useSocial')) {
+      skills.push(
+       {name : game.i18n.localize("BRP.soclmod"), isType: true, system: {category: "soclmod", total: this.actor.system.skillcategory.soclmod.bonus}},
+      );  
+    }
 
     //Sort Skills by Category then Skill Name
     skills.sort(function(a, b){
@@ -223,6 +276,7 @@ export class BRPCharacterSheet extends ActorSheet {
     });
 
     // Assign and return
+    context.persTraits = persTraits;
     context.gears = gears;
     context.skills = skills;
     context.skillsDev= skillsDev;
@@ -256,19 +310,20 @@ export class BRPCharacterSheet extends ActorSheet {
 
     if (!this.isEditable) return;
 
-    html.find(".inline-edit").change(this._onSkillEdit.bind(this));                  //Inline Skill Edit
-    html.find(".actor-toggle").click(this._onActorToggle.bind(this));                // Actor Toggle
-    html.find(".item-toggle").click(this._onItemToggle.bind(this));                  // Item Toggle
-    html.find('.item-create').click(this._onItemCreate.bind(this));                  // Add Inventory Item
-    html.find('.rollable.charac-name').click(BRPRollType._onStatRoll.bind(this));           // Rollable Characteristic
-    html.find('.rollable.skill-name').click(BRPRollType._onSkillRoll.bind(this));           // Rollable Skill
-    html.find('.rollable.allegiance-name').click(BRPRollType._onAllegianceRoll.bind(this));           // Rollable Allegiance
-    html.find('.rollable.passion-name').click(BRPRollType._onPassionRoll.bind(this));           // Rollable Passion
-    html.find('.addWound').click(this._addWound.bind(this));                         // Add Inventory Item
-    html.find('.rollable.damage-name').click(BRPRollType._onDamageRoll.bind(this));         // Damage Roll
-    html.find('.rollable.weapon-name').click(BRPRollType._onWeaponRoll.bind(this));         // Weapon Skill Roll
-    html.find('.rollable.attribute').click(this._onAttribute.bind(this));            // Attribute modifier
-    html.find('.rollable.ap-name').click(BRPRollType._onArmour.bind(this));                 // Armour roll
+    html.find(".inline-edit").change(this._onSkillEdit.bind(this));                           //Inline Skill Edit
+    html.find(".actor-toggle").click(this._onActorToggle.bind(this));                         // Actor Toggle
+    html.find(".item-toggle").click(this._onItemToggle.bind(this));                           // Item Toggle
+    html.find('.item-create').click(this._onItemCreate.bind(this));                           // Add Inventory Item
+    html.find('.rollable.charac-name').click(BRPRollType._onStatRoll.bind(this));             // Rollable Characteristic
+    html.find('.rollable.skill-name').click(BRPRollType._onSkillRoll.bind(this));             // Rollable Skill
+    html.find('.rollable.allegiance-name').click(BRPRollType._onAllegianceRoll.bind(this));   // Rollable Allegiance
+    html.find('.rollable.passion-name').click(BRPRollType._onPassionRoll.bind(this));         // Rollable Passion
+    html.find('.rollable.persTrait-name').click(BRPRollType._onPersTraitRoll.bind(this));     // Rollable Passion    
+    html.find('.addWound').click(this._addWound.bind(this));                                  // Add Inventory Item
+    html.find('.rollable.damage-name').click(BRPRollType._onDamageRoll.bind(this));           // Damage Roll
+    html.find('.rollable.weapon-name').click(BRPRollType._onWeaponRoll.bind(this));           // Weapon Skill Roll
+    html.find('.rollable.attribute').click(this._onAttribute.bind(this));                     // Attribute modifier
+    html.find('.rollable.ap-name').click(BRPRollType._onArmour.bind(this));                   // Armour roll
     
     // Delete Inventory Item
     html.find('.item-delete').click(ev => {
@@ -311,6 +366,7 @@ export class BRPCharacterSheet extends ActorSheet {
      new BRPContextMenu(html, ".fatigue.contextmenu", contextMenu.fatigueAttMenuOptions(this.actor, this.token));
      new BRPContextMenu(html, ".allegiance-name.contextmenu", contextMenu.allegianceMenuOptions(this.actor, this.token));
      new BRPContextMenu(html, ".passion-name.contextmenu", contextMenu.passionMenuOptions(this.actor, this.token));
+     new BRPContextMenu(html, ".persTrait-name.contextmenu", contextMenu.persTraitMenuOptions(this.actor, this.token));
   }
 
   // Handle creating a new Owned Item for the actor using initial data defined in the HTML dataset
@@ -320,7 +376,7 @@ export class BRPCharacterSheet extends ActorSheet {
     // Get the type of item to create.
     const type = header.dataset.type;
     // Grab any data associated with this control.
-    const data = duplicate(header.dataset);
+    const data = foundry.utils.duplicate(header.dataset);
     // Initialize a default name.
     const name = `New ${type.capitalize()}`;
     // Prepare the item object.
@@ -419,7 +475,7 @@ export class BRPCharacterSheet extends ActorSheet {
     const item = this.actor.items.get(li.data("itemId"));
     const prop = element.dataset.property;
     let checkProp={};
-    if (['improve','mem','injured','bleeding','incapacitated','severed','dead','unconscious'].includes(prop)) {
+    if (['improve','oppimprove','mem','injured','bleeding','incapacitated','severed','dead','unconscious'].includes(prop)) {
       checkProp = {[`system.${prop}`] : !item.system[prop]}
     } else if (prop === 'equipStatus') {
       if (item.system.equipStatus === 'carried' && item.type === 'armour') {

@@ -84,6 +84,28 @@ static async _onStatRoll(event){
     })
   }
 
+  //Start Personality Trait Roll
+  static async _onPersTraitRoll(event){
+    let ctrlKey = isCtrlKey(event ?? false);
+    let cardType = 'NO';
+    let skillId = event.currentTarget.closest('.item').dataset.itemId;
+    let opp = event.currentTarget.dataset.opp;
+    if (ctrlKey){cardType='OP'}
+    if (game.settings.get('brp','switchShift')) {
+        event.shiftKey = !event.shiftKey
+    }
+    BRPCheck._trigger({
+        rollType: 'PT',
+        cardType,
+        skillId,
+        shiftKey: event.shiftKey,
+        actor: this.actor,
+        token: this.token,
+        opp
+    })
+  }
+
+
   //Start Damage Roll
   static async _onDamageRoll(event){
     let itemId = event.currentTarget.closest('.item').dataset.itemId;    

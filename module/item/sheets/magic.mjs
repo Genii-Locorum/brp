@@ -32,6 +32,23 @@ export class BRPMagicSheet extends ItemSheet {
       sheetData.catOptions = await BRPSelectLists.getSpellCatOptions();
       sheetData.catName = game.i18n.localize("BRP." + this.item.system.impact);
     itemData.system.total = itemData.system.base + itemData.system.xp + itemData.system.effects + itemData.system.personality + itemData.system.profession + itemData.system.personal;  
+
+    sheetData.enrichedDescriptionValue = await TextEditor.enrichHTML(
+      sheetData.data.system.description,
+      {
+        async: true,
+        secrets: sheetData.editable
+      }
+    )  
+    
+    sheetData.enrichedGMDescriptionValue = await TextEditor.enrichHTML(
+      sheetData.data.system.gmDescription,
+      {
+        async: true,
+        secrets: sheetData.editable
+      }
+    )  
+
     return sheetData
   }
   

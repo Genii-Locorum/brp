@@ -64,6 +64,23 @@ export class BRPSkillSheet extends ItemSheet {
         return 0;
       });
       sheetData.grpSkill = grpSkill;      
+
+      sheetData.enrichedDescriptionValue = await TextEditor.enrichHTML(
+        sheetData.data.system.description,
+        {
+          async: true,
+          secrets: sheetData.editable
+        }
+      )  
+      
+      sheetData.enrichedGMDescriptionValue = await TextEditor.enrichHTML(
+        sheetData.data.system.gmDescription,
+        {
+          async: true,
+          secrets: sheetData.editable
+        }
+      )  
+
       return sheetData;
     }
   
@@ -116,7 +133,7 @@ export class BRPSkillSheet extends ItemSheet {
           system.groups || []
         )
         for (let index = 0; index < this.item.system.groups.length; index++) {
-          formData[`system.groups.${index}.skills`] = duplicate(
+          formData[`system.groups.${index}.skills`] = foundry.utils.duplicate(
             this.item.system.groups[index].skills
           )
         }
@@ -131,7 +148,7 @@ export class BRPSkillSheet extends ItemSheet {
     const itemId = item.data('item-id')
     const itemIndex = this.item.system[collectionName].findIndex(i => (itemId && i === itemId))
     if (itemIndex > -1) {
-      const collection = this.item.system[collectionName] ? duplicate(this.item.system[collectionName]) : []
+      const collection = this.item.system[collectionName] ? foundry.utils.duplicate(this.item.system[collectionName]) : []
       collection.splice(itemIndex, 1)
       await this.item.update({ [`system.${collectionName}`]: collection })
     }
@@ -143,7 +160,7 @@ export class BRPSkillSheet extends ItemSheet {
     event.stopPropagation()
 
     const dataList = await BRPUtilities.getDataFromDropEvent(event, 'Item')
-    const collection = this.item.system[collectionName] ? duplicate(this.item.system[collectionName]) : []
+    const collection = this.item.system[collectionName] ? foundry.utils.duplicate(this.item.system[collectionName]) : []
 
     for (const item of dataList) {
       if (!item || !item.system) continue

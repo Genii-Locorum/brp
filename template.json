@@ -127,7 +127,9 @@
         "mnplmod": {},
         "mntlmod": {},
         "percmod": {},
-        "physmod": {}
+        "physmod": {},
+        "spnlmod": {},
+        "soclmod" : {}
       }
       },
       "npc": {
@@ -179,7 +181,7 @@
       }
   },
   "Item": {
-    "types": ["gear","skill","hit-location", "personality", "profession","power","magic","mutation","psychic","sorcery","super","failing","powerMod","armour","weapon","wound","allegiance","passion"],
+    "types": ["gear","skill","hit-location", "personality", "profession","power","magic","mutation","psychic","sorcery","super","failing","powerMod","armour","weapon","wound","allegiance","passion","persTrait"],
     "templates": {
       "base": {
         "description": "",
@@ -446,6 +448,14 @@
       "base": 0,
       "improve": false,
       "xp": 0      
+    },
+    "persTrait": {
+      "templates": ["base"],
+      "oppName": "",
+      "base": 0,
+      "improve": false,
+      "oppimprove": false,
+      "xp": 0
     }      
   }
 }

@@ -97,7 +97,7 @@
         <div class="npc-skill-cell item" data-item-id="{{skill._id}}">
           {{#if ../system.lock}}
             <div class="font14 truncate item-edit">{{skill.name}}</div>
-            <div class="centre skill-name rollable">{{skill.system.total}}%</div>
+            <div class="centre skill-name rollable paddingtop2">{{skill.system.total}}%</div>
           {{else}}
             <div class="font14 npc-skill-cell-unlock">
                 <span><a class=""><i class="mediumIcon item-delete fas fa-trash"></i></a></span>
@@ -273,72 +273,152 @@
     </section>
 
     {{!-- Powers Section --}}
-    <section class="npc-hitloc-grid">
-      <div class="npc-powers-cell">
-        {{#if system.lock}}
-        <div class="charname truncate">{{ localize 'BRP.powers'}}</div>    
-        {{else}}
-          <div class="npc-hitloc-title">
-            <div class="charname truncate">{{ localize 'BRP.powers'}}</div>    
-            <div class="charname centre addPower" title="{{ localize 'BRP.addPower'}}"><a class="mediumIcon"><i class="item-control fas fa-plus"></i></a></div>      
+    {{#if usePowers}}
+      <section class="npc-hitloc-grid">
+        <div class="npc-powers-cell">
+          {{#if system.lock}}
+          <div class="charname truncate">{{ localize 'BRP.powers'}}</div>    
+          {{else}}
+            <div class="npc-hitloc-title">
+              <div class="charname truncate">{{ localize 'BRP.powers'}}</div>    
+              <div class="charname centre addPower" title="{{ localize 'BRP.addPower'}}"><a class="mediumIcon"><i class="item-control fas fa-plus"></i></a></div>      
+            </div>
+          {{/if}}  
+          <div class="charname centre">%</div>
+          <div class="charname centre truncate">{{ localize 'BRP.duration' }}</div>
+          <div class="charname centre truncate">{{ localize 'BRP.range' }}</div>
+          <div class="charname centre truncate">{{ localize 'BRP.impact' }}</div>
+          <div class="charname centre truncate" title="{{ localize 'BRP.costNPCHint'}}">{{ localize 'BRP.cost' }}</div>          
+        </div> 
+
+        {{#each powers as |power key|}}
+          <div class="npc-powers-cell item" data-item-id="{{power._id}}">
+            {{#if ../system.lock}}
+              <div class="font14 new-row truncate item-edit">{{power.name}}</div>
+            {{else}}
+              <div class="font14 npc-powers-cell-unlock">
+                <span><a class=""><i class="mediumIcon item-delete fas fa-trash"></i></a></span>
+                <span class="truncate"><input class="personal-inp inline-edit" data-field ="name" name="power.name" type="text" value="{{power.name}}"/></span>
+              </div>         
+            {{/if}}
+            {{#isOr (eq power.type "psychic") (eq power.type "magic")}}
+              {{#if ../system.lock}}            
+                <div class="font14 centre rollable skill-name">{{power.system.total}}</div>
+              {{else}}
+              <div class="centre"><input class="personal-inp centre inline-edit" data-field ="base" name="power.system.base" type="text" value="{{power.system.base}}" data-dtype="Number"/></div>    
+              {{/if}}
+            {{else}}
+              <div></div>
+            {{/isOr}}
+
+            {{#isOr (eq power.type "mutation") (eq power.type "sorcery")}}
+              <div></div>
+            {{else}}
+              <div class="font14 centre truncate">{{power.system.duration}}</div>   
+            {{/isOr}}
+
+            {{#unless (eq power.type "mutation")}}
+              <div class="font14 centre truncate">{{power.system.range}}</div>   
+            {{else}}
+              <div></div>
+            {{/unless}}          
+
+            <div class="font14 centre truncate" title="{{power.system.impactHint}}">{{power.system.impactName}}</div>  
+
+            {{#if (eq power.type "mutation")}}
+              <div></div>
+            {{else}}
+              {{#if (eq power.type "sorcery")}}    
+                <div class="font14 centre truncate">{{power.system.pppl}}({{power.system.powCost}})</div>  
+              {{else}}
+                <div class="font14 centre truncate">{{power.system.pppl}}</div>  
+              {{/if}}
+            {{/if}}
+          </div>      
+        {{/each}}
+      </section>    
+     {{/if}}
+      
+    {{!-- Passion Section --}}
+    {{#if usePassions}}
+      <section class="npc-skills-grid">
+        <div class="npc-skill-cell item">
+          <div class="charname">{{ localize 'BRP.passion' }}</div>
+          {{#unless system.lock}}
+            <div class="charname centre item-create" title="{{ localize 'BRP.addPassion' }}" data-type="passion"><a class="mediumIcon"><i class="item-control fas fa-plus"></i></a></div>      
+          {{/unless}}
+        </div>
+        {{#each passions as |passion key|}}
+          <div class="npc-skill-cell item" data-item-id="{{passion._id}}">
+            {{#if ../system.lock}}
+              <div class="font14 truncate item-edit">{{passion.name}}</div>
+              <div class="centre passion-name rollable paddingtop2">{{passion.system.total}}%</div>
+            {{else}}
+              <div class="font14 npc-skill-cell-unlock">
+                  <span><a class=""><i class="mediumIcon item-delete fas fa-trash"></i></a></span>
+                  <span class="truncate"><input class="personal-inp inline-edit" data-field ="name" name="passion.name" type="text" value="{{passion.name}}"/></span>
+              </div>
+              <div class="right"><input class="personal-inp centre inline-edit" data-field ="base" name="passion.system.base" type="text" value="{{passion.system.base}}" data-dtype="Number"/></div>
+            {{/if}}
           </div>
-        {{/if}}  
-        <div class="charname centre">%</div>
-        <div class="charname centre truncate">{{ localize 'BRP.duration' }}</div>
-        <div class="charname centre truncate">{{ localize 'BRP.range' }}</div>
-        <div class="charname centre truncate">{{ localize 'BRP.impact' }}</div>
-        <div class="charname centre truncate" title="{{ localize 'BRP.costNPCHint'}}">{{ localize 'BRP.cost' }}</div>          
-      </div> 
+        {{/each}}
+      </section>   
+    {{/if}}  
 
-      {{#each powers as |power key|}}
-        <div class="npc-powers-cell item" data-item-id="{{power._id}}">
-          {{#if ../system.lock}}
-            <div class="font14 new-row truncate item-edit">{{power.name}}</div>
-          {{else}}
-            <div class="font14 npc-powers-cell-unlock">
-              <span><a class=""><i class="mediumIcon item-delete fas fa-trash"></i></a></span>
-              <span class="truncate"><input class="personal-inp inline-edit" data-field ="name" name="power.name" type="text" value="{{power.name}}"/></span>
-            </div>         
-          {{/if}}
-          {{#isOr (eq power.type "psychic") (eq power.type "magic")}}
-            {{#if ../system.lock}}            
-              <div class="font14 centre rollable skill-name">{{power.system.total}}</div>
+    {{!-- Allegiance Section --}}
+    {{#if useAllegiances}}
+      <section class="npc-skills-grid">
+        <div class="npc-skill-cell item">
+          <div class="charname">{{ localize 'BRP.allegiance' }}</div>
+          {{#unless system.lock}}
+            <div class="charname centre item-create" title="{{ localize 'BRP.addAllegiance' }}" data-type="allegiance"><a class="mediumIcon"><i class="item-control fas fa-plus"></i></a></div>      
+          {{/unless}}
+        </div>
+        {{#each allegiances as |allegiance key|}}
+          <div class="npc-skill-cell item" data-item-id="{{allegiance._id}}">
+            {{#if ../system.lock}}
+              <div class="font14 truncate item-edit">{{allegiance.name}}</div>
+              <div class="centre allegiance-name rollable paddingtop2">{{allegiance.system.total}}%</div>
             {{else}}
-            <div class="centre"><input class="personal-inp centre inline-edit" data-field ="base" name="power.system.base" type="text" value="{{power.system.base}}" data-dtype="Number"/></div>    
+              <div class="font14 npc-skill-cell-unlock">
+                  <span><a class=""><i class="mediumIcon item-delete fas fa-trash"></i></a></span>
+                  <span class="truncate"><input class="personal-inp inline-edit" data-field ="name" name="allegiance.name" type="text" value="{{allegiance.name}}"/></span>
+              </div>
+              <div class="right"><input class="personal-inp centre inline-edit" data-field ="allegPoints" name="allegiance.system.allegPoints" type="text" value="{{allegiance.system.allegPoints}}" data-dtype="Number"/></div>
             {{/if}}
-          {{else}}
-            <div></div>
-          {{/isOr}}
+          </div>
+        {{/each}}
+      </section>   
+    {{/if}}  
 
-          {{#isOr (eq power.type "mutation") (eq power.type "sorcery")}}
-            <div></div>
-          {{else}}
-            <div class="font14 centre truncate">{{power.system.duration}}</div>   
-          {{/isOr}}
-
-          {{#unless (eq power.type "mutation")}}
-            <div class="font14 centre truncate">{{power.system.range}}</div>   
-          {{else}}
-            <div></div>
-          {{/unless}}          
-
-          <div class="font14 centre truncate" title="{{power.system.impactHint}}">{{power.system.impactName}}</div>  
-
-          {{#if (eq power.type "mutation")}}
-            <div></div>
-          {{else}}
-            {{#if (eq power.type "sorcery")}}    
-              <div class="font14 centre truncate">{{power.system.pppl}}({{power.system.powCost}})</div>  
+    {{!-- Personal Traits Section --}}
+    {{#if usePerTraits}}
+      <section class="npc-hitloc-grid">
+        <div class="npc-persTrait-cell item">
+          <div class="charname">{{ localize 'BRP.persTrait' }}</div>
+          {{#unless system.lock}}
+            <div class="charname centre item-create" title="{{ localize 'BRP.addPersTrait' }}" data-type="persTrait"><a class="mediumIcon"><i class="item-control fas fa-plus"></i></a></div>      
+          {{/unless}}
+        </div>
+        {{#each persTraits as |persTrait key|}}
+          <div class="npc-persTrait-cell item" data-item-id="{{persTrait._id}}">
+            {{#if ../system.lock}}
+              <div class="new-row font14 truncate item-edit">{{persTrait.name}}</div>
+              <div class="centre persTrait-name rollable paddingtop2" data-opp="false">{{persTrait.system.total}}%</div>
+              <div></div>
+              <div class="font14 truncate">{{persTrait.system.oppName}}</div>
+              <div class="centre persTrait-name rollable paddingtop2" data-opp="true">{{persTrait.system.opptotal}}%</div>
             {{else}}
-              <div class="font14 centre truncate">{{power.system.pppl}}</div>  
+              <div class="new-row font14 npc-persTrait-cell-unlock">
+                  <span class="new-row"><a class=""><i class="mediumIcon item-delete fas fa-trash"></i></a></span>
+                  <span class="truncate"><input class="personal-inp inline-edit" data-field ="name" name="persTrait.name" type="text" value="{{persTrait.name}}"/></span>
+              </div>
+              <div class="right"><input class="personal-inp centre inline-edit" data-field ="base" name="persTrait.system.base" type="text" value="{{persTrait.system.base}}" data-dtype="Number"/></div>
             {{/if}}
-          {{/if}}
-
-
-        </div>      
-      {{/each}}
-        
-    </section>    
+          </div>
+        {{/each}}
+      </section>   
+    {{/if}}  
 
     {{!-- Notes Section --}}
     <section class="npc-notes">

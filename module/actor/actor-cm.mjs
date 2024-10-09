@@ -253,7 +253,7 @@ export const skillMenuOptions = (actor,token) => [
     icon: '<i class="fas fa-dice-d6"></i>',
     condition: (el) => (game.settings.get('brp','development') && el[0].dataset.xp === 'true'),
     callback: (el) => {
-      BRPCharDev.onXPGainSingle(el[0].dataset.itemId,actor,token,"formula");
+      BRPCharDev.onXPGainSingle(el[0].dataset.itemId,actor,token,"formula",'false');
     }
   },    
   {
@@ -261,7 +261,7 @@ export const skillMenuOptions = (actor,token) => [
     icon: '<i class="fas fa-dice-three"></i>',
     condition: (el) => (game.settings.get('brp','development') && el[0].dataset.xp === 'true'),
     callback: (el) => {
-      BRPCharDev.onXPGainSingle(el[0].dataset.itemId,actor,token,"fixed");
+      BRPCharDev.onXPGainSingle(el[0].dataset.itemId,actor,token,"fixed",'false');
     }
   },    
   {
@@ -403,7 +403,7 @@ export const magicMenuOptions = (actor,token) => [
     icon: '<i class="fas fa-dice-d6"></i>',
     condition: (el) => (game.settings.get('brp','development') && el[0].dataset.xp === 'true'),
     callback: (el) => {
-      BRPCharDev.onXPGainSingle(el[0].dataset.itemId,actor,token,"formula");
+      BRPCharDev.onXPGainSingle(el[0].dataset.itemId,actor,token,"formula",'false');
     }
   },    
   {
@@ -411,7 +411,7 @@ export const magicMenuOptions = (actor,token) => [
     icon: '<i class="fas fa-dice-three"></i>',
     condition: (el) => (game.settings.get('brp','development') && el[0].dataset.xp === 'true'),
     callback: (el) => {
-      BRPCharDev.onXPGainSingle(el[0].dataset.itemId,actor,token,"fixed");
+      BRPCharDev.onXPGainSingle(el[0].dataset.itemId,actor,token,"fixed",'false');
     }
   },    
   {
@@ -781,7 +781,7 @@ export const allegianceMenuOptions = (actor,token) => [
     icon: '<i class="fas fa-dice-d6"></i>',
     condition: (el) => (game.settings.get('brp','development') && el[0].dataset.xp === 'true'),
     callback: (el) => {
-      BRPCharDev.onXPGainSingle(el[0].dataset.itemId,actor,token,"formula");
+      BRPCharDev.onXPGainSingle(el[0].dataset.itemId,actor,token,"formula",'false');
     }
   },    
   {
@@ -789,7 +789,7 @@ export const allegianceMenuOptions = (actor,token) => [
     icon: '<i class="fas fa-dice-three"></i>',
     condition: (el) => (game.settings.get('brp','development') && el[0].dataset.xp === 'true'),
     callback: (el) => {
-      BRPCharDev.onXPGainSingle(el[0].dataset.itemId,actor,token,"fixed");
+      BRPCharDev.onXPGainSingle(el[0].dataset.itemId,actor,token,"fixed",'false');
     }
   }, 
   {
@@ -813,7 +813,7 @@ export const allegianceMenuOptions = (actor,token) => [
 //Passion Item Context Menu Options 
 export const passionMenuOptions = (actor,token) => [
   {
-    name: game.i18n.localize("BRP.allegiance"),
+    name: game.i18n.localize("BRP.passion"),
     icon: "",
     condition: () => true,
     callback: (el) => {}
@@ -851,7 +851,7 @@ export const passionMenuOptions = (actor,token) => [
     icon: '<i class="fas fa-dice-d6"></i>',
     condition: (el) => (game.settings.get('brp','development') && el[0].dataset.xp === 'true'),
     callback: (el) => {
-      BRPCharDev.onXPGainSingle(el[0].dataset.itemId,actor,token,"formula");
+      BRPCharDev.onXPGainSingle(el[0].dataset.itemId,actor,token,"formula",'false');
     }
   },    
   {
@@ -859,7 +859,7 @@ export const passionMenuOptions = (actor,token) => [
     icon: '<i class="fas fa-dice-three"></i>',
     condition: (el) => (game.settings.get('brp','development') && el[0].dataset.xp === 'true'),
     callback: (el) => {
-      BRPCharDev.onXPGainSingle(el[0].dataset.itemId,actor,token,"fixed");
+      BRPCharDev.onXPGainSingle(el[0].dataset.itemId,actor,token,"fixed",'false');
     }
   }, 
   {
@@ -879,3 +879,76 @@ export const passionMenuOptions = (actor,token) => [
     }
   }
 ]; 
+
+//Persoanl Trait Name Context Menu Options
+export const persTraitMenuOptions = (actor,token) => [
+  {
+    name: game.i18n.localize("BRP.persTrait"),
+    icon: "",
+    condition: () => true,
+    callback: (el) => {}
+  },
+
+  {
+    name: game.i18n.localize("BRP.card.NO"),
+    icon: '<i class="fas fa-dice-d20"></i>',
+    condition: () => true,
+    callback: (el) => {
+      BRPCheck._trigger({
+        rollType: 'PT',
+        cardType: 'NO',
+        skillId: el[0].dataset.itemId,
+        actor,
+        token,
+        opp:el[0].dataset.opp,}
+      );
+    }
+  },  
+  {
+    name: game.i18n.localize("BRP.card.OP"),
+    icon: '<i class="fas fa-handshake-simple"></i>',
+    condition: () => true,
+    callback: (el) => {
+      BRPCheck._trigger({
+        rollType: 'PT',
+        cardType: 'OP',
+        skillId: el[0].dataset.itemId,
+        actor,
+        token,
+        opp:el[0].dataset.opp,}
+      );
+    }
+  },  
+  {
+    name: game.i18n.localize("BRP.improve")+ " (" + game.settings.get('brp','xpFormula') + ")",
+    icon: '<i class="fas fa-dice-d6"></i>',
+    condition: (el) => (game.settings.get('brp','development') && el[0].dataset.xp === 'true'),
+    callback: (el) => {
+      BRPCharDev.onXPGainSingle(el[0].dataset.itemId,actor,token,"formula",el[0].dataset.opp);
+    }
+  },    
+  {
+    name: game.i18n.localize("BRP.improve")+ " (" + game.settings.get('brp','xpFixed') + ")",
+    icon: '<i class="fas fa-dice-three"></i>',
+    condition: (el) => (game.settings.get('brp','development') && el[0].dataset.xp === 'true'),
+    callback: (el) => {
+      BRPCharDev.onXPGainSingle(el[0].dataset.itemId,actor,token,"fixed",el[0].dataset.opp);
+    }
+  },   
+  {
+    name: game.i18n.localize("BRP.view"),
+    icon: '<i class="fas fa-magnifying-glass"></i>',
+    condition: () => true,
+    callback: (el) => {
+      const itemId = BRPUtilities.triggerEdit(el, actor, "itemId");
+    }
+  },
+  {
+    name: game.i18n.localize("BRP.delete"),
+    icon: '<i class="fas fa-trash"></i>',
+    condition: () => true,
+    callback: (el) => {
+      const itemId = BRPUtilities.triggerDelete(el, actor, "itemId");
+    }
+  }
+]  

@@ -31,9 +31,6 @@ export class BRPSelectLists {
     if (game.settings.get('brp','useEDU')) {
       options= Object.assign(options,{'edu': game.i18n.localize("BRP.StatsEduAbbr")})
     }  
-
-    //options.remove(characteristic)
-    
     return options;
   } 
 
@@ -44,9 +41,16 @@ export class BRPSelectLists {
       "mnplmod": game.i18n.localize("BRP.mnplmod"),
       "mntlmod": game.i18n.localize("BRP.mntlmod"),
       "percmod": game.i18n.localize("BRP.percmod"),
-      "physmod": game.i18n.localize("BRP.physmod"),
-      "zcmbtmod": game.i18n.localize("BRP.zcmbtmod"),
+      "physmod": game.i18n.localize("BRP.physmod")
     };   
+    if (game.settings.get('brp','useSupernatural')) {
+      options= Object.assign(options,{'spnlmod': game.i18n.localize("BRP.spnlmod")})
+    }  
+    if (game.settings.get('brp','useSocial')) {
+      options= Object.assign(options,{'soclmod': game.i18n.localize("BRP.soclmod")})
+    }  
+    options= Object.assign(options,{'zcmbtmod': game.i18n.localize("BRP.zcmbtmod")})
+
     return options;
   } 
 

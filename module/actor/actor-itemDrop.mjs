@@ -137,6 +137,21 @@ export class BRPactorItemDrop {
         }
       }
 
+
+      //If a Personality Trait check that the appropriate game setting is true
+      if (k.type === 'persTrait') {
+        if (!game.settings.get('brp','usePersTrait')) {
+          reqResult = 0;
+          errMsg = k.name + " : " + game.i18n.localize('BRP.noPersTrait');
+        } else {
+          let dupItm = await actor.items.filter(itm =>itm.type==='persTrait' && itm.name===k.name)
+          if (dupItm.length > 0) {
+            reqResult = 0;
+            errMsg = k.name + " : " + game.i18n.localize('BRP.dupItem');
+          }
+        }
+      }
+
       //If a passion check that the appropriate game setting is true
       if (k.type === 'passion') {
         if (!game.settings.get('brp','usePassion')) {

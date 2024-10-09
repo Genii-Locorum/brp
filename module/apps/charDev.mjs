@@ -21,8 +21,14 @@ export class BRPCharDev {
     let partic = await BRPactorDetails._getParticipantPriority(token, actor);
     for (let i of partic.items) { 
       if (i.system.improve) {
-        results = await BRPCharDev.xpCheck(actor,token,i._id, rollType);
+        results = await BRPCharDev.xpCheck(actor,token,i._id, rollType,'false');
         success.push(results)
+      }
+      if (i.type === "persTrait") {
+        if (i.system.oppimprove) {
+          results = await BRPCharDev.xpCheck(actor,token,i._id, rollType,'true');
+          success.push(results)
+        }
       }
     }
       await BRPCharDev.xpOutput(success, partic)
@@ -30,25 +36,34 @@ export class BRPCharDev {
   }
 
   //Prep a single XP check
-  static async onXPGainSingle(itemId,actor,token,rollType) {
+  static async onXPGainSingle(itemId,actor,token,rollType,opp) {
     let success = []
     let results ={}
     let partic = await BRPactorDetails._getParticipantPriority(token, actor);
     let item = partic.items.get(itemId)
-    if (!item.system.improve) {return}
-    results = await BRPCharDev.xpCheck(actor,token,itemId, rollType);
+    if (opp === 'false' && !item.system.improve) {return}
+    if (opp === 'true' && !item.system.oppimprove) {return}
+    results = await BRPCharDev.xpCheck(actor,token,itemId, rollType,opp);
     success.push(results)
     await BRPCharDev.xpOutput(success, partic)
     return;
   }  
 
   //Make XP check and if appropriate calc/roll XP gain
-  static async xpCheck(actor,token,itemId,type) {
+  static async xpCheck(actor,token,itemId,type,opp) {
     let partic = await BRPactorDetails._getParticipantPriority(token, actor);
     let improvVal = 0
     let item = partic.items.get(itemId)
+    let name = item.name
     let score = item.system.total
-    if (!item.system.improve) {return}
+
+    if (opp === 'true') {
+      score = item.system.opptotal
+      name = item.system.oppName
+    }
+
+    if (opp ==='false' && !item.system.improve) {return}
+    if (opp === 'true' && !item.system.oppimprove) {return}
     let result = await BRPCharDev.xpRoll (score, actor.system.xpBonus)
     if(result.level === 1) {
       if(type === 'fixed') {
@@ -59,12 +74,20 @@ export class BRPCharDev {
         improvVal = roll.total
       }
     }
-    await item.update({
-                       'system.improve': false,
-                       'system.xp': item.system.xp+improvVal
-                      })
+    if (opp === 'false') {
+      await item.update({
+                         'system.improve': false,
+                         'system.xp': item.system.xp+improvVal
+                        })
+    } else {
+      await item.update({
+                        'system.oppimprove': false,
+                        'system.xp': item.system.xp-improvVal
+       })
+
+    }                    
     return ({
-      name: item.name,
+      name: name,
       level: result.level,
       diceRoll: result.diceRoll,
       rollResult: result.rollResult,
@@ -131,7 +154,7 @@ export class BRPCharDev {
       },
       }
     let msg = await ChatMessage.create(chatData);
-    AudioHelper.play({ src: CONFIG.sounds.dice }, true)
+    foundry.audio.AudioHelper.play({ src: CONFIG.sounds.dice }, true)
     return 
   }
 

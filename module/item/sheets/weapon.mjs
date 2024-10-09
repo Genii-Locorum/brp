@@ -65,6 +65,22 @@ export class BRPWeaponSheet extends ItemSheet {
         sheetData.skill2Name = skillSelect ? skillSelect.name : "";
       }  
 
+      sheetData.enrichedDescriptionValue = await TextEditor.enrichHTML(
+        sheetData.data.system.description,
+        {
+          async: true,
+          secrets: sheetData.editable
+        }
+      )  
+      
+      sheetData.enrichedGMDescriptionValue = await TextEditor.enrichHTML(
+        sheetData.data.system.gmDescription,
+        {
+          async: true,
+          secrets: sheetData.editable
+        }
+      )  
+
       return sheetData
     }
   

@@ -9,7 +9,7 @@ export class BRPNpcSheet extends ActorSheet {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ["brp", "sheet", "actor"],
       template: "systems/brp/templates/actor/npc-sheet.html",
-      width: 580,
+      width: 595,
       height: 750,
     });
   }
@@ -56,6 +56,9 @@ export class BRPNpcSheet extends ActorSheet {
     const hitlocs = [];
     const gears=[];
     const powers=[];
+    const passions=[];
+    const allegiances=[];
+    const persTraits=[];
 
 
     // Sort items by name - saves sorting all containers by name separately
@@ -71,6 +74,12 @@ export class BRPNpcSheet extends ActorSheet {
       itm.img = itm.img || DEFAULT_TOKEN;
       if (itm.type ==='skill') {
         skills.push(itm);
+      } else if (itm.type ==='passion'){
+        passions.push(itm);
+      } else if (itm.type ==='allegiance'){
+        allegiances.push(itm);
+      } else if (itm.type ==='persTrait'){
+        persTraits.push(itm);
       } else  if (itm.type ==='weapon') {
         if(itm.system.range3 !="") {
           itm.system.rangeName= itm.system.range1 + "/" + itm.system.range2 + "/" + itm.system.range3
@@ -139,6 +148,20 @@ export class BRPNpcSheet extends ActorSheet {
     context.hitlocs = hitlocs
     context.gears = gears
     context.powers = powers
+    context.passions = passions;
+    context.allegiances = allegiances;
+    context.persTraits = persTraits;
+    
+    context.usePowers = !this.actor.system.lock
+    context.useAllegiances =!this.actor.system.lock
+    context.usePassions = !this.actor.system.lock
+    context.usePerTraits = !this.actor.system.lock
+    
+    if (context.passions.length > 0) {context.usePassions = true}
+    if (context.allegiances.length > 0) {context.useAllegiances = true}
+    if (context.powers.length > 0) {context.usePowers = true}
+    if (context.persTraits.length > 0) {context.usePerTraits = true}
+
     return context
   }
 
@@ -162,6 +185,9 @@ export class BRPNpcSheet extends ActorSheet {
     html.find('.rollStats').click(this._onRollStats.bind(this));                            // Roll Stats
     html.find('.rollable.charac-name').click(BRPRollType._onStatRoll.bind(this));           // Rollable Characteristic
     html.find('.rollable.skill-name').click(BRPRollType._onSkillRoll.bind(this));           // Rollable Skill
+    html.find('.rollable.allegiance-name').click(BRPRollType._onAllegianceRoll.bind(this)); // Rollable Allegiance
+    html.find('.rollable.passion-name').click(BRPRollType._onPassionRoll.bind(this));       // Rollable Passion
+    html.find('.rollable.persTrait-name').click(BRPRollType._onPersTraitRoll.bind(this));   // Rollable Personal Trait
     html.find('.rollable.weapon-name').click(BRPRollType._onWeaponRoll.bind(this));         // Weapon Skill Roll
     html.find('.rollable.damage-name').click(BRPRollType._onDamageRoll.bind(this));         // Damage Roll
     html.find('.rollable.ap-name').click(BRPRollType._onArmour.bind(this));                 // Armour roll
@@ -216,7 +242,7 @@ export class BRPNpcSheet extends ActorSheet {
     // Get the type of item to create.
     const type = header.dataset.type;
     // Grab any data associated with this control.
-    const data = duplicate(header.dataset);
+    const data = foundry.utils.duplicate(header.dataset);
     // Initialize a default name.
     const name = `zz-${type.capitalize()}`;
     // Prepare the item object.

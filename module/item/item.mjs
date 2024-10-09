@@ -42,6 +42,8 @@ export class BRPItem extends Item {
         data.img = 'systems/brp/assets/Icons/all-seeing-eye.svg'
       } else if (data.type === 'passion') {
         data.img = 'systems/brp/assets/Icons/shining-heart.svg'
+      } else if (data.type === 'persTrait') {
+        data.img = 'systems/brp/assets/Icons/scales.svg'
       }
     }
     super(data, context)
@@ -68,6 +70,7 @@ export class BRPItem extends Item {
     let rollType =""
     let skillId = "";
     let itemId = "";
+    let opp = 'false'
     let shiftKey = event.shiftKey;
     if (game.settings.get('brp','switchShift')) {
       shiftKey = !shiftKey
@@ -80,10 +83,21 @@ export class BRPItem extends Item {
         if (ctrlKey){cardType='OP'}
         if (altKey){cardType='GR'}
         break
-        case 'allegiance':
-          rollType="AL"
-          skillId = item._id
-          break  
+      case 'allegiance':
+        rollType="AL"
+        skillId = item._id
+        break  
+      case 'passion':
+        rollType="PA"
+        if (ctrlKey){cardType='OP'}
+        skillId = item._id
+        break  
+      case 'persTrait':
+        rollType="PT"
+        if (ctrlKey){cardType='OP'}
+        if (altKey){opp ='true'}
+        skillId = item._id
+        break        
       case 'weapon' :
         rollType="CM"
         itemId = item._id
@@ -101,6 +115,7 @@ export class BRPItem extends Item {
       itemId,
       shiftKey,
       actor,
+      opp,
     })
   }  
   

@@ -805,6 +805,7 @@ padding-top: 4px;
   padding-right: 10px;
   height: 120px;
   width: 750px;
+  min-height: 160px;
 }
 
 .brp .description-doc{
@@ -888,6 +889,14 @@ padding-top: 4px;
   display: grid;
   font-size: 16px;
   grid-template-columns: 250px 25px 100px 100px 100px 70px 100px 40px;
+  padding-left: 5px;
+}
+
+.brp .trait-listitem {
+  width: 530px;
+  display: grid;
+  font-size: 16px;
+  grid-template-columns: 150px 25px 75px 30px 75px 25px 150px;
   padding-left: 5px;
 }
 
@@ -1353,6 +1362,20 @@ padding-top: 4px;
   grid-template-columns: 85px 15px;
 }
 
+.brp .npc-persTrait-cell {
+  display: grid; 
+  margin:0px;
+  font-size: 14px;
+  grid-template-columns: 175px 80px 10px 175px 80px ;
+}
+
+.brp .npc-persTrait-cell-unlock {
+  display: grid; 
+  margin:0px;
+  font-size: 14px;
+  grid-template-columns: 15px 160px 80px 10px 175px 80px ;
+}
+
 .brp .npc-notes {
   margin:0px;
   padding: 5px 0px 5px 5px;
@@ -1377,4 +1400,30 @@ padding-top: 4px;
   margin:0px;
   font-size: 14px;
   grid-template-columns: 15px 105px;
+}
+
+.brp  .prosemirror .fa-chevron-down{
+  color: black !important; 
+}
+
+.brp .prosemirror .editor-content {
+  position:relative;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.brp .prosemirror .editor-container {
+  margin: 0px;
+}
+
+.brp textarea {
+  min-height: 200px !important;
+}
+
+.brp .plainIcon {
+  text-shadow: none !important;  
+}
+
+.brp .paddingtop2 {
+  padding-top: 2px;
 }

@@ -49,7 +49,7 @@
       <div class="tab active" data-group="primary" data-tab="description">
         <div class="bold"> {{localize 'BRP.description'}}:</div>
         <div>
-          {{editor item.system.description class="description-doc" target="system.description" button=true owner=owner editable=editable}}
+          {{editor enrichedDescriptionValue engine="prosemirror" class="description-doc" target="system.description" button=true owner=owner editable=editable}}
         </div>
       </div>
 
@@ -57,7 +57,7 @@
       <div class="tab active" data-group="primary" data-tab="gmNotes">
         <div class="bold"> {{localize 'BRP.gmNotes'}}:</div>
         <div>
-          {{editor item.system.gmDescription class="description-doc" target="system.gmDescription" button=true owner=owner editable=editable}}
+          {{editor enrichedGMDescriptionValue engine="prosemirror" class="description-doc" target="system.gmDescription" button=true owner=owner editable=editable}}
         </div>
       </div>
     </section>

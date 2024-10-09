@@ -28,6 +28,23 @@ export class BRPGearSheet extends ItemSheet {
         sheetData.priceOptions = await BRPSelectLists.getPriceOptions();
         sheetData.equippedOptions = await BRPSelectLists.getEquippedOptions(this.item.type);
       sheetData.priceName = game.i18n.localize("BRP." + this.item.system.price);  
+
+      sheetData.enrichedDescriptionValue = await TextEditor.enrichHTML(
+        sheetData.data.system.description,
+        {
+          async: true,
+          secrets: sheetData.editable
+        }
+      )  
+      
+      sheetData.enrichedGMDescriptionValue = await TextEditor.enrichHTML(
+        sheetData.data.system.gmDescription,
+        {
+          async: true,
+          secrets: sheetData.editable
+        }
+      )  
+            
       return sheetData
     }
   

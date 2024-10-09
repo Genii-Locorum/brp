@@ -1,3 +1,8 @@
-2024/07/29-19:09:00.010 23f8 Recovering log #803
-2024/07/29-19:09:00.013 23f8 Delete type=0 #803
-2024/07/29-19:09:00.013 23f8 Delete type=3 #802
+2024/10/09-10:28:57.021 3a88 Recovering log #869
+2024/10/09-10:28:57.024 3a88 Delete type=0 #869
+2024/10/09-10:28:57.024 3a88 Delete type=3 #868
+2024/10/09-14:20:56.530 3e9c Level-0 table #873: started
+2024/10/09-14:20:56.530 3e9c Level-0 table #873: 0 bytes OK
+2024/10/09-14:20:56.530 3e9c Delete type=0 #871
+2024/10/09-14:20:56.532 3e9c Manual compaction at level-0 from '!journal!DgIeWGkxkwouUnTW' @ 72057594037927935 : 1 .. '!journal.pages!DgIeWGkxkwouUnTW.xJhMkpOWF7rZMPUh' @ 0 : 0; will stop at (end)
+2024/10/09-14:20:56.532 3e9c Manual compaction at level-1 from '!journal!DgIeWGkxkwouUnTW' @ 72057594037927935 : 1 .. '!journal.pages!DgIeWGkxkwouUnTW.xJhMkpOWF7rZMPUh' @ 0 : 0; will stop at (end)

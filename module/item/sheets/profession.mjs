@@ -85,6 +85,23 @@ export class BRPProfessionSheet extends ItemSheet {
     sheetData.perSkill = perSkill;
     sheetData.grpSkill = grpSkill;
     sheetData.perPower = perPower;
+
+    sheetData.enrichedDescriptionValue = await TextEditor.enrichHTML(
+      sheetData.data.system.description,
+      {
+        async: true,
+        secrets: sheetData.editable
+      }
+    )  
+    
+    sheetData.enrichedGMDescriptionValue = await TextEditor.enrichHTML(
+      sheetData.data.system.gmDescription,
+      {
+        async: true,
+        secrets: sheetData.editable
+      }
+    )  
+
     return sheetData
   }
 
@@ -117,8 +134,8 @@ export class BRPProfessionSheet extends ItemSheet {
     const ol = event?.currentTarget?.closest('ol')
     const index = ol?.dataset?.group
     const dataList = await BRPUtilities.getDataFromDropEvent(event, 'Item')
-    const collection = this.item.system[collectionName] ? duplicate(this.item.system[collectionName]) : []
-    const groups = this.item.system.groups ? duplicate(this.item.system.groups) : []
+    const collection = this.item.system[collectionName] ? foundry.utils.duplicate(this.item.system[collectionName]) : []
+    const groups = this.item.system.groups ? foundry.utils.duplicate(this.item.system.groups) : []
  
     for (const item of dataList) {
       if (!item || !item.system) continue
@@ -192,7 +209,7 @@ export class BRPProfessionSheet extends ItemSheet {
     //Delete an Optional Skill Group
     if (a.classList.contains('remove-group')) {
       await this._onSubmit(event) // Submit any unsaved changes
-      const groups = duplicate(this.item.system.groups)
+      const groups = foundry.utils.duplicate(this.item.system.groups)
       const ol = a.closest('.item-list.group')
       groups.splice(Number(ol.dataset.group), 1)
       await this.item.update({ 'system.groups': groups })
@@ -205,7 +222,7 @@ export class BRPProfessionSheet extends ItemSheet {
     const itemId = item.data('item-id')
     const itemIndex = this.item.system[collectionName].findIndex(i => (itemId && i === itemId))
     if (itemIndex > -1) {
-      const collection = this.item.system[collectionName] ? duplicate(this.item.system[collectionName]) : []
+      const collection = this.item.system[collectionName] ? foundry.utils.duplicate(this.item.system[collectionName]) : []
       collection.splice(itemIndex, 1)
       await this.item.update({ [`system.${collectionName}`]: collection })
     }
@@ -215,7 +232,7 @@ export class BRPProfessionSheet extends ItemSheet {
   async _onGroupItemDelete (event) {
     const item = $(event.currentTarget).closest('.item')
     const group = Number(item.closest('.item-list.group').data('group'))
-    const groups = duplicate(this.item.system.groups)
+    const groups = foundry.utils.duplicate(this.item.system.groups)
     if (typeof groups[group] !== 'undefined') {
       const itemId = item.data('item-id')
       const itemIndex = groups[group].skills.findIndex(i => (itemId && i === itemId))
@@ -234,7 +251,7 @@ export class BRPProfessionSheet extends ItemSheet {
           system.groups || []
         )
         for (let index = 0; index < this.item.system.groups.length; index++) {
-          formData[`system.groups.${index}.skills`] = duplicate(
+          formData[`system.groups.${index}.skills`] = foundry.utils.duplicate(
             this.item.system.groups[index].skills
           )
         }
