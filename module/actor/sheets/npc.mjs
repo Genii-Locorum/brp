@@ -223,7 +223,7 @@ export class BRPNpcSheet extends ActorSheet {
     const item = this.actor.items.get(li.data("itemId"));
     let field = element.dataset.field;
     let newScore = element.value;
-    if (['base','currHP','quantity','npcVal'].includes(field)) {
+    if (['base','currHP','quantity','npcVal','allegPoints'].includes(field)) {
       newScore = Number(newScore)
       field = 'system.'+field;  
     } else if (['ap','bap','apRnd','bapRnd','att'].includes(field)) {

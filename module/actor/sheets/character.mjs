@@ -13,7 +13,7 @@ export class BRPCharacterSheet extends ActorSheet {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ["brp", "sheet", "actor"],
       template: "systems/brp/templates/actor/character-sheet.html",
-      width: 850,
+      width: 865,
       height: 850,
       scrollY: ['.bottom-panel'],
       tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "skills" }]
@@ -114,6 +114,7 @@ export class BRPCharacterSheet extends ActorSheet {
     // Iterate through items, allocating to containers
     this.actor.system.totalProf = 0
     this.actor.system.totalPers = 0
+    this.actor.system.totalXP = 0
 
     // Sort items by name - saves sorting all containers by name separately
     context.items.sort(function(a, b){
@@ -151,6 +152,7 @@ export class BRPCharacterSheet extends ActorSheet {
           }   
           this.actor.system.totalProf = this.actor.system.totalProf + itm.system.profession
           this.actor.system.totalPers = this.actor.system.totalPers + itm.system.personal
+          this.actor.system.totalXP = this.actor.system.totalXP + itm.system.xp
       } else if (itm.type === 'hit-location') {
         hitlocs.push(itm);
       } else if (itm.type === 'wound') {
@@ -160,12 +162,14 @@ export class BRPCharacterSheet extends ActorSheet {
         magics.push(itm);
         this.actor.system.totalProf = this.actor.system.totalProf + itm.system.profession
         this.actor.system.totalPers = this.actor.system.totalPers + itm.system.personal
+        this.actor.system.totalXP = this.actor.system.totalXP + itm.system.xp
       } else if (itm.type === 'mutation'){
         mutations.push(itm);
       } else if (itm.type === 'psychic'){
         psychics.push(itm);
         this.actor.system.totalProf = this.actor.system.totalProf + itm.system.profession
         this.actor.system.totalPers = this.actor.system.totalPers + itm.system.personal
+        this.actor.system.totalXP = this.actor.system.totalXP + itm.system.xp
       } else if (itm.type === 'sorcery'){
         itm.system.ppCost = itm.system.currLvl * itm.system.pppl
         if (itm.system.mem) {

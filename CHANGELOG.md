@@ -1,4 +1,11 @@
 # CHANGELOG
+
+##12.1.24
+- Removed the superfluous true/false flag on the Character Sheet Allegiance tab (this was for potenital ally status) 
+- Fixed the inline edit for NPC Allegiance points
+- Total Professional Skill Points, Personal Skill Points and XP now shown on the "CHAR" tab (this adds up totals from Skill, Magic and Psychic items)
+- Fixed error with Critical Damage not rolling
+
 ## 12.1.23
 - Skill categories on the actor sheet get to use the full width of the skill list column to prevent wrap around issues
 - Add Supernatural as a skill category and a game setting.  If unticked then any skills with Supernatural won't be shown on the character sheet 

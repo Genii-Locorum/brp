@@ -438,21 +438,21 @@ export class BRPCheck {
       let successChance = Math.min(config.targetScore,95)
       if(config.cardType === 'RE' || config.cardType === 'PP') {
         successChance = config.targetScore
-      }
-      
+      }     
     //Get the level of success
     let resultLevel = 0
-    if (config.rollVal <= critChance) {
-      resultLevel = 4  //4 = Critical
-    } else if (config.rollVal <=specialChance) {
-      resultLevel = 3  //3 = Special
-    } else if (config.rollVal <=successChance) {
-      resultLevel = 2  //2 = Success
-    } else if (config.rollVal >= fumbleChance) {
-      resultLevel = 0  //0 = Fumble
-    } else {
-      resultLevel = 1  //1 = Fail
-    }
+  
+      if (config.rollVal <= critChance) {
+        resultLevel = 4  //4 = Critical
+      } else if (config.rollVal <=specialChance) {
+        resultLevel = 3  //3 = Special
+      } else if (config.rollVal <=successChance) {
+        resultLevel = 2  //2 = Success
+      } else if (config.rollVal >= fumbleChance) {
+        resultLevel = 0  //0 = Fumble
+      } else {
+        resultLevel = 1  //1 = Fail
+      }
     return resultLevel
   }
 

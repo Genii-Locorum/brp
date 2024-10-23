@@ -82,7 +82,10 @@ export class BRPCombat{
 
     //If a Critical then set new formula to be max damage + damage bonus
     if (success === "4") {
-      newFormula = (new Roll(damForm).evaluate({ maximize: true }).total) + damBon
+      // newFormula = (new Roll(damForm).evaluate({ maximize: true }).total) + damBon
+      newFormula = new Roll(damForm)
+      newFormula = await newFormula.evaluate({ maximize: true })
+      newFormula = newFormula.total + damBon
     } else if (success === "3") {
       switch (weapon.system.special) {
         case 'crush':

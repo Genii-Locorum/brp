@@ -99,7 +99,7 @@
   row-gap: 0px;
   column-gap: 5px;
   font-size: 16px;
-  grid-template-columns: 150px 50px;
+  grid-template-columns: 200px 50px;
 }
 
 .brp .personal-grid {
