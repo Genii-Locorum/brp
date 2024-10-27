@@ -19,6 +19,7 @@ import { BRPWoundSheet } from '../item/sheets/wound.mjs'
 import { BRPAllegianceSheet } from '../item/sheets/allegiance.mjs' 
 import { BRPPassionSheet } from '../item/sheets/passion.mjs' 
 import { BRPPersTraitSheet } from '../item/sheets/persTrait.mjs' 
+import { BRPReputationSheet } from '../item/sheets/reputation.mjs' 
 
 export function registerSheets () {
     Actors.unregisterSheet("core", ActorSheet);
@@ -125,6 +126,11 @@ export function registerSheets () {
     
     Items.registerSheet('brp', BRPPersTraitSheet, {
       types: ['persTrait'],
+      makeDefault: true
+    }) 
+
+    Items.registerSheet('brp', BRPReputationSheet, {
+      types: ['reputation'],
       makeDefault: true
     }) 
 }      

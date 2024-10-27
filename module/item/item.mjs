@@ -44,6 +44,8 @@ export class BRPItem extends Item {
         data.img = 'systems/brp/assets/Icons/shining-heart.svg'
       } else if (data.type === 'persTrait') {
         data.img = 'systems/brp/assets/Icons/scales.svg'
+      } else if (data.type === 'reputation') {
+        data.img = 'systems/brp/assets/Icons/throne-king.svg'
       }
     }
     super(data, context)
@@ -103,6 +105,12 @@ export class BRPItem extends Item {
         itemId = item._id
         skillId = actor.items.get(itemId).system.sourceID
         break
+      case 'reputation' :
+        rollType="PA"
+        if (ctrlKey){cardType='OP'}
+        if (altKey){cardType='GR'}
+        skillId = item._id
+        break  
       default:
         item.sheet.render(true);
         return

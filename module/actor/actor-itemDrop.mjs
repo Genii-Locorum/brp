@@ -137,6 +137,25 @@ export class BRPactorItemDrop {
         }
       }
 
+      //If a reputation check that the appropriate game setting is true
+      if (k.type === 'reputation') {
+        if (game.settings.get('brp','useReputation') ==="0") {
+          reqResult = 0;
+          errMsg = k.name + " : " + game.i18n.localize('BRP.noRep');
+        } else if (game.settings.get('brp','useReputation') ==="1"){
+          let repNum = await actor.items.filter(itm =>itm.type==='reputation')
+          if (repNum.length > 0) {
+            reqResult = 0;
+            errMsg = k.name + " : " + game.i18n.localize('BRP.oneRep');            
+          }
+        } else {
+          let dupItm = await actor.items.filter(itm =>itm.type==='reputation' && itm.name===k.name)
+          if (dupItm.length > 0) {
+            reqResult = 0;
+            errMsg = k.name + " : " + game.i18n.localize('BRP.dupItem');
+          }
+        }
+      }
 
       //If a Personality Trait check that the appropriate game setting is true
       if (k.type === 'persTrait') {

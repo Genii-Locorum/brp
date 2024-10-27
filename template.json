@@ -181,7 +181,7 @@
       }
   },
   "Item": {
-    "types": ["gear","skill","hit-location", "personality", "profession","power","magic","mutation","psychic","sorcery","super","failing","powerMod","armour","weapon","wound","allegiance","passion","persTrait"],
+    "types": ["gear","skill","hit-location", "personality", "profession","power","magic","mutation","psychic","sorcery","super","failing","powerMod","armour","weapon","wound","allegiance","passion","persTrait","reputation"],
     "templates": {
       "base": {
         "description": "",
@@ -384,7 +384,7 @@
       "weaponType": "",
       "skill1": "none",
       "skill2": "none",
-      "dmg1": "",
+      "dmg1": "0",
       "dmg2": "",
       "dmg3": "",
       "burst": false,
@@ -399,10 +399,10 @@
       "db": 0,
       "att": 0,
       "special": "",
-      "range1":  "",
+      "range1":  "S",
       "range2":  "",
       "range3":  "",
-      "hands": "",
+      "hands": "1H",
       "crew": "",
       "hp": 0,
       "ap": 0,
@@ -456,6 +456,10 @@
       "improve": false,
       "oppimprove": false,
       "xp": 0
+    },
+    "reputation": {
+      "templates": ["base"],
+      "base": 0      
     }      
   }
 }

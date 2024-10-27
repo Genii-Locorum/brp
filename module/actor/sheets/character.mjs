@@ -42,6 +42,11 @@ export class BRPCharacterSheet extends ActorSheet {
     context.useAlleg = game.settings.get('brp','useAlleg');
     context.usePassion = game.settings.get('brp','usePassion');    
     context.usePersTrait = game.settings.get('brp','usePersTrait');
+    context.useReputation = game.settings.get('brp','useReputation');
+    context.useSocial = false;
+    context.usePers = false;
+    if (context.useAlleg || (context.useReputation > 0)) {context.useSocial = true}
+    if (context.usePersTrait || context.usePassion) {context.usePers = true}
     context.useAVRand = game.settings.get('brp','useAVRand');
     context.background1 = game.settings.get('brp','background1');
     context.background2 = game.settings.get('brp','background2');
@@ -109,6 +114,7 @@ export class BRPCharacterSheet extends ActorSheet {
     const allegiances = [];
     const passions = [];
     const persTraits=[];
+    const reputations = [];
 
 
     // Iterate through items, allocating to containers
@@ -185,6 +191,7 @@ export class BRPCharacterSheet extends ActorSheet {
           let hitLocTemp = this.actor.items.get(itm.system.hitlocID)
           if (hitLocTemp) {
             itm.system.hitlocName = hitLocTemp.name
+            itm.system.lowRoll = hitLocTemp.system.lowRoll
           }  
         }
         itm.system.equippedName = game.i18n.localize('BRP.'+itm.system.equipStatus)
@@ -228,6 +235,8 @@ export class BRPCharacterSheet extends ActorSheet {
         passions.push(itm);
       } else if (itm.type === 'persTrait'){
         persTraits.push(itm);
+      } else if (itm.type === 'reputation'){
+        reputations.push(itm);
       } 
     }  
 
@@ -279,6 +288,17 @@ export class BRPCharacterSheet extends ActorSheet {
       return 0;
     });
 
+    //Sort Armour
+    armours.sort(function(a, b){
+      let x = a.system.lowRoll;
+      let y = b.system.lowRoll;
+      if (x < y) {return 1};
+      if (x > y) {return -1};
+      return 0;
+    });
+
+
+
     // Assign and return
     context.persTraits = persTraits;
     context.gears = gears;
@@ -296,6 +316,7 @@ export class BRPCharacterSheet extends ActorSheet {
     context.wounds = wounds;
     context.allegiances = allegiances;
     context.passions = passions;
+    context.reputations = reputations;
 
     return context
   }
@@ -322,12 +343,13 @@ export class BRPCharacterSheet extends ActorSheet {
     html.find('.rollable.skill-name').click(BRPRollType._onSkillRoll.bind(this));             // Rollable Skill
     html.find('.rollable.allegiance-name').click(BRPRollType._onAllegianceRoll.bind(this));   // Rollable Allegiance
     html.find('.rollable.passion-name').click(BRPRollType._onPassionRoll.bind(this));         // Rollable Passion
-    html.find('.rollable.persTrait-name').click(BRPRollType._onPersTraitRoll.bind(this));     // Rollable Passion    
+    html.find('.rollable.persTrait-name').click(BRPRollType._onPersTraitRoll.bind(this));     // Rollable Personality Trait    
     html.find('.addWound').click(this._addWound.bind(this));                                  // Add Inventory Item
     html.find('.rollable.damage-name').click(BRPRollType._onDamageRoll.bind(this));           // Damage Roll
     html.find('.rollable.weapon-name').click(BRPRollType._onWeaponRoll.bind(this));           // Weapon Skill Roll
     html.find('.rollable.attribute').click(this._onAttribute.bind(this));                     // Attribute modifier
     html.find('.rollable.ap-name').click(BRPRollType._onArmour.bind(this));                   // Armour roll
+    html.find('.rollable.reputation-name').click(BRPRollType._onReputationRoll.bind(this));   // Rollable Reputation    
     
     // Delete Inventory Item
     html.find('.item-delete').click(ev => {
@@ -371,6 +393,7 @@ export class BRPCharacterSheet extends ActorSheet {
      new BRPContextMenu(html, ".allegiance-name.contextmenu", contextMenu.allegianceMenuOptions(this.actor, this.token));
      new BRPContextMenu(html, ".passion-name.contextmenu", contextMenu.passionMenuOptions(this.actor, this.token));
      new BRPContextMenu(html, ".persTrait-name.contextmenu", contextMenu.persTraitMenuOptions(this.actor, this.token));
+     new BRPContextMenu(html, ".reputation-name.contextmenu", contextMenu.reputationMenuOptions(this.actor, this.token));
   }
 
   // Handle creating a new Owned Item for the actor using initial data defined in the HTML dataset
@@ -396,6 +419,10 @@ export class BRPCharacterSheet extends ActorSheet {
       itemData.system.locId = locId;
       itemData.system.value = 1
     }
+
+    if (type==='armour') {
+        itemData.system.hitlocID = (await this.actor.items.filter(itm =>itm.type==='hit-location'))[0]._id
+    }
     // Remove the type from the dataset since it's in the itemData.type prop.
     delete itemData.system["type"];
 
@@ -403,7 +430,7 @@ export class BRPCharacterSheet extends ActorSheet {
     const newItem = await Item.create(itemData, {parent: this.actor});
 
     //And in certain circumstances render the new item sheet
-    if (itemData.type === 'gear') {
+    if (['gear','armour','weapon'].includes(itemData.type)) {
       newItem.sheet.render(true);
     }
 

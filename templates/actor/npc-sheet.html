@@ -420,6 +420,33 @@
       </section>   
     {{/if}}  
 
+    {{!-- Reputation Section --}}
+    {{#if useReputations}}
+      <section class="npc-skills-grid">
+        <div class="npc-skill-cell item">
+          <div class="charname">{{ localize 'BRP.reputation' }}</div>
+          {{#unless system.lock}}
+            <div class="charname centre item-create" title="{{ localize 'BRP.addReputation' }}" data-type="reputation"><a class="mediumIcon"><i class="item-control fas fa-plus"></i></a></div>      
+          {{/unless}}
+        </div>
+        {{#each reputations as |reputation key|}}
+          <div class="npc-skill-cell item" data-item-id="{{reputation._id}}">
+            {{#if ../system.lock}}
+              <div class="font14 truncate item-edit">{{reputation.name}}</div>
+              <div class="centre reputation-name rollable paddingtop2">{{reputation.system.total}}%</div>
+            {{else}}
+              <div class="font14 npc-skill-cell-unlock">
+                  <span><a class=""><i class="mediumIcon item-delete fas fa-trash"></i></a></span>
+                  <span class="truncate"><input class="personal-inp inline-edit" data-field ="name" name="reputation.name" type="text" value="{{reputation.name}}"/></span>
+              </div>
+              <div class="right"><input class="personal-inp centre inline-edit" data-field ="base" name="reputation.system.base" type="text" value="{{reputation.system.base}}" data-dtype="Number"/></div>
+            {{/if}}
+          </div>
+        {{/each}}
+      </section>   
+    {{/if}}  
+
+
     {{!-- Notes Section --}}
     <section class="npc-notes">
       <div class="charname">{{ localize 'BRP.notes' }}</div>

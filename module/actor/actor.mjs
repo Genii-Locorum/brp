@@ -20,7 +20,7 @@ export class BRPActor extends Actor {
   }
 
   //Prepare Character specific data 
-  _prepareCharacterData(actorData) {
+  async _prepareCharacterData(actorData) {
     if (actorData.type !== 'character') return;
     const systemData = actorData.system;
     this._prepStats(actorData)
@@ -149,6 +149,10 @@ export class BRPActor extends Actor {
         itm.system.total = Math.max(0,Math.min(100,itm.system.base + itm.system.xp))
         itm.system.opptotal = 100-itm.system.total
 
+      //If Reputation set total 
+      } else if (itm.type === 'reputation') {  
+        itm.system.total = itm.system.base
+        
       //If gear/weapon, calculates the encumbrance
       } else if (['gear' , 'weapon'].includes (itm.type)) {
         if (itm.system.equipStatus === 'carried') {
@@ -314,7 +318,7 @@ export class BRPActor extends Actor {
   }  
 
   //Prepare NPC specific data.
-  _prepareNpcData(actorData) {
+  async _prepareNpcData(actorData) {
     if (actorData.type !== 'npc') return;
     const systemData = actorData.system;
     this._prepStats(actorData)
@@ -332,7 +336,7 @@ export class BRPActor extends Actor {
     let damage = 0
 
     for (let itm of actorData.items) {
-      if (['skill','psychic','magic', 'passion'].includes(itm.type)) {
+      if (['skill','psychic','magic', 'passion','reputation'].includes(itm.type)) {
       itm.system.total = itm.system.base;
       } else if (['allegiance'].includes(itm.type)) {
         itm.system.total = itm.system.allegPoints;

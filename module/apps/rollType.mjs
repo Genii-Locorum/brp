@@ -84,6 +84,27 @@ static async _onStatRoll(event){
     })
   }
 
+  //Start Reputation Roll
+  static async _onReputationRoll(event){
+    let ctrlKey = isCtrlKey(event ?? false);
+    let altKey = event.altKey;
+    let cardType = 'NO';
+    let skillId = event.currentTarget.closest('.item').dataset.itemId;
+    if (ctrlKey){cardType='OP'}
+    if (altKey){cardType='GR'}
+    if (game.settings.get('brp','switchShift')) {
+        event.shiftKey = !event.shiftKey
+    }
+    BRPCheck._trigger({
+        rollType: 'PA',
+        cardType,
+        skillId,
+        shiftKey: event.shiftKey,
+        actor: this.actor,
+        token: this.token
+    })
+  }
+
   //Start Personality Trait Roll
   static async _onPersTraitRoll(event){
     let ctrlKey = isCtrlKey(event ?? false);

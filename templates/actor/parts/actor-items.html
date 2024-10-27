@@ -4,13 +4,17 @@
       <div class="diff-label centre">{{ localize 'BRP.ap'}}</div>
       <div class="diff-label centre" title="{{ localize 'BRP.armBalHint' }}">{{ localize 'BRP.bap'}}</div>
       <div class="diff-label centre" style="grid-column: 4 / span 2;" title="{{ localize 'BRP.energyHint' }}">{{ localize 'BRP.energy'}}</div>
-      <div class="diff-label centre" style="grid-column: 6 / span 2;" title="{{ localize 'BRP.ppStoreHint' }}">{{#if useMP}}{{localize 'BRP.mp'}}{{else}}{{localize 'BRP.pp'}}{{/if}}</div>
+      <div class="diff-label centre" style="grid-column: 6 / span 2;" title="{{ localize 'BRP.ppStoreHint' }}">{{#if useMP}}{{localize 'BRP.mpShort'}}{{else}}{{localize 'BRP.ppShort'}}{{/if}}</div>
       <div class="diff-label centre">{{ localize 'BRP.enc'}}</div>
       <div class="diff-label centre" title="{{ localize 'BRP.skillModHint' }}">{{ localize 'BRP.skillMod'}}</div>
       <div class="diff-label centre">{{ localize 'BRP.hit-location'}}</div>
       <div class="diff-label centre" title="{{ localize 'BRP.equipStatusHint' }}">{{ localize 'BRP.status'}}</div>
+      <div class="diff-label centre item-create" title="{{ localize 'BRP.addArmour' }}" data-type="armour">
+        <a class="large-icon"><i class="item-control fas fa-plus"></i></a>
+      </div>
+
       {{#each armours as |armour key|}}
-        <div class="item item-edit font14 armour-name contextmenu" data-item-id="{{armour._id}}">{{armour.name}}</div>
+        <div class="new-row item item-edit font14 armour-name contextmenu" data-item-id="{{armour._id}}">{{armour.name}}</div>
         {{#if ../useAVRand}}
           <div class="hitloc-name centre">{{armour.system.avr1}} </div>
           {{#if armour.system.armBal}}

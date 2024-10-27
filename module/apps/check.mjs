@@ -16,7 +16,8 @@ export class BRPCheck {
   //AL = Allegiance Roll
   //PA - Passion Roll
   //PT - Personality Trait Roll
-
+  //RP - Reputation Roll
+  
   //Card Types
   //NO = Normnal Roll
   //RE = Resistance Roll (CH only)
@@ -83,9 +84,9 @@ export class BRPCheck {
     //Adjust Config based on roll type
     switch(options.rollType){
       case 'CH':
-        config.label = particActor.system.stats[config.characteristic].labelShort ?? ""
-        config.rawScore = particActor.system.stats[config.characteristic].total
-        config.targetScore = particActor.system.stats[config.characteristic].total*5 ?? 0
+          config.label = particActor.system.stats[config.characteristic].labelShort ?? ""
+          config.rawScore = particActor.system.stats[config.characteristic].total
+          config.targetScore = particActor.system.stats[config.characteristic].total*5 ?? 0
         break
       case 'SK':
         skill = particActor.items.get(config.skillId)
@@ -100,6 +101,7 @@ export class BRPCheck {
         break
       case 'AL':  
       case 'PA':
+      case 'RP':
       skill = particActor.items.get(config.skillId)
         config.label = skill.name ?? ""
         config.rawScore = skill.system.total
@@ -528,12 +530,14 @@ export class BRPCheck {
             
             actor = await BRPactorDetails._getParticipant(i.particId,i.particType)
             item = await actor.items.get(i.skillId)
-            if (item.type === 'persTrait' && i.opp === 'true') {
-              await item.update({'system.oppimprove': true})
-            } else {
-              await item.update({'system.improve': true})
-            }
-          }   
+            if (item.type !='reputation') {
+              if (item.type === 'persTrait' && i.opp === 'true') {
+                await item.update({'system.oppimprove': true})
+              } else {
+                await item.update({'system.improve': true})
+              }
+            }   
+          }
         }
         break  
       } 

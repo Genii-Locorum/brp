@@ -315,4 +315,14 @@ export class BRPSelectLists {
     };   
     return options;
   }
+
+  //Reputation Options List
+  static async getReputationOptions (){
+    let options = {
+      "0": game.i18n.localize("BRP.none"),
+      "1": game.i18n.localize("BRP.single"),
+      "2": game.i18n.localize("BRP.multiple"),
+    };   
+    return options;
+  }
 }

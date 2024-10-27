@@ -35,6 +35,7 @@ export class BRPNpcSheet extends ActorSheet {
     context.useAlleg = game.settings.get('brp','useAlleg');
     context.usePassion = game.settings.get('brp','usePassion');    
     context.useAVRand = game.settings.get('brp','useAVRand');
+    context.useReputation = game.settings.get('brp','useReputation');    
 
     // Prepare character data and items.
       this._prepareItems(context);
@@ -59,6 +60,7 @@ export class BRPNpcSheet extends ActorSheet {
     const passions=[];
     const allegiances=[];
     const persTraits=[];
+    const reputations=[];
 
 
     // Sort items by name - saves sorting all containers by name separately
@@ -78,6 +80,8 @@ export class BRPNpcSheet extends ActorSheet {
         passions.push(itm);
       } else if (itm.type ==='allegiance'){
         allegiances.push(itm);
+      } else if (itm.type ==='reputation'){
+        reputations.push(itm);
       } else if (itm.type ==='persTrait'){
         persTraits.push(itm);
       } else  if (itm.type ==='weapon') {
@@ -151,17 +155,19 @@ export class BRPNpcSheet extends ActorSheet {
     context.passions = passions;
     context.allegiances = allegiances;
     context.persTraits = persTraits;
+    context.reputations = reputations
     
     context.usePowers = !this.actor.system.lock
     context.useAllegiances =!this.actor.system.lock
     context.usePassions = !this.actor.system.lock
     context.usePerTraits = !this.actor.system.lock
+    context.useReputations = !this.actor.system.lock
     
     if (context.passions.length > 0) {context.usePassions = true}
     if (context.allegiances.length > 0) {context.useAllegiances = true}
     if (context.powers.length > 0) {context.usePowers = true}
     if (context.persTraits.length > 0) {context.usePerTraits = true}
-
+    if (context.reputations.length >0) {context.useReputations = true}
     return context
   }
 
@@ -188,6 +194,7 @@ export class BRPNpcSheet extends ActorSheet {
     html.find('.rollable.allegiance-name').click(BRPRollType._onAllegianceRoll.bind(this)); // Rollable Allegiance
     html.find('.rollable.passion-name').click(BRPRollType._onPassionRoll.bind(this));       // Rollable Passion
     html.find('.rollable.persTrait-name').click(BRPRollType._onPersTraitRoll.bind(this));   // Rollable Personal Trait
+    html.find('.rollable.reputation-name').click(BRPRollType._onReputationRoll.bind(this)); // Rollable Personal Trait
     html.find('.rollable.weapon-name').click(BRPRollType._onWeaponRoll.bind(this));         // Weapon Skill Roll
     html.find('.rollable.damage-name').click(BRPRollType._onDamageRoll.bind(this));         // Damage Roll
     html.find('.rollable.ap-name').click(BRPRollType._onArmour.bind(this));                 // Armour roll

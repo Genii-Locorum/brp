@@ -952,3 +952,85 @@ export const persTraitMenuOptions = (actor,token) => [
     }
   }
 ]  
+
+//Reputation Name Context Menu Options
+export const reputationMenuOptions = (actor,token) => [
+  {
+    name: game.i18n.localize("BRP.reputation"),
+    icon: "",
+    condition: () => true,
+    callback: (el) => {}
+  },
+  {
+    name: game.i18n.localize("BRP.card.NO"),
+    icon: '<i class="fas fa-dice-d20"></i>',
+    condition: () => true,
+    callback: (el) => {
+      BRPCheck._trigger({
+        rollType: 'RP',
+        cardType: 'NO',
+        skillId: el[0].dataset.itemId,
+        actor,
+        token,}
+      );
+    }
+  },
+  {
+    name: game.i18n.localize("BRP.card.GR"),
+    icon: '<i class="fas fa-list-check"></i>',
+    condition: () => true,
+    callback: (el) => {
+      BRPCheck._trigger({
+        rollType: 'RP',
+        cardType: 'GR',
+        skillId: el[0].dataset.itemId,
+        actor,
+        token,}
+      );
+    }
+  },
+  {
+    name: game.i18n.localize("BRP.card.OP"),
+    icon: '<i class="fas fa-handshake-simple"></i>',
+    condition: () => true,
+    callback: (el) => {
+      BRPCheck._trigger({
+        rollType: 'RP',
+        cardType: 'OP',
+        skillId: el[0].dataset.itemId,
+        actor,
+        token,}
+      );
+    }
+  },
+  {
+    name: game.i18n.localize("BRP.card.CO"),
+    icon: '<i class="fas fa-hand-fist"></i>',
+    condition: () => true,
+    callback: (el) => {
+      BRPCheck._trigger({
+        rollType: 'RP',
+        cardType: 'CO',
+        skillId: el[0].dataset.itemId,
+        actor,
+        token,}
+      );
+    }
+  },
+  {
+    name: game.i18n.localize("BRP.view"),
+    icon: '<i class="fas fa-magnifying-glass"></i>',
+    condition: () => true,
+    callback: (el) => {
+      const itemId = BRPUtilities.triggerEdit(el, actor, "itemId");
+    }
+  },
+  {
+    name: game.i18n.localize("BRP.delete"),
+    icon: '<i class="fas fa-trash"></i>',
+    condition: () => true,
+    callback: (el) => {
+      const itemId = BRPUtilities.triggerDelete(el, actor, "itemId");
+    }
+  }
+]  

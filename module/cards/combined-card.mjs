@@ -74,7 +74,7 @@ export class GRCard {
       i.resultLabel = game.i18n.localize('BRP.resultLevel.'+i.resultLevel)
       newchatCards.push(i)
     }
-    await OPCard.showDiceRoll(chatCards[0])
+    //await OPCard.showDiceRoll(chatCards[0])
     successes = successes/chatCards.length    
     await targetMsg.update({'flags.brp.chatCard' :newchatCards,
                             'flags.brp.state': 'closed',

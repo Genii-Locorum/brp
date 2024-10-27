@@ -174,17 +174,16 @@
     {{!-- Sheet Tab Navigation --}}
     <section class="nav-panel">
       <nav class="sheet-tabs tabs" data-group="primary">
-        <div><a class="item skills-tab contextmenu" data-tab="skills">{{localize 'BRP.skills'}}</a></div>
-        <div><a class="item combat-tab contextmenu" data-tab="combat">{{localize 'BRP.combat'}}</a></div>
+        <div><a class="item truncate skills-tab contextmenu" data-tab="skills">{{localize 'BRP.skills'}}</a></div>
+        <div><a class="item truncate combat-tab contextmenu" data-tab="combat">{{localize 'BRP.combat'}}</a></div>
         <div><a class="item" data-tab="items">{{localize 'BRP.items'}}</a></div>
         {{#unless (eq actor.system.magic "")}}<div><a class="item power-name contextmenu" data-item-id="{{system.magic}}" data-tab="magic">{{localize 'BRP.magic'}}</a></div>{{/unless}}
         {{#unless (eq actor.system.mutation "")}}<div><a class="item power-name contextmenu" data-item-id="{{system.mutation}}" data-tab="mutations">{{localize 'BRP.mutationAbbr'}}</a></div>{{/unless}}
         {{#unless (eq actor.system.psychic "")}}<div><a class="item power-name contextmenu" data-item-id="{{system.psychic}}" data-tab="psychics">{{localize 'BRP.psychics'}}</a></div>{{/unless}}
         {{#unless (eq actor.system.sorcery "")}}<div><a class="item power-name contextmenu" data-item-id="{{system.sorcery}}" data-tab="sorcery">{{localize 'BRP.sorcery'}}</a></div>{{/unless}}
         {{#unless (eq actor.system.super "")}}<div><a class="item power-name contextmenu" data-item-id="{{system.super}}" data-tab="super">{{localize 'BRP.superAbbr'}}</a></div>{{/unless}}
-        {{#if useAlleg}}<div><a class="item" data-tab="allegiance">{{localize 'BRP.allegianceAbbr'}}</a></div>{{/if}}
-        {{#if usePassion}}<div><a class="item" data-tab="passion">{{localize 'BRP.passion'}}</a></div>{{/if}}
-        {{#if usePersTrait}}<div><a class="item" data-tab="persTrait">{{localize 'BRP.trait'}}</a></div>{{/if}}
+        {{#if useSocial}}<div><a class="item" data-tab="social">{{localize 'BRP.social'}}</a></div>{{/if}}
+        {{#if usePers}}<div><a class="item" data-tab="pers">{{localize 'BRP.pers'}}</a></div>{{/if}}
         <div><a class="item" data-tab="statistics">{{localize 'BRP.characteristicAbbr'}}</a></div>
         <div><a class="item" data-tab="background">{{localize 'BRP.story'}}</a></div>
         <div><a class="lock-icon grid-middle actor-toggle" title="{{ localize 'BRP.lock' }}" data-property="lock"> <i class="{{#if system.lock}}fas fa-lock{{else}}fas fa-lock-open{{/if}}"></i> </a></div>
@@ -247,20 +246,16 @@
         {{> "systems/brp/templates/actor/parts/actor-super.html"}}
       </div>
 
-      {{!-- Owned Allegiance Tab --}}
-      <div class="tab allegiance" data-group="primary" data-tab="allegiance">
-        {{> "systems/brp/templates/actor/parts/actor-allegiance.html"}}
+      {{!-- Owned Social Tab --}}
+      <div class="tab social" data-group="primary" data-tab="social">
+        {{> "systems/brp/templates/actor/parts/actor-social.html"}}
       </div>
 
-      {{!-- Owned Passion Tab --}}
-      <div class="tab passion" data-group="primary" data-tab="passion">
-        {{> "systems/brp/templates/actor/parts/actor-passion.html"}}
+      {{!-- Owned Personality Tab --}}
+      <div class="tab pers" data-group="primary" data-tab="pers">
+        {{> "systems/brp/templates/actor/parts/actor-pers.html"}}
       </div>
 
-      {{!-- Owned Personality Trait Tab --}}
-      <div class="tab persTrait" data-group="primary" data-tab="persTrait">
-        {{> "systems/brp/templates/actor/parts/actor-persTrait.html"}}
-      </div>
 
       {{!-- Statistics Tab --}}
       <div class="tab statistics" data-group="primary" data-tab="statistics">

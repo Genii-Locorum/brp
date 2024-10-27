@@ -5,7 +5,7 @@ export async function registerSettings () {
 
   //Get option lists from select-lists.mjs
   let skillBonusOptions = await BRPSelectLists.getSkillBonusOptions();
-
+  let reputationOptions = await BRPSelectLists.getReputationOptions();
 
 
   //Allow Powers
@@ -169,6 +169,17 @@ export async function registerSettings () {
     config: true,
     default: false,
     type: Boolean
+  });
+
+  game.settings.register('brp', 'useReputation', {
+    name: 'BRP.Settings.useReputation',
+    hint: 'BRP.Settings.useReputationHint',
+    requiresReload: true,
+    scope: 'world',
+    config: true,
+    default: 0,
+    choices: reputationOptions,
+    type: String
   });
 
   game.settings.register('brp', 'usePersTrait', {

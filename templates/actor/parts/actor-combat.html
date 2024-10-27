@@ -11,6 +11,9 @@
     <div class="diff-label centre">{{ localize 'BRP.enc'}}</div>
     <div class="diff-label centre" title="{{ localize 'BRP.ammoHint' }}">{{ localize 'BRP.ammo'}}</div>
     <div class="diff-label centre" title="{{ localize 'BRP.status' }}">{{ localize 'BRP.statusShort'}}</div>
+    <div class="diff-label centre item-create" title="{{ localize 'BRP.addWeapon'}}" data-type="weapon">
+      <a class="large-icon"><i class="item-control fas fa-plus"></i></a>
+    </div>
   </div>
   <ol class = "gr-list">
     {{#each weapons as |weapon key|}}

@@ -1,6 +1,14 @@
 # CHANGELOG
 
-##12.1.24
+## 12.1.25
+- Added a game setting for "Reputation" - choose from None (reputation not used), single (single reputation item allowed) or multiple (multiple reputation items allowed).  NPCs will always use the mutliple option.
+- Reputation item can be dragged to macro bar
+- New tab on character sheet "SOCIAL" that combines Reputation and Allegiance Items.  Visible if either is allowed in game
+- New tab on character sheet "PERS" (Personality) that combines Passion and Personality Traits. Visible if either is allowed in game
+- There are now "+" icons on the Armour and Weapons grids on the character sheet to directly add Armour and Weapons to the character sheet.
+- Please note that Instructions for new items are being added to the Github wiki (https://github.com/Genii-Locorum/brp/wiki) - overtime more instructions will be added to, and ingame instructions migrated to, the wiki.
+
+## 12.1.24
 - Removed the superfluous true/false flag on the Character Sheet Allegiance tab (this was for potenital ally status) 
 - Fixed the inline edit for NPC Allegiance points
 - Total Professional Skill Points, Personal Skill Points and XP now shown on the "CHAR" tab (this adds up totals from Skill, Magic and Psychic items)

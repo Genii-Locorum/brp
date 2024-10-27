@@ -1,0 +1,49 @@
+
+
+<ol class="magic-list">
+  {{#if useAlleg}}
+    <div class="magic-listitem">
+      <div class="diff-label">{{ localize 'BRP.allegiance'}}</div>
+      <div></div>
+      <div class="diff-label centre">{{ localize 'BRP.total'}}</div>
+      <div class="diff-label centre">{{ localize 'BRP.title'}}</div>
+      <div class="diff-label centre">{{ localize 'BRP.rank'}}</div>
+      <div class="diff-label centre">{{ localize "BRP.enemy" }}</div>
+      <div class="diff-label centre">{{ localize "BRP.opposed" }}</div>
+      <div class="diff-label centre"></div>
+    </div>    
+    {{#each allegiances as |allegiance id|}}
+      <li class="item magic-listitem" data-item-id="{{allegiance._id}}">
+        <div class="item-edit allegiance-name contextmenu"  data-item-id="{{allegiance._id}}" data-xp="{{allegiance.system.improve}}">{{allegiance.name}}</div>
+        <div title = "{{ localize 'BRP.improve' }}"><a class="item-toggle" data-property="improve"><i class="{{#if allegiance.system.improve}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>
+        <div class = "centre rollable allegiance-name" >{{allegiance.system.total}}%</div>
+        <div class = "centre">{{allegiance.system.allegTitle}}</div>
+        <div class = "centre">{{allegiance.system.rank}}</div>
+        <div class = "centre"><a><i class="{{#if allegiance.system.allegEnemy}}fa-solid fa-skull{{/if}}"></i></a></div>
+        <div class = "centre truncate">{{allegiance.system.opposeAlleg}}</div>
+      </li>  
+    {{/each}}
+    <br>  
+  {{/if}}
+
+
+  {{#if (gt useReputation "0")}}
+    <div class="magic-listitem">
+      <div class="diff-label">{{ localize 'BRP.reputation'}}</div>
+      <div></div>
+      <div class="diff-label centre">{{ localize 'BRP.total'}}</div>
+    </div>    
+    {{#each reputations as |reputation id|}}
+      <li class="item magic-listitem" data-item-id="{{reputation._id}}">
+        <div class="new-row item-edit reputation-name contextmenu"  data-item-id="{{reputation._id}}">{{reputation.name}}</div>
+        <div></div>
+        {{#if ../system.lock}}
+          <div class = "centre rollable reputation-name" >{{reputation.system.total}}%</div>
+        {{else}}
+          <div><input class="item skill-cell-input centre inline-edit" data-field ="base" data-item-id="{{reputation._id}}" name="reputation.system.base" type="text" value="{{reputation.system.base}}" data-dtype="Number"/></div>
+        {{/if}}
+      </li>  
+    {{/each}}
+  {{/if}}  
+
+</ol>

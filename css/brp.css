@@ -99,7 +99,7 @@
   row-gap: 0px;
   column-gap: 5px;
   font-size: 16px;
-  grid-template-columns: 200px 50px;
+  grid-template-columns: 200px 50px 30px 200px 50px;
 }
 
 .brp .personal-grid {
@@ -300,7 +300,7 @@
   font-weight:bold;
   font-size: 20px;
   text-transform:uppercase;
-  padding: 5px 12px 5px 12px;
+  padding: 5px 8px 5px 8px;
   height: 30px;
 }
 
@@ -975,7 +975,7 @@ padding-top: 4px;
   padding: 2px 2px 2px 2px;
   row-gap: 0px;
   column-gap: 5px;
-  grid-template-columns: 200px 60px 60px 40px 35px 40px 35px 40px 80px 100px 60px;
+  grid-template-columns: 180px 60px 60px 40px 35px 40px 35px 40px 80px 100px 60px 30px;;
 }
 
 .brp .gear-tab-grid {
@@ -1052,7 +1052,7 @@ padding-top: 4px;
   padding: 1px 2px 1px 2px;
   row-gap: 0px;
   column-gap: 5px;
-  grid-template-columns: 140px 40px 120px 80px 50px 50px 30px 30px 30px 30px 50px 50px 40px;
+  grid-template-columns: 130px 40px 120px 80px 50px 50px 30px 30px 30px 30px 50px 50px 30px 30px;
 }
 
 .brp .result-success {
@@ -1426,4 +1426,8 @@ padding-top: 4px;
 
 .brp .paddingtop2 {
   padding-top: 2px;
+}
+
+.brp .dsn-hide {
+  display:flex !important;
 }
