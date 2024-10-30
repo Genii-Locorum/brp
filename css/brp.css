@@ -1431,3 +1431,7 @@ padding-top: 4px;
 .brp .dsn-hide {
   display:flex !important;
 }
+
+.brp .darkred {
+  color: rgba(68, 7, 4, 1);
+}

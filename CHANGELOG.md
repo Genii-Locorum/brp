@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## 12.1.26
+- A Special Success Damage Roll for a Crushing Weapon now adds +1D4 Damage Bonus if the base Damage Bonus = 0
+- Macros can now be dragged between hotbar slots and from the Macro Directory
+- When rolling damage the rolled dice are now visible if you expand the chat message
+- Combat cards can now be resolved with only 1 roll in them
+- Combat rolls now tick relevant XP skills when successfully made and relevant game setting is on
+- Hit Locations now check they are not already on the character sheet before they can be dropped
+- Armour - previously if the Ballistic Armour values were left blank, then the non-ballistics armour value was assumed to be used.  This no longer happens - you will need to update the Ballistic Armour values in each piece of armour
+- If using Hits Per Location, Armour on the Items tab is grouped by Hit Location with a summary of the location.  Clicking on the expand icon (on the right) hides the specific hit location but shows the relevant armour items.  Clicking on the collapse icon hides the armour items and reveals the hit location.  Clicking on the title "ARMOUR" expands all hit locations whilst SHIFT + CLICK collapses them all.
+
 ## 12.1.25
 - Added a game setting for "Reputation" - choose from None (reputation not used), single (single reputation item allowed) or multiple (multiple reputation items allowed).  NPCs will always use the mutliple option.
 - Reputation item can be dragged to macro bar

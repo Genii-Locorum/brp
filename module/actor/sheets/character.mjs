@@ -161,6 +161,12 @@ export class BRPCharacterSheet extends ActorSheet {
           this.actor.system.totalXP = this.actor.system.totalXP + itm.system.xp
       } else if (itm.type === 'hit-location') {
         hitlocs.push(itm);
+        if (context.useHPL) { 
+          itm.system.list=0
+          itm.system.count = 0
+          itm.system.hitlocID = itm._id
+          armours.push(itm)
+        }
       } else if (itm.type === 'wound') {
         wounds.push(itm);
       } else if (itm.type === 'magic'){
@@ -187,14 +193,19 @@ export class BRPCharacterSheet extends ActorSheet {
       }  else if (itm.type === 'failing'){
         failings.push(itm);
       } else if (itm.type === 'armour'){
+        itm.system.hide=false
         if(itm.system.hitlocID) {
           let hitLocTemp = this.actor.items.get(itm.system.hitlocID)
           if (hitLocTemp) {
             itm.system.hitlocName = hitLocTemp.name
             itm.system.lowRoll = hitLocTemp.system.lowRoll
+            if (context.useHPL) {
+              itm.system.hide = hitLocTemp.system.hide
+            }
           }  
         }
         itm.system.equippedName = game.i18n.localize('BRP.'+itm.system.equipStatus)
+        itm.system.list=1
         armours.push(itm);
       }  else if (itm.type === 'weapon'){
         if(itm.system.range3 !="") {
@@ -279,6 +290,19 @@ export class BRPCharacterSheet extends ActorSheet {
       return 0;
     });
 
+    //Sort Armours by HitLocation and List score
+    armours.sort(function(a, b){
+      let x = a.system.lowRoll;
+      let y = b.system.lowRoll;
+      let p = a.system.list;
+      let q = b.system.list;
+      if (x < y) {return 1};
+      if (x > y) {return -1};
+      if (p < q) {return -1};
+      if (p > q) {return 1};
+      return 0;
+    });
+
     // Sort Hit Locations
     hitlocs.sort(function(a, b){
       let x = a.system.lowRoll;
@@ -286,18 +310,30 @@ export class BRPCharacterSheet extends ActorSheet {
       if (x < y) {return 1};
       if (x > y) {return -1};
       return 0;
-    });
+    });    
 
-    //Sort Armour
-    armours.sort(function(a, b){
-      let x = a.system.lowRoll;
-      let y = b.system.lowRoll;
-      if (x < y) {return 1};
-      if (x > y) {return -1};
-      return 0;
-    });
-
-
+    //If using HPL add number of items of armour per Hit Loc
+    if (context.useHPL) {
+      let locID =""
+      let newArmours=[]
+      for (let itm of armours) {
+        if (itm.system.list === 0) {
+          let armList = armours.filter(arm =>arm.system.list === 1 && arm.system.hitlocID === itm._id)
+          itm.system.length = armList.length
+        } else {
+          if (itm.system.hitlocID != locID) {
+            itm.system.show = true
+            locID = itm.system.hitlocID
+          } else {
+            itm.system.show = false
+          }
+        }
+        newArmours.push(itm)
+      }
+      context.armours = newArmours;
+    } else {
+      context.armours = armours;
+    }  
 
     // Assign and return
     context.persTraits = persTraits;
@@ -311,7 +347,6 @@ export class BRPCharacterSheet extends ActorSheet {
     context.sorceries =  sorceries;
     context.superpowers = superpowers;
     context.failings = failings;
-    context.armours = armours;
     context.weapons = weapons;
     context.wounds = wounds;
     context.allegiances = allegiances;
@@ -338,6 +373,7 @@ export class BRPCharacterSheet extends ActorSheet {
     html.find(".inline-edit").change(this._onSkillEdit.bind(this));                           //Inline Skill Edit
     html.find(".actor-toggle").click(this._onActorToggle.bind(this));                         // Actor Toggle
     html.find(".item-toggle").click(this._onItemToggle.bind(this));                           // Item Toggle
+    html.find(".armour-toggle").click(this._onArmourToggle.bind(this));                         // Armour Toggle
     html.find('.item-create').click(this._onItemCreate.bind(this));                           // Add Inventory Item
     html.find('.rollable.charac-name').click(BRPRollType._onStatRoll.bind(this));             // Rollable Characteristic
     html.find('.rollable.skill-name').click(BRPRollType._onSkillRoll.bind(this));             // Rollable Skill
@@ -506,7 +542,7 @@ export class BRPCharacterSheet extends ActorSheet {
     const item = this.actor.items.get(li.data("itemId"));
     const prop = element.dataset.property;
     let checkProp={};
-    if (['improve','oppimprove','mem','injured','bleeding','incapacitated','severed','dead','unconscious'].includes(prop)) {
+    if (['hide','improve','oppimprove','mem','injured','bleeding','incapacitated','severed','dead','unconscious'].includes(prop)) {
       checkProp = {[`system.${prop}`] : !item.system[prop]}
     } else if (prop === 'equipStatus') {
       if (item.system.equipStatus === 'carried' && item.type === 'armour') {
@@ -555,5 +591,27 @@ export class BRPCharacterSheet extends ActorSheet {
     this.actor.update(checkprop)    
   }
 
+  //Static Collapse/Expand Armour on all Hit Locs
+  async _onArmourToggle(event) {
+
+    if (!game.settings.get('brp','useHPL')) {return}
+    let expand = event.shiftKey
+    let changes=[]
+
+    let hitLocs = this.actor.items.filter(itm => itm.type === "hit-location").map(itm => {
+      return { id: itm.id}
+    })
+
+    for (let hitLoc of hitLocs) {
+      changes.push({
+        _id: hitLoc.id,
+        'system.hide': expand 
+      })
+    }
+    
+    await Item.updateDocuments(changes, {parent: this.actor})   
+
+    return
+  }
 
 }

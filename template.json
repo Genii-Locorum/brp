@@ -238,6 +238,7 @@
       "fractionHP": 1,
       "fractionENC": 1,
       "map": 0,
+      "hide": true,
       "locType": "limb",
       "bleeding": false,
       "dead": false,

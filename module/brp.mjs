@@ -7,6 +7,7 @@ import { BRPHooks } from './hooks/index.mjs'
 import { registerSettings } from './setup/register-settings.mjs'
 import { BRPSystemSocket } from "./apps/socket.mjs"
 import { BRPCharDev } from "./apps/charDev.mjs"
+import { BRPUtilities } from "./apps/utilities.mjs"
 import { BRPMenu } from "./setup/layers.mjs"
 import * as Chat from "./apps/chat.mjs";
 
@@ -73,8 +74,7 @@ Hooks.once("ready", async function() {
 
   Hooks.on("hotbarDrop", (bar, data, slot) => {
     if (game.user) {
-      createItemMacro(data, slot);
-      return false;
+      return BRPUtilities.createMacro(bar, data, slot);
     }
   }); 
 });
@@ -146,33 +146,7 @@ Hooks.on('renderSettingsConfig', (app, html, options) => {
 Hooks.on('getSceneControlButtons', BRPMenu.getButtons)
 Hooks.on('renderSceneControls', BRPMenu.renderControls)
 
-// Hotbar Macros
-async function createItemMacro(data, slot) {
-  // First, determine if this is a valid owned item.
-  if (data.type !== "Item") return;
-  if (!data.uuid.includes('Actor.') && !data.uuid.includes('Token.')) {
-    return ui.notifications.warn("You can only create macro buttons for owned Items");
-  }
-  // If it is, retrieve it based on the uuid.
-  const item = await Item.fromDropData(data);
-
-  // Create the macro command using the uuid.
-  const command = `game.brp.rollItemMacro("${data.uuid}");`;
-  let macro = game.macros.find(m => (m.name === item.name) && (m.command === command));
-  if (!macro) {
-    macro = await Macro.create({
-      name: item.name,
-      type: "script",
-      img: item.img,
-      command: command,
-      flags: { "brp.itemMacro": true }
-    });
-  }
-  game.user.assignHotbarMacro(macro, slot);
-  return false;
-}
-
-// Create a Macro from an Item drop.
+// Run a Macro from an Item drop.
 function rollItemMacro(itemUuid) {
   // Reconstruct the drop data so that we can load the item.
   const dropData = {

@@ -1,6 +1,6 @@
 <section>
     <div class="armour-tab-grid">
-      <div class="diff-label ">{{ localize 'BRP.armour'}}</div>
+      <div class="diff-label armour-toggle" {{#if useHPL}} title="{{localize 'BRP.armExpandHint'}}" {{/if}}>{{ localize 'BRP.armour'}}</div>
       <div class="diff-label centre">{{ localize 'BRP.ap'}}</div>
       <div class="diff-label centre" title="{{ localize 'BRP.armBalHint' }}">{{ localize 'BRP.bap'}}</div>
       <div class="diff-label centre" style="grid-column: 4 / span 2;" title="{{ localize 'BRP.energyHint' }}">{{ localize 'BRP.energy'}}</div>
@@ -14,26 +14,48 @@
       </div>
 
       {{#each armours as |armour key|}}
-        <div class="new-row item item-edit font14 armour-name contextmenu" data-item-id="{{armour._id}}">{{armour.name}}</div>
-        {{#if ../useAVRand}}
-          <div class="hitloc-name centre">{{armour.system.avr1}} </div>
-          {{#if armour.system.armBal}}
-            <div class="hitloc-name centre">{{armour.system.avr2}}</div>
-          {{else}}
-            <div></div>
+        {{#if (eq armour.system.list 0)}}
+          {{#if (gt armour.system.length 0)}}
+            {{#if armour.system.hide}}
+              <div class="new-row bold darkred font14">{{armour.name}}</div>
+              {{#if ../useAVRand}}
+                {{#isOr (ne armour.system.avr1 "") (ne armour.system.avr2 "")}}
+                  <div class="hitloc-name" style="grid-column: 2 / span 2;">{{armour.system.avr1}} / {{armour.system.avr2}} </div>
+                {{/isOr}}
+              {{else}}
+                {{#isOr (ne armour.system.avr1 "") (ne armour.system.avr2 "")}}
+                  <div class="hitloc-name" style="grid-column: 2 / span 2;">{{armour.system.av1}} / {{armour.system.av2}}</div>
+                {{/isOr}}             
+              {{/if}}
+              <div class="hitloc-name centre" style="grid-column: 4 / span 2;">{{armour.system.ppCurr}}</div>
+              <div class="hitloc-name centre" style="grid-column: 6 / span 2;">{{armour.system.pSCurr}}</div>
+              <div class="hitloc-name centre">{{armour.system.enc}}</div>
+              <div class="hitloc-name centre">{{armour.system.mnplmod}}/{{armour.system.percmod}}/{{armour.system.physmod}}/{{armour.system.stealthmod}}</div>
+              <div class="item item-toggle centre" title="{{localize 'BRP.expand'}}" style="grid-column: 12 / span 1;" data-item-id="{{armour.system.hitlocID}}" data-property = "hide"><a class="font16 darkred"><i class="fas fa-solid fa-arrow-down-short-wide"></i></a></div>
+            {{/if}}  
           {{/if}}
         {{else}}
-          {{#if armour.system.armVar}}
-            <div class="armour-input-small"> <input class="item centre inline-edit" data-field ="av1" data-item-id="{{armour._id}}" name="armour.system.av1" type="text" value="{{armour.system.av1}}" data-dtype="Number"/></div>
+          {{#unless armour.system.hide}}
+          <div class="new-row item item-edit font14 armour-name contextmenu" data-item-id="{{armour._id}}">{{armour.name}}</div>
+          {{#if ../useAVRand}}
+            <div class="hitloc-name centre">{{armour.system.avr1}} </div>
+            {{#if armour.system.armBal}}
+              <div class="hitloc-name centre">{{armour.system.avr2}}</div>
+            {{else}}
+              <div></div>
+            {{/if}}
           {{else}}
+            {{#if armour.system.armVar}}
+              <div class="armour-input-small"> <input class="item centre inline-edit" data-field ="av1" data-item-id="{{armour._id}}" name="armour.system.av1" type="text" value="{{armour.system.av1}}" data-dtype="Number"/></div>
+            {{else}}
               <div class="hitloc-name centre">{{armour.system.av1}}</div>
+            {{/if}}
+            {{#if armour.system.armBal}}
+              <div class="hitloc-name centre">{{armour.system.av2}}</div>
+            {{else}}
+              <div></div>
+            {{/if}}
           {{/if}}
-          {{#if armour.system.armBal}}
-            <div class="hitloc-name centre">{{armour.system.av2}}</div>
-          {{else}}
-            <div></div>
-          {{/if}}
-        {{/if}}
 
         {{#if armour.system.armVar}}
           <div class="armour-input-small"> <input class="item centre inline-edit" data-field ="ppCurr" data-item-id="{{armour._id}}" name="armour.system.ppCurr" type="text" value="{{armour.system.ppCurr}}" data-dtype="Number"/></div>
@@ -60,6 +82,11 @@
           {{#if (eq armour.system.equipStatus 'packed')}}<i class="fas fa-treasure-chest"></i>{{/if}}
           {{#if (eq armour.system.equipStatus 'stored')}}<i class="fas fa-warehouse"></i>{{/if}}
         </div>
+        {{#if armour.system.show}}
+        <div class="item item-toggle centre" title="{{localize 'BRP.collapse'}}" style="grid-column: 12 / span 1;" data-item-id="{{armour.system.hitlocID}}" data-property = "hide"><a class="font16 darkred"><i class="fas fa-solid fa-arrow-up-wide-short"></i></a></div>        
+        {{/if}}
+        {{/unless}}
+        {{/if}}
       {{/each}}          
     </div>
     <br>

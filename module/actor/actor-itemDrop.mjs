@@ -194,12 +194,19 @@ export class BRPactorItemDrop {
       }  
 
       //If a power,magic,mutation,psychic,sorcery,superpower and not failed a previous test, check to see if the item already exists on the character sheet
-      if ((k.type === 'power' || k.type === 'magic' || k.type === 'mutation' || k.type === 'psychic' || k.type === 'sorcery' || k.type === 'super') && reqResult === 1) {
+      if ((['power','magic','mutation','psychic','sorcery','super','hit-location'].includes(k.type)) && reqResult === 1) {
         for (let j of actor.items) {
-          if(j.type === k.type && j.name === k.name) {
+          let dupItm = await actor.items.filter(itm =>itm.type===k.type && itm.name===k.name)
+          if (dupItm.length > 0) {
             reqResult = 0;
-            errMsg = k.name + " : " +   game.i18n.localize('BRP.dupItem'); 
+            errMsg = k.name + " : " + game.i18n.localize('BRP.dupItem');
           }
+
+
+//          if(j.type === k.type && j.name === k.name) {
+//            reqResult = 0;
+//            errMsg = k.name + " : " +   game.i18n.localize('BRP.dupItem'); 
+//          }
         }
       }
     }  

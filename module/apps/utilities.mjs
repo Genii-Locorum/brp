@@ -92,6 +92,33 @@ export class BRPUtilities {
     partic.update(checkprop)    
   }
 
-
-
+  //Create Macro
+  static createMacro (bar, data, slot) {
+    if (data.type !== 'Item') return
+    const item = fromUuidSync(data.uuid, bar)
+    if (!item) return 
+    let command = ''
+    command = `game.brp.rollItemMacro("${data.uuid}");`
+    if (command !== '') {
+      // Create the macro command
+      const macro = game.macros.contents.find(
+        m => m.name === item.name && m.command === command
+      )
+      if (!macro) {
+        Macro.create(foundry.utils.duplicate({
+          name: item.name,
+          type: 'script',
+          img: item.img,
+          command: command,
+          flags: {"brp.itemMacro": true}
+        })).then(macro => {
+          game.user.assignHotbarMacro(macro, slot)
+        })
+        return false
+      }
+      game.user.assignHotbarMacro(macro, slot)
+      return false
+    }
+    return true
+  }
 }    

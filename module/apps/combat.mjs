@@ -91,7 +91,7 @@ export class BRPCombat{
         case 'crush':
           if (damBon.startsWith('-')) {
             newFormula = damForm
-          } else if (damBon === '+0+') {
+          } else if (damBon === '+0') {
             newFormula = damForm + '+1D4'
           } else {
             newFormula = damForm + damBon + damBon  

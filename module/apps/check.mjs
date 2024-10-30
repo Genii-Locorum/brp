@@ -4,6 +4,7 @@ import { BRPCombat } from "./combat.mjs"
 import { GRCard} from "../cards/combined-card.mjs"
 import { OPCard} from "../cards/opposed-card.mjs"
 import { COCard} from "../cards/cooperative-card.mjs"
+import { CBCard} from "../cards/combat-card.mjs"
 
 export class BRPCheck {
 
@@ -315,6 +316,7 @@ export class BRPCheck {
         rollResult: config.rollResult,
         rollVal: config.rollVal,
         roll: config.roll,
+        diceRolled: config.diceRolled,
         resultLevel: config.resultLevel,
         resultLabel: game.i18n.localize('BRP.resultLevel.'+config.resultLevel),
         specLabel: config.specLabel,
@@ -352,7 +354,17 @@ export class BRPCheck {
     config.roll = roll
     config.rollResult = Number(roll.total)
     config.rollVal = Number(config.rollResult)
-
+    
+    let diceRolled=""
+    for (let diceRoll = 0; diceRoll<roll.dice.length; diceRoll++) {
+      for (let thisDice = 0; thisDice<roll.dice[diceRoll].values.length; thisDice++){
+        if (thisDice !=0 || diceRoll !=0) {
+          diceRolled = diceRolled + ", "
+        }
+        diceRolled = diceRolled + roll.dice[diceRoll].values[thisDice]
+      }
+    }
+    config.diceRolled = diceRolled
 
     //Don't need success levels in some cases
     if (['DM', 'AR'].includes(config.rollType)) {return}
@@ -506,9 +518,7 @@ export class BRPCheck {
     let actor=""
     //Don't do XP check until card is closed
     if(msg.state != 'closed') {return}
-    //Don't do XP checks here for Resist, Group, Opposed or Coop rolls - triggered from those sections as more than 1 skill
     switch (msg.cardType) {
-
       case "RE":
         //No checks for a resist card
         return
@@ -518,10 +528,10 @@ export class BRPCheck {
         if (msg.chatCard[0].resistance <= actor.system.stats.pow.total || msg.chatCard[0].resultLevel <2) {return}
         await actor.update({'system.stats.pow.improve': true})
         break
-      
       case "NO":
       case "GR":
       case "OP":
+      case "CB":
       case "CO":  
         //Allow checks for Normal,Combined and Oppossed cards, unless it's a Characteristic or Allegiance Check or a Damage Roll
         if (['CH', 'AL', 'DM'].includes(msg.rollType)) {return}  
@@ -590,6 +600,9 @@ export class BRPCheck {
       case "resolve-op-card":
         await OPCard.OPResolve(data)        
         break  
+      case "resolve-cb-card":
+        await CBCard.CBResolve(data)        
+        break          
       case "resolve-co-card":
         await COCard.COResolve(data)        
         break          

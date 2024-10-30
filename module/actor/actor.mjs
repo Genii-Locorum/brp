@@ -125,6 +125,13 @@ export class BRPActor extends Actor {
         itm.system.av2 = 0
         itm.system.avr1 = ""
         itm.system.avr2 = ""
+        itm.system.enc = 0
+        itm.system.ppCurr = 0
+        itm.system.pSCurr = 0
+        itm.system.mnplmod = 0
+        itm.system.percmod = 0
+        itm.system.physmod = 0
+        itm.system.stealthmod = 0
       }
     }
     
@@ -182,36 +189,56 @@ export class BRPActor extends Actor {
         if (itm.system.equipStatus != 'stored') {
           if (itm.system.pSCurr > 0) {systemData.psCurr = systemData.psCurr + itm.system.pSCurr}
           if (itm.system.pSMax > 0) {systemData.psMax = systemData.psMax + itm.system.pSMax}
+          if (game.settings.get('brp','useHPL')) {
+            let hitLoc = actorData.items.get(itm.system.hitlocID)
+            hitLoc.system.ppCurr+=itm.system.ppCurr
+            hitLoc.system.pSCurr+=Number(itm.system.pSCurr)
+          }  
         }  
 
 
         //Add the Armour Point Score to the Hit Location if worn
         if (itm.system.equipStatus === 'worn'){
           if (game.settings.get('brp','useHPL')) {
-            let hitLoc = actorData.items.get(itm.system.hitlocID) 
+            let hitLoc = actorData.items.get(itm.system.hitlocID)
             hitLoc.system.av1+=itm.system.av1
+            hitLoc.system.mnplmod+=itm.system.mnplmod
+            hitLoc.system.percmod+=itm.system.percmod
+            hitLoc.system.physmod+=itm.system.physmod
+            hitLoc.system.stealthmod+=itm.system.stealthmod
             if (itm.system.av2 > 0) { 
               hitLoc.system.av2+=itm.system.av2
-            } else {
-              hitLoc.system.av2+=itm.system.av1
-            }
-            hitLoc.system.avr1+="+" + itm.system.avr1
+            } 
+//            else {
+//              hitLoc.system.av2+=itm.system.av1
+//            }
+            if (itm.system.avr1 != "") {
+              hitLoc.system.avr1+="+" + itm.system.avr1
+            }  
             if (itm.system.avr2 != "") {
               hitLoc.system.avr2+="+" + itm.system.avr2
-            } else {
-              hitLoc.system.avr2+="+" + itm.system.avr1
-            }
-        } else {
-          systemData.av1+=itm.system.av1
-          systemData.av2+=itm.system.av2
-          systemData.avr1+="+" + itm.system.avr1
-          if (itm.system.avr2 != "") {
-            systemData.avr2+="+" + itm.system.avr2
+            } 
+//            else {
+//              hitLoc.system.avr2+="+" + itm.system.avr1
+//            }
           } else {
-            systemData.avr2+="+" + itm.system.avr1
+            systemData.av1+=itm.system.av1
+            systemData.av2+=itm.system.av2
+            if (itm.system.avr1 != "") {          
+              systemData.avr1+="+" + itm.system.avr1
+            }  
+            if (itm.system.avr2 != "") {
+              systemData.avr2+="+" + itm.system.avr2
+            } 
+//          else {
+//            systemData.avr2+="+" + itm.system.avr1
+//          }
           }
-        }
-        }
+        } 
+        if (game.settings.get('brp','useHPL')) {
+          let hitLoc = actorData.items.get(itm.system.hitlocID)
+          hitLoc.system.enc+=itm.system.actlEnc
+        }  
         //If power then record the ID against the category  
       } else if (itm.type === 'power') {
         systemData[itm.system.category] = itm._id;

@@ -5,12 +5,9 @@ export class CBCard {
 
  
   //Resolve a combat card - roll dice, update and close
-  static async OPResolve (config) {
+  static async CBResolve (config) {
     let targetMsg = await game.messages.get(config.targetChatId)
     let chatCards =targetMsg.flags.brp.chatCard
-    if (chatCards.length <2) {
-      ui.notifications.warn(game.i18n.localize('BRP.resolveMore'))
-      return}
 
     //Sort chatCards by result level, by roll and then by rawValue
     chatCards.sort(function(a, b){
@@ -31,8 +28,11 @@ export class CBCard {
 
     let newchatCards = []
     //Get the success level of the second placed person
-    let adjLevel = chatCards[1].resultLevel
-    adjLevel = Math.max(adjLevel -1,0)
+    let adjLevel = 0
+    if(chatCards.length>1) {
+      let adjLevel = chatCards[1].resultLevel
+      adjLevel = Math.max(adjLevel -1,0)
+    }  
     for (let i of chatCards) {
       i.origResLevel = i.resultLevel
       if (i.origResLevel >1) {
