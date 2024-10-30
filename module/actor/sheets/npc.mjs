@@ -230,7 +230,7 @@ export class BRPNpcSheet extends ActorSheet {
     const item = this.actor.items.get(li.data("itemId"));
     let field = element.dataset.field;
     let newScore = element.value;
-    if (['base','currHP','quantity','npcVal','allegPoints'].includes(field)) {
+    if (['base','hpCurr','quantity','npcVal','allegPoints'].includes(field)) {
       newScore = Number(newScore)
       field = 'system.'+field;  
     } else if (['ap','bap','apRnd','bapRnd','att'].includes(field)) {
@@ -338,6 +338,13 @@ export class BRPNpcSheet extends ActorSheet {
         let newVal = Math.round(Number(roll.total))
         checkProp = {[`system.stats.${key}.base`]: newVal}
       }
+      await this.actor.update(checkProp)
+      //Update Current HP etc to max
+      checkProp = {'system.health.value': this.actor.system.health.max,
+                   'system.power.value': this.actor.system.power.max,
+                   'system.fatigue.value': this.actor.system.fatigue.max,
+                   'system.sanity.value': this.actor.system.sanity.max 
+                  }
       await this.actor.update(checkProp)
     }
 

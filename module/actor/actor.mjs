@@ -361,6 +361,7 @@ export class BRPActor extends Actor {
 
 
     let damage = 0
+    systemData.fatigue.max = Math.ceil(systemData.stats.str.total + systemData.stats.con.total);
 
     for (let itm of actorData.items) {
       if (['skill','psychic','magic', 'passion','reputation'].includes(itm.type)) {

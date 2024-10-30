@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 12.1.27
+- HP on weapons on NPC sheet are now saved
+- NPC Fatigue Points Max are autocalculated
+- When rolling or averaging stats for an NPC the Current HP, PP, FP and SP are set to maximum values
+
+
 ## 12.1.26
 - A Special Success Damage Roll for a Crushing Weapon now adds +1D4 Damage Bonus if the base Damage Bonus = 0
 - Macros can now be dragged between hotbar slots and from the Macro Directory
