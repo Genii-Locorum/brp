@@ -30,7 +30,7 @@ export class CBCard {
     //Get the success level of the second placed person
     let adjLevel = 0
     if(chatCards.length>1) {
-      let adjLevel = chatCards[1].resultLevel
+      adjLevel = chatCards[1].resultLevel
       adjLevel = Math.max(adjLevel -1,0)
     }  
     for (let i of chatCards) {
