@@ -22,7 +22,7 @@ export class BRPNpcSheet extends ActorSheet {
   /* -------------------------------------------- */
 
   /** @override */
-  getData() {
+   async getData() {
     const context = super.getData();
     const actorData = this.actor.toObject(false);
     context.system = actorData.system;
@@ -36,6 +36,18 @@ export class BRPNpcSheet extends ActorSheet {
     context.usePassion = game.settings.get('brp','usePassion');    
     context.useAVRand = game.settings.get('brp','useAVRand');
     context.useReputation = game.settings.get('brp','useReputation');    
+    context.useBeastiary = game.settings.get('brp', 'beastiary')
+    context.showArmour = false
+    if (!context.useHPL || context.useBeastiary) {context.showArmour = true}
+
+    context.extDescValue = await TextEditor.enrichHTML(
+      context.system.extDesc,
+      {
+        async: true,
+        secrets: context.editable
+      }
+    ) 
+
 
     // Prepare character data and items.
       this._prepareItems(context);
@@ -184,7 +196,7 @@ export class BRPNpcSheet extends ActorSheet {
     });
 
     if (!this.isEditable) return;
-    html.find(".actor-toggle").dblclick(this._onActorToggle.bind(this));                    // Actor Toggle
+    html.find(".actor-toggle").click(this._onActorToggle.bind(this));                    // Actor Toggle
     html.find(".inline-edit").change(this._onSkillEdit.bind(this));                         //Inline Skill Edit
     html.find('.item-create').click(this._onItemCreate.bind(this));                         // Add Inventory Item
     html.find('.addPower').click(this._onPowerCreate.bind(this));                           // Add Power
@@ -213,11 +225,16 @@ export class BRPNpcSheet extends ActorSheet {
   async _onActorToggle(event){
     const prop= event.currentTarget.dataset.property;
     let checkProp={};
+    let checkVal = ""
 
-    if (['lock',"viewStat"].includes(prop)) {
+    if (['lock'].includes(prop)) {
       checkProp = {[`system.${prop}`] : !this.actor.system[prop]}
-    } else {return} 
-
+    } else if (['viewTab'].includes(prop)) {
+      checkVal = event.currentTarget.dataset.tabval;
+      checkProp = {[`system.${prop}`] : checkVal}
+    } else {
+      return
+    } 
     await this.actor.update(checkProp);
     return
   }
@@ -230,7 +247,7 @@ export class BRPNpcSheet extends ActorSheet {
     const item = this.actor.items.get(li.data("itemId"));
     let field = element.dataset.field;
     let newScore = element.value;
-    if (['base','hpCurr','quantity','npcVal','allegPoints'].includes(field)) {
+    if (['base','currHP','quantity','npcVal','allegPoints'].includes(field)) {
       newScore = Number(newScore)
       field = 'system.'+field;  
     } else if (['ap','bap','apRnd','bapRnd','att'].includes(field)) {

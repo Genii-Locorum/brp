@@ -1204,7 +1204,7 @@ padding-top: 4px;
   row-gap: 0px;
   column-gap: 5px;
   font-size: 14px;
-  grid-template-columns: 70px 340px 30px 30px 30px 30px;
+  grid-template-columns: 70px 280px 30px 30px 30px 30px 30px 30px;
   border-bottom: 2px solid rgba(68, 7, 4, 1);
 }
 
@@ -1386,6 +1386,12 @@ padding-top: 4px;
   font-size:14px;
   height: 120px;
   width: 540px;
+}
+
+.brp .npc-description-doc{
+  font-size:14px;
+  height: 600px;
+  width: 575px;
 }
 
 .brp .npc-powers-cell {

@@ -4,14 +4,16 @@
       <div class="npc-name-grid">
         <label class="charname">{{ localize 'BRP.name' }}:</label>
         <input class="npc-inp" name="name" type="text" value="{{actor.name}}"/>
-        <div class="centre"><a class="actor-toggle" title="{{ localize 'BRP.viewStat' }}" data-property="viewStat"> <i class="mediumIcon {{#if system.viewStat}}fas fa-user-magnifying-glass{{else}}fas fa-user{{/if}}"></i> </a></div>
+        <div class="centre"><a class="actor-toggle" title="{{ localize 'BRP.viewStat' }}" data-property="viewTab" data-tabval="1"> <i class="mediumIcon fas fas fa-user"></i> </a></div>
+        <div class="centre"><a class="actor-toggle" title="{{ localize 'BRP.viewBaseStat' }}" data-property="viewTab" data-tabval="2"> <i class="mediumIcon fas fa-user-magnifying-glass"></i> </a></div>
+        <div class="centre"><a class="actor-toggle" title="{{ localize 'BRP.description' }}" data-property="viewTab" data-tabval="3"> <i class="mediumIcon fas fa-scroll"></i> </a></div>
         <div class="centre"><a class="{{#unless system.lock}}rollStats{{/unless}}" title="{{ localize 'BRP.rollAverages' }}" data-property="average"> <i class="mediumIcon {{#unless system.lock}}fas fa-scale-balanced{{/unless}}"></i> </a></div>
         <div class="centre"><a class="{{#unless system.lock}}rollStats{{/unless}}" title="{{ localize 'BRP.rollStats' }}" data-property="random"> <i class="mediumIcon {{#unless system.lock}}fas fa-dice{{/unless}}"></i> </a></div>  
         <div class="centre"><a class="actor-toggle" title="{{ localize 'BRP.lock' }}" data-property="lock"> <i class="mediumIcon {{#if system.lock}}fas fa-lock{{else}}fas fa-lock-open{{/if}}"></i> </a></div>
       </div>         
     </section>
 
-    {{#if system.viewStat}}
+    {{#if (eq system.viewTab "1")}}
 
     <setion class="npc-main-grid">
         {{!-- Stats Section --}}
@@ -48,19 +50,19 @@
             <div class="charname centre"> / </div>
             <div class="centre">{{system.power.max}}</div>
 
-            {{#if useFP}}
+            {{#isOr useFP useBeastiary}}
               <div class="charname">{{localize 'BRP.fp'}}</div>
               <div class=" centre"><input class="centre personal-inp" name="system.fatigue.value" type="text" value="{{system.fatigue.value}}" data-dtype="Number"/></div>
               <div class="charname centre"> / </div>
               <div class=" centre">{{system.fatigue.max}}</div>
-            {{/if}}
+            {{/isOr}}
 
-            {{#if useSAN}}
+            {{#isOr useSAN useBeastiary}}
               <div class="charname">{{localize 'BRP.sp'}}</div>
               <div class=" centre"><input class="centre personal-inp" name="system.sanity.value" type="text" value="{{system.sanity.value}}" data-dtype="Number"/></div>
               <div class=" centre"> / </div>
               <div class="centre"><input class="centre personal-inp" name="system.sanity.max" type="text" value="{{system.sanity.max}}" data-dtype="Number"/></div>
-            {{/if}}
+            {{/isOr}}
         </section>
 
         {{!-- Secondary Stats --}}
@@ -68,14 +70,23 @@
             <div class="charname">{{localize 'BRP.dmgBonusAbbr'}}</div>
             <div class="centre">{{system.dmgBonus.full}}</div>
             <div class="charname">{{ localize 'BRP.move' }}:</div>
-            <div><input class="personal-inp centre" name="system.move" type="text" value="{{actor.system.move}}"/></div>
+            {{#unless system.lock}}
+              <div><input class="personal-inp centre" name="system.move" type="text" value="{{actor.system.move}}"/></div>
+            {{else}}
+              <div class="centre">{{system.move}}</div>
+            {{/unless}}
             {{#unless useHPL}}
               <div class="charname">{{ localize 'BRP.majorWoundAbbr'}}</div>
               <div class="centre">{{system.health.mjrwnd}}</div>
-            {{else}}
-              <div class="charname"></div>                     
             {{/unless}}   
-            <div class="charname new-row"></div>
+            {{#isOr useSAN useBeastiary}}
+              <div class="new-row charname">{{localize 'BRP.sanLoss'}}</div>            
+              {{#unless system.lock}}
+                <div><input class="personal-inp centre" name="system.sanLoss" type="text" value="{{actor.system.sanLoss}}"/></div>
+              {{else}}
+                <div class="centre">{{system.sanLoss}}</div>
+              {{/unless}}
+            {{/isOr}}
         </section>
 
 
@@ -155,7 +166,7 @@
     </section>
 
     {{!-- Hit Locations --}}
-    {{#if useHPL}}
+    {{#isOr useHPL useBeastiary}}
     {{! if using Hits Per Location}}
       <section class="npc-hitloc-grid">
         <div class="npc-hitloc-cell">
@@ -212,8 +223,10 @@
           {{/if}}
         {{/each}}
       </section>  
-    {{else}}
-    {{! if not using Hits Per Location}}
+    {{/isOr}}
+
+    {{#if showArmour }}
+    {{! if not using Hits Per Location or sheet is in edit mode}}
       <section class="npc-armour-grid">
         <div class="charname">{{ localize 'BRP.armour'}}</div>
         <div class="font14" title="{{localize 'BRP.armourPoints'}}">{{ localize 'BRP.ap'}}:</div>
@@ -455,26 +468,41 @@
       </div>
     </section>  
 
-  {{else}}
-  {{!-- Base Stats Section --}}
-  <section class="npc-baseStats-grid">
-    <div class="charname left">{{ localize 'BRP.characteristicAbbr'}}</div>
-    <div class="charname centre">{{ localize 'BRP.rolled' }}</div>
-    <div class="charname centre">{{ localize 'BRP.average' }}</div>
-      {{#each system.baseStats as |stat key|}}
-        {{#if stat.visible}}       
-          <div class="font14 left">{{stat.labelShort}}</div>
-          {{#if ../system.lock}}
-          <div class ="centre" data-characteristic = "{{key}}">{{stat.random}}</div>
-          <div class ="centre" data-characteristic = "{{key}}">{{stat.average}}</div>
-          {{else}}
-          <div><input class="centre personal-inp" name="system.baseStats.{{key}}.random" type="text" value="{{stat.random}}"/></div>
-          <div><input class="centre personal-inp" name="system.baseStats.{{key}}.average" type="text" value="{{stat.average}}"/></div>
-          {{/if}}
-        {{/if}}  
-      {{/each}}
-  </section>
-  {{/if}}
 
-  </section>
+
+
+
+
+  {{else}}
+    {{#if (eq system.viewTab "3")}}
+      {{!-- Description Section --}}
+      <section>
+        <div class="bold">{{ localize 'BRP.description'}}</div>
+        <div class="npc-description-doc">
+          {{editor extDescValue engine="prosemirror" class="npc-description-doc" target="system.extDesc" button=true owner=owner editable=editable}}
+        </div>
+      </section>
+    {{else}}
+
+      {{!-- Base Stats Section --}}
+      <section class="npc-baseStats-grid">
+        <div class="charname left">{{ localize 'BRP.characteristicAbbr'}}</div>
+        <div class="charname centre">{{ localize 'BRP.rolled' }}</div>
+        <div class="charname centre">{{ localize 'BRP.average' }}</div>
+          {{#each system.baseStats as |stat key|}}
+            {{#if stat.visible}}       
+              <div class="font14 left">{{stat.labelShort}}</div>
+              {{#if ../system.lock}}
+              <div class ="centre" data-characteristic = "{{key}}">{{stat.random}}</div>
+              <div class ="centre" data-characteristic = "{{key}}">{{stat.average}}</div>
+              {{else}}
+              <div><input class="centre personal-inp" name="system.baseStats.{{key}}.random" type="text" value="{{stat.random}}"/></div>
+              <div><input class="centre personal-inp" name="system.baseStats.{{key}}.average" type="text" value="{{stat.average}}"/></div>
+              {{/if}}
+            {{/if}}  
+          {{/each}}
+      </section>
+    {{/if}}
+  {{/if}}  
+</section>
 </form>

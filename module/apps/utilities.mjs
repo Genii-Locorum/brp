@@ -121,4 +121,15 @@ export class BRPUtilities {
     }
     return true
   }
+
+  //Toggle Beastiary Mode
+  static async beastiaryMode(toggle) {
+    await game.settings.set('brp', 'beastiary', toggle)
+    ui.notifications.warn(
+      toggle
+        ? game.i18n.localize('BRP.beastiaryOn')
+        : game.i18n.localize('BRP.beastiaryOff')
+    )
+  }
+
 }    

@@ -6,7 +6,6 @@ import { BRP } from "./setup/config.mjs";
 import { BRPHooks } from './hooks/index.mjs'
 import { registerSettings } from './setup/register-settings.mjs'
 import { BRPSystemSocket } from "./apps/socket.mjs"
-import { BRPCharDev } from "./apps/charDev.mjs"
 import { BRPUtilities } from "./apps/utilities.mjs"
 import { BRPMenu } from "./setup/layers.mjs"
 import * as Chat from "./apps/chat.mjs";
@@ -69,7 +68,8 @@ Hooks.on("renderDialog", (dialog, html) => {
 Hooks.once("ready", async function() {
   // Always reset GM Tool toggles to False
   if (game.user.isGM) {
-    if (game.settings.get('brp' , 'development')) {game.settings.set('brp','development', false)};
+    game.settings.set('brp','development', false);
+    game.settings.set('brp','beastiary', false);
   }  
 
   Hooks.on("hotbarDrop", (bar, data, slot) => {

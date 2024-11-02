@@ -341,7 +341,15 @@ export async function registerSettings () {
     default: false
   });
 
-
+  game.settings.register('brp', "beastiary", {
+    name: "",
+    hint: "",
+    scope: "world",
+    requiresReload:false,
+    config: false,
+    type: Boolean,
+    default: false
+  });
 
 }
 

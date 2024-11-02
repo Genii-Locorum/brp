@@ -1,10 +1,19 @@
 # CHANGELOG
 
+## 12.1.29
+- Added a Description section to NPCs for extended notes.
+- You now access NPC stats and base stats (dice to roll) via separate icons rather than toggling one
+- There is a new GM tool - Beastiary Mode.  When toggled on you will see more HPL and Armour & SAN Loss sections on the NPC sheet even if your game doesn't use them.  This mode is aimed at creating a Beastiary for distribution to other users who may use game settings that you don't.
+- SAN Loss has been added to NPC sheets
+- Fixed a bug with NPC hit points on HPL not recording properly.
+
+## 12.1.28
+- Fixed Combat rolls not correctly reducing success level.
+
 ## 12.1.27
 - HP on weapons on NPC sheet are now saved
 - NPC Fatigue Points Max are autocalculated
 - When rolling or averaging stats for an NPC the Current HP, PP, FP and SP are set to maximum values
-
 
 ## 12.1.26
 - A Special Success Damage Roll for a Crushing Weapon now adds +1D4 Damage Bonus if the base Damage Bonus = 0

@@ -1,4 +1,5 @@
 import { BRPCharDev } from "../apps/charDev.mjs"
+import { BRPUtilities } from "../apps/utilities.mjs"
 
 //Add GM tools to Scene
 
@@ -44,6 +45,14 @@ export class BRPMenu {
           active: game.settings.get('brp', 'development'),
           title: game.i18n.localize('BRP.developmentPhase'),
           onClick: async toggle => await BRPCharDev.developmentPhase(toggle)
+        },
+        {
+          toggle: true,
+          icon: 'fas fa-book-open-cover',
+          name: 'beastiary',
+          active: game.settings.get('brp', 'beastiary'),
+          title: game.i18n.localize('BRP.beastiaryMode'),
+          onClick: async toggle => await BRPUtilities.beastiaryMode(toggle)
         }
       ]
     })
