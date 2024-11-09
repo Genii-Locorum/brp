@@ -71,6 +71,7 @@ export class BRPUtilities {
 
   static async personalityDelete(event, actor) {
     const confirmation = await this.triggerDelete(event,actor, "itemId")
+    //TO DO - reset all actor personality points on skills to zero
     if (!confirmation) {return}
 
   }
@@ -132,4 +133,112 @@ export class BRPUtilities {
     )
   }
 
+  //Convert to Kebab Case
+  static toKebabCase (s) {
+    if (!s) {
+      return ''
+    }
+    const match = s.match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g)
+
+    if (!match) {
+      return ''
+    }
+
+    return match.join('-').toLowerCase()
+  }
+
+
+  //Copy to Clipboard
+  static async copyToClipboard (text) {
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        return navigator.clipboard.writeText(text)
+      } else {
+        const textArea = document.createElement('textarea')
+        textArea.value = text
+        textArea.style.position = 'fixed'
+        textArea.style.left = '-999px'
+        textArea.style.top = '-999px'
+        document.body.appendChild(textArea)
+        textArea.focus()
+        textArea.select()
+        return new Promise((resolve, reject) => {
+          document.execCommand('copy')
+            ? resolve()
+            : reject(
+              new Error(game.i18n.localize('BRP.UnableToCopyToClipboard'))
+            )
+          textArea.remove()
+        }).catch(err => ui.notifications.error(err))
+      }
+    } catch (err) {
+      ui.notifications.error(game.i18n.localize('BRP.UnableToCopyToClipboard'))
+    }
+  }  
+
+  //Regex expression
+  static quoteRegExp (string) {
+    // https://bitbucket.org/cggaertner/js-hacks/raw/master/quote.js
+    const len = string.length
+    let qString = ''
+
+    for (let current, i = 0; i < len; ++i) {
+      current = string.charAt(i)
+
+      if (current >= ' ' && current <= '~') {
+        if (current === '\\' || current === "'") {
+          qString += '\\'
+        }
+
+        qString += current.replace(/[-[\]/{}()*+?.\\^$|]/g, '\\$&')
+      } else {
+        switch (current) {
+          case '\b':
+            qString += '\\b'
+            break
+
+          case '\f':
+            qString += '\\f'
+            break
+
+          case '\n':
+            qString += '\\n'
+            break
+
+          case '\r':
+            qString += '\\r'
+            break
+
+          case '\t':
+            qString += '\\t'
+            break
+
+          case '\v':
+            qString += '\\v'
+            break
+
+          default:
+            qString += '\\u'
+            current = current.charCodeAt(0).toString(16)
+            for (let j = 4; --j >= current.length; qString += '0');
+            qString += current
+        }
+      }
+    }
+    return qString
+  }
+  
+  //Sort by Name Key
+  static sortByNameKey (a, b) {
+    return a.name
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLocaleLowerCase()
+      .localeCompare(
+        b.name
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .toLocaleLowerCase()
+      )
+  }  
 }    

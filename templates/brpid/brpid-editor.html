@@ -1,0 +1,132 @@
+<form class="{{cssClass}}" autocomplete="off">
+    <h2>{{localize 'BRP.BRPIDFlag.title'}}</h2>
+    <p>{{{localize 'BRP.BRPIDFlag.summary' type=object.type}}}</p>
+    <input type="hidden" name="id" value="{{id}}">
+    <div class="form-group">
+      <label for="_existing">{{localize 'BRP.BRPIDFlag.key'}}:</label>
+      <div class="flexrow" style="flex: 2; border: 1px solid transparent; padding: 1px 3px 1px 0;">
+        {{#if existingKeys.length}}
+          <select style="margin-left: -2px;" name="known">
+            <option value="">{{localize 'BRP.BRPIDFlag.new'}}</option>
+            {{#select id}}
+              {{#each existingKeys as |value|}}
+                <option value="{{value.k}}">{{value.name}}</option>
+              {{/each}}
+            {{/select}}
+          </select>
+        {{else}}
+          <span style="flex: 0; margin-top: 5px;">{{idPrefix}}</span>
+          <input type="text" style="flex: 2;" name="_existing" value="{{_existing}}" data-prefix="{{idPrefix}}">
+        {{/if}}
+        {{#if options.editable}}
+          <a style="flex: 0 0 20px; align-self: center; text-align: right;" title="{{localize 'BRP.BRPIDFlag.guess'}}" data-guess="{{guessCode}}"><i class="fas fa-wand-magic"></i></a>
+        {{/if}}
+      </div>
+    </div>
+    {{#if (and existingKeys.length (not isSystemID))}}
+      <div class="form-group">
+        <label>&nbsp;</label>
+        <div class="flexrow" style="flex: 2; border: 1px solid transparent; padding: 1px 3px 1px 0;">
+          <span style="flex: 0; margin-top: 5px;">{{idPrefix}}</span>
+          <input type="text" style="flex: 2;" name="_existing" value="{{_existing}}" data-prefix="{{idPrefix}}">
+        </div>
+      </div>
+    {{/if}}
+    <div class="form-group">
+      <label for="lang">{{localize 'BRP.language'}}:</label>
+      <select style="flex: 2;" name="lang">
+        {{selectOptions supportedLanguages}}
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="priority">{{localize 'BRP.BRPIDFlag.priority'}}:</label>
+      <div style="flex: 2; border: 1px solid transparent; padding: 1px 3px 1px 0;">
+        <input type="number" style="width: 50px; margin-left: -2px" name="priority" value="{{priority}}">
+      </div>
+    </div>
+  
+    <fieldset class="item-sheet-properties">
+      <legend>{{localize 'BRP.BRPIDFlag.info'}}</legend>
+      <div class="form-group">
+        <label>{{localize 'BRP.BRPIDFlag.others'}}:</label>
+        <div>
+          <details>
+            <summary>{{localize 'BRP.BRPIDFlag.documents-in-world' count=worldDuplicates}}{{#if warnDuplicateWorldPriority}} <span class="bold"><i class=" darkred fas fa-exclamation-triangle"></i>{{localize 'BRP.BRPIDFlag.error.duplicate'}}</span>{{/if}}</summary>
+            <table>
+              <tr>
+                <td class="shorttext"><b>{{ localize 'BRP.priority' }}</b></td>
+                <td class="shorttext"><b>{{ localize 'BRP.languageAbbr' }}</b></td>
+                <td><b>{{ localize 'BRP.link' }}</b></td>
+                <td><b>{{ localize 'BRP.folder' }}</b></td>
+              </tr>
+              {{#each worldDocumentInfo}}
+                <tr>
+                  <td class="shorttext">{{priority}}</td>
+                  <td class="shorttext">{{lang}}</td>
+                  <td>{{{link}}}</td>
+                  <td>{{folder}}</td>
+                </tr>
+              {{/each}}
+            </table>
+          </details>
+          <details>
+            <summary>{{localize 'BRP.BRPIDFlag.documents-in-compendiums' count=compendiumDuplicates}}{{#if warnDuplicateCompendiumPriority}} <span class="bold"><i class=" darkred fas fa-exclamation-triangle"></i>{{localize 'BRP.BRPIDFlag.error.duplicate'}}</span>{{/if}}</summary>
+            <table>
+              <tr>
+                <td class="shorttext"><b>{{ localize 'BRP.priority' }}</b></td>
+                <td class="shorttext"><b>{{ localize 'BRP.languageAbbr' }}</b></td>
+                <td><b>{{ localize 'BRP.link' }}</b></td>
+                <td><b>{{ localize 'BRP.folder' }}</b></td>
+              </tr>
+              {{#each compendiumDocumentInfo}}
+                <tr>
+                  <td class="shorttext">{{priority}}</td>
+                  <td class="shorttext">{{lang}}</td>
+                  <td>{{{link}}}</td>
+                  <td>{{folder}}</td>
+                </tr>
+              {{/each}}
+            </table>
+          </details>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>{{localize 'BRP.BRPIDFlag.foundry-id'}}:</label>
+        <div class="flexrow">
+          <input type="text" value="{{object.id}}" readonly>
+          <a title="{{localize 'BRP.CopyToClipboard'}}" class="copy-to-clipboard">
+            <i class="fas fa-copy"></i>
+          </a>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>{{localize 'BRP.BRPIDFlag.foundry-uuid'}}:</label>
+        <div class="flexrow">
+          <input type="text" value="{{object.uuid}}" readonly>
+          <a title="{{localize 'BRP.CopyToClipboard'}}" class="copy-to-clipboard">
+            <i class="fas fa-copy"></i>
+          </a>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>{{localize 'BRP.BRPIDFlag.get-this-document'}}:</label>
+        <div class="flexrow">
+          <input type="text" value="await fromUuid('{{object.uuid}}')" readonly>
+          <a title="{{localize 'BRP.CopyToClipboard'}}" class="copy-to-clipboard">
+            <i class="fas fa-copy"></i>
+          </a>
+        </div>
+      </div>
+      {{#if (or id)}}
+        <div class="form-group">
+          <label>{{localize 'BRP.BRPIDFlag.get-document-like-this'}}:</label>
+          <div class="flexrow">
+            <input type="text" value="await game.system.api.brpid.fromBRPID('{{id}}', '{{lang}}')" readonly>
+            <a title="{{localize 'BRP.CopyToClipboard'}}" class="copy-to-clipboard">
+              <i class="fas fa-copy"></i>
+            </a>
+          </div>
+        </div>
+      {{/if}}
+    </fieldset>
+  </form>

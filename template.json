@@ -110,6 +110,8 @@
       "gender": "",
       "culture": "",
       "religion": "",
+      "personalityName": "",
+      "professionName": "",
       "age": 0,
       "height": "",
       "weight": "",
@@ -122,14 +124,6 @@
       "hand": "Right",
       "lock": false,
       "skillcategory": {
-        "zcmbtmod": {},
-        "cmmnmod": {},
-        "mnplmod": {},
-        "mntlmod": {},
-        "percmod": {},
-        "physmod": {},
-        "spnlmod": {},
-        "soclmod" : {}
       }
       },
       "npc": {
@@ -183,7 +177,7 @@
       }
   },
   "Item": {
-    "types": ["gear","skill","hit-location", "personality", "profession","power","magic","mutation","psychic","sorcery","super","failing","powerMod","armour","weapon","wound","allegiance","passion","persTrait","reputation"],
+    "types": ["gear","skill","hit-location", "personality", "profession","power","magic","mutation","psychic","sorcery","super","failing","powerMod","armour","weapon","wound","allegiance","passion","persTrait","reputation","skillcat"],
     "templates": {
       "base": {
         "description": "",
@@ -231,10 +225,13 @@
       "mainName": "",
       "occupation": false,
       "improve": false,
-      "basic": false
+      "basic": false,
+      "combat": false
     },
 
     "hit-location": {
+      "displayName":"",
+      "creatureType": "",
       "lowRoll": 0,
       "highRoll": 0,
       "fractionHP": 1,
@@ -283,7 +280,7 @@
       "personality": 0,
       "personal": 0,
       "effects": 0,
-      "category": "mntlmod",
+      "category": "",
       "impact": "other",
       "range": "",
       "duration": "",
@@ -308,7 +305,7 @@
       "personality": 0,
       "personal": 0,
       "effects": 0,
-      "category": "mntlmod",
+      "category": "",
       "impact": "other",
       "range": "",
       "duration": "",
@@ -382,7 +379,7 @@
       "pSCurr":0,
       "pSMax": 0
     },
-    "Weapon": {
+    "weapon": {
       "templates": ["base"],
       "weaponType": "",
       "skill1": "none",
@@ -463,6 +460,20 @@
     "reputation": {
       "templates": ["base"],
       "base": 0      
+    },
+    "skillcat": {
+      "templates": ["base"],
+      "attrib": {
+        "str": "0",
+        "con": "0",
+        "int": "0",
+        "siz": "0",
+        "pow": "0",
+        "dex": "0",
+        "cha": "0",
+        "edu": "0"
+      },
+      "stat": "none"   
     }      
   }
 }

@@ -3,12 +3,21 @@ import * as contextMenu from "../actor-cm.mjs";
 import {BRPactorItemDrop} from '../actor-itemDrop.mjs';
 import {BRPDamage} from '../../apps/damage.mjs';
 import {BRPRollType} from '../../apps/rollType.mjs';
+import { addBRPIDSheetHeaderButton } from '../../brpid/brpid-button.mjs'
 
 
 export class BRPCharacterSheet extends ActorSheet {
 
+  //Add BRPID buttons to sheet
+  _getHeaderButtons () {
+    const headerButtons = super._getHeaderButtons()
+    addBRPIDSheetHeaderButton(headerButtons, this)
+    return headerButtons
+  }
+
   /** @override */
   static get defaultOptions() {
+
     
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ["brp", "sheet", "actor"],
@@ -43,10 +52,11 @@ export class BRPCharacterSheet extends ActorSheet {
     context.usePassion = game.settings.get('brp','usePassion');    
     context.usePersTrait = game.settings.get('brp','usePersTrait');
     context.useReputation = game.settings.get('brp','useReputation');
-    context.useSocial = false;
-    context.usePers = false;
-    if (context.useAlleg || (context.useReputation > 0)) {context.useSocial = true}
-    if (context.usePersTrait || context.usePassion) {context.usePers = true}
+    context.isLocked = actorData.system.lock
+    context.useSocialTab = false;
+    context.usePersTab = false;
+    if (context.useAlleg || (context.useReputation > 0)) {context.useSocialTab = true}
+    if (context.usePersTrait || context.usePassion) {context.usePersTab = true}
     context.useAVRand = game.settings.get('brp','useAVRand');
     context.background1 = game.settings.get('brp','background1');
     context.background2 = game.settings.get('brp','background2');
@@ -55,6 +65,29 @@ export class BRPCharacterSheet extends ActorSheet {
     if (game.settings.get('brp','useFP')) {resource++};
     if (game.settings.get('brp','useSAN')) {resource++};
     context.resource = resource;
+
+    //Set Personality & Profession labels
+    context.personality = "";
+    let tempPers = (await context.items.filter(itm=>itm.type === 'personality'))[0]
+    if (tempPers) {  
+      context.personality = tempPers.name
+      context.personalityId = tempPers._id
+      context.personalityUsed = true
+    } else {
+      context.personality = actorData.system.personalityName
+      context.personalityUsed = false
+    } 
+
+    context.profession = "";
+    let tempProf = (await context.items.filter(itm=>itm.type === 'profession'))[0]
+    if (tempProf) {  
+      context.profession = tempProf.name
+      context.professionId = tempProf._id
+      context.professionUsed = true
+    } else {
+      context.profession = actorData.system.professionName
+      context.professionUsed = false
+    } 
 
     // Prepare character data and items.
       this._prepareItems(context);
@@ -122,15 +155,18 @@ export class BRPCharacterSheet extends ActorSheet {
     this.actor.system.totalPers = 0
     this.actor.system.totalXP = 0
 
-    // Sort items by name - saves sorting all containers by name separately
+    // Sort items by type and then name - saves sorting all containers by name separately and makes sure skills are processed before weapons
     context.items.sort(function(a, b){
       let x = a.name;
       let y = b.name;
+      let r = a.type;
+      let s = b.type;
+      if (r < s) {return -1};
+      if (s < r) {return 1};
       if (x < y) {return -1};
       if (x > y) {return 1};
       return 0;
     });
-
 
     // Add items to containers.
     for (let itm of context.items) {
@@ -139,23 +175,9 @@ export class BRPCharacterSheet extends ActorSheet {
         itm.system.equippedName = game.i18n.localize('BRP.'+itm.system.equipStatus)
         gears.push(itm);
       } else if (itm.type ==='skill') {
-        if (itm.system.category ==='spnlmod'){
-          if (game.settings.get('brp','useSupernatural'))  {
           skillsDev.push(itm)
-            itm.system.grandTotal = itm.system.total + this.actor.system.skillcategory[itm.system.category].bonus
+          itm.system.grandTotal = itm.system.total + (this.actor.system.skillcategory[itm.system.category]??0)
           skills.push(itm);
-          }
-        } else if (itm.system.category ==='soclmod'){
-            if (game.settings.get('brp','useSocial'))  {
-            skillsDev.push(itm)
-              itm.system.grandTotal = itm.system.total + this.actor.system.skillcategory[itm.system.category].bonus
-            skills.push(itm);
-            }  
-          } else {
-            skillsDev.push(itm)
-              itm.system.grandTotal = itm.system.total + this.actor.system.skillcategory[itm.system.category].bonus
-            skills.push(itm);
-          }   
           this.actor.system.totalProf = this.actor.system.totalProf + itm.system.profession
           this.actor.system.totalPers = this.actor.system.totalPers + itm.system.personal
           this.actor.system.totalXP = this.actor.system.totalXP + itm.system.xp
@@ -170,7 +192,7 @@ export class BRPCharacterSheet extends ActorSheet {
       } else if (itm.type === 'wound') {
         wounds.push(itm);
       } else if (itm.type === 'magic'){
-        itm.system.grandTotal = itm.system.total + this.actor.system.skillcategory[itm.system.category].bonus
+        itm.system.grandTotal = itm.system.total + (this.actor.system.skillcategory[itm.system.category]??0)
         magics.push(itm);
         this.actor.system.totalProf = this.actor.system.totalProf + itm.system.profession
         this.actor.system.totalPers = this.actor.system.totalPers + itm.system.personal
@@ -178,6 +200,7 @@ export class BRPCharacterSheet extends ActorSheet {
       } else if (itm.type === 'mutation'){
         mutations.push(itm);
       } else if (itm.type === 'psychic'){
+        itm.system.grandTotal = itm.system.total + (this.actor.system.skillcategory[itm.system.category]??0)
         psychics.push(itm);
         this.actor.system.totalProf = this.actor.system.totalProf + itm.system.profession
         this.actor.system.totalPers = this.actor.system.totalPers + itm.system.personal
@@ -197,7 +220,7 @@ export class BRPCharacterSheet extends ActorSheet {
         if(itm.system.hitlocID) {
           let hitLocTemp = this.actor.items.get(itm.system.hitlocID)
           if (hitLocTemp) {
-            itm.system.hitlocName = hitLocTemp.name
+            itm.system.hitlocName = hitLocTemp.system.displayName
             itm.system.lowRoll = hitLocTemp.system.lowRoll
             if (context.useHPL) {
               itm.system.hide = hitLocTemp.system.hide
@@ -207,7 +230,7 @@ export class BRPCharacterSheet extends ActorSheet {
         itm.system.equippedName = game.i18n.localize('BRP.'+itm.system.equipStatus)
         itm.system.list=1
         armours.push(itm);
-      }  else if (itm.type === 'weapon'){
+      } else if (itm.type === 'weapon'){
         if(itm.system.range3 !="") {
           itm.system.rangeName= itm.system.range1 + "/" + itm.system.range2 + "/" + itm.system.range3
         } else if( itm.system.range2 !="") {
@@ -225,16 +248,39 @@ export class BRPCharacterSheet extends ActorSheet {
         } else {
           itm.system.dmgName= itm.system.dmg1
         }
-        // Get the highest scoring skill that relates to this weapon
+     
+        let skill1Select = "";
+        let skill2Select = "";
+        skill1Select = skills.filter(nitm => nitm.flags.brp.brpidFlag.id === itm.system.skill1)[0]
+        skill2Select = skills.filter(nitm => nitm.flags.brp.brpidFlag.id === itm.system.skill2)[0]
+        if (skill1Select && skill2Select) {
+          if (itm.system.skill2 ==='none'){
+            if (skill1Select) {
+              itm.system.sourceID = skill1Select._id
+            }
+          } else {  
+            if (skill2Select.system.total >= skill1Select.system.total) {
+              itm.system.sourceID = skill2Select._id
+            } else {
+              itm.system.sourceID = skill1Select._id
+            }
+          }
+        } else if (skill1Select) {
+          itm.system.sourceID = skill1Select._id
+        } else if (skill2Select) {
+          itm.system.sourceID = skill2Select._id
+        }
+
+
         if (itm.system.sourceID) {
-          itm.system.skillScore = this.actor.items.get(itm.system.sourceID).system.total + this.actor.system.skillcategory[this.actor.items.get(itm.system.sourceID).system.category].bonus
+          itm.system.skillScore = this.actor.items.get(itm.system.sourceID).system.total + this.actor.system.skillcategory[this.actor.items.get(itm.system.sourceID).system.category]
           itm.system.skillName = this.actor.items.get(itm.system.sourceID).name
         } else {
           itm.system.skillScore = 0
-          itm.system.skillName = ""
-        }        
+          itm.system.skillName = game.i18n.localize('BRP.noWpnSkill')
+        } 
         itm.system.equippedName = game.i18n.localize('BRP.'+itm.system.equipStatus)
-        weapons.push(itm);
+        weapons.push(itm)  
       } else if (itm.type === 'allegiance'){
         if (itm.system.allegApoth) {
           itm.system.rank=game.i18n.localize('BRP.allegApoth')
@@ -248,30 +294,14 @@ export class BRPCharacterSheet extends ActorSheet {
         persTraits.push(itm);
       } else if (itm.type === 'reputation'){
         reputations.push(itm);
+      } else if (itm.type === 'skillcat'){
+        skills.push({name:itm.name, isType: true, 
+          flags: {brp: {brpidFlag: {id:itm.flags.brp.brpidFlag.id}}},
+          system: {category: itm.flags.brp.brpidFlag.id,total: itm.system.bonus},
+          _id: itm._id
+        });
       } 
     }  
-
-    //Add Cateogry Headings to Skills 
-    skills.push(
-      {name : game.i18n.localize("BRP.cmmnmod"), isType: true, system: {category: "cmmnmod", total: this.actor.system.skillcategory.cmmnmod.bonus}},
-      {name : game.i18n.localize("BRP.mnplmod"), isType: true, system: {category: "mnplmod", total: this.actor.system.skillcategory.mnplmod.bonus}},
-      {name : game.i18n.localize("BRP.mntlmod"), isType: true, system: {category: "mntlmod", total: this.actor.system.skillcategory.mntlmod.bonus}},
-      {name : game.i18n.localize("BRP.percmod"), isType: true, system: {category: "percmod", total: this.actor.system.skillcategory.percmod.bonus}},
-      {name : game.i18n.localize("BRP.physmod"), isType: true, system: {category: "physmod", total: this.actor.system.skillcategory.physmod.bonus}},
-      {name : game.i18n.localize("BRP.zcmbtmod"), isType: true, system: {category: "zcmbtmod", total: this.actor.system.skillcategory.zcmbtmod.bonus}}
-    );
-
-    if (game.settings.get('brp','useSupernatural')) {
-      skills.push(
-       {name : game.i18n.localize("BRP.spnlmod"), isType: true, system: {category: "spnlmod", total: this.actor.system.skillcategory.spnlmod.bonus}},
-      );  
-    }
-
-    if (game.settings.get('brp','useSocial')) {
-      skills.push(
-       {name : game.i18n.localize("BRP.soclmod"), isType: true, system: {category: "soclmod", total: this.actor.system.skillcategory.soclmod.bonus}},
-      );  
-    }
 
     //Sort Skills by Category then Skill Name
     skills.sort(function(a, b){
@@ -413,6 +443,7 @@ export class BRPCharacterSheet extends ActorSheet {
      new BRPContextMenu(html, ".combat-tab.contextmenu", contextMenu.combatMenuOptions(this.actor, this.token));
      new BRPContextMenu(html, ".skill-name.contextmenu", contextMenu.skillMenuOptions(this.actor, this.token));
      new BRPContextMenu(html, ".skill-cell-name.contextmenu", contextMenu.skillMenuOptions(this.actor, this.token));
+     new BRPContextMenu(html, ".category-name.contextmenu", contextMenu.skillCategoryMenuOptions(this.actor, this.token));
      new BRPContextMenu(html, ".hitloc-name.contextmenu", contextMenu.hitLocMenuOptions(this.actor, this.token));
      new BRPContextMenu(html, ".power-name.contextmenu", contextMenu.powerMenuOptions(this.actor, this.token));
      new BRPContextMenu(html, ".magic-name.contextmenu", contextMenu.magicMenuOptions(this.actor, this.token));
@@ -464,6 +495,10 @@ export class BRPCharacterSheet extends ActorSheet {
 
     // Create the item!
     const newItem = await Item.create(itemData, {parent: this.actor});
+    let key = await game.system.api.brpid.guessId(newItem)
+    await newItem.update({'flags.brp.brpidFlag.id': key,
+                         'flags.brp.brpidFlag.lang': game.i18n.lang,
+                         'flags.brp.brpidFlag.priority': 0})
 
     //And in certain circumstances render the new item sheet
     if (['gear','armour','weapon'].includes(itemData.type)) {
@@ -471,6 +506,11 @@ export class BRPCharacterSheet extends ActorSheet {
     }
 
   }
+
+
+
+
+
 
   // Handle clickable rolls.
   _onRoll(event) {

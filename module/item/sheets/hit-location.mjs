@@ -1,10 +1,18 @@
 import { BRPSelectLists } from "../../apps/select-lists.mjs";
+import { addBRPIDSheetHeaderButton } from '../../brpid/brpid-button.mjs'
 
 export class BRPHitLocSheet extends ItemSheet {
     constructor (...args) {
       super(...args)
       this._sheetTab = 'items'
     }
+
+  //Add BRPID buttons to sheet
+  _getHeaderButtons () {
+    const headerButtons = super._getHeaderButtons()
+    addBRPIDSheetHeaderButton(headerButtons, this)
+    return headerButtons
+  }    
   
     static get defaultOptions () {
       return foundry.utils.mergeObject(super.defaultOptions, {
@@ -56,6 +64,13 @@ export class BRPHitLocSheet extends ItemSheet {
 
 
   _updateObject (event, formData) {
+    const displayName = formData['system.displayName'] || this.item.system.displayName
+    const creatureType = formData['system.creatureType'] || this.item.system.creatureType
+    if (creatureType === "" ) {
+      formData.name = displayName
+    } else {
+      formData.name = displayName + ' (' + creatureType + ')'
+    }  
     super._updateObject(event, formData)
   }
 

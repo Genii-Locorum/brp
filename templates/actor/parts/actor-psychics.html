@@ -17,7 +17,7 @@
       <div class = "centre">{{psychic.system.duration}}</div>
       <div class = "centre">{{psychic.system.pppl}}</div>
       <div class = "centre">{{psychic.system.damage}}</div>
-      <div class = "centre" title = "{{ localize 'BRP.bonusHint' }}">{{psychic.system.total}}%  {{#if (gte ../actor.system.skillcategory.mntlmod.bonus 0)}}(+{{else}}(-{{/if}}{{../actor.system.skillcategory.mntlmod.bonus}})</div>
+      <div class = "centre">{{psychic.system.grandTotal}}%</div>
       <div></div>
     </li>  
   {{/each}}

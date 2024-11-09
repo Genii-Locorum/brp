@@ -282,6 +282,33 @@ export const skillMenuOptions = (actor,token) => [
   }
 ]  
 
+//Skill Category Context Menu Options
+export const skillCategoryMenuOptions = (actor,token) => [
+  {
+    name: game.i18n.localize("BRP.skillcat"),
+    icon: "",
+    condition: () => true,
+    callback: (el) => {}
+  },
+  {
+    name: game.i18n.localize("BRP.view"),
+    icon: '<i class="fas fa-magnifying-glass"></i>',
+    condition: () => true,
+    callback: (el) => {
+      const itemId = BRPUtilities.triggerEdit(el, actor, "itemId");
+    }
+  },
+  {
+    name: game.i18n.localize("BRP.delete"),
+    icon: '<i class="fas fa-trash"></i>',
+    condition: () => true,
+    callback: (el) => {
+      const itemId = BRPUtilities.triggerDelete(el, actor, "itemId");
+    }
+  }
+]  
+
+
 //Hit Location Name Context Menu Options
 export const hitLocMenuOptions = (actor, token) => [
   {

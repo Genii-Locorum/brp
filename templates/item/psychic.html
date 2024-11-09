@@ -41,7 +41,22 @@
             <div class="stat-display boxed">{{catName}}</div>  
           {{/if}}  
         </div>
-        <br>    
+        <br>   
+
+        <div class="tab active" data-group="primary" data-tab="details">    
+          <div class="base-grid">
+            <div class="item-title"> {{localize 'BRP.category'}}:</div>
+            {{#if isGM}}
+              <div class="stat-input centre">
+                <select data-handle-change name="system.category">
+                  {{selectOptions skillCatOptions selected=item.system.category}}
+                </select>
+              </div>
+            {{else}}
+              <div class="stat-display boxed">{{skillCatName}}</div>  
+            {{/if}}  
+          </div>
+          <br> 
 
         <div class="magic-grid">
           {{#if isGM}}  

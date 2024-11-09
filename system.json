@@ -2,7 +2,7 @@
   "id": "brp",
   "title": "Basic Role Playing",
   "description": "Basic Role Playing system for FoundryVTT!",
-  "version": "12.1.29",
+  "version": "12.1.30",
   "compatibility": {
     "minimum": 11,
     "verified": "12.331",
@@ -16,145 +16,19 @@
   "scripts": [],
   "packs": [
     {
-      "label": "Ammo",
-      "type": "Item",
-      "name": "ammo",
-      "path": "packs/ammo.db",
-      "system": "brp",
-      "private": false,
-      "flags": {}
-    },
-    {
-      "label": "Armour",
-      "type": "Item",
-      "name": "armour",
-      "path": "packs/armour.db",
-      "system": "brp",
-      "private": false,
-      "flags": {}
-    },
-    {
-      "label": "Character-failings",
-      "type": "Item",
-      "name": "character-failings",
-      "path": "packs/character-failings.db",
-      "system": "brp",
-      "private": false,
-      "flags": {}
-    },
-    {
-      "label": "Hit-locations",
-      "type": "Item",
-      "name": "hit-locations",
-      "path": "packs/hit-locations.db",
-      "system": "brp",
-      "private": false,
-      "flags": {}
-    },
-    {
-      "label": "Magic-spells",
-      "type": "Item",
-      "name": "magic-spells",
-      "path": "packs/magic-spells.db",
-      "system": "brp",
-      "private": false,
-      "flags": {}
-    },
-    {
-      "label": "Mutations",
-      "type": "Item",
-      "name": "mutations",
-      "path": "packs/mutations.db",
-      "system": "brp",
-      "private": false,
-      "flags": {}
-    },
-    {
-      "label": "Personalities",
-      "type": "Item",
-      "name": "personalities",
-      "path": "packs/personalities.db",
-      "system": "brp",
-      "private": false,
-      "flags": {}
-    },
-    {
-      "label": "Powers",
-      "type": "Item",
-      "name": "powers",
-      "path": "packs/powers.db",
-      "system": "brp",
-      "private": false,
-      "flags": {}
-    },
-    {
-      "label": "Professions",
-      "type": "Item",
-      "name": "professions",
-      "path": "packs/professions.db",
-      "system": "brp",
-      "private": false,
-      "flags": {}
-    },
-    {
-      "label": "Psychic-abilities",
-      "type": "Item",
-      "name": "psychic-abilities",
-      "path": "packs/psychic-abilities.db",
-      "system": "brp",
-      "private": false,
-      "flags": {}
-    },
-    {
-      "label": "Skills",
-      "type": "Item",
-      "name": "skills",
-      "path": "packs/skills.db",
-      "system": "brp",
-      "private": false,
-      "flags": {}
-    },
-    {
-      "label": "Sorcery-spells",
-      "type": "Item",
-      "name": "sorcery-spells",
-      "path": "packs/sorcery-spells.db",
-      "system": "brp",
-      "private": false,
-      "flags": {}
-    },
-    {
-      "label": "Superpower-modifiers",
-      "type": "Item",
-      "name": "superpower-modifiers",
-      "path": "packs/superpower-modifiers.db",
-      "system": "brp",
-      "private": false,
-      "flags": {}
-    },
-    {
-      "label": "Superpowers",
-      "type": "Item",
-      "name": "superpowers",
-      "path": "packs/superpowers.db",
-      "system": "brp",
-      "private": false,
-      "flags": {}
-    },
-    {
-      "label": "Weapons",
-      "type": "Item",
-      "name": "weapons",
-      "path": "packs/weapons.db",
-      "system": "brp",
-      "private": false,
-      "flags": {}
-    },
-    {
       "label": "Instructions",
       "type": "JournalEntry",
       "name": "instructions",
       "path": "packs/instructions.db",
+      "system": "brp",
+      "private": false,
+      "flags": {}
+    },
+    {
+      "label": "BRP ID Macros",
+      "type": "Macro",
+      "name": "brp-id-macros",
+      "path": "packs/brp-id-macros.db",
       "system": "brp",
       "private": false,
       "flags": {}
@@ -176,7 +50,7 @@
   "socket": true,
   "url": "",
   "manifest": "https://github.com/Genii-Locorum/brp/releases/latest/download/system.json",
-  "download": "https://github.com/Genii-Locorum/brp/releases/download/Betav1.29/system.zip",
+  "download": "https://github.com/Genii-Locorum/brp/releases/download/Betav1.30/system.zip",
   "license": "LICENSE.txt",
   "changelog": "CHANGELOG.md"
 }

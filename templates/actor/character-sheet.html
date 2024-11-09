@@ -50,10 +50,31 @@
         </div>  
    
         <div class="personal-grid">
-          <label class="item charname profession contextmenu" data-item-id="{{actor.system.professionId}}">{{ localize 'BRP.profession' }}:</label>
-          <div class="personal-display">{{actor.system.profession}}</div>
-          <label class="item charname  personality contextmenu" data-item-id="{{actor.system.personalityId}}">{{ localize 'BRP.personality' }}:</label>
-          <div class="personal-display">{{actor.system.personality}}</div>
+          {{#if professionUsed}}
+            <label class="item charname {{#if professionUsed}} profession contextmenu {{/if}}" data-item-id="{{professionId}}">{{ localize 'BRP.profession' }}:</label>
+            <div class="personal-display">{{profession}}</div>
+          {{else}}
+            {{#if isLocked}}
+              <label class="item charname">{{ localize 'BRP.profession' }}:</label>
+              <div class="personal-display">{{profession}}</div>
+            {{else}}
+            <label class="item charname">{{ localize 'BRP.profession' }}:</label>
+            <input class="personal-inp" name="system.professionName" type="text" value="{{actor.system.professionName}}"/>
+            {{/if}}
+          {{/if}}
+
+          {{#if personalityUsed}}
+            <label class="item charname {{#if personalityUsed}} personality contextmenu {{/if}}" data-item-id="{{personalityId}}">{{ localize 'BRP.personality' }}:</label>
+            <div class="personal-display">{{personality}}</div>
+          {{else}}
+            {{#if isLocked}}
+              <label class="item charname">{{ localize 'BRP.personality' }}:</label>
+              <div class="personal-display">{{personality}}</div>
+            {{else}}
+            <label class="item charname">{{ localize 'BRP.personality' }}:</label>
+            <input class="personal-inp" name="system.personalityName" type="text" value="{{actor.system.personalityName}}"/>
+            {{/if}}
+          {{/if}}
         </div>
   
         <div class="personal-main-grid">
@@ -182,8 +203,8 @@
         {{#unless (eq actor.system.psychic "")}}<div><a class="item power-name contextmenu" data-item-id="{{system.psychic}}" data-tab="psychics">{{localize 'BRP.psychics'}}</a></div>{{/unless}}
         {{#unless (eq actor.system.sorcery "")}}<div><a class="item power-name contextmenu" data-item-id="{{system.sorcery}}" data-tab="sorcery">{{localize 'BRP.sorcery'}}</a></div>{{/unless}}
         {{#unless (eq actor.system.super "")}}<div><a class="item power-name contextmenu" data-item-id="{{system.super}}" data-tab="super">{{localize 'BRP.superAbbr'}}</a></div>{{/unless}}
-        {{#if useSocial}}<div><a class="item" data-tab="social">{{localize 'BRP.social'}}</a></div>{{/if}}
-        {{#if usePers}}<div><a class="item" data-tab="pers">{{localize 'BRP.pers'}}</a></div>{{/if}}
+        {{#if useSocialTab}}<div><a class="item" data-tab="social">{{localize 'BRP.social'}}</a></div>{{/if}}
+        {{#if usePersTab}}<div><a class="item" data-tab="pers">{{localize 'BRP.pers'}}</a></div>{{/if}}
         <div><a class="item" data-tab="statistics">{{localize 'BRP.characteristicAbbr'}}</a></div>
         <div><a class="item" data-tab="background">{{localize 'BRP.story'}}</a></div>
         <div><a class="lock-icon grid-middle actor-toggle" title="{{ localize 'BRP.lock' }}" data-property="lock"> <i class="{{#if system.lock}}fas fa-lock{{else}}fas fa-lock-open{{/if}}"></i> </a></div>

@@ -1,11 +1,18 @@
-import { BRPSelectLists } from "../../apps/select-lists.mjs";
+import { addBRPIDSheetHeaderButton } from '../../brpid/brpid-button.mjs'
 
 export class BRPPersTraitSheet extends ItemSheet {
     constructor (...args) {
       super(...args)
       this._sheetTab = 'items'
     }
-  
+
+  //Add BRPID buttons to sheet
+  _getHeaderButtons () {
+    const headerButtons = super._getHeaderButtons()
+    addBRPIDSheetHeaderButton(headerButtons, this)
+    return headerButtons
+  }    
+
     static get defaultOptions () {
       return foundry.utils.mergeObject(super.defaultOptions, {
         classes: ['brp', 'sheet', 'item'],

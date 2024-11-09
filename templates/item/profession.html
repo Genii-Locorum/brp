@@ -56,15 +56,15 @@
           <div class="item-title">{{ localize "BRP.skills"}}</div>
           <ol class="item-list">
             {{#each perSkill as |skill|}}
-              <li class="item flexrow" data-item-id="{{skill._id}}" >
+              <li class="item flexrow" data-item-id="{{skill.uuid}}" data-brpid="{{skill.brpid}}" >
                 <div class="item-name flexrow">
-                  {{#if skill.system.variable}}
-                    <div class="font14">{{skill.name}} ({{ localize 'BRP.var'}})</div>
+                  {{#if skill.variable}}
+                    <div class="item-view font14" title="{{skill.brpid}}">{{skill.name}} ({{ localize 'BRP.var'}})</div>
                   {{else}}
-                    {{#if skill.system.group}}
-                      <div class="font14">{{skill.name}} ({{ localize 'BRP.grp'}})</div>
+                    {{#if skill.group}}
+                      <div class="item-view font14" title="{{skill.brpid}}">{{skill.name}} ({{ localize 'BRP.grp'}})</div>
                     {{else}}
-                      <div class="font14">{{skill.name}} ({{skill.system.base}}%)</div>
+                      <div class="item-view font14" title="{{skill.brpid}}">{{skill.name}} ({{skill.base}}%)</div>
                     {{/if}}
                   {{/if}}
                 </div>
@@ -101,16 +101,16 @@
               </div>
               
             {{#each ../grpSkill as |skill|}}
-              {{#if (eq skill.system.index key)}}
-                <li class="item flexrow" data-item-id="{{skill._id}}">
+              {{#if (eq skill.index key)}}
+                <li class="item flexrow" data-item-id="{{skill.uuid}}" data-brpid="{{skill.brpid}}">
                   <div class="item-name flexrow">
-                  {{#if skill.system.variable}}
-                    <div class="font14">{{skill.name}} ({{ localize 'BRP.var'}})</div>
+                  {{#if skill.variable}}
+                    <div class="item-view font14" title="{{skill.brpid}}">{{skill.name}} ({{ localize 'BRP.var'}})</div>
                   {{else}}
-                    {{#if skill.system.group}}
-                      <div class="font14">{{skill.name}} ({{ localize 'BRP.grp'}})</div>
+                    {{#if skill.group}}
+                      <div class="item-view font14" title="{{skill.brpid}}">{{skill.name}} ({{ localize 'BRP.grp'}})</div>
                     {{else}}
-                      <div class="font14">{{skill.name}} ({{skill.system.base}}%)</div>
+                      <div class="item-view font14" title="{{skill.brpid}}">{{skill.name}} ({{skill.base}}%)</div>
                     {{/if}}
                   {{/if}}
                   </div>
@@ -134,9 +134,9 @@
           <div class="item-title">{{ localize "BRP.powers"}}</div>
           <ol class="item-list">
             {{#each perPower as |power|}}
-              <li class="item flexrow" data-item-id="{{power._id}}" >
+              <li class="item flexrow" data-item-id="{{power.uuid}}" data-brpid="{{power.brpid}}" >
                 <div class="item-name flexrow">
-                  <div class="font14">{{power.name}}</div>
+                  <div class="item-view font14" title="{{power.brpid}}">{{power.name}}</div>
                 </div>
                 <div class="item-controls">
                   {{#if ../isGM}}

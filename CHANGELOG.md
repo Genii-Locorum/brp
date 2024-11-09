@@ -1,9 +1,23 @@
 # CHANGELOG
 
+## 12.1.30
+- BRP IDs have been added to the game - see the Github Wiki for more information - https://github.com/Genii-Locorum/brp/wiki/BRP-IDs.  This is a major change so please BACKUP YOUR WORLDS before implementing this.
+- A number of macros have been included to help with migration - more info at https://github.com/Genii-Locorum/brp/wiki/Migrating-to-BRP-IDs
+- You no longer need to bring comepndium items in to the game items and can drag items etc straight from the compendia
+- The list of weapon types (and some other checks) are no longer generated from just in world game items, but pull a list from game items and compendia based on BRPIDs.  You will still need some combat skills etc before you create weapons but they can be in the compendia rather than in world
+- Under skills there is a new toggle option "Combat Skill" - if toggled on then the skill is included in the list of weapon types.  You don't need to toggle this on if the Category is set to Combat as these are automatically included.  This removes some hard coding to include Dodge, Throw and Demolitions.  It means you can also include other skills you create or rename those skills.
+- Most compendia have been removed from this system but have been placed in to a separate module - the aim is to make customising your world easier (you can use the new module, import the content, remove the module, edit the content and save your own compendia)
+- Instructions have been removed from within the game but have migrated to the Github Wiki - https://github.com/Genii-Locorum/brp/wiki
+- For Personality, you can now manually enter the personality name when the character sheet is unlocked if you don't have a Personality Item on the character sheet - if you later add a Personality item it supercedes (but doesnt erase) the manual entry.  If you right click the "personality" title and there is no context menu this shows you don't have a relevant item.  The same applies to Profession.
+- When skills or powers are shown on Personality, Profession etc either in the main list or optional groups you can now click on the name to open the relevant Item sheet.  These will be the best match based on the BRPID with the highest priority as the actual skill etc is not stored in the Personality, Profession etc.  This means you can ammend a skill etc without having to relink it to the Personality etc 
+-Hit Locations (the item) now have a Display Name (e.g. Head) and a Creature Type (e.g. Humanoid).  The item name will be a combination of the two with the Creature Type, if populated, appearing in brackets.  The Display Name is what's shown on the Character & NPC sheets.  This is to make finding the right hit location for a creature easier in a big list of hit locations
+-Skill Categories have been added as a new Item.  You can change the name and configure how the category modifiers are calculated.  The BRPID for each modifier in world or the compendium is used to generate the list of possible skill categories.  Skill categories are automatically added to new characters.  It is imperative that you either have a skill category with the BRPID 'i.skillcat.combat' or you flag all the weapon skills as combat skills.  If you don't you won't see a list of weapon skills.
+- Because of the above the game settings for Social and Supernatural have been removed (include or don't include the relevant game items as you see fit.)
+
 ## 12.1.29
 - Added a Description section to NPCs for extended notes.
 - You now access NPC stats and base stats (dice to roll) via separate icons rather than toggling one
-- There is a new GM tool - Beastiary Mode.  When toggled on you will see more HPL and Armour & SAN Loss sections on the NPC sheet even if your game doesn't use them.  This mode is aimed at creating a Beastiary for distribution to other users who may use game settings that you don't.
+- There is a new GM tool - Bestiary Mode.  When toggled on you will see more HPL and Armour & SAN Loss sections on the NPC sheet even if your game doesn't use them.  This mode is aimed at creating a Bestiary for distribution to other users who may use game settings that you don't.
 - SAN Loss has been added to NPC sheets
 - Fixed a bug with NPC hit points on HPL not recording properly.
 

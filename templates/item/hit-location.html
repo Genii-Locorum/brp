@@ -2,12 +2,8 @@
     <header class="sheet-header">
     
       <div class="hitlocgrid">
-      <div class="item-title"> {{localize 'BRP.hitLoc'}}:</div>
-      {{#if isGM}}  
-        <div class="stat-input"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></div>
-      {{else}}
-        <div class="title-name bold center boxed">{{item.name}}</div>
-      {{/if}}
+        <div class="item-title"> {{localize 'BRP.hitLoc'}}:</div>
+        <div class="title-name bold centre boxed">{{item.name}}</div>
       </div>  
     
       <img class="item-image" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="50" width="50"/>
@@ -19,7 +15,12 @@
       <br>
       <div class="hitloc-scores">
         {{#if isGM}}  
-          <div class="skill-display">{{localize 'BRP.hitLocLowRoll'}}</div>
+          <div class="skill-display">{{localize 'BRP.hitLocName'}}</div>
+          <div class="stat-input"><input name="system.displayName" type="text" value="{{item.system.displayName}}"/></div>
+          <div class="skill-display">{{localize 'BRP.hitLocCreatureType'}}</div>
+          <div class="stat-input"><input name="system.creatureType" type="text" value="{{item.system.creatureType}}"/></div>
+          <br>
+          <div class="new-row skill-display">{{localize 'BRP.hitLocLowRoll'}}</div>
           <div class="stat-input"><input name="system.lowRoll" type="text" value="{{item.system.lowRoll}}" data-dtype="Number"/></div>
           <div class="skill-display">{{localize 'BRP.hitLocHighRoll'}}</div>
           <div class="stat-input"><input name="system.highRoll" type="text" value="{{item.system.highRoll}}" data-dtype="Number"/></div>
@@ -34,7 +35,12 @@
             </select>
           </div>
         {{else}}
-          <div class="skill-display">{{localize 'BRP.hitLocLowRoll'}}</div>
+          <div class="skill-display">{{localize 'BRP.hitLocName'}}</div>
+          <div class="hitloc-display centre boxed">{{item.system.displayName}}</div>
+          <div class="skill-display">{{localize 'BRP.hitLocCreatureType'}}</div>
+          <div class="hitloc-display centre boxed">{{item.system.creatureType}}</div>
+          <br>
+          <div class="new-row skill-display">{{localize 'BRP.hitLocLowRoll'}}</div>
           <div class="hitloc-display centre boxed">{{item.system.lowRoll}}</div>
           <div class="skill-display">{{localize 'BRP.hitLocHighRoll'}}</div>
           <div class="hitloc-display centre boxed">{{item.system.highRoll}}</div>

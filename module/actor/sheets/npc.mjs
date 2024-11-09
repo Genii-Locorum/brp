@@ -1,7 +1,15 @@
 import { BRPSelectLists } from "../../apps/select-lists.mjs";
 import {BRPRollType} from '../../apps/rollType.mjs';
+import { addBRPIDSheetHeaderButton } from '../../brpid/brpid-button.mjs'
 
 export class BRPNpcSheet extends ActorSheet {
+
+  //Add BRPID buttons to sheet
+  _getHeaderButtons () {
+    const headerButtons = super._getHeaderButtons()
+    addBRPIDSheetHeaderButton(headerButtons, this)
+    return headerButtons
+  }
 
   /** @override */
   static get defaultOptions() {
@@ -250,7 +258,7 @@ export class BRPNpcSheet extends ActorSheet {
     if (['base','currHP','quantity','npcVal','allegPoints'].includes(field)) {
       newScore = Number(newScore)
       field = 'system.'+field;  
-    } else if (['ap','bap','apRnd','bapRnd','att'].includes(field)) {
+    } else if (['displayName','ap','bap','apRnd','bapRnd','att'].includes(field)) {
       field = 'system.'+field;  
     } else if (field === 'name') {
     } else {return}
@@ -276,11 +284,19 @@ export class BRPNpcSheet extends ActorSheet {
       system: data
     };
 
+    if (type === 'hit-location') {
+      itemData.system.displayName = name
+    }
+
     // Remove the type from the dataset since it's in the itemData.type prop.
     delete itemData.system["type"];
 
     // Create the item!
     const newItem = await Item.create(itemData, {parent: this.actor});
+    let key = await game.system.api.brpid.guessId(newItem)
+    await newItem.update({'flags.brp.brpidFlag.id': key,
+                         'flags.brp.brpidFlag.lang': game.i18n.lang,
+                         'flags.brp.brpidFlag.priority': 0})
     
     //And in certain circumstances render the new item sheet
     if (itemData.type === 'hit-location') {

@@ -8,75 +8,78 @@ export class BRPactorItemDrop {
     itemData = itemData instanceof Array ? itemData : [itemData];
     //TODO: Consider adding a bypass to just create the items with no checks
     //      return actor.createEmbeddedDocuments("Item", itemData);
-    for (let k of itemData) {
+    for (let nItm of itemData) {
       let reqResult = 1;
       let errMsg = "";
     //Automatically allow gear to be added
-    if (k.type != 'gear') {   
+    if (nItm.type != 'gear') {   
+
+
+      //Don't allow the following items to be dropped directly on a character sheet
+      if(['powerMod'].includes(nItm.type)) {
+        reqResult = 0;
+        errMsg = game.i18n.localize('BRP.'+nItm.type) +"("+nItm.name + "): " +   game.i18n.localize('BRP.noDirectDrop');     
+      }
+
 
       //When dropping armour check against using HPL and HPL compatabaility
-    if (k.type === 'armour') {
-      if (game.settings.get('brp','useHPL') && k.system.HPL) {
+    if (nItm.type === 'armour') {
+      if (game.settings.get('brp','useHPL') && nItm.system.HPL) {
         reqResult = 0;
-        errMsg = k.name + " : " +   game.i18n.localize('BRP.armourNotHPL');               
+        errMsg = nItm.name + " : " +   game.i18n.localize('BRP.armourNotHPL');               
       }
       //If using hit locations select a Hit Location for the armour
       if (game.settings.get('brp','useHPL')) {
         let usage = await BRPactorItemDrop.hitLocationDialog (actor)
         if (usage) {
-          k.system.hitlocID = usage.get('hitLoc')
+          nItm.system.hitlocID = usage.get('hitLoc')
         } else {
           reqResult = 0;
-          errMsg = k.name + " : " +   game.i18n.localize('BRP.armourNoHitLoc');              
+          errMsg = nItm.name + " : " +   game.i18n.localize('BRP.armourNoHitLoc');              
         }
       }
     }  
 
       //When dropping get the base score
-      if (k.type === 'skill') {
-        k.system.base = await this._calcBase(k,actor)
+      if (nItm.type === 'skill') {
+        nItm.system.base = await this._calcBase(nItm,actor)
       }
 
       //When dropping a weapon check to see if character has the skills and if not add them to the character sheet
-      if (k.type === 'weapon') {
+      if (nItm.type === 'weapon') {
         //If there isn't a skill1 then give an error message
-        if(k.system.skill1 === "" || k.system.skill1 === "none") {
+        if(nItm.system.skill1 === "" || nItm.system.skill1 === "none") {
           reqResult = 0;
-          errMsg = k.name + " : " +   game.i18n.localize('BRP.weaponNeedsSkill');     
+          errMsg = nItm.name + " : " +   game.i18n.localize('BRP.weaponNeedsSkill');     
         } else {
 
-          k.system.equipStatus = 'carried'
-          k.system.actEnc = k.system.enc
-          k.system.hpCurr = k.system.hp
+          nItm.system.equipStatus = 'carried'
+          nItm.system.actEnc = nItm.system.enc
+          nItm.system.hpCurr = nItm.system.hp
           let skill1Test = 0
           let skill2Test = 0  
           let newSkill = "";  
-          for (let j of actor.items) {
-            if(j.type === 'skill') {
-              if (j.name === game.items.get(k.system.skill1).name) {
-                skill1Test = 1  
-              } else if (k.system.skill2 != "none" && j.name === game.items.get(k.system.skill2).name) {
-                skill2Test = 1  
-              } 
-            }
-          }
-          for (let j of newItemData) {
-            if(j.type === 'skill') {
-              if (j.name === game.items.get(k.system.skill1).name) {
-                skill1Test = 1  
-              } else if (k.system.skill2 != "none" && j.name === game.items.get(k.system.skill2).name) {
-                skill2Test = 1  
-              } 
-            }          
-          }
-          if (skill1Test === 0 && k.system.skill1 != 'none') {
-            newSkill = game.items.get(k.system.skill1)
+          //Test to see if skill1 or 2 exist on the character
+          if((await actor.items.filter(itm=>itm.type==='skill' && nItm.system.skill1 === itm.flags.brp.brpidFlag.id)).length>0) {skill1Test = 1}
+          if (nItm.system.skill2 !='none') {
+            if((await actor.items.filter(itm=>itm.type==='skill' && nItm.system.skill2 === itm.flags.brp.brpidFlag.id)).length>0) {skill2Test = 1}
+          }  
+
+          //Test to see if the skill1 or 2 are in the newItems due to be created
+          if((await newItemData.filter(itm=>itm.type==='skill' && nItm.system.skill1 === itm.flags.brp.brpidFlag.id)).length>0) {skill1Test = 1}
+          if (nItm.system.skill2 !='none') {
+            if((await actor.items.filter(itm=>itm.type==='skill' && nItm.system.skill2 === itm.flags.brp.brpidFlag.id)).length>0) {skill2Test = 1}
+          } 
+
+
+          if (skill1Test === 0 && nItm.system.skill1 != 'none') {
+            newSkill = (await game.system.api.brpid.fromBRPIDBest({brpid:nItm.system.skill1}))[0]
             if (newSkill) {
               newSkill.system.base = await this._calcBase(newSkill,actor)
               newItemData.push(newSkill)}
           }
-          if (skill2Test === 0 && k.system.skill2 != 'none') {
-            newSkill = game.items.get(k.system.skill2)
+          if (skill2Test === 0 && nItm.system.skill2 != 'none') {
+            newSkill = (await game.system.api.brpid.fromBRPIDBest({brpid:nItm.system.skill2}))[0]
             if (newSkill) {
               newSkill.system.base = await this._calcBase(newSkill,actor)            
               newItemData.push(newSkill)}
@@ -85,136 +88,142 @@ export class BRPactorItemDrop {
       }
 
       //Stop Personality being added if one exists
-      if (k.type === 'personality' && actor.system.personalityId) {
+      if (nItm.type === 'personality' && (await actor.items.filter(itm => itm.type === 'personality')).length>0) {
         reqResult = 0;
-        errMsg = k.name + " : " +   game.i18n.localize('BRP.stopPersonality');       
+        errMsg = nItm.name + " : " +   game.i18n.localize('BRP.stopPersonality');       
       }
 
       //Stop Profession being added if one exists
-      if (k.type === 'profession' && actor.system.professionId) {
+      if (nItm.type === 'profession' && (await actor.items.filter(itm => itm.type === 'profession')).length>0) {
         reqResult = 0;
-        errMsg = k.name + " : " +   game.i18n.localize('BRP.stopProfession');       
+        errMsg = nItm.name + " : " +   game.i18n.localize('BRP.stopProfession');       
       }      
 
       //If skill, don't let Group Skills be added and check to see if skill exists already unless a non-named specialism skill e.g. Craft (specify)
-      if (k.type === 'skill') {
-        if (k.system.group) {
+      if (nItm.type === 'skill') {
+        if (nItm.system.group) {
           reqResult = 0;
-          errMsg = k.name + " : " +   game.i18n.localize('BRP.stopGroupSkill');       
-        } else if (!k.system.specialism || (k.system.specialism && k.system.chosen)) {
-          for (let j of actor.items) {
-            if(j.type === k.type && j.name === k.name) {
-              reqResult = 0;
-              errMsg = k.name + " : " +   game.i18n.localize('BRP.dupItem'); 
-            }
+          errMsg = nItm.name + "(" + nItm.flags.brp.brpidFlag.id + "): "  +   game.i18n.localize('BRP.stopGroupSkill');       
+        } else if (!nItm.system.specialism || (nItm.system.specialism && nItm.system.chosen)) {
+          let dupItm = await actor.items.filter(itm =>itm.type==='skill' && itm.flags.brp.brpidFlag.id===nItm.flags.brp.brpidFlag.id)
+          if (dupItm.length > 0) {
+            reqResult = 0;
+            errMsg = nItm.name + "(" + nItm.flags.brp.brpidFlag.id + "): " + game.i18n.localize('BRP.dupItem');
           }
         }
       }
 
       //If a failing then check that superpower has been selected
-      if (k.type === 'failing' && actor.system.super === "") {
+      if (nItm.type === 'failing' && actor.system.super === "") {
         reqResult = 0;
-        errMsg = k.name + " : " + game.i18n.localize('BRP.needPower') + " (" + game.i18n.localize('BRP.super') + ")";        
+        errMsg = nItm.name + " : " + game.i18n.localize('BRP.needPower') + " (" + game.i18n.localize('BRP.super') + ")";        
       }
 
       //If a power check that the appropriate game setting is true
-      if (k.type === 'power' && !game.settings.get('brp',[k.system.category])) {
+      if (nItm.type === 'power' && !game.settings.get('brp',[nItm.system.category])) {
         reqResult = 0;
-        errMsg = k.name + " : " + game.i18n.localize('BRP.nopower');
+        errMsg = nItm.name + " : " + game.i18n.localize('BRP.nopower');
       }
 
       //If an allegiance check that the appropriate game setting is true
-      if (k.type === 'allegiance') {
+      if (nItm.type === 'allegiance') {
         if (!game.settings.get('brp','useAlleg')) {
           reqResult = 0;
-          errMsg = k.name + " : " + game.i18n.localize('BRP.noAlleg');
+          errMsg = nItm.name + " : " + game.i18n.localize('BRP.noAlleg');
         } else {
-          let dupItm = await actor.items.filter(itm =>itm.type==='allegiance' && itm.name===k.name)
+          let dupItm = await actor.items.filter(itm =>itm.type==='allegiance' && itm.flags.brp.brpidFlag.id===nItm.flags.brp.brpidFlag.id)
           if (dupItm.length > 0) {
             reqResult = 0;
-            errMsg = k.name + " : " + game.i18n.localize('BRP.dupItem');
+            errMsg = nItm.name + "(" + nItm.flags.brp.brpidFlag.id + "): " + game.i18n.localize('BRP.dupItem');
           }
         }
       }
 
       //If a reputation check that the appropriate game setting is true
-      if (k.type === 'reputation') {
+      if (nItm.type === 'reputation') {
         if (game.settings.get('brp','useReputation') ==="0") {
           reqResult = 0;
-          errMsg = k.name + " : " + game.i18n.localize('BRP.noRep');
+          errMsg = nItm.name + " : " + game.i18n.localize('BRP.noRep');
         } else if (game.settings.get('brp','useReputation') ==="1"){
           let repNum = await actor.items.filter(itm =>itm.type==='reputation')
           if (repNum.length > 0) {
             reqResult = 0;
-            errMsg = k.name + " : " + game.i18n.localize('BRP.oneRep');            
+            errMsg = nItm.name + " : " + game.i18n.localize('BRP.oneRep');            
           }
         } else {
-          let dupItm = await actor.items.filter(itm =>itm.type==='reputation' && itm.name===k.name)
+          let dupItm = await actor.items.filter(itm =>itm.type==='reputation' && itm.flags.brp.brpidFlag.id===nItm.flags.brp.brpidFlag.id)
           if (dupItm.length > 0) {
             reqResult = 0;
-            errMsg = k.name + " : " + game.i18n.localize('BRP.dupItem');
+            errMsg = nItm.name + "(" + nItm.flags.brp.brpidFlag.id + "): " + game.i18n.localize('BRP.dupItem');
           }
         }
       }
 
       //If a Personality Trait check that the appropriate game setting is true
-      if (k.type === 'persTrait') {
+      if (nItm.type === 'persTrait') {
         if (!game.settings.get('brp','usePersTrait')) {
           reqResult = 0;
-          errMsg = k.name + " : " + game.i18n.localize('BRP.noPersTrait');
+          errMsg = nItm.name + " : " + game.i18n.localize('BRP.noPersTrait');
         } else {
-          let dupItm = await actor.items.filter(itm =>itm.type==='persTrait' && itm.name===k.name)
+          let dupItm = await actor.items.filter(itm =>itm.type==='persTrait' && itm.flags.brp.brpidFlag.id===nItm.flags.brp.brpidFlag.id)
           if (dupItm.length > 0) {
             reqResult = 0;
-            errMsg = k.name + " : " + game.i18n.localize('BRP.dupItem');
+            errMsg = nItm.name + "(" + nItm.flags.brp.brpidFlag.id + "): " + game.i18n.localize('BRP.dupItem');
           }
         }
       }
 
       //If a passion check that the appropriate game setting is true
-      if (k.type === 'passion') {
+      if (nItm.type === 'passion') {
         if (!game.settings.get('brp','usePassion')) {
           reqResult = 0;
-          errMsg = k.name + " : " + game.i18n.localize('BRP.noPassion');
+          errMsg = nItm.name + " : " + game.i18n.localize('BRP.noPassion');
         } else {
-          let dupItm = await actor.items.filter(itm =>itm.type==='passion' && itm.name===k.name)
+          let dupItm = await actor.items.filter(itm =>itm.type==='passion' && itm.flags.brp.brpidFlag.id === nItm.flags.brp.brpidFlag.id)
           if (dupItm.length > 0) {
             reqResult = 0;
-            errMsg = k.name + " : " + game.i18n.localize('BRP.dupItem');
+            errMsg = nItm.name + "(" + nItm.flags.brp.brpidFlag.id + "): " + game.i18n.localize('BRP.dupItem');
           }
         }
       }
 
       //If a magic spell, mutation, psychic ability, sorcery spell or super-power check that the appropriate power is present
-      if (k.type === 'magic' || k.type === 'mutation' || k.type === 'psychic' || k.type === 'sorcery' || k.type === 'super') {
-        if (actor.system[k.type] === "") {
+      if (nItm.type === 'magic' || nItm.type === 'mutation' || nItm.type === 'psychic' || nItm.type === 'sorcery' || nItm.type === 'super') {
+        if (actor.system[nItm.type] === "") {
           reqResult = 0;
-          errMsg = k.name + " : " + game.i18n.localize('BRP.needPower') + " (" + game.i18n.localize('BRP.'+k.type) + ")";
+          errMsg = nItm.name + " : " + game.i18n.localize('BRP.needPower') + " (" + game.i18n.localize('BRP.'+nItm.type) + ")";
         }
       }  
 
-      //If a power,magic,mutation,psychic,sorcery,superpower and not failed a previous test, check to see if the item already exists on the character sheet
-      if ((['power','magic','mutation','psychic','sorcery','super','hit-location'].includes(k.type)) && reqResult === 1) {
-        for (let j of actor.items) {
-          let dupItm = await actor.items.filter(itm =>itm.type===k.type && itm.name===k.name)
-          if (dupItm.length > 0) {
-            reqResult = 0;
-            errMsg = k.name + " : " + game.i18n.localize('BRP.dupItem');
-          }
-
-
-//          if(j.type === k.type && j.name === k.name) {
-//            reqResult = 0;
-//            errMsg = k.name + " : " +   game.i18n.localize('BRP.dupItem'); 
-//          }
+      //If a power,magic,mutation,psychic,sorcery,superpower etc and not failed a previous test, check to see if the item already exists on the character sheet
+      if ((['power','magic','mutation','psychic','sorcery','super','hit-location', 'skillcat'].includes(nItm.type)) && reqResult === 1) {
+        let dupItm = await actor.items.filter(itm =>itm.type===nItm.type && itm.flags.brp.brpidFlag.id ===nItm.flags.brp.brpidFlag.id)
+        if (dupItm.length > 0) {
+          reqResult = 0;
+          errMsg = nItm.name + "(" + nItm.flags.brp.brpidFlag.id + "): " + game.i18n.localize('BRP.dupItem');
         }
       }
+    
+      //If a hit-location and not using HPL then only allow general hit location
+      if (nItm.type === 'hit-location' && !game.settings.get('brp','useHPL')) {
+        if (nItm.system.locType != 'general') {
+          reqResult = 0;
+          errMsg = nItm.name + " : " + game.i18n.localize('BRP.noHPL');          
+        }
+      }
+    
     }  
+
+
+
     //Check to see if we can drop the Item
       if (reqResult !=1) {
         ui.notifications.warn(errMsg);
       } else {
-        newItemData.push(k);
+        newItemData.push(nItm);
+        if (nItm.type ==='personality') {
+          await this._dropPersonality(nItm,actor)
+        }
       }
     }  
     return (newItemData);
@@ -248,6 +257,13 @@ export class BRPactorItemDrop {
   }
   return itm.system.base
   }
+
+  static async _dropPersonality(itm,actor) {
+    //TO DO Get specialisations
+    //TO DO Add new skills to the actor sheet
+    //TO DO Set Personality Skill points to 20
+  }
+
 
   static async hitLocationDialog (actor) {
     let hitLocOptions = await BRPSelectLists.getHitLocOptions(actor)

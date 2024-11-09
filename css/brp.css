@@ -16,7 +16,7 @@
   color: goldenrod;
 }
 
-.rollable:hover, .rollable:focus,.contextmenu:hover, .contextmenu:focus, .item-toggle:hover, .item-toggle:focus{
+.rollable:hover, .rollable:focus,.contextmenu:hover, .contextmenu:focus, .item-toggle:hover, .item-toggle:focus, .item-view:hover, .item-view:focus{
   color: #000;
   text-shadow: 0px 0px 5px red;
   font-weight:bold;
@@ -487,6 +487,17 @@ padding-top: 4px;
   column-gap: 5px;
   font-size: 14px;
   grid-template-columns:165px 165px 165px;
+}
+
+.brp .options-grid {
+  display:grid;
+  margin:0px;
+  padding: 0px 0px 0px 0px;
+  row-gap: 5px;
+  column-gap: 5px;
+  font-size: 14px;
+  grid-template-columns:120px 120px 120px 120px;
+
 }
 
 .brp .base-5grid {
@@ -1439,5 +1450,33 @@ padding-top: 4px;
 }
 
 .brp .darkred {
-  color: rgba(68, 7, 4, 1);
+  color: rgba(68, 7, 4, 1) !important;
+}
+
+.app .header-button.edit-brpid-warning {
+  color: red;
+}
+
+.brp.brpid-editor {
+  a.copy-to-clipboard {
+    flex: 0 0 20px;
+    align-self: center;
+    text-align: right;
+  }
+
+  fieldset.item-sheet-properties {
+    label {
+      height: auto;
+      white-space: break-spaces;
+    }
+
+    span.warning {
+      outline: 2px dashed rgba(255, 100, 0, 0.3);
+      background-color: rgba(255, 100, 0, 0.3);
+    }
+
+    td.shorttext {
+      text-align: center;
+    }
+  }
 }

@@ -28,81 +28,13 @@ export class BRPActor extends Actor {
 
     systemData.health.value = systemData.health.max;
  
-    //Initialise Powers, Personality item IDs
+    //Initialise Powers IDs
     systemData.magic = "";
     systemData.mutation = "";
     systemData.psychic = "";
     systemData.sorcery = "";
     systemData.super = "";
-    systemData.personality = "";
-
-
-    // Calculate the Skill Category Bonuses */ 
-    // 0 = No Bonus, 1 = Simple option, 2 = Advanced option
-    for (let [key, category] of Object.entries(systemData.skillcategory)) {
-      let categoryid=key;
-      let modifiervalue=0;
-      if (game.settings.get('brp','skillBonus') === "2"){    
-        switch (categoryid) {
-          case "zcmbtmod":
-            modifiervalue=this._categoryprimary(systemData.stats.dex.total)+this._categorysecondary(systemData.stats.int.total)+this._categorysecondary(systemData.stats.str.total);
-            break;
-          case "cmmnmod":
-            modifiervalue=this._categoryprimary(systemData.stats.int.total)+this._categorysecondary(systemData.stats.pow.total)+this._categorysecondary(systemData.stats.cha.total);
-            break;
-          case "mnplmod":
-            modifiervalue=this._categoryprimary(systemData.stats.dex.total)+this._categorysecondary(systemData.stats.int.total)+this._categorysecondary(systemData.stats.str.total)
-            break;
-          case "mntlmod":
-            modifiervalue=this._categoryprimary(systemData.stats.int.total)+this._categorysecondary(systemData.stats.pow.total);
-            if (game.settings.get('brp','useEDU')) {
-              modifiervalue = modifiervalue +this._categorysecondary(systemData.stats.edu.total);
-            }
-            break;
-          case "percmod":
-            modifiervalue=this._categoryprimary(systemData.stats.int.total)+this._categorysecondary(systemData.stats.pow.total)+this._categorysecondary(systemData.stats.con.total);
-            break;
-          case "physmod":
-            modifiervalue=this._categoryprimary(systemData.stats.dex.total)+this._categorysecondary(systemData.stats.str.total)+this._categorysecondary(systemData.stats.con.total)+this._categorynegative(systemData.stats.siz.total);
-            break;
-          case "spnlmod":
-            modifiervalue=this._categoryprimary(systemData.stats.pow.total)+this._categorysecondary(systemData.stats.int.total)+this._categorysecondary(systemData.stats.cha.total);
-            break;  
-          case "soclmod":
-            modifiervalue=0;
-            break;               
-        }
-      } else if (game.settings.get('brp','skillBonus') === "1") {
-        switch (categoryid) {
-          case "zcmbtmod":
-            modifiervalue=Math.ceil(systemData.stats.dex.total/2);
-            break;
-          case "cmmnmod":
-            modifiervalue=Math.ceil(systemData.stats.cha.total/2);
-            break;
-          case "mnplmod":
-            modifiervalue=Math.ceil(systemData.stats.dex.total/2);
-            break;
-          case "mntlmod":
-            modifiervalue=Math.ceil(systemData.stats.int.total/2);
-            break;
-          case "percmod":
-            modifiervalue=Math.ceil(systemData.stats.pow.total/2);
-            break;
-          case "physmod":
-            modifiervalue=Math.ceil(systemData.stats.str.total/2);
-            break;     
-          case "spnlmod":
-            modifiervalue=Math.ceil(systemData.stats.pow.total/2);
-            break;    
-          case "soclmod":
-            modifiervalue=0;
-            break;                    
-        } 
-      }
-      systemData.skillcategory[key].bonus=modifiervalue;
-    }
-
+    
     //Initialise health statuses and other values
     systemData.dead = false;
     systemData.severed = false;
@@ -134,13 +66,44 @@ export class BRPActor extends Actor {
         itm.system.stealthmod = 0
       }
     }
-    
+
+    //Calculate Skill Category Bonuses
+      for (let itm of actorData.items) {
+        if (itm.type === 'skillcat') {
+          let bonus = 0;
+          if (game.settings.get('brp','skillBonus') ==="1" && itm.system.stat != 'none') {
+             bonus = Math.ceil(systemData.stats[itm.system.stat].total/2);
+          } else if (game.settings.get('brp','skillBonus') ==="2") {
+            for (let [key, value] of Object.entries(itm.system.attrib)) {
+              if (key === 'edu' && !game.settings.get('brp','useEDU')) {continue}
+              
+              switch (value) {
+                case "0":    //No adjustment
+                  break;
+                case "1":    //Primary                  
+                  bonus += this._categoryprimary(systemData.stats[key].total)
+                  break;
+                case "2":    //Secondary                  
+                  bonus += this._categorysecondary(systemData.stats[key].total)
+                  break;
+                case "3":    //Negative                  
+                  bonus += this._categorynegative(systemData.stats[key].total)
+                  break;                  
+              }
+            }
+          }
+         itm.system.bonus = bonus 
+         let key = itm.flags.brp.brpidFlag.id 
+         systemData.skillcategory[key]=bonus;
+        }    
+      }
+
     //Calcualte/adjust scores for items (itm)
     for (let itm of actorData.items) {
       //If skill, magic or psychic calculate the total score and record the category bonus
       if (itm.type === 'skill' || itm.type === 'magic' || itm.type === 'psychic') {
         itm.system.total = itm.system.base + itm.system.xp + itm.system.effects + itm.system.profession + itm.system.personality + itm.system.personal
-        itm.system.catBonus = systemData.skillcategory[itm.system.category].bonus
+        itm.system.catBonus = systemData.skillcategory[itm.system.category]
 
       //If Allegiance the set total and potential Ally status
       } else if (itm.type === 'allegiance') {  
@@ -243,9 +206,9 @@ export class BRPActor extends Actor {
       } else if (itm.type === 'power') {
         systemData[itm.system.category] = itm._id;
       //If personality get the name and record the ID  
-      } else if (itm.type === 'personality') {
-        systemData.personality = itm.name
-        systemData.personalityId = itm._id;
+      //} else if (itm.type === 'personality') {
+      //  systemData.personality = itm.name
+      //  systemData.personalityId = itm._id;
       //If profession then get the name and record the ID  
       } else if (itm.type === 'profession') {
         systemData.profession = itm.name
@@ -283,36 +246,7 @@ export class BRPActor extends Actor {
         systemData.health.value = systemData.health.value - itm.system.value
       }
 
-      //Add the relevant actor skill to a weapon
-      if (itm.type === 'weapon') {
-        let skillId ="";
-        let score = 0;
-        let category = "";
-        let skill1Name = ""
-        let skill2Name = ""
-        let skillSelect = "";
-        if (itm.system.skill1 != "none") {
-          skillSelect = game.items.get(itm.system.skill1)
-          skill1Name = skillSelect ? skillSelect.name : "";
-        }
-        if (itm.system.skill2 != "none") {
-          skillSelect = game.items.get(itm.system.skill2)
-          skill2Name = skillSelect ? skillSelect.name : "";
-        }  
-        for (let actItm of actorData.items) {
-          if (actItm.type === 'skill' && (actItm.name === skill1Name || actItm.name === skill2Name)) {
-            if (actItm.system.total > score) {
-              score = actItm.system.total
-              skillId = actItm._id
-              category = actItm.system.category
-            }  
-          }
-        }
-        itm.system.sourceID = skillId
-      }
-
-    } 
-    
+    }  
 
     //Calculate allegiance target
     let allegiances = actorData.items.filter(itm=>itm.type === 'allegiance')
@@ -465,17 +399,19 @@ export class BRPActor extends Actor {
     let actor = await super.create(data, options)
     //Set up a general hit location for a new actor if using HPL
     if (actor.type ==='character' && game.settings.get('brp','useHPL')) {
+      let brpid = "i.hit-location.general"
+
       const itemData = [{
         name: game.i18n.localize('BRP.general'),
         type: 'hit-location',
         img: 'systems/brp/assets/Icons/arm-bandage.svg',
+        flags: {brp: {brpidFlag: {id: "i.hit-location.general"}}},
         system: {
           "fractionHP": 1,
           "fractionENC": 1,
           "lowRoll": 0,
           "highRoll":0,
           "locType": "general"
-
         }
       }];
       const newItem = await Item.createDocuments(itemData, {parent: actor});
@@ -484,15 +420,23 @@ export class BRPActor extends Actor {
     //Add Starter Skills if toggled on
     if (actor.type === 'character' && game.settings.get('brp','starterSkills')) {
       let newSkills = []
-      for (let itm of game.items) {
-        if (itm.type ==='skill' && itm.system.basic) {
-          itm.system.base = await BRPactorItemDrop._calcBase(itm,actor)
-          newSkills.push(itm)
-        }
+      let skillList = (await game.system.api.brpid.fromBRPIDRegexBest({ brpidRegExp:new RegExp('^i.skill'), type: 'i' })).filter(itm => itm.system.basic)
+      for (let itm of skillList) {
+        itm.system.base = await BRPactorItemDrop._calcBase(itm,actor)
+        newSkills.push(itm)
       }
-      await Item.createDocuments(newSkills, {parent: actor})
+    await Item.createDocuments(newSkills, {parent: actor})
     }
 
+    //Add Skill Categories
+    if (actor.type === 'character') {
+      let newSkillCats = []
+      let skillCatList = (await game.system.api.brpid.fromBRPIDRegexBest({ brpidRegExp:new RegExp('^i.skillcat'), type: 'i' }))
+      for (let itm of skillCatList) {
+        newSkillCats.push(itm)
+      }
+    await Item.createDocuments(newSkillCats, {parent: actor})
+    }
     return 
   }
 

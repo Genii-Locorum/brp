@@ -1,7 +1,15 @@
 import { BRPUtilities } from '../../apps/utilities.mjs'
 import { BRPSelectLists } from "../../apps/select-lists.mjs";
+import { addBRPIDSheetHeaderButton } from '../../brpid/brpid-button.mjs'
 
 export class BRPProfessionSheet extends ItemSheet {
+
+  //Add BRPID buttons to sheet
+  _getHeaderButtons () {
+    const headerButtons = super._getHeaderButtons()
+    addBRPIDSheetHeaderButton(headerButtons, this)
+    return headerButtons
+  }
 
   static get defaultOptions () {
     return foundry.utils.mergeObject(super.defaultOptions, {
@@ -26,65 +34,39 @@ export class BRPProfessionSheet extends ItemSheet {
     const perSkill = [];
     const grpSkill = [];
     const perPower = [];
-    for (let i of itemData.system.skills){
-      const j = game.items.get(i)
-      if(!j) {
-        perSkill.push({name : game.i18n.localize("BRP.invalid"), _id: i})
+    for (let skill of itemData.system.skills){
+      let tempSkill = (await game.system.api.brpid.fromBRPIDBest({brpid:skill.brpid}))[0]
+      if (tempSkill) {
+        perSkill.push({uuid: skill.uuid, brpid: skill.brpid, name: tempSkill.name, category: tempSkill.system.category, variable: tempSkill.system.variable, base: tempSkill.system.base, group: tempSkill.system.group})
       } else {
-        perSkill.push(j);
-      }
+        perSkill.push({uuid: skill.uuid, brpid: skill.brpid, name: game.i18n.localize("BRP.invalid"), category: "", variable: "", base: "", group: ""})
+      }  
     }
 
     for (let index = 0; index < this.item.system.groups.length; index++) {
-      for (let k of this.item.system.groups[index].skills) {
-        const j = game.items.get(k)
-        if(!j) {
-          grpSkill.push({system: {index: index}, name : game.i18n.localize("BRP.invalid"), _id: k})
+      for (let skill of this.item.system.groups[index].skills) {
+        let tempSkill = (await game.system.api.brpid.fromBRPIDBest({brpid:skill.brpid}))[0]
+        if (tempSkill) {
+          grpSkill.push({uuid: skill.uuid, brpid: skill.brpid, name: tempSkill.name, category: tempSkill.system.category, variable: tempSkill.system.variable, base: tempSkill.system.base, group: tempSkill.system.group, index: index})
         } else {
-        j.system.index = index
-        grpSkill.push(j);
-        }
+          grpSkill.push({uuid: skill.uuid, brpid: skill.brpid, name: game.i18n.localize("BRP.invalid"), category: "", variable: "", base: "", group: "", index:index})
+        }  
       }
     }
 
-    for (let i of itemData.system.powers){
-      const j = game.items.get(i)
-      if(!j) {
-        perPower.push({name : game.i18n.localize("BRP.invalid"), _id: i})
-      } else {
-        perPower.push(j);
-      }
+
+    for (let power of this.item.system.powers) {
+      let tempPower = (await game.system.api.brpid.fromBRPIDBest({brpid:power.brpid}))[0]
+        if (tempPower) {
+          perPower.push({uuid: power.uuid, brpid: power.brpid, name: tempPower.name})
+        } else {
+          perPower.push({uuid: power.uuid, brpid: power.brpid, name: game.i18n.localize("BRP.invalid")})
+        }  
     }
 
-    // Sort Skills
-    perSkill.sort(function(a, b){
-      let x = a.name;
-      let y = b.name;
-      if (x < y) {return -1};
-      if (x > y) {return 1};
-      return 0;
-    });
-
-    grpSkill.sort(function(a, b){
-      let x = a.name;
-      let y = b.name;
-      if (x < y) {return -1};
-      if (x > y) {return 1};
-      return 0;
-    });
-
-    // Sort Skills
-    perPower.sort(function(a, b){
-      let x = a.name;
-      let y = b.name;
-      if (x < y) {return -1};
-      if (x > y) {return 1};
-      return 0;
-    });
-
-    sheetData.perSkill = perSkill;
-    sheetData.grpSkill = grpSkill;
-    sheetData.perPower = perPower;
+    sheetData.perSkill = perSkill.sort(BRPUtilities.sortByNameKey);
+    sheetData.grpSkill = grpSkill.sort(BRPUtilities.sortByNameKey);
+    sheetData.perPower = perPower.sort(BRPUtilities.sortByNameKey);
 
     sheetData.enrichedDescriptionValue = await TextEditor.enrichHTML(
       sheetData.data.system.description,
@@ -110,6 +92,7 @@ export class BRPProfessionSheet extends ItemSheet {
     // Everything below here is only needed if the sheet is editable
     if (!this.options.editable) return
     html.find('.item-delete').click(event => this._onItemDelete(event, 'skills'))
+    html.find('.item-view').click(this._onItemView.bind(this))
     html.find('.item-power-delete').click(event => this._onItemDelete(event, 'powers'))
     html.find('.group-item-delete').click(this._onGroupItemDelete.bind(this))
     html.find('.group-control').click(this._onGroupControl.bind(this))
@@ -147,30 +130,30 @@ export class BRPProfessionSheet extends ItemSheet {
       if (optionalSkill) {
         if ((item.system.specialism && item.system.chosen) || (!item.system.specialism && !item.system.group)) {
           // Generic specialization can be included many times
-          if (collection.find(el => el === item._id)) {
+          if (collection.find(el => el.brpid === item.flags.brp.brpidFlag.id)) {
             ui.notifications.warn(item.name + " : " +   game.i18n.localize('BRP.dupItem'));
             continue // If skill is already in main don't add it
           }
-          if (groups[index].skills.find(el => el === item._id)) {
+          if (groups[index].skills.find(el => el.brpid === item.flags.brp.brpidFlag.id)) {
             ui.notifications.warn(item.name + " : " +   game.i18n.localize('BRP.dupItem'));
             continue // If skill is already in this group don't add it (doesn't stop skill being added to different groups)
           }
         }
     
-        groups[index].skills = groups[index].skills.concat(item._id)
+        groups[index].skills = groups[index].skills.concat({uuid:item.uuid, brpid:item.flags.brp.brpidFlag.id})
 
       } else if(mainPowers){
         //Dropping in Main Powers list
-          if (collection.find(el => el === item._id)) {
+          if (collection.find(el => el.brpid === item.flags.brp.brpidFlag.id)) {
             ui.notifications.warn(item.name + " : " +   game.i18n.localize('BRP.dupItem'));
             continue
           }
-        collection.push(item._id)
+        collection.push({uuid:item.uuid, brpid:item.flags.brp.brpidFlag.id})
       } else {
         //Dropping in Main Skill list
         if ((item.system.specialism && item.system.chosen) || (!item.system.specialism && !item.system.group)) {
           // Generic specialization and groups can be included many times
-          if (collection.find(el => el === item._id)) {
+          if (collection.find(el => el.brpid === item.flags.brp.brpidFlag.id)) {
             ui.notifications.warn(item.name + " : " +   game.i18n.localize('BRP.dupItem'));
             continue
           }
@@ -178,14 +161,14 @@ export class BRPProfessionSheet extends ItemSheet {
           for (let i = 0; i < groups.length; i++) {
             // If the same skill is in one of the group remove it from the groups
             const index = groups[i].skills.findIndex(
-              el => el === item._id
+              el => el.brpid === item.flags.brp.brpidFlag.id
             )
             if (index !== -1) {
               groups[i].skills.splice(index, 1)
             }
           }
         }
-        collection.push(item._id)
+        collection.push({uuid:item.uuid, brpid:item.flags.brp.brpidFlag.id})
       }
     }
     await this.item.update({ 'system.groups': groups })
@@ -220,7 +203,7 @@ export class BRPProfessionSheet extends ItemSheet {
   async _onItemDelete (event, collectionName = 'items') {
     const item = $(event.currentTarget).closest('.item')
     const itemId = item.data('item-id')
-    const itemIndex = this.item.system[collectionName].findIndex(i => (itemId && i === itemId))
+    const itemIndex = this.item.system[collectionName].findIndex(i => (itemId && i.uuid === itemId))
     if (itemIndex > -1) {
       const collection = this.item.system[collectionName] ? foundry.utils.duplicate(this.item.system[collectionName]) : []
       collection.splice(itemIndex, 1)
@@ -235,7 +218,7 @@ export class BRPProfessionSheet extends ItemSheet {
     const groups = foundry.utils.duplicate(this.item.system.groups)
     if (typeof groups[group] !== 'undefined') {
       const itemId = item.data('item-id')
-      const itemIndex = groups[group].skills.findIndex(i => (itemId && i === itemId))
+      const itemIndex = groups[group].skills.findIndex(i => (itemId && i.uuid === itemId))
       if (itemIndex > -1) {
         groups[group].skills.splice(itemIndex, 1)
         await this.item.update({ 'system.groups': groups })
@@ -259,4 +242,12 @@ export class BRPProfessionSheet extends ItemSheet {
     }
     super._updateObject(event, formData)
   }
+
+  async _onItemView (event) {
+    const item = $(event.currentTarget).closest('.item')
+    const brpid = item.data('brpid')
+    let tempItem = (await game.system.api.brpid.fromBRPIDBest({brpid:brpid}))[0]
+    if (tempItem) {tempItem.sheet.render(true)};
+  }
+
 }

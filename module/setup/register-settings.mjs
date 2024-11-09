@@ -121,26 +121,6 @@ export async function registerSettings () {
     default: 0
   });
 
-  game.settings.register('brp', 'useSupernatural', {
-    name: 'BRP.Settings.useSupernatural',
-    hint: 'BRP.Settings.useSupernaturalHint',
-    requiresReload: true,
-    scope: 'world',
-    config: true,
-    default: false,
-    type: Boolean
-  });
-
-  game.settings.register('brp', 'useSocial', {
-    name: 'BRP.Settings.useSocial',
-    hint: 'BRP.Settings.useSocialHint',
-    requiresReload: true,
-    scope: 'world',
-    config: true,
-    default: false,
-    type: Boolean
-  });
-
   game.settings.register('brp', 'useAVRand', {
     name: 'BRP.Settings.useAVRand',
     hint: 'BRP.Settings.useAVRandHint',

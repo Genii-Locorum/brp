@@ -71,7 +71,7 @@
       {{/unless}}
 
       <div class="item-title"> {{localize 'BRP.options'}}:</div>
-      <div class="base-grid">
+      <div class="options-grid">
         <div class="skill-cat {{#if isGM}} item-toggle {{/if}} {{#if item.system.noXP}} toggle-active  {{/if}}" title ="{{localize 'BRP.noXPHint'}}" data-property = "noXP">{{localize 'BRP.noXP'}}</div>
         <div class="skill-cat {{#if isGM}} item-toggle {{/if}} {{#if item.system.specialism}} toggle-active  {{/if}}" title ="{{localize 'BRP.specialismHint'}}" data-property = "specialism">{{localize 'BRP.specialism'}}</div>
         <div class="skill-cat {{#if isGM}} item-toggle {{/if}} {{#if item.system.variable}} toggle-active  {{/if}}" title ="{{localize 'BRP.variableHint'}}" data-property = "variable">{{localize 'BRP.variable'}}</div>
@@ -82,6 +82,10 @@
         {{#if item.system.specialism}}
           <div class="skill-cat {{#if isGM}} item-toggle {{/if}} {{#if item.system.chosen}} toggle-active  {{/if}}" title ="{{localize 'BRP.chosenHint'}}" data-property = "chosen">{{localize 'BRP.chosen'}}</div>
         {{/if}}
+        <div class="skill-cat {{#if isGM}} item-toggle {{/if}} {{#if item.system.combat}} toggle-active  {{/if}}" title ="{{localize 'BRP.combatSkillHint'}}" data-property = "combat">{{localize 'BRP.combatSkill'}}</div>
+      
+      </div>  
+      <div class="base-grid">
 
         {{#unless item.system.group}}
 
@@ -181,12 +185,12 @@
       <div class="item-title">{{ localize "BRP.skills"}}</div>
       <ol class="item-list">
         {{#each grpSkill as |skill|}}
-          <li class="item flexrow" data-item-id="{{skill._id}}" >
+          <li class="item flexrow" data-item-id="{{skill.uuid}}" data-brpid="{{skill.brpid}}">
             <div class="item-name flexrow">
-            {{#if skill.system.variable}}
-              <div class="font14">{{skill.name}} ({{ localize 'BRP.var'}})</div>
+            {{#if skill.variable}}
+              <div class="item-view font14" title="{{skill.brpid}}">{{skill.name}} ({{ localize 'BRP.var'}})</div>
             {{else}}
-              <div class="font14">{{skill.name}} ({{skill.system.base}}%)</div>
+              <div class="item-view font14" title="{{skill.brpid}}">{{skill.name}} ({{skill.base}}%)</div>
             {{/if}}
             </div>
   

@@ -20,6 +20,10 @@ import { BRPAllegianceSheet } from '../item/sheets/allegiance.mjs'
 import { BRPPassionSheet } from '../item/sheets/passion.mjs' 
 import { BRPPersTraitSheet } from '../item/sheets/persTrait.mjs' 
 import { BRPReputationSheet } from '../item/sheets/reputation.mjs' 
+import { BRPRollTableConfig } from '../sheets/brp-roll-table-config.mjs'
+import { BRPJournalSheet } from '../sheets/brp-journal-sheet.mjs'
+import { BRPSkillCategory} from '../item/sheets/skillcat.mjs'
+
 
 export function registerSheets () {
     Actors.unregisterSheet("core", ActorSheet);
@@ -132,5 +136,20 @@ export function registerSheets () {
     Items.registerSheet('brp', BRPReputationSheet, {
       types: ['reputation'],
       makeDefault: true
-    }) 
+    })
+
+    Items.registerSheet('brp', BRPSkillCategory, {
+      types: ['skillcat'],
+      makeDefault: true
+    })
+
+    RollTables.unregisterSheet('core', RollTableConfig)
+    RollTables.registerSheet('brp', BRPRollTableConfig, {
+      makeDefault: true
+    })
+
+    Journal.unregisterSheet('core', JournalSheet)
+    Journal.registerSheet('brp', BRPJournalSheet, {
+      makeDefault: true
+    })    
 }      

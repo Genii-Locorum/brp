@@ -186,7 +186,7 @@
         {{#each hitlocs as |hitloc key|}}
           {{#if ../system.lock}}
             <div class="npc-hitloc-cell item" data-item-id="{{hitloc._id}}">
-              <div class="font14 item-edit">{{hitloc.name}}</div>
+              <div class="font14 item-edit">{{hitloc.system.displayName}}</div>
               {{#if (eq hitloc.system.lowRoll hitloc.system.highRoll)}}
                 <div class="font14 centre">{{hitloc.system.lowRoll}}</div>
               {{else}}      
@@ -206,7 +206,7 @@
           {{else}}
             <div class="npc-hitloc-cell-unlock item" data-item-id="{{hitloc._id}}">  
               <div><a class="mediumIcon"><i class="item-delete fas fa-trash"></i></a></div>
-              <div class="font14 centre"><input class="personal-inp centre inline-edit" data-field ="name"  name="hitloc.name" type="text" value="{{hitloc.name}}"/></div>
+              <div class="font14 centre"><input class="personal-inp centre inline-edit" data-field ="displayName"  name="hitloc.system.displayName" type="text" value="{{hitloc.system.displayName}}"/></div>
               <div class="font14 centre"><input class="personal-inp centre inline-edit" data-field ="lowRoll"  name="hitloc.system.lowRoll" type="text" value="{{hitloc.system.lowRoll}}" data-dtype="Number"/></div>
               <div class="font14 centre"><input class="personal-inp centre inline-edit" data-field ="highRoll"  name="hitloc.system.highRoll" type="text" value="{{hitloc.system.highRoll}}" data-dtype="Number"/></div>
               <div class="font14 centre"><input class="personal-inp centre inline-edit" data-field ="currHP"  name="hitloc.system.currHP" type="text" value="{{hitloc.system.currHP}}" data-dtype="Number"/></div>

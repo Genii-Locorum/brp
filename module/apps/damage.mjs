@@ -70,6 +70,10 @@ export class BRPDamage {
       }
     };
     const newItem = await Item.create(itemData, {parent: partic});
+    let key = await game.system.api.brpid.guessId(newItem)
+    await newItem.update({'flags.brp.brpidFlag.id': key,
+                         'flags.brp.brpidFlag.lang': game.i18n.lang,
+                         'flags.brp.brpidFlag.priority': 0})
 
   }  
 

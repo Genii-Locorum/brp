@@ -1,11 +1,19 @@
 import { BRPSelectLists } from "../../apps/select-lists.mjs";
+import { addBRPIDSheetHeaderButton } from '../../brpid/brpid-button.mjs'
 
 export class BRPWeaponSheet extends ItemSheet {
     constructor (...args) {
       super(...args)
       this._sheetTab = 'items'
     }
-  
+
+  //Add BRPID buttons to sheet
+  _getHeaderButtons () {
+    const headerButtons = super._getHeaderButtons()
+    addBRPIDSheetHeaderButton(headerButtons, this)
+    return headerButtons
+  }    
+
     static get defaultOptions () {
       return foundry.utils.mergeObject(super.defaultOptions, {
         classes: ['brp', 'sheet', 'item'],
@@ -32,14 +40,14 @@ export class BRPWeaponSheet extends ItemSheet {
       let skillSelect = "";
       sheetData.isGM = game.user.isGM;
       //Get drop down options from select-lists.mjs
-        sheetData.weaponOptions = await BRPSelectLists.getWpnCategoryOptions();
-        sheetData.priceOptions = await BRPSelectLists.getPriceOptions();
-        sheetData.damOptions = await BRPSelectLists.getDamBonusOptions();
-        sheetData.specialOptions = await BRPSelectLists.getSpecialOptions();
-        sheetData.handedOptions = await BRPSelectLists.getHandedOptions();
-        sheetData.equippedOptions = await BRPSelectLists.getEquippedOptions(this.item.type);
-        sheetData.wpnSkillOptions1 = await BRPSelectLists.getWeaponSkillOptions(this.item.system.weaponType,"1");
-        sheetData.wpnSkillOptions2 = await BRPSelectLists.getWeaponSkillOptions(this.item.system.weaponType, this.item.system.skill1);
+      sheetData.weaponOptions = await BRPSelectLists.getWpnCategoryOptions();
+      sheetData.priceOptions = await BRPSelectLists.getPriceOptions();
+      sheetData.damOptions = await BRPSelectLists.getDamBonusOptions();
+      sheetData.specialOptions = await BRPSelectLists.getSpecialOptions();
+      sheetData.handedOptions = await BRPSelectLists.getHandedOptions();
+      sheetData.equippedOptions = await BRPSelectLists.getEquippedOptions(this.item.type);
+      sheetData.wpnSkillOptions1 = await BRPSelectLists.getWeaponSkillOptions(this.item.system.weaponType,"1");
+      sheetData.wpnSkillOptions2 = await BRPSelectLists.getWeaponSkillOptions(this.item.system.weaponType, this.item.system.skill1);
       sheetData.weaponCatName = game.i18n.localize("BRP." + this.item.system.weaponType);  
       sheetData.priceName = game.i18n.localize("BRP." + this.item.system.price); 
       sheetData.damName = game.i18n.localize("BRP." + this.item.system.db);  
@@ -54,14 +62,14 @@ export class BRPWeaponSheet extends ItemSheet {
       if (this.item.system.skill1 === 'none') {
         sheetData.skill1Name = game.i18n.localize("BRP.none")
       } else {
-        skillSelect = game.items.get(this.item.system.skill1)
+        skillSelect = (await game.system.api.brpid.fromBRPIDBest({brpid:this.item.system.skill1}))[0]
         sheetData.skill1Name = skillSelect ? skillSelect.name : "";
       }  
 
       if (this.item.system.skill2 === 'none') {
         sheetData.skill2Name = game.i18n.localize("BRP.none")
       } else {
-        skillSelect = game.items.get(this.item.system.skill2)
+        skillSelect = (await game.system.api.brpid.fromBRPIDBest({brpid:this.item.system.skill2}))[0]
         sheetData.skill2Name = skillSelect ? skillSelect.name : "";
       }  
 

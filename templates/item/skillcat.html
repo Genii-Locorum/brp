@@ -1,0 +1,160 @@
+<form class="{{cssClass}} brp" autocomplete="off">
+    <header class="sheet-header">
+    
+      <div class="hitlocgrid">
+      <div class="item-title"> {{localize 'BRP.skillcat'}}:</div>
+      {{#if isGM}}  
+        <div class="stat-input"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></div>
+      {{else}}
+        <div class="title-name bold center boxed">{{item.name}}</div>
+      {{/if}}
+      </div>  
+    
+      <img class="item-image" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="50" width="50"/>
+  
+    </header>
+  
+    {{!-- Item Sheet Navigation --}}
+    <section class="nav-panel">
+    <nav class="sheet-tabs tabs" data-group="primary">
+      <a class="item" data-tab="details">{{ localize "BRP.details" }}</a>
+      <a class="item" data-tab="description">{{ localize "BRP.description" }}</a>
+      {{#if isGM}}<a class="item" data-tab="gmNotes">{{ localize "BRP.gmNotes" }}</a>{{/if}}
+    </nav>
+    </section>
+  
+  
+    {{!-- Sheet Body --}}
+    <section class="skill-sheet-body sheet-body">
+      <br>
+    
+      <div class="tab active" data-group="primary" data-tab="details">    
+        <div class="base-grid">
+          <div class="item-title" title="{{localize 'BRP.baseStatHint'}}"> {{localize 'BRP.simple'}}:</div>
+          <div class="new-row" style="margin-top: 6px;"> {{localize 'BRP.baseStat'}}:</div>
+          {{#if isGM}}
+          <div class="stat-input centre">
+            <select data-handle-change name="system.stat">
+              {{selectOptions statOptions selected=item.system.stat}}
+            </select>
+          </div>
+          {{else}}
+            <div class="stat-display boxed">{{statName}}</div>  
+          {{/if}}  
+          <br>
+          <div class="new-row item-title" title="{{localize 'BRP.advSkillCatHint'}}"> {{localize 'BRP.advanced'}}:</div>
+
+          <div class="new-row" style="margin-top: 6px;"> {{localize 'BRP.StatsStrAbbr'}}:</div>
+          {{#if isGM}}
+            <div class="stat-input centre">
+              <select data-handle-change name="system.attrib.str">
+                {{selectOptions advStatOptionsCon selected=item.system.attrib.str}}
+              </select>
+            </div>  
+          {{else}}
+            <div class="stat-display boxed">{{skillCatNameStr}}</div>  
+          {{/if}}  
+
+
+            <div class="new-row" style="margin-top: 6px;"> {{localize 'BRP.StatsConAbbr'}}:</div>
+            {{#if isGM}}
+              <div class="stat-input centre">
+                <select data-handle-change name="system.attrib.con">
+                  {{selectOptions advStatOptionsCon selected=item.system.attrib.con}}
+                </select>
+              </div>  
+            {{else}}
+              <div class="stat-display boxed">{{skillCatNameCon}}</div>  
+            {{/if}}    
+
+
+            <div class="new-row" style="margin-top: 6px;"> {{localize 'BRP.StatsIntAbbr'}}:</div>
+            {{#if isGM}}
+              <div class="stat-input centre">
+                <select data-handle-change name="system.attrib.int">
+                  {{selectOptions advStatOptionsCon selected=item.system.attrib.int}}
+                </select>
+              </div>  
+            {{else}}
+              <div class="stat-display boxed">{{skillCatNameInt}}</div>  
+            {{/if}}  
+
+            <div class="new-row" style="margin-top: 6px;"> {{localize 'BRP.StatsSizAbbr'}}:</div>
+            {{#if isGM}}
+              <div class="stat-input centre">
+                <select data-handle-change name="system.attrib.siz">
+                  {{selectOptions advStatOptionsCon selected=item.system.attrib.siz}}
+                </select>
+              </div>  
+            {{else}}
+              <div class="stat-display boxed">{{skillCatNameSiz}}</div>  
+            {{/if}}  
+            
+            <div class="new-row" style="margin-top: 6px;"> {{localize 'BRP.StatsPowAbbr'}}:</div>
+            {{#if isGM}}
+              <div class="stat-input centre">
+                <select data-handle-change name="system.attrib.pow">
+                  {{selectOptions advStatOptionsCon selected=item.system.attrib.pow}}
+                </select>
+              </div>  
+            {{else}}
+              <div class="stat-display boxed">{{skillCatNamePow}}</div>  
+            {{/if}}  
+            
+            <div class="new-row" style="margin-top: 6px;"> {{localize 'BRP.StatsDexAbbr'}}:</div>
+            {{#if isGM}}
+              <div class="stat-input centre">
+                <select data-handle-change name="system.attrib.dex">
+                  {{selectOptions advStatOptionsCon selected=item.system.attrib.dex}}
+                </select>
+              </div>  
+            {{else}}
+              <div class="stat-display boxed">{{skillCatNameDex}}</div>  
+            {{/if}}  
+            
+            <div class="new-row" style="margin-top: 6px;"> {{localize 'BRP.StatsChaAbbr'}}:</div>
+            {{#if isGM}}
+              <div class="stat-input centre">
+                <select data-handle-change name="system.attrib.cha">
+                  {{selectOptions advStatOptionsCon selected=item.system.attrib.cha}}
+                </select>
+              </div>  
+            {{else}}
+              <div class="stat-display boxed">{{skillCatNameCha}}</div>  
+            {{/if}}  
+
+            <div class="new-row" style="margin-top: 6px;"> {{localize 'BRP.StatsEduAbbr'}}:</div>
+            {{#if isGM}}
+              <div class="stat-input centre">
+                <select data-handle-change name="system.attrib.edu">
+                  {{selectOptions advStatOptionsCon selected=item.system.attrib.edu}}
+                </select>
+              </div>  
+            {{else}}
+              <div class="stat-display boxed">{{skillCatNameEdu}}</div>  
+            {{/if}}  
+
+        </div>
+        
+    
+
+
+
+        </div>
+      {{!-- Description Tab --}}
+      <div class="tab active" data-group="primary" data-tab="description">
+        <div class="bold"> {{localize 'BRP.description'}}:</div>
+        <div>
+          {{editor enrichedDescriptionValue engine="prosemirror" class="description-doc" target="system.description" button=true owner=owner editable=editable}}
+        </div>
+      </div>
+  
+      {{!-- GM Description Tab --}}
+      <div class="tab active" data-group="primary" data-tab="gmNotes">
+        <div class="bold"> {{localize 'BRP.gmNotes'}}:</div>
+        <div>
+          {{editor enrichedGMDescriptionValue engine="prosemirror" class="description-doc" target="system.gmDescription" button=true owner=owner editable=editable}}
+        </div>
+      </div>
+    </section>
+  </form>

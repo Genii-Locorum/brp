@@ -76,7 +76,7 @@
         <div class="centre addWound" title="{{ localize 'BRP.addWound' }}" data-item-id="{{hitloc._id}}" data-type="wound">
           <a><i class="item-control fas fa-plus"></i></a>
         </div>
-        <div class="item item-edit font14 {{#unless (eq hitloc.system.lowRoll 0)}}hitloc-name contextmenu{{/unless}}" data-item-id="{{hitloc._id}}">{{hitloc.name}}</div>
+        <div class="item item-edit font14 {{#unless (eq hitloc.system.lowRoll 0)}}hitloc-name contextmenu{{/unless}}" data-item-id="{{hitloc._id}}">{{hitloc.system.displayName}}</div>
         {{#if (eq hitloc.system.locType 'general')}}
           <div>&nbsp</div>
           <div>&nbsp</div>
@@ -94,9 +94,9 @@
           <div class="font14 centre">/</div>
           <div class="font14 centre">{{hitloc.system.maxHP}}</div>
           {{#if ../useAVRand}}
-            <div class="stat-display rollable ap-name" data-item-id ="{{hitloc._id}}" data-property="ap" title="{{localize 'BRP.bap'}}: {{hitloc.system.avr2}}">{{hitloc.system.avr1}}</div>
+            <div class="font14 centre rollable ap-name" data-item-id ="{{hitloc._id}}" data-property="ap" title="{{localize 'BRP.bap'}}: {{hitloc.system.avr2}}">{{hitloc.system.avr1}}</div>
           {{else}}
-            <div class="stat-display" title="{{localize 'BRP.bap'}}: {{hitloc.system.av2}}">{{hitloc.system.av1}}</div>
+            <div class="font14 centre" title="{{localize 'BRP.bap'}}: {{hitloc.system.av2}}">{{hitloc.system.av1}}</div>
           {{/if}}
           <div class="centre">
             {{#if hitloc.system.injured}} <a title="{{ localize 'BRP.injuredHPL' }}"><i class="fas fa-face-head-bandage"></i></a> {{/if}}

@@ -1,6 +1,15 @@
 import { BRPUtilities } from '../../apps/utilities.mjs'
+import { addBRPIDSheetHeaderButton } from '../../brpid/brpid-button.mjs'
 
 export class BRPSuperSheet extends ItemSheet {
+
+  //Add BRPID buttons to sheet
+  _getHeaderButtons () {
+    const headerButtons = super._getHeaderButtons()
+    addBRPIDSheetHeaderButton(headerButtons, this)
+    return headerButtons
+  }
+
   static get defaultOptions () {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ['brp', 'sheet', 'super'],
@@ -22,13 +31,13 @@ export class BRPSuperSheet extends ItemSheet {
     const actor = this.item.parent
     const powerMods = [];
     if(actor) {
-      for (let i of itemData.system.powerMod){
-        const j = actor.items.get(i)  
-        powerMods.push(j);
+      for (let itm of itemData.system.powerMod){
+        let tempItm = fromUuidSync(itm.uuid)  
+        powerMods.push(tempItm);
       }
     }
 
-    sheetData.powerMods = powerMods;
+    sheetData.powerMods = powerMods.sort(BRPUtilities.sortByNameKey);
 
     //Ensure mainName is populated
     if( this.item.system.mainName ==="" ) {
@@ -84,8 +93,8 @@ export class BRPSuperSheet extends ItemSheet {
       }
 
       //Dropping in Main Skill list
-      if (collection.find(el => el.name === item.name)) {
-        ui.notifications.warn(item.name + " : " +   game.i18n.localize('BRP.dupItem-1') + item.type + game.i18n.localize('BRP.dupItem-2'));
+      if (collection.find(el => el.brpid === item.flags.brp.brpidFlag.id)) {
+        ui.notifications.warn(item.name + " : " +   game.i18n.localize('BRP.dupItem'));
         continue
       }
 
@@ -93,7 +102,7 @@ export class BRPSuperSheet extends ItemSheet {
       const actor = this.item.parent
       const itemData = foundry.utils.duplicate(item)
       let newItem = await Item.create(itemData, {parent: actor});
-      collection.push(newItem.id)
+      collection.push({uuid: newItem.uuid, brpid: newItem.flags.brp.brpidFlag.id})
     }
     await this.item.update({ [`system.${collectionName}`]: collection })
   }
@@ -115,12 +124,12 @@ export class BRPSuperSheet extends ItemSheet {
   async _onItemDelete (event, collectionName = 'items') {
     const item = $(event.currentTarget).closest('.item')
     const itemId = item.data('item-id')
-    const itemIndex = this.item.system[collectionName].findIndex(i => (itemId && i === itemId))
+    const itemIndex = this.item.system[collectionName].findIndex(i => (itemId && i.uuid === itemId))
     if (itemIndex > -1) {
       const collection = this.item.system[collectionName] ? foundry.utils.duplicate(this.item.system[collectionName]) : []
       collection.splice(itemIndex, 1)
       await this.item.update({ [`system.${collectionName}`]: collection })
-      const oldItem = this.actor.items.get(itemId);
+      const oldItem = fromUuidSync(itemId);
       oldItem.delete();
     }
   }
@@ -132,5 +141,12 @@ export class BRPSuperSheet extends ItemSheet {
     const item = this.actor.items.get(itemId)
     item.sheet.render(true);
   }
-  
+
+  async _onItemView (event) {
+    const item = $(event.currentTarget).closest('.item')
+    const brpid = item.data('brpid')
+    let tempItem = (await game.system.api.brpid.fromBRPIDBest({brpid:brpid}))[0]
+    if (tempItem) {tempItem.sheet.render(true)};
+  }  
+
 }

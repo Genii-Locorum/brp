@@ -36,20 +36,23 @@ export class BRPSelectLists {
 
   //Skill Category List
   static async getCategoryOptions () {    
-    let options = {
-      "cmmnmod": game.i18n.localize("BRP.cmmnmod"),
-      "mnplmod": game.i18n.localize("BRP.mnplmod"),
-      "mntlmod": game.i18n.localize("BRP.mntlmod"),
-      "percmod": game.i18n.localize("BRP.percmod"),
-      "physmod": game.i18n.localize("BRP.physmod")
-    };   
-    if (game.settings.get('brp','useSupernatural')) {
-      options= Object.assign(options,{'spnlmod': game.i18n.localize("BRP.spnlmod")})
-    }  
-    if (game.settings.get('brp','useSocial')) {
-      options= Object.assign(options,{'soclmod': game.i18n.localize("BRP.soclmod")})
-    }  
-    options= Object.assign(options,{'zcmbtmod': game.i18n.localize("BRP.zcmbtmod")})
+    let skillCatList = await game.system.api.brpid.fromBRPIDRegexBest({ brpidRegExp:new RegExp('^i.skillcat'), type: 'i' })
+    skillCatList.sort(function(a, b){
+      let x = a.name;
+      let y = b.name;
+      if (x < y) {return -1};
+      if (x > y) {return 1};
+      return 0;
+    });
+    let options={}
+    for (let itm of skillCatList) {
+      if (itm.flags.brp.brpidFlag.id) {
+        options= Object.assign(options,{[itm.flags.brp.brpidFlag.id]: itm.name})
+      }
+    }
+
+
+
 
     return options;
   } 
@@ -111,6 +114,18 @@ export class BRPSelectLists {
       "0": game.i18n.localize("BRP.none"),
       "1": game.i18n.localize("BRP.simple"),
       "2": game.i18n.localize("BRP.advanced"),
+    };   
+    return options;
+  }
+
+
+  //Advanced Skill Category Options List
+  static async getAdvSkillCatOptions (){
+    let options = {
+      "0": game.i18n.localize("BRP.advSkillCat.0"),
+      "1": game.i18n.localize("BRP.advSkillCat.1"),
+      "2": game.i18n.localize("BRP.advSkillCat.2"),
+      "3": game.i18n.localize("BRP.advSkillCat.3"),      
     };   
     return options;
   }
@@ -234,23 +249,10 @@ export class BRPSelectLists {
   }
 
   //Weapon Skill Options
-  static getWeaponSkillOptions(wpnType,skillId) {
-    let options={}
-    let newOption ={}
-    if (skillId !="1") {
-      newOption = {"none": game.i18n.localize("BRP.none")};
-      options= Object.assign(options,newOption)      
-    }
-
-    let itemsList = []
-    //TODO - replace hard coded "Dodge, Throw" & "Demolitions" with a brpID when it's created
-    for (let i of game.items) {
-      if (i.type ==='skill' && (i.system.category ==='zcmbtmod' || i.name === 'Throw' || i.name === 'Demolition' || i.name === 'Dodge')) {
-        itemsList.push(i)
-      }
-    }
-
-    itemsList.sort(function(a, b){
+  static async getWeaponSkillOptions(wpnType,skillId) {
+    let skillList = await game.system.api.brpid.fromBRPIDRegexBest({ brpidRegExp:new RegExp('^i.skill'), type: 'i' })
+    let newList = skillList.filter(itm => (itm.system.combat || itm.system.category === 'i.skillcat.combat')).map(itm => {return { brpid: itm.flags.brp.brpidFlag.id, name: itm.name}})
+    newList.sort(function(a, b){
       let x = a.name;
       let y = b.name;
       if (x < y) {return -1};
@@ -258,12 +260,19 @@ export class BRPSelectLists {
       return 0;
     });
 
-    for (let i of itemsList) {
-      if(i._id != skillId) {
-        newOption ={[i.id]: i.name,};
-        options= Object.assign(options,newOption)
-      }  
+    let options={}
+    let newOption ={}
+    if (skillId !="1") {
+      newOption = {"none": game.i18n.localize("BRP.none")};
+      options= Object.assign(options,{"none": game.i18n.localize("BRP.none")})      
     }
+
+    for (let itm of newList) {
+      if (itm.brpid) {
+        options= Object.assign(options,{[itm.brpid]: itm.name})
+      }
+    }
+
     return options
   }
 

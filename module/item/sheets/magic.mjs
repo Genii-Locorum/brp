@@ -1,11 +1,19 @@
 import { BRPSelectLists } from "../../apps/select-lists.mjs";
+import { addBRPIDSheetHeaderButton } from '../../brpid/brpid-button.mjs'
 
 export class BRPMagicSheet extends ItemSheet {
   constructor (...args) {
     super(...args)
     this._sheetTab = 'items'
   }
-  
+
+  //Add BRPID buttons to sheet
+  _getHeaderButtons () {
+    const headerButtons = super._getHeaderButtons()
+    addBRPIDSheetHeaderButton(headerButtons, this)
+    return headerButtons
+  }  
+
   static get defaultOptions () {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ['brp', 'sheet', 'item'],
@@ -31,7 +39,9 @@ export class BRPMagicSheet extends ItemSheet {
     //Get drop down options from select-lists.mjs
       sheetData.catOptions = await BRPSelectLists.getSpellCatOptions();
       sheetData.catName = game.i18n.localize("BRP." + this.item.system.impact);
-    itemData.system.total = itemData.system.base + itemData.system.xp + itemData.system.effects + itemData.system.personality + itemData.system.profession + itemData.system.personal;  
+      sheetData.skillCatOptions = await BRPSelectLists.getCategoryOptions();
+      sheetData.skillCatName = (await game.system.api.brpid.fromBRPIDBest({brpid:this.item.system.category}))[0].name??""
+      itemData.system.total = itemData.system.base + itemData.system.xp + itemData.system.effects + itemData.system.personality + itemData.system.profession + itemData.system.personal;  
 
     sheetData.enrichedDescriptionValue = await TextEditor.enrichHTML(
       sheetData.data.system.description,
