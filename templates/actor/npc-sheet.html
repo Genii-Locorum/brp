@@ -181,20 +181,34 @@
           <div class="charname centre">{{ localize 'BRP.d20'}}</div>    
           <div class="charname centre" style="grid-column: 3 / 6">{{ localize 'BRP.hp'}}</div>        
           <div class="charname centre" title="{{localize 'BRP.armourPoints'}}">{{ localize 'BRP.ap'}}</div>        
-          <div class="charname centre" title="{{ localize 'BRP.bapHint'}}">{{ localize 'BRP.bap'}}</div>        
+          <div class="charname centre" title="{{ localize 'BRP.bapHint'}}">{{ localize 'BRP.bap'}}</div>
+          {{#unless system.lock}}
+          <div class="charname centre hplHeal" title="{{ localize 'BRP.resetHitLoc'}}"><a class="mediumIcon"><i class="fas fa-heart"></i></a></div>      
+          {{/unless}}        
         </div>  
         {{#each hitlocs as |hitloc key|}}
           {{#if ../system.lock}}
             <div class="npc-hitloc-cell item" data-item-id="{{hitloc._id}}">
-              <div class="font14 item-edit">{{hitloc.system.displayName}}</div>
-              {{#if (eq hitloc.system.lowRoll hitloc.system.highRoll)}}
-                <div class="font14 centre">{{hitloc.system.lowRoll}}</div>
-              {{else}}      
-                <div class="font14 centre">{{hitloc.system.lowRoll}}-{{hitloc.system.highRoll}}</div>
-              {{/if}}    
-              <div class="font14 centre"><input class="personal-inp centre inline-edit" data-field ="currHP"  name="hitloc.system.currHP" type="text" value="{{hitloc.system.currHP}}" data-dtype="Number"/></div>
-              <div class="font14 centre">/</div>
-              <div class="font14 centre">{{hitloc.system.maxHP}}</div>
+              <div class="font14 item-edit" {{#if (eq hitloc.system.locType 'general')}}title="{{localize 'BRP.generalHPHint'}}"{{/if}}>{{hitloc.system.displayName}}</div>
+              {{#if (eq hitloc.system.locType 'general')}}
+                <div></div>
+              {{else}}
+                {{#if (eq hitloc.system.lowRoll hitloc.system.highRoll)}}
+                  <div class="font14 centre">{{hitloc.system.lowRoll}}</div>
+                {{else}}      
+                  <div class="font14 centre">{{hitloc.system.lowRoll}}-{{hitloc.system.highRoll}}</div>
+                {{/if}}    
+              {{/if}}
+              {{#if (eq hitloc.system.locType 'general')}}
+                <div class="font14 centre"><input class="personal-inp centre inline-edit" data-field ="currHP"  name="hitloc.system.currHP" type="number" min="0" oninput="this.value = 
+ !!this.value && Math.abs(this.value) >= 0 ? -Math.abs(this.value) : null" value="{{hitloc.system.currHP}}" data-dtype="Number"/></div>            
+                <div></div>
+                <div></div>
+              {{else}}  
+                <div class="font14 centre"><input class="personal-inp centre inline-edit" data-field ="currHP"  name="hitloc.system.currHP" type="text" value="{{hitloc.system.currHP}}" data-dtype="Number"/></div>
+                <div class="font14 centre">/</div>
+                <div class="font14 centre">{{hitloc.system.maxHP}}</div>
+              {{/if}}
               {{#if ../useAVRand}}
                 <div class="font14 centre rollable ap-name" data-property="nap">{{hitloc.system.apRnd}}</div>
                 <div class="font14 centre rollable ap-name" data-property="nbap">{{hitloc.system.bapRnd}}</div>
@@ -490,7 +504,6 @@
         <div class="charname centre">{{ localize 'BRP.rolled' }}</div>
         <div class="charname centre">{{ localize 'BRP.average' }}</div>
           {{#each system.baseStats as |stat key|}}
-            {{#if stat.visible}}       
               <div class="font14 left">{{stat.labelShort}}</div>
               {{#if ../system.lock}}
               <div class ="centre" data-characteristic = "{{key}}">{{stat.random}}</div>
@@ -499,9 +512,30 @@
               <div><input class="centre personal-inp" name="system.baseStats.{{key}}.random" type="text" value="{{stat.random}}"/></div>
               <div><input class="centre personal-inp" name="system.baseStats.{{key}}.average" type="text" value="{{stat.average}}"/></div>
               {{/if}}
-            {{/if}}  
           {{/each}}
       </section>
+      <br>
+      <div class="hpnpcgrid">
+        <div class="charname left">{{ localize 'BRP.health'}}</div>
+        <div class="new-row">{{localize 'BRP.characteristic'}}</div>
+        <div class="npc-stat centre">
+          <select data-handle-change name="system.hp.stat1">
+            {{selectOptions statOptions selected=actor.system.hp.stat1}}
+          </select>
+        </div>
+        <div class="new-row">{{localize 'BRP.characteristic'}}</div>
+        <div class="npc-stat centre">
+          <select data-handle-change name="system.hp.stat2">
+            {{selectOptions statOptions selected=actor.system.hp.stat2}}
+          </select>
+        </div>
+        <div class="new-row">{{localize 'BRP.multiplier'}}</div>
+        <div><input class="centre personal-inp" name="system.hp.multi" type="text" value="{{actor.system.hp.multi}}" data-dtype="Number"/></div>
+        <div class="new-row">{{localize 'BRP.hpBonus'}}</div>
+        <div><input class="centre personal-inp" name="system.health.mod" type="text" value="{{actor.system.health.mod}}" data-dtype="Number"/></div>
+        <div class="new-row">&NonBreakingSpace;</div>
+        <div class="new-row">{{localize 'BRP.calculation'}}</div>
+        <div style="grid-column: 2 / span 2;">{{actor.system.hp.formula}}</div>
     {{/if}}
   {{/if}}  
 </section>

@@ -13,6 +13,9 @@
 -Hit Locations (the item) now have a Display Name (e.g. Head) and a Creature Type (e.g. Humanoid).  The item name will be a combination of the two with the Creature Type, if populated, appearing in brackets.  The Display Name is what's shown on the Character & NPC sheets.  This is to make finding the right hit location for a creature easier in a big list of hit locations
 -Skill Categories have been added as a new Item.  You can change the name and configure how the category modifiers are calculated.  The BRPID for each modifier in world or the compendium is used to generate the list of possible skill categories.  Skill categories are automatically added to new characters.  It is imperative that you either have a skill category with the BRPID 'i.skillcat.combat' or you flag all the weapon skills as combat skills.  If you don't you won't see a list of weapon skills.
 - Because of the above the game settings for Social and Supernatural have been removed (include or don't include the relevant game items as you see fit.)
+- For NPCs you can now enter Max HP formula (as two stats, a multiple and a modifier) on the Base Stats Tab and the calculation formula is then displayed.  It defaults to CON, SIZ, 0.5 & 0
+- When dropping unlinked NPC actors to a scene you can get the Random or Average stats to be autorolled for you - you may get asked depending on the game settings - there's a new one to choose Ask, Do nothing, use Random stats or Average Stats.
+- In game settings you can also choose whether to show NPC names on tokens as defaults. You can also do the same for Resource Bars
 
 ## 12.1.29
 - Added a Description section to NPCs for extended notes.

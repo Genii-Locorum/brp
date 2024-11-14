@@ -125,56 +125,61 @@
       "lock": false,
       "skillcategory": {
       }
+    },
+    "npc": {
+      "templates": ["base"],
+      "description": "",
+      "extDesc": "",
+      "majorWnd": false,
+      "minorWnd": false,
+      "move": 0,
+      "lock": false,
+      "viewTab": "2",
+      "sanLoss": "",
+      "ap": 0,      
+      "bap": 0,
+      "apRnd": "",
+      "bapRnd": "",
+      "baseStats": {
+        "str": {
+          "random": "3D6",
+          "average": "1D2+9"
+        },
+        "con": {
+          "random": "3D6",
+          "average": "1D2+9"
+        },
+        "int": {
+          "random": "3D6",
+          "average": "1D2+9"
+        },
+        "siz": {
+          "random": "3D6",
+          "average": "1D2+9"
+        },
+        "pow": {
+          "random": "3D6",
+          "average": "1D2+9"
+        },
+        "dex": {
+          "random": "3D6",
+          "average": "1D2+9"
+        },
+        "cha": {
+          "random": "3D6",
+          "average": "1D2+9"
+        },
+        "edu": {
+          "random": "3D6",
+          "average": "1D2+9"
+        }
       },
-      "npc": {
-        "templates": ["base"],
-        "description": "",
-        "extDesc": "",
-        "majorWnd": false,
-        "minorWnd": false,
-        "move": 0,
-        "lock": false,
-        "viewTab": "2",
-        "sanLoss": "",
-        "ap": 0,      
-        "bap": 0,
-        "apRnd": "",
-        "bapRnd": "",
-        "baseStats": {
-          "str": {
-            "random": "3D6",
-            "average": "1D2+9"
-          },
-          "con": {
-            "random": "3D6",
-            "average": "1D2+9"
-          },
-          "int": {
-            "random": "3D6",
-            "average": "1D2+9"
-          },
-          "siz": {
-            "random": "3D6",
-            "average": "1D2+9"
-          },
-          "pow": {
-            "random": "3D6",
-            "average": "1D2+9"
-          },
-          "dex": {
-            "random": "3D6",
-            "average": "1D2+9"
-          },
-          "cha": {
-            "random": "3D6",
-            "average": "1D2+9"
-          },
-          "edu": {
-            "random": "3D6",
-            "average": "1D2+9"
-          }
-        }  
-      }
+      "hp": {
+        "stat1": "siz",
+        "stat2": "con",
+        "multi": 0.5
+      }    
+    }
   },
   "Item": {
     "types": ["gear","skill","hit-location", "personality", "profession","power","magic","mutation","psychic","sorcery","super","failing","powerMod","armour","weapon","wound","allegiance","passion","persTrait","reputation","skillcat"],

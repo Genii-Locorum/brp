@@ -329,7 +329,7 @@
 .brp .bottom-panel {
   display: flex;
   flex: 1;
-  height: calc(100% - 350px);
+  height: calc(100% - 260px);
   border-top: 0px;
   padding : 5px;
   width: 100%;
@@ -758,6 +758,17 @@ padding-top: 4px;
   column-gap: 5px;
   font-size: 14px;
   grid-template-columns: 120px auto;
+}
+
+.brp .hpnpcgrid {
+  display: grid;
+  margin:0px;
+  margin-right: 10px;
+  padding: 0px 0px 5px 5px;
+  row-gap: 0px;
+  column-gap: 5px;
+  font-size: 14px;
+  grid-template-columns: 120px 75px 275px;
 }
 
 .brp .hitloc-scores {
@@ -1269,6 +1280,12 @@ padding-top: 4px;
   vertical-align: middle;
 }
 
+.brp .npc-stat select {
+  height:16px;
+  font-size: 14px;
+}
+
+
 .brp .npc-img {
   flex: 0 0 100px;
   height: 85px;
@@ -1349,7 +1366,7 @@ padding-top: 4px;
   margin:0px;
   padding: 5px 0px 5px 5px;
   font-size: 14px;
-  grid-template-columns: 540px;
+  grid-template-columns: 560px;
   border-bottom: 2px solid rgba(68, 7, 4, 1);
 }
 
@@ -1357,7 +1374,7 @@ padding-top: 4px;
   display: grid; 
   margin:0px;
   font-size: 14px;
-  grid-template-columns: 100px 80px 40px 10px 40px 135px 135px;
+  grid-template-columns: 100px 80px 40px 10px 40px 130px 130px 20px;
 }
 
 .brp .npc-hitloc-cell-unlock {

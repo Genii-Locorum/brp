@@ -134,6 +134,15 @@ Hooks.on('renderSettingsConfig', (app, html, options) => {
     )
 
     systemTab
+    .find('input[name=brp\\.xpFixed]')
+    .closest('div.form-group')
+    .after(
+      '<h3 class="setting-header">' +
+        game.i18n.localize('BRP.sceneSettings') +
+        '</h3>'
+    )
+
+    systemTab
     .find('input[name=brp\\.starterSkills]')
     .closest('div.form-group')
     .before(
@@ -141,6 +150,8 @@ Hooks.on('renderSettingsConfig', (app, html, options) => {
         game.i18n.localize('BRP.customise') +
         '</h3>'
     )
+
+
 });
 
 Hooks.on('getSceneControlButtons', BRPMenu.getButtons)

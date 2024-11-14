@@ -40,7 +40,6 @@ export class BRPCheck {
 
   //Check the request and build out the config 
   static async normaliseRequest (options){
-
     //Set Basic Config
     let partic =await BRPactorDetails._getParticipantId(options.token,options.actor)
     let particImg = await BRPactorDetails.getParticImg(partic.particId,partic.particType)
@@ -212,7 +211,6 @@ export class BRPCheck {
   //Start the check now that the config has been prepared
   static async startCheck(config) {  
     let actor = await BRPactorDetails._getParticipant(config.particId, config.particType)
-
     //If Shift key has been held then accept the defaults above otherwise call a Dialog box for Difficulty, Modifier etc
     if (config.shiftKey){
     } else {
@@ -482,7 +480,7 @@ export class BRPCheck {
   static async showChat(html,chatMsgData) {
     let chatData={}
       chatData = {
-        user: game.user.id,
+        author: game.user.id,
         type: chatMsgData.chatType,
         content: html,
         flags: { 'brp': { 

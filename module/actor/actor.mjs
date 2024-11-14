@@ -1,5 +1,4 @@
 import {BRPactorItemDrop} from './actor-itemDrop.mjs'
-
 export class BRPActor extends Actor {
 
   prepareData() {
@@ -172,18 +171,12 @@ export class BRPActor extends Actor {
             if (itm.system.av2 > 0) { 
               hitLoc.system.av2+=itm.system.av2
             } 
-//            else {
-//              hitLoc.system.av2+=itm.system.av1
-//            }
             if (itm.system.avr1 != "") {
               hitLoc.system.avr1+="+" + itm.system.avr1
             }  
             if (itm.system.avr2 != "") {
               hitLoc.system.avr2+="+" + itm.system.avr2
             } 
-//            else {
-//              hitLoc.system.avr2+="+" + itm.system.avr1
-//            }
           } else {
             systemData.av1+=itm.system.av1
             systemData.av2+=itm.system.av2
@@ -193,9 +186,6 @@ export class BRPActor extends Actor {
             if (itm.system.avr2 != "") {
               systemData.avr2+="+" + itm.system.avr2
             } 
-//          else {
-//            systemData.avr2+="+" + itm.system.avr1
-//          }
           }
         } 
         if (game.settings.get('brp','useHPL')) {
@@ -205,11 +195,6 @@ export class BRPActor extends Actor {
         //If power then record the ID against the category  
       } else if (itm.type === 'power') {
         systemData[itm.system.category] = itm._id;
-      //If personality get the name and record the ID  
-      //} else if (itm.type === 'personality') {
-      //  systemData.personality = itm.name
-      //  systemData.personalityId = itm._id;
-      //If profession then get the name and record the ID  
       } else if (itm.type === 'profession') {
         systemData.profession = itm.name
         systemData.professionId = itm._id;
@@ -320,8 +305,6 @@ export class BRPActor extends Actor {
   }  
 
 
-
-
   getRollData() {
     const data = super.getRollData();
 
@@ -364,22 +347,119 @@ export class BRPActor extends Actor {
       stat.visible = true;
       if (key === 'edu' && !game.settings.get('brp','useEDU')) {stat.visible = false}
     }
+    if (actorData.type === 'npc')
+    for (let [key, stat] of Object.entries(actorData.system.baseStats)) {
+      stat.labelShort = game.i18n.localize(CONFIG.BRP.statsAbbreviations[key]) ?? key;
+      //Mark all stats as visible except for EDU where it's not being used
+      stat.visible = true;
+      if (key === 'edu' && !game.settings.get('brp','useEDU')) {stat.visible = false}
+    }
   }
 
   // Calculate derived scores
   _prepDerivedStats(actorData) {
     let systemData = actorData.system
-    let hpMod = 1
-    if (actorData.type === 'character') {hpMod = game.settings.get('brp','hpMod')}
-    systemData.health.max = Math.ceil((systemData.stats.con.total + systemData.stats.siz.total) * hpMod/2)+systemData.health.mod;
+    if (actorData.type === 'character') {
+      systemData.health.max = Math.ceil((systemData.stats.con.total + systemData.stats.siz.total) * game.settings.get('brp','hpMod')/2)+systemData.health.mod;
+    } else {
+      let health = 0
+      let formula = ""
+      let statCount = 0
+      if (systemData.hp.stat1 != 'none') {
+        health += systemData.stats[systemData.hp.stat1].total
+        statCount ++
+        formula = game.i18n.localize(CONFIG.BRP.statsAbbreviations[systemData.hp.stat1])
+      }
+      if (systemData.hp.stat2 != 'none') {
+        health += systemData.stats[systemData.hp.stat2].total
+        statCount ++
+        if (statCount === 2) {formula = formula + " + "}
+        formula = formula + game.i18n.localize(CONFIG.BRP.statsAbbreviations[systemData.hp.stat2])
+      }
+      health = Math.ceil(health * systemData.hp.multi)
+      if (statCount === 1) {
+        formula = "(" + formula + " * " + systemData.hp.multi +")"
+      } else if (statCount === 2) {
+        formula = "((" + formula + ") * " + systemData.hp.multi +")"
+      }
+      if (systemData.health.mod < 0) {
+        formula = formula + " "+systemData.health.mod        
+      } else if(systemData.health.mod > 0) {
+        formula = formula + " + "+systemData.health.mod        
+      }  
+      systemData.hp.formula = formula
+      systemData.health.max = health + systemData.health.mod??0
+    } 
     systemData.health.mjrwnd = Math.ceil(systemData.health.max/2);
     systemData.power.max = systemData.stats.pow.total+systemData.power.mod;
     systemData.xpBonus = Math.ceil(systemData.stats.int.total/2);
     systemData.dmgBonus = this._damageBonus (systemData.stats.str.total+systemData.stats.siz.total)
   }
 
+  //Used for Rolling NPCs when token dropped
+  get hasRollableCharacteristics () {
+    for (const [, value] of Object.entries(this.system.baseStats)) {
+      if (isNaN(Number(value.random))) return true
+      if (isNaN(Number(value.average))) return true
+    }
+    return false
+  }
+
+  //Roll Random Stats
+  async rollCharacteristicsValue () {
+    const stats = {}
+    for (const [key, value] of Object.entries(this.system.baseStats)) {
+      if (value.random && !value.random.startsWith('@')) {
+        const r = new Roll(value.random)
+        await r.evaluate()
+        if (r.total) {
+          stats[`system.stats.${key}.base`] = Math.floor(
+            r.total
+          )
+        }
+      }
+    }
+    await this.update(stats)
+    await this.updateVitals()
+  }
+  
+  //Roll Average Stats
+  async averageCharacteristicsValue () {
+    const stats = {}
+    for (const [key, value] of Object.entries(this.system.baseStats)) {
+      if (value.average && !value.average.startsWith('@')) {
+        const r = new Roll(value.average)
+        await r.evaluate()
+        if (r.total) {
+          stats[`system.stats.${key}.base`] = Math.floor(
+            r.total
+          )
+        }
+      }
+    }
+    await this.update(stats)
+    await this.updateVitals()
+  }
+
+  //Update Current HP, FP etc and HPL when Rolled or Average Roll
+  async updateVitals () {
+    let checkProp = {'system.health.value': this.system.health.max,
+      'system.power.value': this.system.power.max,
+      'system.fatigue.value': this.system.fatigue.max,
+      'system.sanity.value': this.system.sanity.max 
+     }
+    await this.update(checkProp)
+    if (game.settings.get('brp','useHPL')) {
+      let hitLocs = this.items.filter(itm => itm.type==='hit-location').map(itm => {
+        return { _id: itm.id, 'system.currHP': itm.system.maxHP}
+      })
+      await Item.updateDocuments(hitLocs, {parent: this})   
+    }
+  } 
+
   //Create a new actor - When creating an actor set basics including tokenlink, bars, displays sight
   static async create (data, options = {}) {
+
     if (data.type === 'character') {
       data.prototypeToken = foundry.utils.mergeObject({
         actorLink: true,
@@ -395,7 +475,7 @@ export class BRPActor extends Actor {
           enabled: true
         }]
       },data.prototypeToken || {})
-    } 
+    }
     let actor = await super.create(data, options)
     //Set up a general hit location for a new actor if using HPL
     if (actor.type ==='character' && game.settings.get('brp','useHPL')) {

@@ -295,7 +295,7 @@ export class BRPCharacterSheet extends ActorSheet {
       } else if (itm.type === 'reputation'){
         reputations.push(itm);
       } else if (itm.type === 'skillcat'){
-        skills.push({name:itm.name, isType: true, 
+        skills.push({name:itm.name, isType: true, count: skills.filter(itm=>itm.isType).length,
           flags: {brp: {brpidFlag: {id:itm.flags.brp.brpidFlag.id}}},
           system: {category: itm.flags.brp.brpidFlag.id,total: itm.system.bonus},
           _id: itm._id

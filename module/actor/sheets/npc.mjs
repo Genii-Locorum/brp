@@ -45,6 +45,7 @@ export class BRPNpcSheet extends ActorSheet {
     context.useAVRand = game.settings.get('brp','useAVRand');
     context.useReputation = game.settings.get('brp','useReputation');    
     context.useBeastiary = game.settings.get('brp', 'beastiary')
+    context.statOptions = await BRPSelectLists.addStatOptions("");
     context.showArmour = false
     if (!context.useHPL || context.useBeastiary) {context.showArmour = true}
 
@@ -218,7 +219,7 @@ export class BRPNpcSheet extends ActorSheet {
     html.find('.rollable.weapon-name').click(BRPRollType._onWeaponRoll.bind(this));         // Weapon Skill Roll
     html.find('.rollable.damage-name').click(BRPRollType._onDamageRoll.bind(this));         // Damage Roll
     html.find('.rollable.ap-name').click(BRPRollType._onArmour.bind(this));                 // Armour roll
-
+    html.find('.hplHeal').click(this._resetHPL.bind(this));                                  // Reset Hit Loc HP to max.
 
     // Delete Inventory Item
     html.find('.item-delete').click(ev => {
@@ -382,6 +383,10 @@ export class BRPNpcSheet extends ActorSheet {
     }
 
     //If using HPL set location Current HP to Max HP
+    await this._resetHPL(event)
+  }
+
+  async _resetHPL(event) {
     if (game.settings.get('brp','useHPL')) {
       let hitLocs = this.actor.items.filter(itm => itm.type==='hit-location').map(itm => {
         return { _id: itm.id, 'system.currHP': itm.system.maxHP}

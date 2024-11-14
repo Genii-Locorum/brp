@@ -21,6 +21,7 @@ BRP.statsAbbreviations = {
   "cha": "BRP.StatsChaAbbr",
   "edu": "BRP.StatsEduAbbr",
   "fixed": "BRP.fixed",
+  "none": "BRP.none",
 };
 
 BRP.statsDerived = {

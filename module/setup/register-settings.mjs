@@ -253,6 +253,56 @@ export async function registerSettings () {
     default: 3
   });
 
+  // Scene Settings
+  game.settings.register('brp', "tokenDropMode", {
+    name: "BRP.Settings.tokenDropMode",
+    hint: "BRP.Settings.tokenDropModeHint",
+    scope: "world",
+    config: true,
+    default: "ask",
+    type: String,
+    choices: {
+      ask: 'BRP.Settings.tokenDropModeAsk',
+      roll: 'BRP.Settings.tokenDropModeRoll',
+      average: 'BRP.Settings.tokenDropModeAverage',
+      ignore: 'BRP.Settings.tokenDropModeIgnore'
+    }
+  });
+
+  game.settings.register('brp', "npcName", {
+    name: "BRP.Settings.tokenDropName",
+    hint: "BRP.Settings.tokenDropNameHint",
+    scope: "world",
+    config: true,
+    type: String,
+    default: false,
+    choices: {
+      "NONE": "BRP.Settings.displayNONE",
+      "ALWAYS": "BRP.Settings.displayALWAYS",
+      "CONTROL": "BRP.Settings.displayCONTROL",
+      "OWNER": "BRP.Settings.displayOWNER",
+      "HOVER":"BRP.Settings.displayHOVER",
+      "OWNER_HOVER": "BRP.Settings.displayOWNER_HOVER"
+    }
+  });
+
+  game.settings.register('brp', "npcBars", {
+    name: "BRP.Settings.tokenDropBars",
+    hint: "BRP.Settings.tokenDropBarsHint",
+    scope: "world",
+    config: true,
+    type: String,
+    default: false,
+    choices: {
+      "NONE": "BRP.Settings.displayNONE",
+      "ALWAYS": "BRP.Settings.displayALWAYS",
+      "CONTROL": "BRP.Settings.displayCONTROL",
+      "OWNER": "BRP.Settings.displayOWNER",
+      "HOVER":"BRP.Settings.displayHOVER",
+      "OWNER_HOVER": "BRP.Settings.displayOWNER_HOVER"
+    }
+  });
+
   //Configuration
   game.settings.register('brp', "starterSkills", {
     name: "BRP.Settings.starterSkills",

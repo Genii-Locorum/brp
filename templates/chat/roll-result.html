@@ -3,7 +3,15 @@
     {{#if (eq rollType 'CM')}}
       <div class="bold">{{localize 'BRP.card.CM'}}</div>  
     {{else}}    
-      <div class="bold">{{localize 'BRP.card.NO'}}</div>  
+      {{#if (eq cardType 'RE')}}
+        <div class="bold">{{localize 'BRP.card.RE'}}</div>  
+      {{else}}  
+        {{#if (eq cardType 'PP')}}
+          <div class="bold">{{localize 'BRP.card.PP'}}</div>  
+        {{else}}    
+          <div class="bold">{{localize 'BRP.card.NO'}}</div>  
+        {{/if}}  
+      {{/if}}
     {{/if}}
     <ol class="gr-list">
       {{#each chatCard as |c key|}}

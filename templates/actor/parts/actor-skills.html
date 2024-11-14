@@ -1,7 +1,7 @@
 <ol class="skill-list">
     {{#each skills as |skill id|}}
           {{#if isType}}
-            {{#unless (eq skill.system.category 'cmmnmod')}}
+            {{#unless (eq skill.count 0)}}
               <br>
             {{/unless}}
             <li class="item skill-listitem" data-item-id="{{skill._id}}">

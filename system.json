@@ -2,7 +2,7 @@
   "id": "brp",
   "title": "Basic Role Playing",
   "description": "Basic Role Playing system for FoundryVTT!",
-  "version": "12.1.30",
+  "version": "12.1.31",
   "compatibility": {
     "minimum": 11,
     "verified": "12.331",
@@ -15,15 +15,6 @@
   "styles": ["css/brp.css"],
   "scripts": [],
   "packs": [
-    {
-      "label": "Instructions",
-      "type": "JournalEntry",
-      "name": "instructions",
-      "path": "packs/instructions.db",
-      "system": "brp",
-      "private": false,
-      "flags": {}
-    },
     {
       "label": "BRP ID Macros",
       "type": "Macro",
@@ -42,15 +33,15 @@
     }
   ],
   "grid":{
-    "distance": 5,
-    "units": "ft"
+    "distance": 1,
+    "units": "m"
   },  
   "primaryTokenAttribute": "health",
   "secondaryTokenAttribute": "power",
   "socket": true,
   "url": "",
   "manifest": "https://github.com/Genii-Locorum/brp/releases/latest/download/system.json",
-  "download": "https://github.com/Genii-Locorum/brp/releases/download/Betav1.30/system.zip",
+  "download": "https://github.com/Genii-Locorum/brp/releases/download/Betav1.31/system.zip",
   "license": "LICENSE.txt",
   "changelog": "CHANGELOG.md"
 }
