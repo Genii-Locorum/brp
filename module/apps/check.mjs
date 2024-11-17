@@ -46,7 +46,6 @@ export class BRPCheck {
     let particActor = await BRPactorDetails._getParticipant(partic.particId,partic.particType)
     let weapon = ""
     let skill = ""
-    let opp = 'false'
     let config = {
       rollType: options.rollType,
       cardType: options.cardType,
@@ -69,6 +68,7 @@ export class BRPCheck {
       resistance: options.resistance ?? 0,
       diff: options.diff ?? "average",
       diffVal: options.diffVal ?? 1,
+      useDiffValue: game.settings.get('brp','diffValue'),
       rollFormula: options.rollFormula ?? "1D100",
       flatMod: options.flatMod ?? 0,
       diceMod: options.diceMod ?? 0,
@@ -231,7 +231,7 @@ export class BRPCheck {
     }
 
     //Adjust the targetScore for Difficulty
-    if (game.settings.get('brp','diffValue')) {
+    if (config.useDiffValue) {
       if (config.rollType === 'CH') {
         config.targetScore = Math.ceil(config.targetScore * config.diffVal/5)
       }  else {
@@ -242,6 +242,12 @@ export class BRPCheck {
         case "easy":
           config.targetScore = config.targetScore *2
           break
+        case "tricky":
+          config.targetScore = Math.ceil(config.targetScore *0.8)
+          break
+        case "awkward":
+            config.targetScore = Math.ceil(config.targetScore *0.6)
+            break
         case "difficult":
           config.targetScore = Math.ceil(config.targetScore *0.5)
           break
@@ -279,6 +285,8 @@ export class BRPCheck {
     }
 
     //Format the data so it's in the same format as will be held in the Chat Message when saved
+    let diffLabel = game.i18n.localize('BRP.'+config.diff)
+    if (!config.diff) {diffLabel = config.diffVal}
 
     let chatMsgData = {
       rollType: config.rollType,
@@ -306,7 +314,8 @@ export class BRPCheck {
         resistance: config.resistance,
         diff: config.diff,
         diffVal: config.diffVal,
-        diffLabel: game.i18n.localize('BRP.'+config.diff),
+        useDiffValue: config.useDiffValue,
+        diffLabel: diffLabel,
         rollFormula: config.rollFormula,
         flatMod: config.flatMod,
         diceMod: config.diceMod,
@@ -388,6 +397,7 @@ export class BRPCheck {
   //Function to call the Difficulty & Modifier Dialog box 
   static async RollDialog (options) {
     let data =""
+    const addStatOptions = await BRPSelectLists.addStatOptions(options.characteristic)
     switch (options.rollType) {
       case 'DM':
         data = {
@@ -401,16 +411,31 @@ export class BRPCheck {
           askSuccess: options.askSuccess       
         }
         break
-      default:  
-        const difficultyOptions = await BRPSelectLists.getDifficultyOptions()
-        const addStatOptions = await BRPSelectLists.addStatOptions(options.characteristic)
+      case 'CH':
+        const difficultyCHOptions = await BRPSelectLists.getCHDifficultyOptions()
         data = {
           type : options.rollType,
           addStat: options.addStat,
           diffVal: options.diffVal,
           cardType: options.cardType,
           needDiff: options.needDiff,
-          useDiffValue: game.settings.get('brp','diffValue'),
+          useDiffValue: options.useDiffValue,
+          label: options.label,
+          diff: options.diff,
+          difficultyOptions: difficultyCHOptions,
+          addStatOptions,
+        }
+      break  
+      
+        default:  
+        const difficultyOptions = await BRPSelectLists.getDifficultyOptions()
+        data = {
+          type : options.rollType,
+          addStat: options.addStat,
+          diffVal: options.diffVal,
+          cardType: options.cardType,
+          needDiff: options.needDiff,
+          useDiffValue: options.useDiffValue,
           label: options.label,
           diff: options.diff,
           difficultyOptions,

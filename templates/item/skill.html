@@ -3,21 +3,11 @@
     <div class="skillgrid">
       <div class="item-title"> {{localize 'BRP.skill'}}:</div>
       {{#if item.system.specialism}}  
-        {{#if isGM}}  
-          <div class="title-name bold"><input name="system.mainName" type="text" value="{{item.system.mainName}}" placeholder="Name"/></div>
-          <div class="skillgap-name"> / </div>
-        {{else}}
-          <div class="title-name bold boxed centre">{{item.system.mainName}}</div>
-          <div class="skillgap-name"> / </div>
-        {{/if}}
-
-        <div class="title-name bold"><input name="system.specName" type="text" value="{{item.system.specName}}" placeholder="specify"/></div>  
+        <div class="stat-input bold"><input name="system.mainName" type="text" value="{{item.system.mainName}}" placeholder="Name"/></div>
+        <div class="skillgap-name"> / </div>
+        <div class="stat-input bold"><input name="system.specName" type="text" value="{{item.system.specName}}" placeholder="specify"/></div>  
       {{else}}  
-        {{#if isGM}} 
-          <div class="title-name bold"><input name="system.mainName" type="text" value="{{item.system.mainName}}" placeholder="Name"/></div>
-        {{else}}
-          <div class="title-name bold centre boxed">{{item.system.mainName}}</div>
-        {{/if}}
+        <div class="stat-input bold"><input name="system.mainName" type="text" value="{{item.system.mainName}}" placeholder="Name"/></div>
         <div></div>
         <div></div>  
       {{/if}}  

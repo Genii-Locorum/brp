@@ -1,12 +1,8 @@
 <form class="{{cssClass}} brp" autocomplete="off">
     <header class="sheet-header">
       <div class="hitlocgrid">
-      <div class="item-title"> {{localize 'BRP.sorcery'}}:</div>
-      {{#if isGM}}  
+        <div class="item-title"> {{localize 'BRP.sorcery'}}:</div>
         <div class="stat-input"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></div>
-      {{else}}
-        <div class="title-name bold boxed centre">{{item.name}}</div>
-      {{/if}}
       </div>  
       <img class="item-image" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="50" width="50"/>
     </header>
@@ -38,13 +34,6 @@
               <div class="stat-input"><input name="system.powCost" type="text" value="{{item.system.powCost}}"/></div>
               <div class="skill-display"  title ="{{localize 'BRP.levelHint'}}">{{ localize "BRP.level" }}</div>
               <div class="stat-input"><input name="system.maxLvl" type="text" value="{{item.system.maxLvl}}" data-dtype="Number"/></div>
-              {{#isAnd hasOwner item.system.var}}
-                <div></div><br>
-                <div class="skill-display">{{ localize "BRP.currLvl" }}</div>
-                <div class="stat-input"><input name="system.currLvl" type="text" value="{{item.system.currLvl}}" data-dtype="Number"/></div>
-                <div class="skill-display">{{ localize "BRP.memLvl" }}</div>
-                <div class="stat-input"><input name="system.memLvl" type="text" value="{{item.system.memLvl}}" data-dtype="Number"/></div>
-              {{/isAnd}}  
             {{else}}  
               <div class="skill-display">{{ localize "BRP.range" }}</div>
               <div class="weapon-display centre boxed">{{item.system.range}}</div>
@@ -54,20 +43,22 @@
               <div class="weapon-display centre boxed">{{item.system.powCost}}</div>
               <div class="skill-display">{{ localize "BRP.maxLvl" }}</div>
               <div class="weapon-display centre boxed">{{item.system.maxLvl}}</div>
-              {{#isAnd hasOwner item.system.var}}
-                <div class="skill-display">{{ localize "BRP.currLvl" }}</div>
-                <div class="weapon-display centre boxed">{{item.system.currLvl}}</div>
-                <div class="skill-display">{{ localize "BRP.memLvl" }}</div>
-                <div class="weapon-display centre boxed">{{item.system.memLvl}}</div>
-              {{/isAnd}}  
             {{/if}}
+            {{#isAnd hasOwner item.system.var}}
+              <div></div><br>
+              <div class="skill-display">{{ localize "BRP.currLvl" }}</div>
+              <div class="stat-input"><input name="system.currLvl" type="text" value="{{item.system.currLvl}}" data-dtype="Number"/></div>
+              <div class="skill-display">{{ localize "BRP.memLvl" }}</div>
+              <div class="stat-input"><input name="system.memLvl" type="text" value="{{item.system.memLvl}}" data-dtype="Number"/></div>
+            {{/isAnd}}  
+
           </div>  
           <br>
           <div class="item-title"> {{localize 'BRP.options'}}:</div>
           <div class="base-grid">
             <div class="skill-cat {{#if isGM}} item-toggle {{/if}} {{#if item.system.var}} toggle-active  {{/if}}" data-property = "var">{{localize 'BRP.spellVar'}}</div>
             {{#if hasOwner}}
-              <div class="skill-cat {{#if isGM}} item-toggle {{/if}} {{#if item.system.mem}} toggle-active  {{/if}}" data-property = "mem">{{localize 'BRP.memorised'}}</div>
+              <div class="skill-cat item-toggle {{#if item.system.mem}} toggle-active  {{/if}}" data-property = "mem">{{localize 'BRP.memorised'}}</div>
             {{/if}}
           </div>  
           <br>

@@ -5,6 +5,7 @@ import * as Init from './init.mjs'
 import * as RenderChatMessage from './render-chat-message.mjs'
 import * as CreateToken from './create-token.mjs'
 
+
 export const BRPHooks = {
     listen () {
       Init.listen()

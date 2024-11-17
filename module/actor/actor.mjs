@@ -460,6 +460,13 @@ export class BRPActor extends Actor {
   //Create a new actor - When creating an actor set basics including tokenlink, bars, displays sight
   static async create (data, options = {}) {
 
+    //If dropping from compendium check to see if the actor already exists in game.actors and if it does then get the game.actors details rather than create a copy 
+    if (options.fromCompendium) {
+      let tempActor = await (game.actors.filter(actr=>actr.flags.brp.brpidFlag.id === data.flags.brp.brpidFlag.id && actr.flags.brp.brpidFlag.priority === data.flags.brp.brpidFlag.priority))[0]
+      if (tempActor) {return tempActor}
+    }
+
+
     if (data.type === 'character') {
       data.prototypeToken = foundry.utils.mergeObject({
         actorLink: true,
@@ -476,6 +483,7 @@ export class BRPActor extends Actor {
         }]
       },data.prototypeToken || {})
     }
+
     let actor = await super.create(data, options)
     //Set up a general hit location for a new actor if using HPL
     if (actor.type ==='character' && game.settings.get('brp','useHPL')) {
@@ -502,8 +510,10 @@ export class BRPActor extends Actor {
       let newSkills = []
       let skillList = (await game.system.api.brpid.fromBRPIDRegexBest({ brpidRegExp:new RegExp('^i.skill'), type: 'i' })).filter(itm => itm.system.basic)
       for (let itm of skillList) {
-        itm.system.base = await BRPactorItemDrop._calcBase(itm,actor)
-        newSkills.push(itm)
+        if (actor.items.filter(nitm=> nitm.flags.brp.brpidFlag.id === itm.flags.brp.brpidFlag.id ).length <1) {
+          itm.system.base = await BRPactorItemDrop._calcBase(itm,actor)
+          newSkills.push(itm)
+        }
       }
     await Item.createDocuments(newSkills, {parent: actor})
     }
@@ -513,11 +523,13 @@ export class BRPActor extends Actor {
       let newSkillCats = []
       let skillCatList = (await game.system.api.brpid.fromBRPIDRegexBest({ brpidRegExp:new RegExp('^i.skillcat'), type: 'i' }))
       for (let itm of skillCatList) {
-        newSkillCats.push(itm)
+        if (actor.items.filter(nitm=> nitm.flags.brp.brpidFlag.id === itm.flags.brp.brpidFlag.id ).length <1) {
+          newSkillCats.push(itm)
+        }
       }
     await Item.createDocuments(newSkillCats, {parent: actor})
     }
-    return 
+    return actor
   }
 
   // Primary Skills Bonus 

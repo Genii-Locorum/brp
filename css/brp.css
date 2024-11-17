@@ -339,7 +339,7 @@
  .brp .bottom-panel-large {
   display: flex;
   flex: 1;
-  height: calc(100% - 330px);
+  height: calc(100% - 345px);
   border-top: 0px;
   padding : 5px;
   width: 100%;

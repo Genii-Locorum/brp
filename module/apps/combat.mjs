@@ -89,6 +89,7 @@ export class BRPCombat{
     } else if (success === "3") {
       switch (weapon.system.special) {
         case 'crush':
+        case 'crushknock':  
           if (damBon.startsWith('-')) {
             newFormula = damForm
           } else if (damBon === '+0') {
@@ -98,6 +99,7 @@ export class BRPCombat{
           }
           break
         case 'impale':
+        case 'impknock':
             newFormula = damForm + "+" + damForm + damBon
           break
         default:

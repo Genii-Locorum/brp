@@ -46,8 +46,8 @@ export class BRPWeaponSheet extends ItemSheet {
       sheetData.specialOptions = await BRPSelectLists.getSpecialOptions();
       sheetData.handedOptions = await BRPSelectLists.getHandedOptions();
       sheetData.equippedOptions = await BRPSelectLists.getEquippedOptions(this.item.type);
-      sheetData.wpnSkillOptions1 = await BRPSelectLists.getWeaponSkillOptions(this.item.system.weaponType,"1");
-      sheetData.wpnSkillOptions2 = await BRPSelectLists.getWeaponSkillOptions(this.item.system.weaponType, this.item.system.skill1);
+      sheetData.wpnSkillOptions1 = await BRPSelectLists.getWeaponSkillOptions("1");
+      sheetData.wpnSkillOptions2 = await BRPSelectLists.getWeaponSkillOptions(this.item.system.skill1);
       sheetData.weaponCatName = game.i18n.localize("BRP." + this.item.system.weaponType);  
       sheetData.priceName = game.i18n.localize("BRP." + this.item.system.price); 
       sheetData.damName = game.i18n.localize("BRP." + this.item.system.db);  

@@ -2,12 +2,8 @@
     <header class="sheet-header">
     
       <div class="hitlocgrid">
-      <div class="item-title"> {{localize 'BRP.magic'}}:</div>
-      {{#if isGM}}  
+        <div class="item-title"> {{localize 'BRP.magic'}}:</div>
         <div class="stat-input"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></div>
-      {{else}}
-        <div class="title-name bold center boxed">{{item.name}}</div>
-      {{/if}}
       </div>  
     
       <img class="item-image" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="50" width="50"/>
@@ -84,18 +80,16 @@
         </div>  
         <br>
 
-        <div class="item-title"> {{localize 'BRP.options'}}:</div>
-        <div class="base-grid">
-          <div class="skill-cat {{#if isGM}} item-toggle {{/if}} {{#if item.system.mem}} toggle-active  {{/if}}" data-property = "mem">{{localize 'BRP.memorised'}}</div>
-        </div>  
-        <br>
-
         <div class="item-title"> {{localize 'BRP.scores'}}:</div>
         <div class="skill-scores">
           {{#if isGM}}  
             <div class="skill-display">{{localize 'BRP.base'}}</div>
             <div class="stat-input"><input name="system.base" type="text" value="{{item.system.base}}" data-dtype="Number"/></div>
-            {{#if pcOwner}}
+          {{else}}
+            <div class="skill-display">{{localize 'BRP.base'}}</div>
+            <div class="skill-display centre">{{item.system.base}}</div>          
+          {{/if}}    
+          {{#if hasOwner}}
               <div class="skill-display">{{localize 'BRP.xp'}}</div>
               <div class="stat-input"><input name="system.xp" type="text" value="{{item.system.xp}}" data-dtype="Number"/></div>
               <div class="skill-display">{{localize 'BRP.profession'}}</div>
@@ -108,26 +102,16 @@
               <div class="stat-input"><input name="system.effects" type="text" value="{{item.system.effects}}" data-dtype="Number"/></div>
               <div class="skill-display">{{localize 'BRP.total'}}</div>
               <div class="skill-display centre bold">{{item.system.total}}</div>
-            {{/if}}
-          {{else}}
-            <div class="skill-display">{{localize 'BRP.base'}}</div>
-            <div class="skill-display centre">{{item.system.base}}</div>
-            {{#if pcOwner}}
-              <div class="skill-display">{{localize 'BRP.xp'}}</div>
-              <div class="skill-display centre bold">{{item.system.xp}}</div>
-              <div class="skill-display">{{localize 'BRP.profession'}}</div>
-              <div class="skill-display centre bold">{{item.system.profession}}</div>
-              <div class="skill-display">{{localize 'BRP.personal'}}</div>
-              <div class="skill-display centre bold">{{item.system.personal}}</div>
-              <div class="skill-display">{{localize 'BRP.personality'}}</div>
-              <div class="skill-display centre bold">{{item.system.personality}}</div>
-              <div class="skill-display">{{localize 'BRP.effects'}}</div>
-              <div class="skill-display centre bold">{{item.system.effects}}</div>
-              <div class="skill-display">{{localize 'BRP.total'}}</div>
-              <div class="skill-display centre bold">{{item.system.total}}</div>
-            {{/if}}
-          {{/if}} 
+          {{/if}}
         </div>  
+        {{#if hasOwner}}
+        <br>
+          <div class="item-title"> {{localize 'BRP.options'}}:</div>
+          <div class="base-grid">
+            <div class="skill-cat item-toggle {{#if item.system.mem}} toggle-active  {{/if}}" data-property = "mem">{{localize 'BRP.memorised'}}</div>
+            <div class="skill-cat item-toggle {{#if item.system.improve}} toggle-active  {{/if}}" data-property = "improve">{{localize 'BRP.improve'}}</div>
+          </div>  
+        {{/if}}
       </div>  
       
       {{!-- Description Tab --}}

@@ -2,12 +2,8 @@
     <header class="sheet-header">
     
       <div class="hitlocgrid">
-      <div class="item-title"> {{localize 'BRP.personality'}}:</div>
-      {{#if isGM}}  
+        <div class="item-title"> {{localize 'BRP.personality'}}:</div>
         <div class="stat-input"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></div>
-      {{else}}
-        <div class="title-name bold boxed centre">{{item.name}}</div>
-      {{/if}}
       </div>  
       <img class="item-image" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="50" width="50"/>
     </header>
@@ -82,9 +78,6 @@
             {{#if (eq skill.index key)}}
               <li class="item flexrow" data-item-id="{{skill.uuid}}" data-brpid="{{skill.brpid}}">
                 <div class="item-name flexrow">
-                  {{#if skill.group}}
-                    <div class="font14">{{skill.name}}</div>
-                  {{else}}  
                     {{#if skill.variable}}
                       <div class="item-view font14" title="{{skill.brpid}}">{{skill.name}} ({{ localize 'BRP.var'}})</div>
                     {{else}}
@@ -93,7 +86,6 @@
                       {{else}}
                         <div class="item-view font14" title="{{skill.brpid}}">{{skill.name}} ({{skill.base}}%)</div>
                       {{/if}}
-                    {{/if}}
                   {{/if}}  
                   </div>
                 <div class="item-controls">

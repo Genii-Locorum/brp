@@ -24,6 +24,7 @@ Hooks.once('init', async function() {
   // Add custom constants for configuration.
   CONFIG.BRP = BRP;
 
+
   //Register Settings & Handlebar Helpers
   registerSettings();
   handlebarsHelper();

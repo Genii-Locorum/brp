@@ -1,6 +1,16 @@
 # CHANGELOG
 
-## 12.1.30
+## 12.1.32
+- Fixed issue with the Sorcery Spell sheet nullifying levels when opened by a player
+- Fixed issue with Psychic abilities not being able to access Description/GM Notes
+- Added 'Crush and Knockabck' as a special damage type.  This and 'Impale and Knockback' now do the relevant special damage.
+- Most Item names can now be edited by players since the name is less critical with the intro of BRPIDs.  This doesnt include Hit Location, Skill Category and Wound
+- When creating a new character only adds new skills and skill categories if not already on the sheet (was a problem with duplicating characters)
+- You can now drop NPCs from the compendium to the canvas.  If the NPC already exists in the game actors (where BRPID and Priority match) then you won't get an additional copy created in game
+- For characteristic rolls there are now two new difficulty levels - Tricky and Awkward for STAT * 4 and STAT * 3 respectively.  Difficulty levels now show the multiplier.
+
+
+## 12.1.31
 - BRP IDs have been added to the game - see the Github Wiki for more information - https://github.com/Genii-Locorum/brp/wiki/BRP-IDs.  This is a major change so please BACKUP YOUR WORLDS before implementing this.
 - A number of macros have been included to help with migration - more info at https://github.com/Genii-Locorum/brp/wiki/Migrating-to-BRP-IDs
 - You no longer need to bring comepndium items in to the game items and can drag items etc straight from the compendia

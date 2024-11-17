@@ -19,7 +19,7 @@ export class BRPMagicSheet extends ItemSheet {
       classes: ['brp', 'sheet', 'item'],
       template: 'systems/brp/templates/item/magic.html',
       width: 520,
-      height: 550,
+      height: 580,
       scrollY: ['.tab.description'],
       tabs: [{navSelector: '.sheet-tabs',contentSelector: '.sheet-body',initial: 'details'}]
     })
@@ -29,12 +29,6 @@ export class BRPMagicSheet extends ItemSheet {
     const sheetData = super.getData()
     const itemData = sheetData.item
     sheetData.hasOwner = this.item.isEmbedded === true
-    sheetData.pcOwner = false
-    if (sheetData.hasOwner) {
-      if (this.item.parent.type === 'character') {
-        sheetData.pcOwner = true
-      }
-    }
     sheetData.isGM = game.user.isGM
     //Get drop down options from select-lists.mjs
       sheetData.catOptions = await BRPSelectLists.getSpellCatOptions();
@@ -74,7 +68,7 @@ export class BRPMagicSheet extends ItemSheet {
     event.preventDefault();
     const prop=event.currentTarget.closest('.item-toggle').dataset.property;
     let checkProp={};
-    if (prop === 'mem') {
+    if (['mem','improve'].includes(prop)) {
       checkProp = {[`system.${prop}`] : !this.object.system[prop]}
     } else {return}      
     

@@ -94,6 +94,7 @@ export class BRPSelectLists {
       "impale": game.i18n.localize("BRP.impale"),
       "knockback": game.i18n.localize("BRP.knockback"),
       "impknock": game.i18n.localize("BRP.impknock"),
+      "crushknock": game.i18n.localize("BRP.crushknock"),
       "stun": game.i18n.localize("BRP.stun"),
     };   
     return options;
@@ -217,7 +218,7 @@ export class BRPSelectLists {
     for (let i of actor.items) {
       if (i.type === 'hit-location') {
         if (game.settings.get('brp','useHPL') && i.system.locType != 'general') {
-          newOption ={[i.id]: i.name,}; 
+          newOption ={[i.id]: i.system.displayName,}; 
           options= Object.assign(options,newOption)
         } else if (!game.settings.get('brp','useHPL') && i.system.locType === 'general') {
           newOption ={[i.id]: i.name,}; 
@@ -249,7 +250,7 @@ export class BRPSelectLists {
   }
 
   //Weapon Skill Options
-  static async getWeaponSkillOptions(wpnType,skillId) {
+  static async getWeaponSkillOptions(skillId) {
     let skillList = await game.system.api.brpid.fromBRPIDRegexBest({ brpidRegExp:new RegExp('^i.skill'), type: 'i' })
     let newList = skillList.filter(itm => (itm.system.combat || itm.system.category === 'i.skillcat.combat')).map(itm => {return { brpid: itm.flags.brp.brpidFlag.id, name: itm.name}})
     newList.sort(function(a, b){
@@ -272,7 +273,6 @@ export class BRPSelectLists {
         options= Object.assign(options,{[itm.brpid]: itm.name})
       }
     }
-
     return options
   }
 
@@ -290,15 +290,33 @@ export class BRPSelectLists {
   //Difficulty List
   static async getDifficultyOptions () {    
     let options = {
-      "easy": game.i18n.localize("BRP.easy"),
-      "average": game.i18n.localize("BRP.average"),
-      "difficult": game.i18n.localize("BRP.difficult"),
-      "hard": game.i18n.localize("BRP.hard"),
-      "extreme": game.i18n.localize("BRP.extreme"),
+      "easy": game.i18n.localize("BRP.easy") + " (*2)",
+      "average": game.i18n.localize("BRP.average") + " (*1)",
+      "difficult": game.i18n.localize("BRP.difficult") + " (*.5)",
+      "hard": game.i18n.localize("BRP.hard") + " (*.4)",
+      "extreme": game.i18n.localize("BRP.extreme") + " (*.2)",
     };   
 
     if (game.settings.get('brp','allowImp')) {
-      options= Object.assign(options,{"impossible": game.i18n.localize("BRP.impossible")})
+      options= Object.assign(options,{"impossible": game.i18n.localize("BRP.impossible") + " (=1%)"})
+    }
+    return options;
+  }
+
+  //Difficulty List
+  static async getCHDifficultyOptions () {    
+    let options = {
+      "easy": game.i18n.localize("BRP.easy") + " (*10)",
+      "average": game.i18n.localize("BRP.average") + " (*5)",
+      "tricky": game.i18n.localize("BRP.tricky") + " (*4)",
+      "awkward": game.i18n.localize("BRP.awkward") + " (*3)",
+      "difficult": game.i18n.localize("BRP.difficult") + " (*2.5)",
+      "hard": game.i18n.localize("BRP.hard") + " (*2)",
+      "extreme": game.i18n.localize("BRP.extreme") + " (*1)",
+    };   
+
+    if (game.settings.get('brp','allowImp')) {
+      options= Object.assign(options,{"impossible": game.i18n.localize("BRP.impossible") + " (=1%)"})
     }
     return options;
   }

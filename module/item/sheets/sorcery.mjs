@@ -29,9 +29,7 @@ export class BRPSorcerySheet extends ItemSheet {
     const itemData = sheetData.item
     sheetData.hasOwner = this.item.isEmbedded === true
     sheetData.isGM = game.user.isGM
-    sheetData.hasOwner = this.item.isEmbedded === true
     sheetData.useMP = game.settings.get('brp','useMP');
-
     sheetData.enrichedDescriptionValue = await TextEditor.enrichHTML(
       sheetData.data.system.description,
       {
@@ -80,17 +78,19 @@ export class BRPSorcerySheet extends ItemSheet {
 
   _updateObject (event, formData) {
     const system = foundry.utils.expandObject(formData)?.system
+    if (!formData['system.maxLvl']) {
+      formData['system.maxLvl'] = this.object.system.maxLvl
+    }
+    if (formData['system.maxLvl'] < 1) {formData['system.maxLvl'] = 1}
+
     if (!this.object.system.var) {
-      formData['system.maxLvl'] = Math.max(formData['system.maxLvl'],1)
       formData['system.currLvl'] = formData['system.maxLvl']
       formData['system.memLvl'] = formData['system.maxLvl']
     } else {
-      formData['system.maxLvl'] = Math.max(formData['system.maxLvl'],1)
       formData['system.currLvl'] = Math.max(formData['system.currLvl'],1)
       formData['system.currLvl'] = Math.min(formData['system.currLvl'],formData['system.maxLvl'])
       formData['system.memLvl'] = Math.max(formData['system.memLvl'],1)
       formData['system.memLvl'] = Math.min(formData['system.memLvl'],formData['system.currLvl'])
-
     }
     super._updateObject(event, formData)
     this.item.render(false);

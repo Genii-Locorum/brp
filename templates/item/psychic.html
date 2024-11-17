@@ -2,12 +2,8 @@
     <header class="sheet-header">
     
       <div class="hitlocgrid">
-      <div class="item-title"> {{localize 'BRP.psyAbility'}}:</div>
-      {{#if isGM}}  
+        <div class="item-title"> {{localize 'BRP.psyAbility'}}:</div>
         <div class="stat-input"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></div>
-      {{else}}
-        <div class="title-name bold center boxed">{{item.name}}</div>
-      {{/if}}
       </div>  
     
       <img class="item-image" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="50" width="50"/>
@@ -25,9 +21,10 @@
   
   
     {{!-- Sheet Body --}}
-    <section class="skill-sheet-body sheet-body">
+    <section class="item-bottom-panel">
+      <section class="sheet-body">
       <br>
-    
+      {{!-- Details Tab --}}
       <div class="tab active" data-group="primary" data-tab="details">    
         <div class="base-grid">
           <div class="item-title"> {{localize 'BRP.type'}}:</div>
@@ -43,7 +40,6 @@
         </div>
         <br>   
 
-        <div class="tab active" data-group="primary" data-tab="details">    
           <div class="base-grid">
             <div class="item-title"> {{localize 'BRP.category'}}:</div>
             {{#if isGM}}
@@ -141,4 +137,5 @@
         </div>
       </div>
     </section>
-  </form>
+  </section>  
+</form>
