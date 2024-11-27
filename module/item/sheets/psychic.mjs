@@ -40,7 +40,12 @@ export class BRPPsychicSheet extends ItemSheet {
       sheetData.catOptions = await BRPSelectLists.getSpellCatOptions();
       sheetData.skillCatOptions = await BRPSelectLists.getCategoryOptions();
       sheetData.catName = game.i18n.localize("BRP." + this.item.system.impact);
-      sheetData.skillCatName = (await game.system.api.brpid.fromBRPIDBest({brpid:this.item.system.category}))[0].name??""
+      let skillCat = (await game.system.api.brpid.fromBRPIDBest({brpid:this.item.system.category}))[0]
+      if (skillCat) {
+      sheetData.skillCatName = skillCat.name
+      } else {
+        sheetData.skillCatName = ""
+      }
       itemData.system.total = itemData.system.base + itemData.system.xp + itemData.system.effects + itemData.system.personality + itemData.system.profession + itemData.system.personal;  
 
     sheetData.enrichedDescriptionValue = await TextEditor.enrichHTML(

@@ -69,12 +69,7 @@ export class BRPUtilities {
     
   }
 
-  static async personalityDelete(event, actor) {
-    const confirmation = await this.triggerDelete(event,actor, "itemId")
-    //TO DO - reset all actor personality points on skills to zero
-    if (!confirmation) {return}
 
-  }
 
 
   //Update attributes

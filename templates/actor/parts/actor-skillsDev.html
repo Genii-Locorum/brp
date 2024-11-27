@@ -13,8 +13,8 @@
       {{#each skillsDev as |skill id|}}
         <div class = "item item-edit skill-cell-name contextmenu bold" {{#if skill.system.improve}} style='background: rgba(0, 128, 0, 0.25)' title="{{localize 'BRP.improve'}}" {{/if}} data-item-id="{{skill._id}}" data-xp="{{skill.system.improve}}">{{skill.name}}</div>
         <input class="item skill-cell-input centre inline-edit" data-field ="base" data-item-id="{{skill._id}}" name="skill.system.base" type="text" value="{{skill.system.base}}" data-dtype="Number"/>
-        <input class="item skill-cell-input centre inline-edit" data-field ="personality" data-item-id="{{skill._id}}" name="skill.system.personality" type="text" value="{{skill.system.personality}}" data-dtype="Number"/>
-        <input class="item skill-cell-input skill-occ centre inline-edit" data-field ="profession" data-item-id="{{skill._id}}" name="skill.system.profession" type="text" value="{{skill.system.profession}}" data-dtype="Number"/>
+        <input class="item skill-cell-input centre inline-edit {{#if skill.system.prsnlty}} skill-prsnlty {{/if}}" data-field ="personality" data-item-id="{{skill._id}}" name="skill.system.personality" type="text" value="{{skill.system.personality}}" data-dtype="Number"/>
+        <input class="item skill-cell-input centre inline-edit {{#if skill.system.occupation}} skill-occ {{/if}}" data-field ="profession" data-item-id="{{skill._id}}" name="skill.system.profession" type="text" value="{{skill.system.profession}}" data-dtype="Number"/>
         <input class="item skill-cell-input skill-pers centre inline-edit" data-field ="personal" data-item-id="{{skill._id}}" name="skill.system.personal" type="text" value="{{skill.system.personal}}" data-dtype="Number"/>
         <input class="item skill-cell-input centre inline-edit" data-field ="xp" data-item-id="{{skill._id}}" name="skill.system.xp" type="text" value="{{skill.system.xp}}" data-dtype="Number"/>
         <input class="item skill-cell-input centre inline-edit" data-field ="effects" data-item-id="{{skill._id}}" name="skill.system.effects" type="text" value="{{skill.system.effects}}" data-dtype="Number"/>

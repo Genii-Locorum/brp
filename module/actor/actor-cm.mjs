@@ -2,6 +2,8 @@ import { BRPUtilities } from "../apps/utilities.mjs";
 import { BRPDamage } from "../apps/damage.mjs";
 import { BRPCheck } from "../apps/check.mjs";
 import { BRPCharDev } from "../apps/charDev.mjs";
+import { BRPactorItemDrop } from "./actor-itemDrop.mjs";
+import {BRPActor } from "./actor.mjs";
 
 //Characteristic Name Context Menu Options
 export const characteristicMenuOptions = (actor,token) => [
@@ -92,7 +94,7 @@ export const professionMenuOptions = (actor,token) => [
     icon: '<i class="fas fa-trash"></i>',
     condition: () => true,
     callback: (el) => {
-      const itemId = BRPUtilities.professionDelete(el, actor);
+      const itemId = BRPactorItemDrop.professionDelete(el, actor);
     }
   }
 ]  
@@ -118,7 +120,7 @@ export const personalityMenuOptions = (actor,token) => [
     icon: '<i class="fas fa-trash"></i>',
     condition: () => true,
     callback: (el) => {
-      const itemId = BRPUtilities.personalityDelete(el, actor);
+      const itemId = BRPactorItemDrop.personalityDelete(el, actor);
     }
   }
 ]  
@@ -131,6 +133,18 @@ export const skillstabMenuOptions = (actor,token) => [
     condition: () => true,
     callback: (el) => {}
   },
+
+  {
+    name: game.i18n.localize("BRP.calcBase"),
+    icon: '<i class="fas fa-abacus"></i>',
+    condition: () => !actor.system.lock,
+    callback: (el) => {
+      const itemId = BRPActor.charBaseSkillScores(actor);
+    }
+  },
+
+
+
   {
     name: game.i18n.localize("BRP.xpAllGain")+ " (" + game.settings.get('brp','xpFormula') + ")",
     icon: '<i class="fas fa-dice-d6"></i>',

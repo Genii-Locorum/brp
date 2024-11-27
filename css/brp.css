@@ -329,7 +329,7 @@
 .brp .bottom-panel {
   display: flex;
   flex: 1;
-  height: calc(100% - 260px);
+  height: calc(100% - 330px);
   border-top: 0px;
   padding : 5px;
   width: 100%;
@@ -672,6 +672,10 @@ padding-top: 4px;
   background-color: cornsilk;
 }
 
+.brp .skill-prsnlty{
+  background-color: lightblue;
+}
+
 .brp .lightgrey {
   background-color: lightslategray;
   font-weight: bold;
@@ -994,7 +998,6 @@ padding-top: 4px;
 .brp .armour-tab-grid {
   display: grid;
   margin: 0px;
-  padding: 2px 2px 2px 2px;
   row-gap: 0px;
   column-gap: 5px;
   grid-template-columns: 180px 60px 60px 40px 35px 40px 35px 40px 80px 100px 60px 30px;;
@@ -1003,7 +1006,6 @@ padding-top: 4px;
 .brp .gear-tab-grid {
   display: grid;
   margin: 0px;
-  padding: 2px 2px 2px 2px;
   row-gap: 0px;
   column-gap: 10px;
   grid-template-columns: max-content 100px 100px 40px 35px 75px 30px;
@@ -1325,12 +1327,15 @@ padding-top: 4px;
 }
 
 .brp .npc-weapons-grid{
-  display: grid; 
   margin:0px;
   padding: 5px 0px 5px 5px;
   font-size: 14px;
-  grid-template-columns: 150px 40px 130px 80px 60px 30px 40px;
   border-bottom: 2px solid rgba(68, 7, 4, 1);
+}
+
+.brp .npc-weapons-row {
+  display: grid;
+  grid-template-columns: 150px 40px 130px 80px 60px 30px 40px;
 }
 
 .brp .npc-weapons-cell{
@@ -1496,4 +1501,10 @@ padding-top: 4px;
       text-align: center;
     }
   }
+}
+ 
+.brp .selectList {
+  display: grid;
+  margin-left: 5px;
+  grid-template-columns: 30px 250px ;
 }

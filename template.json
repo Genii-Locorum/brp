@@ -136,6 +136,8 @@
       "lock": false,
       "viewTab": "2",
       "sanLoss": "",
+      "sanDesc": "",
+      "movDesc": "",
       "ap": 0,      
       "bap": 0,
       "apRnd": "",

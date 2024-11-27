@@ -221,6 +221,16 @@ export class BRPNpcSheet extends ActorSheet {
     html.find('.rollable.ap-name').click(BRPRollType._onArmour.bind(this));                 // Armour roll
     html.find('.hplHeal').click(this._resetHPL.bind(this));                                  // Reset Hit Loc HP to max.
 
+    // Drag events 
+    if (this.actor.isOwner) {
+      let handler = ev => this._onDragStart(ev);
+      html.find('li.item').each((i, li) => {
+        if (li.classList.contains("inventory-header")) return;
+        li.setAttribute("draggable", true);
+        li.addEventListener("dragstart", handler, false);
+      });
+    }
+
     // Delete Inventory Item
     html.find('.item-delete').click(ev => {
       const li = $(ev.currentTarget).closest(".item");
@@ -319,7 +329,9 @@ export class BRPNpcSheet extends ActorSheet {
       type: powerType,
     };
     // Create the item!
+    console.log(itemData)
     const newItem = await Item.create(itemData, {parent: this.actor});
+    console.log(newItem)
     newItem.sheet.render(true);
   }
 

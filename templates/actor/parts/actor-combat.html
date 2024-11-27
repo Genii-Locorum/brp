@@ -72,52 +72,55 @@
       <div class="diff-label centre" title="{{ localize 'BRP.apHint'}}">{{ localize 'BRP.ap'}}</div>
       <div class="diff-label centre">{{ localize 'BRP.status'}}</div>
       <div class="diff-label centre" title="{{ localize 'BRP.woundHint' }}">{{ localize 'BRP.wounds'}}</div>
+    </div>  
       {{#each hitlocs as |hitloc key|}}
-        <div class="centre addWound" title="{{ localize 'BRP.addWound' }}" data-item-id="{{hitloc._id}}" data-type="wound">
-          <a><i class="item-control fas fa-plus"></i></a>
-        </div>
-        <div class="item item-edit font14 {{#unless (eq hitloc.system.lowRoll 0)}}hitloc-name contextmenu{{/unless}}" data-item-id="{{hitloc._id}}">{{hitloc.system.displayName}}</div>
-        {{#if (eq hitloc.system.locType 'general')}}
-          <div>&nbsp</div>
-          <div>&nbsp</div>
-          <div>&nbsp</div>
-          <div>&nbsp</div>
-          <div>&nbsp</div>
-          <div>&nbsp</div>
-        {{else}}
-          {{#if (eq hitloc.system.lowRoll hitloc.system.highRoll)}}
-            <div class="font14 centre">{{hitloc.system.lowRoll}}</div>
-          {{else}}
-            <div class="font14 centre">{{hitloc.system.lowRoll}} - {{hitloc.system.highRoll}}</div>
-          {{/if}}
-          <div class="font14 centre">{{hitloc.system.currHP}}</div>
-          <div class="font14 centre">/</div>
-          <div class="font14 centre">{{hitloc.system.maxHP}}</div>
-          {{#if ../useAVRand}}
-            <div class="font14 centre rollable ap-name" data-item-id ="{{hitloc._id}}" data-property="ap" title="{{localize 'BRP.bap'}}: {{hitloc.system.avr2}}">{{hitloc.system.avr1}}</div>
-          {{else}}
-            <div class="font14 centre" title="{{localize 'BRP.bap'}}: {{hitloc.system.av2}}">{{hitloc.system.av1}}</div>
-          {{/if}}
-          <div class="centre">
-            {{#if hitloc.system.injured}} <a title="{{ localize 'BRP.injuredHPL' }}"><i class="fas fa-face-head-bandage"></i></a> {{/if}}
-            {{#if hitloc.system.bleeding}} <a class="item item-toggle" title="{{ localize 'BRP.bleeding' }}" data-item-id="{{hitloc._id}}" data-property="bleeding"><i class="item-control fas fa-droplet"></i></a> {{/if}}
-            {{#if hitloc.system.incapacitated}} <a class="item item-toggle" title=" {{localize 'BRP.incapacitated' }}" data-item-id="{{hitloc._id}}" data-property="incapacitated"><i class="item-control fas fa-face-dizzy"></i></a> {{/if}}
-            {{#if hitloc.system.dead}} <a class="item item-toggle" title=" {{localize 'BRP.dead' }}" data-item-id="{{hitloc._id}}" data-property="dead"><i class="item-control fas fa-skull"></i></a> {{/if}}
-            {{#if hitloc.system.severed}} <a class="item item-toggle" title=" {{localize 'BRP.severed' }}" data-item-id="{{hitloc._id}}" data-property="severed"><i class="item-control fas fa-bone-break"></i></a> {{/if}}
-            {{#if hitloc.system.unconscious}} <a class="item item-toggle" title=" {{localize 'BRP.unconscious' }}" data-item-id="{{hitloc._id}}" data-property="unconscious"><i class="item-control fas fa-snooze"></i></a> {{/if}}
-          </div>
-        {{/if}}
-        <div class="wound-name centre">
-          {{#each ../wounds as |wound key|}}
-            {{#if (eq wound.system.locId hitloc._id)}}  
-            <div class="item item-edit wound-name contextmenu centre wound-item {{#unless wound.system.treated}}untreated{{/unless}}" data-item-id="{{wound._id}}" >{{wound.system.value}}</div>
+        <li class="item" style="list-style:none;" data-item-id="{{hitloc._id}}">
+          <div class="hitloc-tab-grid">
+            <div class="centre addWound" title="{{ localize 'BRP.addWound' }}" data-item-id="{{hitloc._id}}" data-type="wound">
+              <a><i class="item-control fas fa-plus"></i></a>
+            </div>
+            <div class="item item-edit font14 {{#unless (eq hitloc.system.lowRoll 0)}}hitloc-name contextmenu{{/unless}}" data-item-id="{{hitloc._id}}">{{hitloc.system.displayName}}</div>
+            {{#if (eq hitloc.system.locType 'general')}}
+              <div>&nbsp</div>
+              <div>&nbsp</div>
+              <div>&nbsp</div>
+              <div>&nbsp</div>
+              <div>&nbsp</div>
+              <div>&nbsp</div>
+            {{else}}
+              {{#if (eq hitloc.system.lowRoll hitloc.system.highRoll)}}
+                <div class="font14 centre">{{hitloc.system.lowRoll}}</div>
+              {{else}}
+                <div class="font14 centre">{{hitloc.system.lowRoll}} - {{hitloc.system.highRoll}}</div>
+              {{/if}}
+              <div class="font14 centre">{{hitloc.system.currHP}}</div>
+              <div class="font14 centre">/</div>
+              <div class="font14 centre">{{hitloc.system.maxHP}}</div>
+              {{#if ../useAVRand}}
+                <div class="font14 centre rollable ap-name" data-item-id ="{{hitloc._id}}" data-property="ap" title="{{localize 'BRP.bap'}}: {{hitloc.system.avr2}}">{{hitloc.system.avr1}}</div>
+              {{else}}
+                <div class="font14 centre" title="{{localize 'BRP.bap'}}: {{hitloc.system.av2}}">{{hitloc.system.av1}}</div>
+              {{/if}}
+              <div class="centre">
+                {{#if hitloc.system.injured}} <a title="{{ localize 'BRP.injuredHPL' }}"><i class="fas fa-face-head-bandage"></i></a> {{/if}}
+                {{#if hitloc.system.bleeding}} <a class="item item-toggle" title="{{ localize 'BRP.bleeding' }}" data-item-id="{{hitloc._id}}" data-property="bleeding"><i class="item-control fas fa-droplet"></i></a> {{/if}}
+                {{#if hitloc.system.incapacitated}} <a class="item item-toggle" title=" {{localize 'BRP.incapacitated' }}" data-item-id="{{hitloc._id}}" data-property="incapacitated"><i class="item-control fas fa-face-dizzy"></i></a> {{/if}}
+                {{#if hitloc.system.dead}} <a class="item item-toggle" title=" {{localize 'BRP.dead' }}" data-item-id="{{hitloc._id}}" data-property="dead"><i class="item-control fas fa-skull"></i></a> {{/if}}
+                {{#if hitloc.system.severed}} <a class="item item-toggle" title=" {{localize 'BRP.severed' }}" data-item-id="{{hitloc._id}}" data-property="severed"><i class="item-control fas fa-bone-break"></i></a> {{/if}}
+                {{#if hitloc.system.unconscious}} <a class="item item-toggle" title=" {{localize 'BRP.unconscious' }}" data-item-id="{{hitloc._id}}" data-property="unconscious"><i class="item-control fas fa-snooze"></i></a> {{/if}}
+              </div>
             {{/if}}
-          {{/each}}  
-        </div>
-
-      {{/each}}          
-    </div>
-  {{else}} 
+            <div class="wound-name centre">
+              {{#each ../wounds as |wound key|}}
+                {{#if (eq wound.system.locId hitloc._id)}}  
+                <div class="item item-edit wound-name contextmenu centre wound-item {{#unless wound.system.treated}}untreated{{/unless}}" data-item-id="{{wound._id}}" >{{wound.system.value}}</div>
+                {{/if}}
+              {{/each}}  
+            </div>
+          </div>
+          </li>  
+        {{/each}}          
+    {{else}} 
     <div class="diff-label">
       <span title="{{ localize 'BRP.woundHint' }}">{{ localize 'BRP.wounds'}} (</span>
       <span class="centre addWound" title="{{ localize 'BRP.addWound' }}" data-item-id="total" data-type="wound">

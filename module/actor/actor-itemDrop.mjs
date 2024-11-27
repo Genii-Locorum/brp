@@ -1,4 +1,7 @@
 import {BRPSelectLists} from '../apps/select-lists.mjs'
+import { SkillsSelectDialog } from "../apps/skill-selection.mjs"
+import { BRPUtilities } from '../apps/utilities.mjs';
+import { BRPID } from '../brpid/brpid.mjs';
 
 export class BRPactorItemDrop {
 
@@ -11,7 +14,8 @@ export class BRPactorItemDrop {
     for (let nItm of itemData) {
       let reqResult = 1;
       let errMsg = "";
-    //Automatically allow gear to be added
+
+      //Automatically allow gear to be added
     if (nItm.type != 'gear') {   
 
 
@@ -87,30 +91,28 @@ export class BRPactorItemDrop {
         }
       }
 
-      //Stop Personality being added if one exists
-      if (nItm.type === 'personality' && (await actor.items.filter(itm => itm.type === 'personality')).length>0) {
-        reqResult = 0;
-        errMsg = nItm.name + " : " +   game.i18n.localize('BRP.stopPersonality');       
+      //Drop Personality & Professions - check one doesnt already exist and add relevant skills etc
+      if (['personality','profession'].includes(nItm.type)) {
+        let check = await this._dropPersonality(nItm,actor)
+        reqResult = check.reqResult;
+        errMsg = check.errMsg;
       }
-
-      //Stop Profession being added if one exists
-      if (nItm.type === 'profession' && (await actor.items.filter(itm => itm.type === 'profession')).length>0) {
-        reqResult = 0;
-        errMsg = nItm.name + " : " +   game.i18n.localize('BRP.stopProfession');       
-      }      
 
       //If skill, don't let Group Skills be added and check to see if skill exists already unless a non-named specialism skill e.g. Craft (specify)
       if (nItm.type === 'skill') {
         if (nItm.system.group) {
           reqResult = 0;
           errMsg = nItm.name + "(" + nItm.flags.brp.brpidFlag.id + "): "  +   game.i18n.localize('BRP.stopGroupSkill');       
-        } else if (!nItm.system.specialism || (nItm.system.specialism && nItm.system.chosen)) {
+        } else if (nItm.system.specialism && !nItm.system.chosen) {
+          nItm = await this._getSpecialism(foundry.utils.duplicate(nItm),actor) 
+        } 
+        if (!nItm.system.specialism || (nItm.system.specialism && nItm.system.chosen)) {
           let dupItm = await actor.items.filter(itm =>itm.type==='skill' && itm.flags.brp.brpidFlag.id===nItm.flags.brp.brpidFlag.id)
           if (dupItm.length > 0) {
             reqResult = 0;
             errMsg = nItm.name + "(" + nItm.flags.brp.brpidFlag.id + "): " + game.i18n.localize('BRP.dupItem');
           }
-        }
+        } 
       }
 
       //If a failing then check that superpower has been selected
@@ -221,9 +223,6 @@ export class BRPactorItemDrop {
         ui.notifications.warn(errMsg);
       } else {
         newItemData.push(nItm);
-        if (nItm.type ==='personality') {
-          await this._dropPersonality(nItm,actor)
-        }
       }
     }  
     return (newItemData);
@@ -258,13 +257,6 @@ export class BRPactorItemDrop {
   return itm.system.base
   }
 
-  static async _dropPersonality(itm,actor) {
-    //TO DO Get specialisations
-    //TO DO Add new skills to the actor sheet
-    //TO DO Set Personality Skill points to 20
-  }
-
-
   static async hitLocationDialog (actor) {
     let hitLocOptions = await BRPSelectLists.getHitLocOptions(actor)
     let label = game.i18n.localize('BRP.chooseHitLoc')
@@ -293,5 +285,221 @@ export class BRPactorItemDrop {
       dlg.render(true)
     })
   }
+
+  //Make skill selections etc when dropping a personality or profession
+  static async _dropPersonality(itm,actor) {
+    const addItems=[]
+    const updateItems=[]
+    const skillList=[]
+    const powerList = []
+    let newSkill = {}
+    if (await actor.items.filter(nitm => nitm.type === itm.type).length>0) {
+      return ({'reqResult': 0, 'errMsg':itm.name + " : " +   game.i18n.format('BRP.stopPersonality', {type: game.i18n.localize('BRP.'+itm.type)})})
+    }
+
+    //If Profession then check for powers
+    if (itm.type === 'profession') {
+      for (let nPwr of itm.system.powers) {
+        newSkill = (await game.system.api.brpid.fromBRPIDBest({brpid:nPwr.brpid}))[0]
+        if(!newSkill) continue
+        if (!game.settings.get('brp',[newSkill.system.category])) {
+          ui.notifications.warn(newSkill.name + " : " + game.i18n.localize('BRP.nopower'))
+          continue}
+        if (newSkill) {
+          if (await actor.items.filter(nitm=> nitm.flags.brp.brpidFlag.id === newSkill.flags.brp.brpidFlag.id)) {
+            continue
+          } else {
+            powerList.push(foundry.utils.duplicate(newSkill))
+          }
+        }  
+      }
+    }
+
+
+    //Go through each Optional Skill Group and make selections
+    for (let nGrp of itm.system.groups) {
+      const selected = await this._selectSkillGroup (nGrp)
+        if (selected.length <1 || !selected)  {continue}
+          for (let nSkill of selected) {
+            newSkill = (await game.system.api.brpid.fromBRPIDBest({brpid:nSkill.id}))[0]      
+
+          //If a group skill then pass to the selection
+          if (newSkill.system.group) {
+            const selected = await this._selectGroupSkill(newSkill,actor,1)
+            if (selected.length <1 || !selected)  {continue}
+            newSkill = (await game.system.api.brpid.fromBRPIDBest({brpid:selected[0].id}))[0]
+            if (newSkill) {skillList.push(foundry.utils.duplicate(newSkill))}
+          } else {
+            if (newSkill) {skillList.push(foundry.utils.duplicate(newSkill))}
+          }
+     }  
+    }
+
+    //Get each skill etc on the main list
+    for (let nItm of itm.system.skills) {
+      newSkill = (await game.system.api.brpid.fromBRPIDBest({brpid:nItm.brpid}))[0]
+      //If you can't find the skill then skip it
+      if(!newSkill) continue
+      //If a group skill then pass to the selection
+      if (newSkill.system.group) {
+        const selected = await this._selectGroupSkill(newSkill,actor,1)
+        if (selected.length <1 || !selected)  {continue}
+        newSkill = (await game.system.api.brpid.fromBRPIDBest({brpid:selected[0].id}))[0]
+        if (newSkill) {skillList.push(foundry.utils.duplicate(newSkill))}
+      } else {
+        if (newSkill) {skillList.push(foundry.utils.duplicate(newSkill))}
+      }
+    }
+    
+    //This is the list of selected skills
+    for (let nItm of skillList) {
+
+
+      //If a specialism skill and not specified then get the name etc
+      if (nItm.system.specialism && !nItm.system.chosen) {
+        nItm = await this._getSpecialism(nItm,actor)
+      }
+
+      //If personality then set Personality score to 20 and flag personality skills
+      if (itm.type === 'personality') {
+        nItm.system.personality = 20
+        nItm.system.prsnlty = true
+      }
+
+      //If profession then flag profession skills
+      if (itm.type === 'profession') {
+        nItm.system.occupation = true
+      }
+
+      //If existing skill on actor then push to updateItems otherwise calculate base and push to addItems
+      let actItem = (await actor.items.filter(cItm => cItm.flags.brp.brpidFlag.id === nItm.flags.brp.brpidFlag.id))[0]
+      if (actItem) {
+        if (itm.type === 'personality') {
+          updateItems.push({_id: actItem._id, 'system.personality': nItm.system.personality, 'system.prsnlty': nItm.system.prsnlty})
+        } else if (itm.type === 'profession') {
+          updateItems.push({_id: actItem._id, 'system.occupation': nItm.system.occupation})
+        }
+      } else {  
+        nItm.system.base = await this._calcBase(nItm,actor)  
+        addItems.push(nItm)
+      }
+    }
+
+    await Item.createDocuments(addItems, {parent: actor})
+    await Item.createDocuments(powerList, {parent: actor})
+    await Item.updateDocuments(updateItems, {parent: actor})
+
+    //TO DO Remove skills aready selected from options
+
+
+    return ({'reqResult': 1, 'errMsg': ""})
+  }
+
+ 
+  static async personalityDelete(event, actor) {
+    const confirmation = await BRPUtilities.triggerDelete(event,actor, "itemId")
+    //Reset all actor personality points on skills to zero
+    let changes = []
+    if (!confirmation) {return}
+    for (let itm of actor.items){
+      if (itm.type === "skill") {
+        changes.push({
+          _id: itm.id,
+          'system.personality' : 0,
+          'system.prsnlty': false
+        })
+      }
+    }
+    await Item.updateDocuments(changes, {parent: actor})   
+  }
+
+  static async professionDelete(event, actor) {
+    const confirmation = await BRPUtilities.triggerDelete(event,actor, "itemId")
+    //Reset all actor profession skills to zero
+    let changes = []
+    if (!confirmation) {return}
+    for (let itm of actor.items){
+      if (itm.type === "skill") {
+        changes.push({
+          _id: itm.id,
+          'system.profession' : 0,
+          'system.occupation': false
+        })
+      }
+    }
+    await Item.updateDocuments(changes, {parent: actor})   
+  }
+
+
+
+  static async _selectGroupSkill(newSkill,actor,picks) {
+    let selectOptions = []
+    if(newSkill.system.groupSkills.length > 0) {
+      for (let skillOpt of newSkill.system.groupSkills) {
+        let tempSkill = (await game.system.api.brpid.fromBRPIDBest({brpid:skillOpt.brpid}))[0]
+        if (tempSkill) {selectOptions.push({id:skillOpt.brpid, selected: false, name:tempSkill.name})}
+      }
+    } else {
+      let skillList = await game.system.api.brpid.fromBRPIDRegexBest({ brpidRegExp:new RegExp('^i.skill'), type: 'i' })
+      skillList.sort(function(a, b){
+        let x = a.name;
+        let y = b.name;
+        if (x < y) {return -1};
+        if (x > y) {return 1};
+        return 0;
+      });
+      for (let skillOpt of skillList) {
+        selectOptions.push({id:skillOpt.flags.brp.brpidFlag.id, selected: false, name:skillOpt.name})
+      }
+    }
+    let selectedSkill = await SkillsSelectDialog.create(selectOptions,picks, game.i18n.localize('BRP.skills'))
+    if (selectedSkill) {
+      return selectedSkill
+    } else {return false }
+  }
+
+  static async _selectSkillGroup(newGroup) {
+    let selectOptions = []
+    let picks = newGroup.options
+    for (let skillOpt of newGroup.skills) {
+      let tempSkill = (await game.system.api.brpid.fromBRPIDBest({brpid:skillOpt.brpid}))[0]
+      if (tempSkill) {selectOptions.push({id:skillOpt.brpid, selected: false, name:tempSkill.name})}
+    }        
+    let selectedSkill = await SkillsSelectDialog.create(selectOptions,picks, game.i18n.localize('BRP.skills'))
+    if (selectedSkill) {
+      return selectedSkill
+    } else {return false }    
+  }
+
+  static async _getSpecialism(newSkill,actor) {
+
+    let title = game.i18n.format('BRP.getSpecialism', {entity: newSkill.name})
+    let specName = await new Promise(resolve => {
+      const dlg = new Dialog({
+        title: title,
+        content:  `<input class="centre" type="text" name="entry">`,
+        buttons: {
+          roll: {
+            label: game.i18n.localize("BRP.confirm"),
+            callback: html => {
+            let inpB = html.find('[name="entry"]').val()
+            resolve (inpB)
+            }
+          }
+        },
+        default: 'roll',
+        close: () => {}
+        },{classes: ["brp", "sheet"]})
+        dlg.render(true);
+      })
+    newSkill.system.specName = specName
+    newSkill.name = specName + ' (' + newSkill.system.mainName + ')'  
+    newSkill.flags.brp.brpidFlag.id = "i.skill." + await BRPUtilities.toKebabCase(newSkill.name)
+    newSkill.system.chosen = true;
+    return newSkill
+  }
+
+
+
 
 }

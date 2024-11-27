@@ -425,7 +425,7 @@ export class BRPCharacterSheet extends ActorSheet {
       li.slideUp(200, () => this.render(false));
     });
 
-    // Drag events for macros.
+    // Drag events.
     if (this.actor.isOwner) {
       let handler = ev => this._onDragStart(ev);
       html.find('li.item').each((i, li) => {
@@ -601,6 +601,12 @@ export class BRPCharacterSheet extends ActorSheet {
     await item.update (checkProp);
     this.actor.render(false);
     return;
+  }
+
+  //Dropping an actor on an actor
+  async _onDropActor(event,data) {
+    console.log(data)
+    super._onDropActor(event,data)
   }
 
   // Change default on Drop Item Create routine for requirements (single items and folder drop)-----------------------------------------------------------------

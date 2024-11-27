@@ -12,8 +12,11 @@
       <div class="diff-label centre item-create" title="{{ localize 'BRP.addArmour' }}" data-type="armour">
         <a class="large-icon"><i class="item-control fas fa-plus"></i></a>
       </div>
+    </div>  
 
       {{#each armours as |armour key|}}
+        <li class="item" style="list-style: none;" data-item-id="{{armour._id}}">
+          <div class="armour-tab-grid">
         {{#if (eq armour.system.list 0)}}
           {{#if (gt armour.system.length 0)}}
             {{#if armour.system.hide}}
@@ -87,8 +90,9 @@
         {{/if}}
         {{/unless}}
         {{/if}}
+        </div>
+        </li>
       {{/each}}          
-    </div>
     <br>
 
     <div class="gear-tab-grid">
@@ -100,26 +104,30 @@
       <div class="diff-label centre item-create" title="{{ localize 'BRP.addGear' }}" data-type="gear">
         <a class="large-icon"><i class="item-control fas fa-plus"></i></a>
       </div>
+    </div>  
       {{#each gears as |gear key|}}
-        <div class="item item-edit font14 gear-name contextmenu" data-item-id="{{gear._id}}">{{gear.name}}</div>
-        <div class="combat-input-small"> <input class="item centre inline-edit" data-field ="quantity" data-item-id="{{gear._id}}" name="gear.system.quantity" type="text" value="{{gear.system.quantity}}" data-dtype="Number"/></div>
-        <div class="hitloc-name centre">{{gear.system.actlEnc}}</div>
-        {{#if (gt gear.system.pSMax 0)}}
-          <div class="combat-input-small"> <input class="item centre inline-edit" data-field ="pSCurr" data-item-id="{{gear._id}}" name="gear.system.pSCurr" type="text" value="{{gear.system.pSCurr}}" data-dtype="Number"/></div>
-          <div class="hitloc-name centre">{{gear.system.pSMax}}</div>
-        {{else}}
-          <div></div>
-          <div></div>
-        {{/if}}  
-        <div class="hitloc-name centre item item-toggle" title="{{gear.system.equippedName}}" data-item-id="{{gear._id}}" data-property = "equipStatus">
-          {{#if (eq gear.system.equipStatus 'carried')}}<i class="fas fa-hand-holding"></i>{{/if}}
-          {{#if (eq gear.system.equipStatus 'packed')}}<i class="fas fa-treasure-chest"></i>{{/if}}
-          {{#if (eq gear.system.equipStatus 'stored')}}<i class="fas fa-warehouse"></i>{{/if}}
+      <li class="item" style="list-style: none;" data-item-id="{{gear._id}}">
+        <div class="gear-tab-grid">
+          <div class="item item-edit font14 gear-name contextmenu" data-item-id="{{gear._id}}">{{gear.name}}</div>
+          <div class="combat-input-small"> <input class="item centre inline-edit" data-field ="quantity" data-item-id="{{gear._id}}" name="gear.system.quantity" type="text" value="{{gear.system.quantity}}" data-dtype="Number"/></div>
+          <div class="hitloc-name centre">{{gear.system.actlEnc}}</div>
+          {{#if (gt gear.system.pSMax 0)}}
+            <div class="combat-input-small"> <input class="item centre inline-edit" data-field ="pSCurr" data-item-id="{{gear._id}}" name="gear.system.pSCurr" type="text" value="{{gear.system.pSCurr}}" data-dtype="Number"/></div>
+            <div class="hitloc-name centre">{{gear.system.pSMax}}</div>
+          {{else}}
+            <div></div>
+            <div></div>
+          {{/if}}  
+          <div class="hitloc-name centre item item-toggle" title="{{gear.system.equippedName}}" data-item-id="{{gear._id}}" data-property = "equipStatus">
+            {{#if (eq gear.system.equipStatus 'carried')}}<i class="fas fa-hand-holding"></i>{{/if}}
+            {{#if (eq gear.system.equipStatus 'packed')}}<i class="fas fa-treasure-chest"></i>{{/if}}
+            {{#if (eq gear.system.equipStatus 'stored')}}<i class="fas fa-warehouse"></i>{{/if}}
+          </div>
+          <div class="mediumIcon centre item item-delete" data-item-id="{{gear._id}}" title="{{ localize 'BRP.deleteGear' }}">
+            <a><i class="item-control fas fa-trash"></i></a>
+          </div>
         </div>
-        <div class="mediumIcon centre item item-delete" data-item-id="{{gear._id}}" title="{{ localize 'BRP.deleteGear' }}">
-          <a><i class="item-control fas fa-trash"></i></a>
-        </div>
+      </li>  
       {{/each}}          
-    </div>
 
   </section>

@@ -44,7 +44,7 @@ export class BRPSkillSheet extends ItemSheet {
       sheetData.funcOptions = await BRPSelectLists.getFunctionalOptions();
       sheetData.stat1=game.i18n.localize(CONFIG.BRP.statsAbbreviations[this.item.system.baseFormula[1].stat]);
       sheetData.stat2=game.i18n.localize(CONFIG.BRP.statsAbbreviations[this.item.system.baseFormula[2].stat]);
-      sheetData.catName = game.i18n.localize("BRP." + this.item.system.category);
+      sheetData.catName = game.i18n.localize("BRP." + this.item.system.category.split('.')[2]);
       sheetData.wpnType = game.i18n.localize("BRP." + this.item.system.subType);
       sheetData.funcDisp= game.i18n.localize("BRP." + this.item.system.baseFormula.Func);
       itemData.system.total = itemData.system.base + itemData.system.xp + itemData.system.effects + itemData.system.personality + itemData.system.profession + itemData.system.personal;

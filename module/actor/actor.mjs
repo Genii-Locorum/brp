@@ -511,11 +511,12 @@ export class BRPActor extends Actor {
       let skillList = (await game.system.api.brpid.fromBRPIDRegexBest({ brpidRegExp:new RegExp('^i.skill'), type: 'i' })).filter(itm => itm.system.basic)
       for (let itm of skillList) {
         if (actor.items.filter(nitm=> nitm.flags.brp.brpidFlag.id === itm.flags.brp.brpidFlag.id ).length <1) {
-          itm.system.base = await BRPactorItemDrop._calcBase(itm,actor)
-          newSkills.push(itm)
+          itm.system.base = await BRPactorItemDrop._calcBase(itm,actor);
+          newSkills.push(itm);
         }
       }
-    await Item.createDocuments(newSkills, {parent: actor})
+    await Item.createDocuments(newSkills, {parent: actor});
+    await BRPActor.charBaseSkillScores(actor);
     }
 
     //Add Skill Categories
@@ -530,6 +531,17 @@ export class BRPActor extends Actor {
     await Item.createDocuments(newSkillCats, {parent: actor})
     }
     return actor
+  }
+
+  //Recalculate all skill base scores
+  static async charBaseSkillScores(actor) {
+    let change=[]
+    for (let itm of actor.items) {
+      if (itm.type != 'skill') {continue}
+      let baseScore = await BRPactorItemDrop._calcBase(itm,actor)
+      change.push({_id: itm._id, "system.base": baseScore})
+    }
+    await Item.updateDocuments(change, {parent:actor})
   }
 
   // Primary Skills Bonus 
