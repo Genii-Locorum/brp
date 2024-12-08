@@ -359,7 +359,7 @@
   row-gap: 0px;
   column-gap: 10px;
   font-size: 14px;
-  grid-template-columns: max-content 70px 90px 90px 70px 90px 70px 70px 70px;
+  grid-template-columns: 60px 70px 90px 90px 70px 90px 70px 70px 90px 30px;
 }
 
 .brp .diff-label {
@@ -639,7 +639,7 @@ padding-top: 4px;
   row-gap: 0px;
   column-gap: 0px;
   font-size: 14px;
-  grid-template-columns: max-content 60px 60px 60px 60px 60px 60px 60px 60px;
+  grid-template-columns: max-content 60px 60px 60px 60px 60px 60px 60px 60px 60px;
   border-right: 1px solid black;
   border-bottom: 1px solid black;
 }
@@ -1008,7 +1008,15 @@ padding-top: 4px;
   margin: 0px;
   row-gap: 0px;
   column-gap: 10px;
-  grid-template-columns: max-content 100px 100px 40px 35px 75px 30px;
+  grid-template-columns: 250px 100px 100px 40px 35px 75px 30px;
+}
+
+.brp .culture-stats {
+  display: grid;
+  margin: 0px;
+  row-gap: 0px;
+  column-gap: 0px;
+  grid-template-columns: 70px 100px 50px 20px 70px 100px 50px;
 }
 
 .brp .mediumIcon{
@@ -1507,4 +1515,8 @@ padding-top: 4px;
   display: grid;
   margin-left: 5px;
   grid-template-columns: 30px 250px ;
+}
+
+.brp .specialismSkill{
+  margin-left:5px;
 }

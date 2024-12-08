@@ -23,6 +23,7 @@ import { BRPReputationSheet } from '../item/sheets/reputation.mjs'
 import { BRPRollTableConfig } from '../sheets/brp-roll-table-config.mjs'
 import { BRPJournalSheet } from '../sheets/brp-journal-sheet.mjs'
 import { BRPSkillCategory} from '../item/sheets/skillcat.mjs'
+import { BRPCultureSheet} from '../item/sheets/culture.mjs'
 
 
 export function registerSheets () {
@@ -140,6 +141,11 @@ export function registerSheets () {
 
     Items.registerSheet('brp', BRPSkillCategory, {
       types: ['skillcat'],
+      makeDefault: true
+    })
+
+    Items.registerSheet('brp', BRPCultureSheet, {
+      types: ['culture'],
       makeDefault: true
     })
 

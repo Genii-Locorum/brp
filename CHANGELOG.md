@@ -1,12 +1,24 @@
 # CHANGELOG
 
+## 12.1.34
+- Layout of Items on characters now fixed to a consistent grid size
+- Culture has been added as an Item.  You can set the characteristic dice rolls and culture bonuses, plus skills with skill modifiers.  
+- Adding a culture to a character adds the characterstic formulae, bonuses, skills with modifiers.
+- When in development mode and with the character sheet unlocked there is a dice icon on the "CHAR" tab that lets you roll the dice - with a chat message showing the results.
+- When you have added a culture the name is shown on the character sheet and there's a context menu to view or delete the culture.
+- If you don't drop a culture item on the character you can manually enter a culture name
+- You can also manually enter/edit the dice rolls for characteristics if development mode is on and the character sheet is unlocked.
+- You can now edit (and keep the changes) to weapon ammo and hitpoints on the NPC sheet
+- Specialised skills now show under a common "main skill" heading on the actor sheet (so all Languages appear under "Language")
+- A macro has been included in BRP ID Macros compendium to rename all actor and game world specialised skills
+
 ## 12.1.33
 - When dropping a Specialism skill on to the character sheet where the specialism hasn't been chosen you will get asked for the specialism name
 - When the character sheet is unlocked the Skills Tab context menu now includes a "Recalculate skill base scores" which does exactly that.
 - When dropping Personality on to a character - the skills included in the personality are added to the character - with relevant choices presented to the player and base scores calculated. 
 - The same applies for a Profession
 - Skills added via the Personality gain the +20 bonus and are highlighted in the Skill Dev tab (Skill tab when character sheet unlocked), though you can edit the Personality Points on any skill
-- Skills added via the Professoin are highlighted in the Skill Dev tab, though the system doesn't restrict you to spending Professional Skill Points on just these skill
+- Skills added via the Profession are highlighted in the Skill Dev tab, though the system doesn't restrict you to spending Professional Skill Points on just these skill
 - NPCs now have a Power Modifier option on the Base Stats tab
 - NPCs now have a 'Move Notes" entry on the base stats tab for a longer description of their movement.  This appears as a tooltip on the main NPC sheet
 - GMs should now be able to drag all items from the Characters and NPCs to the items menu or compendia

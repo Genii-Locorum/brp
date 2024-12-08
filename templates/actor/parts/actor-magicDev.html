@@ -5,6 +5,7 @@
       <div class="skill-cell diff-label centre">{{ localize 'BRP.base'}}</div>  
       <div class="skill-cell diff-label centre" title="{{localize 'BRP.personality'}}">{{ localize 'BRP.personalityShort'}}</div>
       <div class="skill-cell diff-label centre" title="{{localize 'BRP.profession'}}">{{ localize 'BRP.profShort'}}</div>
+      <div class="skill-cell diff-label centre" title="{{localize 'BRP.culture'}}">{{ localize 'BRP.culture'}}</div>
       <div class="skill-cell diff-label centre" title="{{localize 'BRP.psp'}}">{{ localize 'BRP.personalShort'}}</div>
       <div class="skill-cell diff-label centre" title="{{localize 'BRP.experience'}}">{{ localize 'BRP.xp'}}</div>
       <div class="skill-cell diff-label centre" title="{{localize 'BRP.effects'}}">{{ localize 'BRP.effectsShort'}}</div>
@@ -13,8 +14,9 @@
       {{#each magics as |magic id|}}
         <div class = "item skill-cell-name contextmenu bold" data-item-id="{{magic._id}}">{{magic.name}}</div>
         <input class="item skill-cell-input centre inline-edit" data-field ="base" data-item-id="{{magic._id}}" name="magic.system.base" type="text" value="{{magic.system.base}}" data-dtype="Number"/>
-        <input class="item skill-cell-input centre inline-edit" data-field ="personality" data-item-id="{{magic._id}}" name="magic.system.personality" type="text" value="{{magic.system.personality}}" data-dtype="Number"/>
-        <input class="item skill-cell-input skill-occ centre inline-edit" data-field ="profession" data-item-id="{{magic._id}}" name="magic.system.profession" type="text" value="{{magic.system.profession}}" data-dtype="Number"/>
+        <input class="item skill-cell-input centre inline-edit {{#if magic.system.prsnlty}} skill-prsnlty {{/if}}" data-field ="personality" data-item-id="{{magic._id}}" name="magic.system.personality" type="text" value="{{magic.system.personality}}" data-dtype="Number"/>
+        <input class="item skill-cell-input centre inline-edit {{#if magic.system.occupation}} skill-occ {{/if}}" data-field ="profession" data-item-id="{{magic._id}}" name="magic.system.profession" type="text" value="{{magic.system.profession}}" data-dtype="Number"/>
+        <input class="item skill-cell-input centre inline-edit {{#if magic.system.cultural}} skill-prsnlty {{/if}}" data-field ="culture" data-item-id="{{magic._id}}" name="magic.system.culture" type="text" value="{{magic.system.culture}}" data-dtype="Number"/>
         <input class="item skill-cell-input skill-pers centre inline-edit" data-field ="personal" data-item-id="{{magic._id}}" name="magic.system.personal" type="text" value="{{magic.system.personal}}" data-dtype="Number"/>
         <input class="item skill-cell-input centre inline-edit" data-field ="xp" data-item-id="{{magic._id}}" name="magic.system.xp" type="text" value="{{magic.system.xp}}" data-dtype="Number"/>
         <input class="item skill-cell-input centre inline-edit" data-field ="effects" data-item-id="{{magic._id}}" name="magic.system.effects" type="text" value="{{magic.system.effects}}" data-dtype="Number"/>
@@ -29,6 +31,7 @@
       <div class = "skill-cell centre grey"></div>
       <div class = "skill-cell centre grey">{{this.actor.system.totalProf}}</div>
       <div class = "skill-cell centre grey">{{this.actor.system.totalPers}}</div>
+      <div class = "skill-cell centre grey"></div>
       <div class = "skill-cell centre grey"></div>
       <div class = "skill-cell centre grey"></div>
       <div class = "skill-cell centre grey"></div>

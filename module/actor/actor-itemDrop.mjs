@@ -91,8 +91,8 @@ export class BRPactorItemDrop {
         }
       }
 
-      //Drop Personality & Professions - check one doesnt already exist and add relevant skills etc
-      if (['personality','profession'].includes(nItm.type)) {
+      //Drop Culture, Personality & Professions - check one doesnt already exist and add relevant skills etc
+      if (['personality','profession','culture'].includes(nItm.type)) {
         let check = await this._dropPersonality(nItm,actor)
         reqResult = check.reqResult;
         errMsg = check.errMsg;
@@ -286,7 +286,7 @@ export class BRPactorItemDrop {
     })
   }
 
-  //Make skill selections etc when dropping a personality or profession
+  //Make skill selections etc when dropping a personality, culture or profession
   static async _dropPersonality(itm,actor) {
     const addItems=[]
     const updateItems=[]
@@ -320,20 +320,32 @@ export class BRPactorItemDrop {
     for (let nGrp of itm.system.groups) {
       const selected = await this._selectSkillGroup (nGrp)
         if (selected.length <1 || !selected)  {continue}
-          for (let nSkill of selected) {
-            newSkill = (await game.system.api.brpid.fromBRPIDBest({brpid:nSkill.id}))[0]      
-
+        console.log(selected)
+        for (let nSkill of selected) {
+          newSkill = (await game.system.api.brpid.fromBRPIDBest({brpid:nSkill.id}))[0]      
           //If a group skill then pass to the selection
           if (newSkill.system.group) {
             const selected = await this._selectGroupSkill(newSkill,actor,1)
             if (selected.length <1 || !selected)  {continue}
             newSkill = (await game.system.api.brpid.fromBRPIDBest({brpid:selected[0].id}))[0]
-            if (newSkill) {skillList.push(foundry.utils.duplicate(newSkill))}
+            if (newSkill) {
+              let placeholder = foundry.utils.duplicate(newSkill) 
+              if (itm.type === 'culture') {
+                placeholder.system.culture = nSkill.bonus
+              } 
+              skillList.push(placeholder)
+            }
           } else {
-            if (newSkill) {skillList.push(foundry.utils.duplicate(newSkill))}
+            if (newSkill) {
+              let placeholder = foundry.utils.duplicate(newSkill) 
+              if (itm.type === 'culture') {
+                placeholder.system.culture = nSkill.bonus
+              } 
+              skillList.push(placeholder)
+            }
           }
-     }  
-    }
+        }  
+      }
 
     //Get each skill etc on the main list
     for (let nItm of itm.system.skills) {
@@ -345,16 +357,25 @@ export class BRPactorItemDrop {
         const selected = await this._selectGroupSkill(newSkill,actor,1)
         if (selected.length <1 || !selected)  {continue}
         newSkill = (await game.system.api.brpid.fromBRPIDBest({brpid:selected[0].id}))[0]
-        if (newSkill) {skillList.push(foundry.utils.duplicate(newSkill))}
+        if (newSkill) {
+          let placeholder = foundry.utils.duplicate(newSkill) 
+          if (itm.type === 'culture') {
+            placeholder.system.culture = nItm.bonus
+          } 
+          skillList.push(placeholder)}
       } else {
-        if (newSkill) {skillList.push(foundry.utils.duplicate(newSkill))}
+        if (newSkill) {
+          let placeholder = foundry.utils.duplicate(newSkill) 
+          if (itm.type === 'culture') {
+            placeholder.system.culture = nItm.bonus
+          }  
+          skillList.push(placeholder)
+        }
       }
     }
-    
+
     //This is the list of selected skills
     for (let nItm of skillList) {
-
-
       //If a specialism skill and not specified then get the name etc
       if (nItm.system.specialism && !nItm.system.chosen) {
         nItm = await this._getSpecialism(nItm,actor)
@@ -371,6 +392,11 @@ export class BRPactorItemDrop {
         nItm.system.occupation = true
       }
 
+      //If culture then flag profession skills
+      if (itm.type === 'culture') {
+        nItm.system.cultural = true
+      }
+
       //If existing skill on actor then push to updateItems otherwise calculate base and push to addItems
       let actItem = (await actor.items.filter(cItm => cItm.flags.brp.brpidFlag.id === nItm.flags.brp.brpidFlag.id))[0]
       if (actItem) {
@@ -378,6 +404,8 @@ export class BRPactorItemDrop {
           updateItems.push({_id: actItem._id, 'system.personality': nItm.system.personality, 'system.prsnlty': nItm.system.prsnlty})
         } else if (itm.type === 'profession') {
           updateItems.push({_id: actItem._id, 'system.occupation': nItm.system.occupation})
+        } else if (itm.type === 'culture') {
+          updateItems.push({_id: actItem._id, 'system.culture': nItm.system.culture,'system.cultural': nItm.system.cultural})
         }
       } else {  
         nItm.system.base = await this._calcBase(nItm,actor)  
@@ -389,7 +417,19 @@ export class BRPactorItemDrop {
     await Item.createDocuments(powerList, {parent: actor})
     await Item.updateDocuments(updateItems, {parent: actor})
 
-    //TO DO Remove skills aready selected from options
+
+
+    //If a culture add the dice and bonuses
+    if (itm.type === 'culture') {
+      let changes = {}
+      for (let [key, stat] of Object.entries(itm.system.stats)) {
+        if (stat.formula != "") {
+          changes= Object.assign(changes,{[`system.stats.${key}.formula`] : stat.formula})
+        }
+          changes= Object.assign(changes,{[`system.stats.${key}.culture`] : Number(stat.mod)??0})
+      }  
+      await actor.update(changes)
+    }
 
 
     return ({'reqResult': 1, 'errMsg': ""})
@@ -402,7 +442,7 @@ export class BRPactorItemDrop {
     let changes = []
     if (!confirmation) {return}
     for (let itm of actor.items){
-      if (itm.type === "skill") {
+      if (['skill','magic','psychic'].includes(itm.type)) {
         changes.push({
           _id: itm.id,
           'system.personality' : 0,
@@ -419,7 +459,7 @@ export class BRPactorItemDrop {
     let changes = []
     if (!confirmation) {return}
     for (let itm of actor.items){
-      if (itm.type === "skill") {
+      if (['skill','magic','psychic'].includes(itm.type)) {
         changes.push({
           _id: itm.id,
           'system.profession' : 0,
@@ -428,6 +468,42 @@ export class BRPactorItemDrop {
       }
     }
     await Item.updateDocuments(changes, {parent: actor})   
+  }
+
+  static async cultureDelete(event, actor) {
+    const confirmation = await BRPUtilities.triggerDelete(event,actor, "itemId")
+    //Reset all actor culture skills to zero
+    let changes = []
+    if (!confirmation) {return}
+    for (let itm of actor.items){
+      if (['skill','magic','psychic'].includes(itm.type)) {
+        changes.push({
+          _id: itm.id,
+          'system.culture' : 0,
+          'system.cultural': false
+        })
+      }
+    }
+    await Item.updateDocuments(changes, {parent: actor})
+    //Reset dice and culture stat mods
+    await actor.update({
+      'system.stats.str.formula' :"",
+      'system.stats.con.formula' :"",
+      'system.stats.int.formula' :"",
+      'system.stats.siz.formula' :"",
+      'system.stats.pow.formula' :"",
+      'system.stats.dex.formula' :"",
+      'system.stats.cha.formula' :"",
+      'system.stats.edu.formula' :"",
+      'system.stats.str.culture' :0,
+      'system.stats.con.culture' :0,
+      'system.stats.int.culture' :0,
+      'system.stats.siz.culture' :0,
+      'system.stats.pow.culture' :0,
+      'system.stats.dex.culture' :0,
+      'system.stats.cha.culture' :0,
+      'system.stats.edu.culture' :0,
+    })   
   }
 
 
@@ -463,7 +539,7 @@ export class BRPactorItemDrop {
     let picks = newGroup.options
     for (let skillOpt of newGroup.skills) {
       let tempSkill = (await game.system.api.brpid.fromBRPIDBest({brpid:skillOpt.brpid}))[0]
-      if (tempSkill) {selectOptions.push({id:skillOpt.brpid, selected: false, name:tempSkill.name})}
+      if (tempSkill) {selectOptions.push({id:skillOpt.brpid, selected: false, name:tempSkill.name, bonus:skillOpt.bonus ?? 0})}
     }        
     let selectedSkill = await SkillsSelectDialog.create(selectOptions,picks, game.i18n.localize('BRP.skills'))
     if (selectedSkill) {

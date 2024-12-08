@@ -2,6 +2,7 @@ import { BRPContextMenu } from '../../setup/context-menu.mjs';
 import * as contextMenu from "../actor-cm.mjs";
 import {BRPactorItemDrop} from '../actor-itemDrop.mjs';
 import {BRPDamage} from '../../apps/damage.mjs';
+import {BRPUtilities} from '../../apps/utilities.mjs';
 import {BRPRollType} from '../../apps/rollType.mjs';
 import { addBRPIDSheetHeaderButton } from '../../brpid/brpid-button.mjs'
 
@@ -53,6 +54,8 @@ export class BRPCharacterSheet extends ActorSheet {
     context.usePersTrait = game.settings.get('brp','usePersTrait');
     context.useReputation = game.settings.get('brp','useReputation');
     context.isLocked = actorData.system.lock
+    context.statLocked = true
+    if (!actorData.system.lock &&  game.settings.get('brp','development')) {context.statLocked = false}
     context.useSocialTab = false;
     context.usePersTab = false;
     if (context.useAlleg || (context.useReputation > 0)) {context.useSocialTab = true}
@@ -66,7 +69,18 @@ export class BRPCharacterSheet extends ActorSheet {
     if (game.settings.get('brp','useSAN')) {resource++};
     context.resource = resource;
 
-    //Set Personality & Profession labels
+    //Set Culture, Personality & Profession labels
+    context.culture = "";
+    let tempCult = (await context.items.filter(itm=>itm.type === 'culture'))[0]
+    if (tempCult) {  
+      context.culture = tempCult.name
+      context.cultureId = tempCult._id
+      context.cultureUsed = true
+    } else {
+      context.culture = actorData.system.culture
+      context.cultureUsed = false
+    } 
+
     context.personality = "";
     let tempPers = (await context.items.filter(itm=>itm.type === 'personality'))[0]
     if (tempPers) {  
@@ -320,6 +334,16 @@ export class BRPCharacterSheet extends ActorSheet {
       return 0;
     });
 
+
+    let previousSpec = "";
+    for (let skill of skills) {
+      skill.isSpecialisation = false
+      if(skill.system.specialism && previousSpec !== skill.system.mainName) {  
+        previousSpec = skill.system.mainName;  
+        skill.isSpecialisation = true;
+      }
+    }
+
     //Sort Armours by HitLocation and List score
     armours.sort(function(a, b){
       let x = a.system.lowRoll;
@@ -403,7 +427,7 @@ export class BRPCharacterSheet extends ActorSheet {
     html.find(".inline-edit").change(this._onSkillEdit.bind(this));                           //Inline Skill Edit
     html.find(".actor-toggle").click(this._onActorToggle.bind(this));                         // Actor Toggle
     html.find(".item-toggle").click(this._onItemToggle.bind(this));                           // Item Toggle
-    html.find(".armour-toggle").click(this._onArmourToggle.bind(this));                         // Armour Toggle
+    html.find(".armour-toggle").click(this._onArmourToggle.bind(this));                       // Armour Toggle
     html.find('.item-create').click(this._onItemCreate.bind(this));                           // Add Inventory Item
     html.find('.rollable.charac-name').click(BRPRollType._onStatRoll.bind(this));             // Rollable Characteristic
     html.find('.rollable.skill-name').click(BRPRollType._onSkillRoll.bind(this));             // Rollable Skill
@@ -416,6 +440,7 @@ export class BRPCharacterSheet extends ActorSheet {
     html.find('.rollable.attribute').click(this._onAttribute.bind(this));                     // Attribute modifier
     html.find('.rollable.ap-name').click(BRPRollType._onArmour.bind(this));                   // Armour roll
     html.find('.rollable.reputation-name').click(BRPRollType._onReputationRoll.bind(this));   // Rollable Reputation    
+    html.find('.rollStats').click(this._onRollStats.bind(this));                              // Roll Character Stats
     
     // Delete Inventory Item
     html.find('.item-delete').click(ev => {
@@ -439,6 +464,7 @@ export class BRPCharacterSheet extends ActorSheet {
      new BRPContextMenu(html, ".stat-name.contextmenu", contextMenu.characteristicMenuOptions(this.actor, this.token));
      new BRPContextMenu(html, ".profession.contextmenu", contextMenu.professionMenuOptions(this.actor, this.token));
      new BRPContextMenu(html, ".personality.contextmenu", contextMenu.personalityMenuOptions(this.actor, this.token));
+     new BRPContextMenu(html, ".culture.contextmenu", contextMenu.cultureMenuOptions(this.actor, this.token));
      new BRPContextMenu(html, ".skills-tab.contextmenu", contextMenu.skillstabMenuOptions(this.actor, this.token));
      new BRPContextMenu(html, ".combat-tab.contextmenu", contextMenu.combatMenuOptions(this.actor, this.token));
      new BRPContextMenu(html, ".skill-name.contextmenu", contextMenu.skillMenuOptions(this.actor, this.token));
@@ -659,5 +685,64 @@ export class BRPCharacterSheet extends ActorSheet {
 
     return
   }
+
+
+  //Roll Character Stats
+  async _onRollStats(event) {
+    let confirmation = await BRPUtilities.confirmation('rollStats', 'chatMsg');
+    if (!confirmation) {return}
+    let results=[]
+    for (let [key, stat] of Object.entries(this.actor.system.stats)){
+      let checkProp = ""
+      if (stat.formula === "") {continue}
+      if (key === 'edu' && !game.settings.get('brp','useEDU')) {continue}
+      let roll = new Roll(stat.formula)
+      await roll.evaluate()
+      let newVal = Math.round(Number(roll.total))
+      checkProp = {[`system.stats.${key}.base`]: newVal}
+      let diceRolled = ""
+      for (let diceRoll of roll.dice) {
+        for (let diceResult of diceRoll.results) {
+          if (diceRolled === "") {
+            diceRolled = diceResult.result
+          } else {
+            diceRolled = diceRolled + "," + diceResult.result
+          }
+        }
+      }
+      results.push({label:stat.labelShort, result: newVal, formula: roll.formula, diceRolled: diceRolled})
+      await this.actor.update(checkProp)
+      if (game.modules.get('dice-so-nice')?.active) {
+        game.dice3d.showForRoll(roll,game.user,true,null,false)  //Roll,user,sync,whispher,blind
+      }  
+    }  
+    let messageData = {
+      speaker: ChatMessage.getSpeaker({ actor: this.actor.name }),
+      results: results
+    }
+    const messageTemplate = 'systems/brp/templates/chat/rollStats.html'
+    let html = await renderTemplate (messageTemplate, messageData);
+
+    let chatData={};
+    let chatType=""
+    if (!foundry.utils.isNewerVersion(game.version,'11')) {
+      chatType = CONST.CHAT_MESSAGE_STYLES.OTHER
+    } else {
+      chatType = CONST.CHAT_MESSAGE_OTHER
+    }
+    chatData = {
+      user: game.user.id,
+      type: chatType,
+      content: html,
+      speaker: {
+        actor: this.actor._id,
+        alias: this.actor.name,
+      },
+      }
+    let msg = await ChatMessage.create(chatData);
+    return
+  }
+
+
 
 }

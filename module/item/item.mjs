@@ -48,6 +48,8 @@ export class BRPItem extends Item {
         data.img = 'systems/brp/assets/Icons/throne-king.svg'
       } else if (data.type === 'skillcat') {
         data.img = 'systems/brp/assets/Icons/classical-knowledge.svg'
+      } else if (data.type === 'culture') {
+        data.img = 'systems/brp/assets/Icons/earth-africa-europe.svg'
       }
     }
     super(data, context)

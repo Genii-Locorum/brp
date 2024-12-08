@@ -11,7 +11,8 @@
             "exp": 0,
             "age":0,
             "effects": 0,
-            "cost": 1
+            "cost": 1,
+            "formula": ""
           },
           "con": {
             "base": 0,
@@ -20,7 +21,8 @@
             "exp": 0,
             "age":0,
             "effects": 0,
-            "cost": 1
+            "cost": 1,
+            "formula": ""
           },
           "int": {
             "base": 0,
@@ -29,7 +31,8 @@
             "exp": 0,
             "age":0,
             "effects": 0,
-            "cost": 3
+            "cost": 3,
+            "formula": ""
           },
           "siz": {
             "base": 0,
@@ -38,7 +41,8 @@
             "exp": 0,
             "age":0,
             "effects": 0,
-            "cost": 1
+            "cost": 1,
+            "formula": ""
           },
           "pow": {
             "base": 0,
@@ -48,7 +52,8 @@
             "age":0,
             "effects": 0,
             "cost": 3,
-            "improve":false
+            "improve":false,
+            "formula": ""
           },
           "dex": {
             "base": 0,
@@ -57,7 +62,8 @@
             "exp": 0,
             "age":0,
             "effects": 0,
-            "cost": 3
+            "cost": 3,
+            "formula": ""
           },
           "cha": {
             "base": 0,
@@ -66,7 +72,8 @@
             "exp": 0,
             "age":0,
             "effects": 0,
-            "cost": 1
+            "cost": 1,
+            "formula": ""
           },
           "edu": {
             "base": 0,
@@ -75,7 +82,8 @@
             "exp": 0,
             "age":0,
             "effects": 0,
-            "cost": 3
+            "cost": 3,
+            "formula": ""
           }
         },
         "health": {
@@ -184,7 +192,7 @@
     }
   },
   "Item": {
-    "types": ["gear","skill","hit-location", "personality", "profession","power","magic","mutation","psychic","sorcery","super","failing","powerMod","armour","weapon","wound","allegiance","passion","persTrait","reputation","skillcat"],
+    "types": ["gear","skill","hit-location", "personality", "profession","power","magic","mutation","psychic","sorcery","super","failing","powerMod","armour","weapon","wound","allegiance","passion","persTrait","reputation","skillcat","culture"],
     "templates": {
       "base": {
         "description": "",
@@ -205,6 +213,7 @@
       "subType": "",
       "base": 0,
       "xp": 0,
+      "culture": 0,
       "profession": 0,
       "personality": 0,
       "personal": 0,
@@ -226,11 +235,12 @@
       "specialism": false,
       "group":false,
       "groupSkills" : [],
-      "prsnlty": false,
       "variable": false,
       "specName": "",
       "mainName": "",
+      "prsnlty": false,
       "occupation": false,
+      "cultural": false,
       "improve": false,
       "basic": false,
       "combat": false
@@ -285,6 +295,7 @@
       "xp": 0,
       "profession": 0,
       "personality": 0,
+      "culture": 0,
       "personal": 0,
       "effects": 0,
       "category": "",
@@ -293,6 +304,9 @@
       "duration": "",
       "pppl": "1",
       "damage": "",
+      "prsnlty": false,
+      "occupation": false,
+      "cultural": false,
       "mem": false,
       "improve": false
     },
@@ -310,6 +324,7 @@
       "xp": 0,
       "profession": 0,
       "personality": 0,
+      "culture": 0,
       "personal": 0,
       "effects": 0,
       "category": "",
@@ -318,6 +333,9 @@
       "duration": "",
       "pppl": "1",
       "damage": "",
+      "prsnlty": false,
+      "occupation": false,
+      "cultural": false,
       "improve": false
     },
 
@@ -481,6 +499,45 @@
         "edu": "0"
       },
       "stat": "none"   
+    },
+    "culture": {
+      "templates": ["base"],
+      "skills": [],
+      "groups": [],
+      "stats": {
+        "str": {
+          "formula": "3d6",
+          "mod": 0
+        },
+        "con": {
+          "formula": "3d6",
+          "mod": 0
+        },
+        "int": {
+          "formula": "2d6+6",
+          "mod": 0
+        },
+        "siz": {
+          "formula": "2d6+6",
+          "mod": 0
+        },
+        "pow": {
+          "formula": "3d6",
+          "mod": 0
+        },
+        "dex": {
+          "formula": "3d6",
+          "mod": 0
+        },
+        "cha": {
+          "formula": "3d6",
+          "mod": 0
+        },
+        "edu": {
+          "formula": "2d6+6",
+          "mod":0
+        }
+      }  
     }      
   }
 }

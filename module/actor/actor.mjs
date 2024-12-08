@@ -101,7 +101,7 @@ export class BRPActor extends Actor {
     for (let itm of actorData.items) {
       //If skill, magic or psychic calculate the total score and record the category bonus
       if (itm.type === 'skill' || itm.type === 'magic' || itm.type === 'psychic') {
-        itm.system.total = itm.system.base + itm.system.xp + itm.system.effects + itm.system.profession + itm.system.personality + itm.system.personal
+        itm.system.total = itm.system.base + itm.system.xp + itm.system.effects + itm.system.profession + itm.system.personality + itm.system.personal + itm.system.culture
         itm.system.catBonus = systemData.skillcategory[itm.system.category]
 
       //If Allegiance the set total and potential Ally status

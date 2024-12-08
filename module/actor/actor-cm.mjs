@@ -125,6 +125,32 @@ export const personalityMenuOptions = (actor,token) => [
   }
 ]  
 
+//Culture Context Menu Options
+export const cultureMenuOptions = (actor,token) => [
+  {
+    name: game.i18n.localize("BRP.culture"),
+    icon: "",
+    condition: () => true,
+    callback: (el) => {}
+  },
+  {
+    name: game.i18n.localize("BRP.view"),
+    icon: '<i class="fas fa-magnifying-glass"></i>',
+    condition: () => true,
+    callback: (el) => {
+      const itemId = BRPUtilities.triggerEdit(el, actor, "itemId");
+    }
+  },
+  {
+    name: game.i18n.localize("BRP.delete"),
+    icon: '<i class="fas fa-trash"></i>',
+    condition: () => true,
+    callback: (el) => {
+      const itemId = BRPactorItemDrop.cultureDelete(el, actor);
+    }
+  }
+] 
+
 //Skills Tab Name Context Menu Options
 export const skillstabMenuOptions = (actor,token) => [
   {

@@ -47,7 +47,7 @@ export class BRPSkillSheet extends ItemSheet {
       sheetData.catName = game.i18n.localize("BRP." + this.item.system.category.split('.')[2]);
       sheetData.wpnType = game.i18n.localize("BRP." + this.item.system.subType);
       sheetData.funcDisp= game.i18n.localize("BRP." + this.item.system.baseFormula.Func);
-      itemData.system.total = itemData.system.base + itemData.system.xp + itemData.system.effects + itemData.system.personality + itemData.system.profession + itemData.system.personal;
+      itemData.system.total = itemData.system.base + itemData.system.xp + itemData.system.effects + itemData.system.personality + itemData.system.profession + itemData.system.personal + itemData.system.culture;
       
       //Ensure mainName is populated
       if( this.item.system.mainName ==="" ) {
@@ -120,7 +120,8 @@ export class BRPSkillSheet extends ItemSheet {
     if (this.item.system.specialism) {
       const specialization = formData['system.specName'] || this.item.system.specName
       if (this.item.system.chosen) {
-        formData.name = specialization + ' (' + skillName + ')'  
+        formData.name = skillName + ' (' + specialization + ')'   
+        //formData.name = specialization + ' (' + skillName + ')'  
       } else {
         formData.name = skillName + ' (' + specialization + ')'
       }
