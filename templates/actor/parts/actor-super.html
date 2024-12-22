@@ -21,7 +21,11 @@
   </div>    
   {{#each failings as |failing id|}}
   <li class="item failing-listitem" data-item-id="{{failing._id}}">
-    <div class="item-edit failing-name contextmenu">{{failing.system.shortDesc}}</div>
+    {{#if (eq failing.system.shortDesc '')}}
+      <div class="item-edit failing-name contextmenu">{{failing.name}}</div>    
+    {{else}}
+      <div class="item-edit failing-name contextmenu">{{failing.system.shortDesc}}</div>
+    {{/if}}  
   </li>  
 {{/each}}  
 

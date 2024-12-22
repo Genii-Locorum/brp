@@ -68,6 +68,16 @@ export class BRPCharacterSheet extends ActorSheet {
     if (game.settings.get('brp','useFP')) {resource++};
     if (game.settings.get('brp','useSAN')) {resource++};
     context.resource = resource;
+    context.magicLabel = game.i18n.localize('BRP.magic')
+    if (game.settings.get('brp','magicLabel') != "") {context.magicLabel = game.settings.get('brp','magicLabel')}
+    context.superLabel = game.i18n.localize('BRP.superAbbr')
+    if (game.settings.get('brp','superLabel') != "") {context.superLabel = game.settings.get('brp','superLabel')}
+    context.psychicLabel = game.i18n.localize('BRP.psychic')
+    if (game.settings.get('brp','psychicLabel') != "") {context.psychicLabel = game.settings.get('brp','psychicLabel')}
+    context.mutationLabel = game.i18n.localize('BRP.mutation')
+    if (game.settings.get('brp','mutationLabel') != "") {context.mutationLabel = game.settings.get('brp','mutationLabel')}
+    context.sorceryLabel = game.i18n.localize('BRP.sorcery')
+    if (game.settings.get('brp','sorceryLabel') != "") {context.sorceryLabel = game.settings.get('brp','sorceryLabel')}
 
     //Set Culture, Personality & Profession labels
     context.culture = "";
@@ -311,7 +321,7 @@ export class BRPCharacterSheet extends ActorSheet {
       } else if (itm.type === 'skillcat'){
         skills.push({name:itm.name, isType: true, count: skills.filter(itm=>itm.isType).length,
           flags: {brp: {brpidFlag: {id:itm.flags.brp.brpidFlag.id}}},
-          system: {category: itm.flags.brp.brpidFlag.id,total: itm.system.bonus},
+          system: {category: itm.flags.brp.brpidFlag.id,total: itm.system.total},
           _id: itm._id
         });
       } 

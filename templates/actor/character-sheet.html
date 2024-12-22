@@ -206,11 +206,11 @@
         <div><a class="item truncate skills-tab contextmenu" data-tab="skills">{{localize 'BRP.skills'}}</a></div>
         <div><a class="item truncate combat-tab contextmenu" data-tab="combat">{{localize 'BRP.combat'}}</a></div>
         <div><a class="item" data-tab="items">{{localize 'BRP.items'}}</a></div>
-        {{#unless (eq actor.system.magic "")}}<div><a class="item power-name contextmenu" data-item-id="{{system.magic}}" data-tab="magic">{{localize 'BRP.magic'}}</a></div>{{/unless}}
-        {{#unless (eq actor.system.mutation "")}}<div><a class="item power-name contextmenu" data-item-id="{{system.mutation}}" data-tab="mutations">{{localize 'BRP.mutationAbbr'}}</a></div>{{/unless}}
-        {{#unless (eq actor.system.psychic "")}}<div><a class="item power-name contextmenu" data-item-id="{{system.psychic}}" data-tab="psychics">{{localize 'BRP.psychics'}}</a></div>{{/unless}}
-        {{#unless (eq actor.system.sorcery "")}}<div><a class="item power-name contextmenu" data-item-id="{{system.sorcery}}" data-tab="sorcery">{{localize 'BRP.sorcery'}}</a></div>{{/unless}}
-        {{#unless (eq actor.system.super "")}}<div><a class="item power-name contextmenu" data-item-id="{{system.super}}" data-tab="super">{{localize 'BRP.superAbbr'}}</a></div>{{/unless}}
+        {{#unless (eq actor.system.magic "")}}<div><a class="item power-name contextmenu" data-item-id="{{system.magic}}" data-tab="magic">{{magicLabel}}</a></div>{{/unless}}
+        {{#unless (eq actor.system.mutation "")}}<div><a class="item power-name contextmenu" data-item-id="{{system.mutation}}" data-tab="mutations">{{mutationLabel}}</a></div>{{/unless}}
+        {{#unless (eq actor.system.psychic "")}}<div><a class="item power-name contextmenu" data-item-id="{{system.psychic}}" data-tab="psychics">{{psychicLabel}}</a></div>{{/unless}}
+        {{#unless (eq actor.system.sorcery "")}}<div><a class="item power-name contextmenu" data-item-id="{{system.sorcery}}" data-tab="sorcery">{{sorceryLabel}}</a></div>{{/unless}}
+        {{#unless (eq actor.system.super "")}}<div><a class="item power-name contextmenu" data-item-id="{{system.super}}" data-tab="super">{{superLabel}}</a></div>{{/unless}}
         {{#if useSocialTab}}<div><a class="item" data-tab="social">{{localize 'BRP.social'}}</a></div>{{/if}}
         {{#if usePersTab}}<div><a class="item" data-tab="pers">{{localize 'BRP.pers'}}</a></div>{{/if}}
         <div><a class="item" data-tab="statistics">{{localize 'BRP.characteristicAbbr'}}</a></div>

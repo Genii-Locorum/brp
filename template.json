@@ -498,7 +498,8 @@
         "cha": "0",
         "edu": "0"
       },
-      "stat": "none"   
+      "stat": "none",
+      "mod": 0   
     },
     "culture": {
       "templates": ["base"],

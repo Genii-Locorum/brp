@@ -133,13 +133,17 @@
             {{else}}
               <div class="stat-display boxed">{{skillCatNameEdu}}</div>  
             {{/if}}  
-
-        </div>
-        
-    
-
-
-
+ 
+            {{#if hasOwner}}  
+              <div class="item-title new-row"> {{localize 'BRP.modifiers'}}:</div>
+              <div class="new-row"> {{localize 'BRP.bonus'}}:</div>
+              <div class="centre"> {{item.system.bonus}}</div>                            
+              <div class="new-row"> {{localize 'BRP.manual'}}:</div>
+              <div class="stat-input centre"><input name="system.mod" type="text" value="{{item.system.mod}}" data-dtype="Number"/></div>
+              <div class="new-row"> {{localize 'BRP.total'}}:</div>
+              <div class="centre"> {{item.system.total}}</div> 
+            {{/if}}      
+          </div>
         </div>
       {{!-- Description Tab --}}
       <div class="tab active" data-group="primary" data-tab="description">

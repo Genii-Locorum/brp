@@ -91,9 +91,10 @@ export class BRPActor extends Actor {
               }
             }
           }
-         itm.system.bonus = bonus 
+         itm.system.bonus = bonus
+         itm.system.total = itm.system.bonus + itm.system.mod 
          let key = itm.flags.brp.brpidFlag.id 
-         systemData.skillcategory[key]=bonus;
+         systemData.skillcategory[key]=itm.system.total;
         }    
       }
 

@@ -95,8 +95,8 @@ export class BRPCheck {
           config.rawScore = skill.system.total
           config.targetScore = skill.system.total
         } else {
-          config.rawScore = skill.system.total + options.actor.system.skillcategory[skill.system.category] ?? 0
-          config.targetScore = skill.system.total + options.actor.system.skillcategory[skill.system.category] ?? 0
+          config.rawScore = skill.system.total + (options.actor.system.skillcategory[skill.system.category] ?? 0)
+          config.targetScore = skill.system.total + (options.actor.system.skillcategory[skill.system.category] ?? 0)
         }
         break
       case 'AL':  
@@ -137,8 +137,8 @@ export class BRPCheck {
         } else {
           skill = particActor.items.get(config.skillId)
           config.label = skill.name ?? ""
-          config.rawScore = skill.system.total + options.actor.system.skillcategory[skill.system.category]
-          config.targetScore = skill.system.total + options.actor.system.skillcategory[skill.system.category] ?? 0     
+          config.rawScore = skill.system.total + (options.actor.system.skillcategory[skill.system.category] ?? 0)
+          config.targetScore = skill.system.total + (options.actor.system.skillcategory[skill.system.category] ?? 0)
         }
         config.malfunction = weapon.system.mal          
         break     

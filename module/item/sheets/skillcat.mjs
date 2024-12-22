@@ -19,7 +19,7 @@ export class BRPSkillCategory extends ItemSheet {
       classes: ['brp', 'sheet', 'item'],
       template: 'systems/brp/templates/item/skillcat.html',
       width: 520,
-      height: 550,
+      height: 610,
       scrollY: ['.tab.description'],
       tabs: [{navSelector: '.sheet-tabs',contentSelector: '.sheet-body',initial: 'details'}]
     })

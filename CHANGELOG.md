@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 12.1.35
+- Culture now has the correct title on the item sheet
+- Failings on the character sheet now display the failing name if the short description is blank
+- Where the system can't find a skill category in dice rolls then the Cat Bonus now correctly sets to nil 
+- There are now game settings to allow you to change the titles of the "power" tabs on the character sheet.  Leave them blank to use the defaults
+- You can now click on the skill category in the character sheet skill tab to open up the Skill Category item
+- In the skill category, when on a character, you can enter a "manual" modifier that is added to the calculated bonus
+
 ## 12.1.34
 - Layout of Items on characters now fixed to a consistent grid size
 - Culture has been added as an Item.  You can set the characteristic dice rolls and culture bonuses, plus skills with skill modifiers.  

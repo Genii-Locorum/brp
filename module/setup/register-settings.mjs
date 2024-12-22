@@ -19,6 +19,16 @@ export async function registerSettings () {
     default: true,
   });
 
+  game.settings.register('brp', 'magicLabel', {
+    name: 'BRP.Settings.magicLabel',
+    hint: 'BRP.Settings.magicLabelHint',
+    scope: 'world',
+    requiresReload: true,
+    config: true,
+    type: String,
+    default: "",
+  });
+
   game.settings.register('brp', 'mutation', {
     name: 'BRP.Settings.useMutation',
     hint: 'BRP.Settings.useMutationHint',
@@ -27,6 +37,16 @@ export async function registerSettings () {
     config: true,
     type: Boolean,
     default: true,
+  });
+
+  game.settings.register('brp', 'mutationLabel', {
+    name: 'BRP.Settings.mutationLabel',
+    hint: 'BRP.Settings.mutationLabelHint',
+    scope: 'world',
+    requiresReload: true,
+    config: true,
+    type: String,
+    default: "",
   });
 
   game.settings.register('brp', 'psychic', {
@@ -39,6 +59,16 @@ export async function registerSettings () {
     default: true,
   });
 
+  game.settings.register('brp', 'psychicLabel', {
+    name: 'BRP.Settings.psychicLabel',
+    hint: 'BRP.Settings.psychicLabelHint',
+    scope: 'world',
+    requiresReload: true,
+    config: true,
+    type: String,
+    default: "",
+  });
+
   game.settings.register('brp', 'sorcery', {
     name: 'BRP.Settings.useSorcery',
     hint: 'BRP.Settings.useSorceryHint',
@@ -49,6 +79,16 @@ export async function registerSettings () {
     default: true,
   });
 
+  game.settings.register('brp', 'sorceryLabel', {
+    name: 'BRP.Settings.sorceryLabel',
+    hint: 'BRP.Settings.sorceryLabelHint',
+    scope: 'world',
+    requiresReload: true,
+    config: true,
+    type: String,
+    default: "",
+  });
+
   game.settings.register('brp', 'super', {
     name: 'BRP.Settings.useSuper',
     hint: 'BRP.Settings.useSuperHint',
@@ -57,6 +97,16 @@ export async function registerSettings () {
     config: true,
     type: Boolean,
     default: true,
+  });
+
+  game.settings.register('brp', 'superLabel', {
+    name: 'BRP.Settings.superLabel',
+    hint: 'BRP.Settings.superLabelHint',
+    scope: 'world',
+    requiresReload: true,
+    config: true,
+    type: String,
+    default: "",
   });
 
   //Optional Rules
