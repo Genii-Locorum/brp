@@ -346,8 +346,8 @@ export class BRPCheck {
     const html = await BRPCheck.startChat(chatMsgData)
     let msgId =  await BRPCheck.showChat(html,chatMsgData)
 
-    //Check for adding Improvement tick
-    if (game.settings.get('brp','autoXP')) {
+    //Check for adding Improvement tick depending on autoXP game setting
+    if (["1","2"].includes(game.settings.get('brp','autoXP'))) {
       await BRPCheck.tickXP (chatMsgData)
     }  
 
@@ -539,6 +539,7 @@ export class BRPCheck {
   static async tickXP (msg) {
     let item=""
     let actor=""
+    let autoXP = game.settings.get('brp','autoXP')
     //Don't do XP check until card is closed
     if(msg.state != 'closed') {return}
     switch (msg.cardType) {
@@ -548,7 +549,9 @@ export class BRPCheck {
       case "PP":  
         //If a POW v POW check target POW greater than current POW
         actor = await BRPactorDetails._getParticipant(msg.chatCard[0].particId,msg.chatCard[0].particType)
-        if (msg.chatCard[0].resistance <= actor.system.stats.pow.total || msg.chatCard[0].resultLevel <2) {return}
+        if (msg.chatCard[0].resistance <= actor.system.stats.pow.total) {return}
+        if ( autoXP === '1' && msg.chatCard[0].resultLevel <2) {return}
+        if ( autoXP === '2' && msg.chatCard[0].resultLevel > 1) {return}
         await actor.update({'system.stats.pow.improve': true})
         break
       case "NO":
@@ -559,18 +562,18 @@ export class BRPCheck {
         //Allow checks for Normal,Combined and Oppossed cards, unless it's a Characteristic or Allegiance Check or a Damage Roll
         if (['CH', 'AL', 'DM'].includes(msg.rollType)) {return}  
         for (let i of msg.chatCard) {
-          if(i.diff != 'easy' && i.diffVal <= 1 && i.resultLevel>1) {
-            
-            actor = await BRPactorDetails._getParticipant(i.particId,i.particType)
-            item = await actor.items.get(i.skillId)
-            if (item.type !='reputation') {
-              if (item.type === 'persTrait' && i.opp === 'true') {
-                await item.update({'system.oppimprove': true})
-              } else {
-                await item.update({'system.improve': true})
-              }
-            }   
-          }
+          if(i.diff === 'easy' && i.diffVal > 1) {continue}
+          if (autoXP === '1' && i.resultLevel<2) {continue}
+          if (autoXP === '2' && i.resultLevel>1) {continue}
+          actor = await BRPactorDetails._getParticipant(i.particId,i.particType)
+          item = await actor.items.get(i.skillId)
+          if (item.type !='reputation') {
+            if (item.type === 'persTrait' && i.opp === 'true') {
+              await item.update({'system.oppimprove': true})
+            } else {
+              await item.update({'system.improve': true})
+            }
+          }   
         }
         break  
       } 

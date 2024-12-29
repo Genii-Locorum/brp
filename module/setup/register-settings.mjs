@@ -6,7 +6,7 @@ export async function registerSettings () {
   //Get option lists from select-lists.mjs
   let skillBonusOptions = await BRPSelectLists.getSkillBonusOptions();
   let reputationOptions = await BRPSelectLists.getReputationOptions();
-
+  let xpOptions = await BRPSelectLists.getXPOptions();
 
   //Allow Powers
   game.settings.register('brp', 'magic', {
@@ -281,8 +281,9 @@ export async function registerSettings () {
     requiresReload: true,
     scope: 'world',
     config: true,
-    default: false,
-    type: Boolean,
+    default: 0,
+    choices: xpOptions,
+    type: String,
   });
 
   game.settings.register('brp', "xpFormula", {
@@ -429,6 +430,16 @@ export async function registerSettings () {
     config: false,
     type: Boolean,
     default: false
+  });
+
+  game.settings.register('brp', "gameVersion", {
+    name: "",
+    hint: "",
+    scope: "world",
+    requiresReload:false,
+    config: false,
+    type: String,
+    default: "12.1.36"
   });
 
 }

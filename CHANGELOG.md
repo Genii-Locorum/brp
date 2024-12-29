@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 12.1.36
+- The autoXP game setting has changed from a tick box to a drop down selection - None (not auto XP), Any Success (tick XP for success, special success of critical) or On Fail/Fumble.  
+  Please re-check your setting following world migration, as they are likely to have reset to "none".
+
 ## 12.1.35
 - Culture now has the correct title on the item sheet
 - Failings on the character sheet now display the failing name if the short description is blank

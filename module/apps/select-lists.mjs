@@ -352,4 +352,14 @@ export class BRPSelectLists {
     };   
     return options;
   }
+
+  //Auto XP Options List
+  static async getXPOptions (){
+    let options = {
+      "0": game.i18n.localize("BRP.none"),
+      "1": game.i18n.localize("BRP.onSuccess"),
+      "2": game.i18n.localize("BRP.onFailure"),
+    };   
+    return options;
+  }
 }
