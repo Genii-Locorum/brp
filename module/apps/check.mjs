@@ -346,8 +346,8 @@ export class BRPCheck {
     const html = await BRPCheck.startChat(chatMsgData)
     let msgId =  await BRPCheck.showChat(html,chatMsgData)
 
-    //Check for adding Improvement tick depending on autoXP game setting
-    if (["1","2"].includes(game.settings.get('brp','autoXP'))) {
+    //Check for adding Improvement tick depending on autoXP game setting, but only for characters
+    if (actor.type === 'character' && ["1","2"].includes(game.settings.get('brp','autoXP'))) {
       await BRPCheck.tickXP (chatMsgData)
     }  
 
@@ -562,7 +562,7 @@ export class BRPCheck {
         //Allow checks for Normal,Combined and Oppossed cards, unless it's a Characteristic or Allegiance Check or a Damage Roll
         if (['CH', 'AL', 'DM'].includes(msg.rollType)) {return}  
         for (let i of msg.chatCard) {
-          if(i.diff === 'easy' && i.diffVal > 1) {continue}
+          if(i.diff === 'easy' || i.diffVal > 1) {continue}
           if (autoXP === '1' && i.resultLevel<2) {continue}
           if (autoXP === '2' && i.resultLevel>1) {continue}
           actor = await BRPactorDetails._getParticipant(i.particId,i.particType)

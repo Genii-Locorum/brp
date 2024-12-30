@@ -81,7 +81,12 @@ export class BRPactorDetails {
     static async getParticImg (particId,particType) {
       if (!particId || !particType) return null
       const actor = await BRPactorDetails._getParticipant(particId, particType)
-      return actor.img
+      let image = actor.img
+      //If wildcard image then get that
+      if (actor.prototypeToken.randomImg) {
+        image = actor.token.texture.src
+      }
+      return image
     }
 
 
