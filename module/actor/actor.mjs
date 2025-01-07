@@ -520,6 +520,20 @@ export class BRPActor extends Actor {
     await BRPActor.charBaseSkillScores(actor);
     }
 
+    //Add Starter Traits if toggled on
+    if (actor.type === 'character' && game.settings.get('brp','starterTraits') && game.settings.get('brp','usePersTrait')) {
+      let newTraits = []
+      let traitList = (await game.system.api.brpid.fromBRPIDRegexBest({ brpidRegExp:new RegExp('^i.persTrait'), type: 'i' })).filter(itm => itm.system.basic)
+      for (let itm of traitList) {
+        if (actor.items.filter(nitm=> nitm.flags.brp.brpidFlag.id === itm.flags.brp.brpidFlag.id ).length <1) {
+          newTraits.push(itm);
+        }
+      }
+    await Item.createDocuments(newTraits, {parent: actor});
+    }
+
+
+
     //Add Skill Categories
     if (actor.type === 'character') {
       let newSkillCats = []

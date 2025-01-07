@@ -122,7 +122,14 @@
               <div class="skill-display centre bold">{{item.system.total}}</div>
             {{/if}}  
           {{/if}} 
-        </div>  
+        </div> 
+        {{#if hasOwner}}
+        <br>
+          <div class="item-title"> {{localize 'BRP.options'}}:</div>
+          <div class="base-grid">
+            <div class="skill-cat item-toggle {{#if item.system.improve}} toggle-active  {{/if}}" data-property = "improve">{{localize 'BRP.improve'}}</div>
+          </div>  
+        {{/if}} 
       </div>  
       
       {{!-- Description Tab --}}

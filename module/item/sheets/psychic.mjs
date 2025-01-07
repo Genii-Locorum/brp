@@ -19,7 +19,7 @@ export class BRPPsychicSheet extends ItemSheet {
       classes: ['brp', 'sheet', 'item'],
       template: 'systems/brp/templates/item/psychic.html',
       width: 520,
-      height: 520,
+      height: 570,
       scrollY: ['.tab.description'],
       tabs: [{navSelector: '.sheet-tabs',contentSelector: '.sheet-body',initial: 'details'}]
     })
@@ -71,7 +71,22 @@ export class BRPPsychicSheet extends ItemSheet {
   activateListeners (html) {
     super.activateListeners(html)
     if (!this.options.editable) return  
+    html.find('.item-toggle').click(this.onItemToggle.bind(this));
   }
+
+  //Handle toggle states
+  async onItemToggle(event){
+    event.preventDefault();
+    const prop=event.currentTarget.closest('.item-toggle').dataset.property;
+    let checkProp={};
+    if (['improve'].includes(prop)) {
+      checkProp = {[`system.${prop}`] : !this.object.system[prop]}
+    } else {return}      
+    
+    const item = await this.object.update(checkProp);
+    return item;
+  }
+
 
   _updateObject (event, formData) {
     super._updateObject(event, formData)

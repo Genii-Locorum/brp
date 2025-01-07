@@ -364,6 +364,15 @@ export async function registerSettings () {
     default: false
   });
 
+  game.settings.register('brp', "starterTraits", {
+    name: "BRP.Settings.starterTraits",
+    hint: "BRP.Settings.starterTraitsHint",
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: false
+  });
+
   game.settings.register('brp', "switchShift", {
     name: "BRP.Settings.switchShift",
     hint: "BRP.Settings.switchShiftHint",

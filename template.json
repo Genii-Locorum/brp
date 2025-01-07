@@ -480,7 +480,8 @@
       "base": 0,
       "improve": false,
       "oppimprove": false,
-      "xp": 0
+      "xp": 0,
+      "basic": false
     },
     "reputation": {
       "templates": ["base"],

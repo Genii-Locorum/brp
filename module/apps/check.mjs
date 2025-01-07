@@ -346,7 +346,7 @@ export class BRPCheck {
     const html = await BRPCheck.startChat(chatMsgData)
     let msgId =  await BRPCheck.showChat(html,chatMsgData)
 
-    //Check for adding Improvement tick depending on autoXP game setting, but only for characters
+    //Check for adding Improvement tick depending on autoXP game setting
     if (actor.type === 'character' && ["1","2"].includes(game.settings.get('brp','autoXP'))) {
       await BRPCheck.tickXP (chatMsgData)
     }  

@@ -66,7 +66,7 @@ export class BRPPersTraitSheet extends ItemSheet {
       event.preventDefault();
       const prop=event.currentTarget.closest('.item-toggle').dataset.property;
       let checkProp={};
-      if (['improve','oppimprove'].includes(prop)) {
+      if (['improve','oppimprove','basic'].includes(prop)) {
         checkProp = {[`system.${prop}`] : !this.object.system[prop]}
       } else {return }      
     

@@ -1,9 +1,18 @@
 # CHANGELOG
 
+## 12.1.38
+- Context menu for Psychic Abilities now shows XP improvement options when there is an improvement tick and development mode is on
+- All improvement checks exclude the item.system.effects score
+- Psychic Ability item sheet, when owned, now shows the Improvement button which can be toggled on and off
+- Personality Traits now have a "Starter Trait" toggle.
+- There is a new game setting "Starter Traits".  If turned on then any new character will, if Personality Traits are used, automatically start with
+  any trait which has the "Starter Trait" toggle activated.
+
 ## 12.1.37
 - Fixed issue with "easy" rolls incorrectly getting XP checks
 - Only characters can get XP checks (not NPCs) - this was throwing an error in the console for weapons
 - Chat card for skills rolls etc now show the correct actor image where wildcard tokens are used.
+
 
 ## 12.1.36
 - The autoXP game setting has changed from a tick box to a drop down selection - None (not auto XP), Any Success (tick XP for success, special success of critical) or On Fail/Fumble.  

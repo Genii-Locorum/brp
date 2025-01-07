@@ -31,6 +31,12 @@
           <div class="skill-display">{{localize 'BRP.opposedTrait'}}</div>
           <div class="stat-input"><input name="system.oppName" type="text" value="{{item.system.oppName}}"/></div>
         </div>  
+        <br>
+        <div class="item-title"> {{localize 'BRP.options'}}:</div>
+        <div class="options-grid">
+            <div class="skill-cat {{#if isGM}} item-toggle {{/if}} {{#if item.system.basic}} toggle-active  {{/if}}" title ="{{localize 'BRP.basicTraitHint'}}" data-property = "basic">{{localize 'BRP.basicTrait'}}</div>
+        </div> 
+        <br>
 
         {{#if hasOwner}}
         <div class="item-title"> {{localize 'BRP.scores'}}:</div>

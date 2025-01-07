@@ -56,6 +56,10 @@ export class BRPCharDev {
     let item = partic.items.get(itemId)
     let name = item.name
     let score = item.system.total
+    //Exclude system.effects from the improvement score
+    if (['skill','magic','psychic'].includes(item.type)) {
+      score = score - item.system.effects
+    }
 
     if (opp === 'true') {
       score = item.system.opptotal
