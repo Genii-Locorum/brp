@@ -33,16 +33,6 @@ Hooks.once('init', async function() {
   CONFIG.Actor.documentClass = BRPActor;
   CONFIG.Item.documentClass = BRPItem;
 
-  /**
-   * Set an initiative formula for the system
-   * @type {String}
-   */
-  CONFIG.Combat.initiative = {
-    formula: "1d10 + @stats.dex.total",
-    decimals: 0
-  };
-
-
   // Preload Handlebars templates.
   return preloadHandlebarsTemplates();
 });
@@ -72,6 +62,25 @@ Hooks.once("ready", async function() {
     game.settings.set('brp','development', false);
     game.settings.set('brp','beastiary', false);
   }  
+
+  let initForm = game.settings.get('brp','initStat')
+  let initMod = game.settings.get('brp','initMod')
+  let initiative = "@stats." + initForm + ".total"
+  if (initForm === 'fixed') {initiative = ""}
+  if (!["+","*","/"].includes(initMod.charAt(0))) {
+    initMod = "+" + initMod
+  }
+  initiative = initiative + initMod
+console.log(initiative)
+
+  if (!Roll.validate(initiative)) {
+    ui.notifications.error(game.i18n.format('BRP.initError',{formula:initiative}))
+    initiative = "@stats.dex.total+0"
+  }  
+    CONFIG.Combat.initiative = {
+    formula: initiative,
+    decimals: 0
+  };
 
   Hooks.on("hotbarDrop", (bar, data, slot) => {
     if (game.user) {
@@ -117,6 +126,15 @@ Hooks.on('renderSettingsConfig', (app, html, options) => {
     )
 
     systemTab
+    .find('input[name=brp\\.resistLevels]')
+    .closest('div.form-group')
+    .after(
+      '<h3 class="setting-header">' +
+        game.i18n.localize('BRP.initiative') +
+        '</h3>'
+    )
+
+    systemTab
     .find('input[name=brp\\.hpMod]')
     .closest('div.form-group')
     .before(
@@ -126,9 +144,9 @@ Hooks.on('renderSettingsConfig', (app, html, options) => {
     )
 
     systemTab
-    .find('input[name=brp\\.autoXP]')
+    .find('input[name=brp\\.hpMod]')
     .closest('div.form-group')
-    .before(
+    .after(
       '<h3 class="setting-header">' +
         game.i18n.localize('BRP.xpModifiers') +
         '</h3>'

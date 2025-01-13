@@ -132,11 +132,14 @@ export class BRPNpcSheet extends ActorSheet {
         if (itm.type === 'super') {
           itm.system.impactHint = game.i18n.localize('BRP.level')
           itm.system.impactName = itm.system.level
+          itm.system.impactDice = false
         } else if (itm.type === 'sorcery') {
           itm.system.impactHint = game.i18n.localize('BRP.level')
           itm.system.impactName = itm.system.currLvl
+          itm.system.impactDice = false
         }if (itm.type === 'mutation') {
           itm.system.impactHint = game.i18n.localize('BRP.'+ itm.system.impact)
+          itm.system.impactDice = false
           if (itm.system.minor) {
             itm.system.impactName = game.i18n.localize('BRP.'+ itm.system.impact+'Abbr') + "(" + game.i18n.localize('BRP.minor') + ")"            
           } else {
@@ -147,12 +150,15 @@ export class BRPNpcSheet extends ActorSheet {
           if (itm.system.impact === 'damage') {
             itm.system.impactName = game.i18n.localize('BRP.damageAbbr') + ":" + itm.system.damage
             itm.system.impactHint = game.i18n.localize('BRP.damage')
+            itm.system.impactDice = true
           } else if (itm.system.impact === 'healing') {
             itm.system.impactName = game.i18n.localize('BRP.healingAbbr') + ":" + itm.system.damage
             itm.system.impactHint = game.i18n.localize('BRP.healing')
+            itm.system.impactDice = true
           } else if (itm.system.impact === 'other') {
             itm.system.impactName = game.i18n.localize('BRP.other')
             itm.system.impactHint = ""
+            itm.system.impactDice = false
           }
         }
         powers.push(itm)
@@ -205,7 +211,7 @@ export class BRPNpcSheet extends ActorSheet {
     });
 
     if (!this.isEditable) return;
-    html.find(".actor-toggle").click(this._onActorToggle.bind(this));                    // Actor Toggle
+    html.find(".actor-toggle").click(this._onActorToggle.bind(this));                       // Actor Toggle
     html.find(".inline-edit").change(this._onSkillEdit.bind(this));                         //Inline Skill Edit
     html.find('.item-create').click(this._onItemCreate.bind(this));                         // Add Inventory Item
     html.find('.addPower').click(this._onPowerCreate.bind(this));                           // Add Power
@@ -219,7 +225,8 @@ export class BRPNpcSheet extends ActorSheet {
     html.find('.rollable.weapon-name').click(BRPRollType._onWeaponRoll.bind(this));         // Weapon Skill Roll
     html.find('.rollable.damage-name').click(BRPRollType._onDamageRoll.bind(this));         // Damage Roll
     html.find('.rollable.ap-name').click(BRPRollType._onArmour.bind(this));                 // Armour roll
-    html.find('.hplHeal').click(this._resetHPL.bind(this));                                  // Reset Hit Loc HP to max.
+    html.find('.hplHeal').click(this._resetHPL.bind(this));                                 // Reset Hit Loc HP to max.
+    html.find('.rollable.impact').click(BRPRollType._onImpactRoll.bind(this));              // Magic Spell Impact Roll
 
     // Drag events 
     if (this.actor.isOwner) {
@@ -329,9 +336,7 @@ export class BRPNpcSheet extends ActorSheet {
       type: powerType,
     };
     // Create the item!
-    console.log(itemData)
     const newItem = await Item.create(itemData, {parent: this.actor});
-    console.log(newItem)
     newItem.sheet.render(true);
   }
 

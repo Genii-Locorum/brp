@@ -5,7 +5,7 @@ import {BRPDamage} from '../../apps/damage.mjs';
 import {BRPUtilities} from '../../apps/utilities.mjs';
 import {BRPRollType} from '../../apps/rollType.mjs';
 import { addBRPIDSheetHeaderButton } from '../../brpid/brpid-button.mjs'
-
+import { BRPSelectLists } from '../../apps/select-lists.mjs';
 
 export class BRPCharacterSheet extends ActorSheet {
 
@@ -53,6 +53,12 @@ export class BRPCharacterSheet extends ActorSheet {
     context.usePassion = game.settings.get('brp','usePassion');    
     context.usePersTrait = game.settings.get('brp','usePersTrait');
     context.useReputation = game.settings.get('brp','useReputation');
+    context.wealthName = actorData.system.wealth
+    context.wealthOptions = await BRPSelectLists.getWealthOptions(0,4)
+    if (actorData.system.wealth >=0 && actorData.system.wealth <=4 && actorData.system.wealth !="") {
+      context.wealthName = game.i18n.localize('BRP.wealthLevel.'+actorData.system.wealth)
+    }
+
     context.isLocked = actorData.system.lock
     context.statLocked = true
     if (!actorData.system.lock &&  game.settings.get('brp','development')) {context.statLocked = false}
@@ -158,6 +164,7 @@ export class BRPCharacterSheet extends ActorSheet {
     const gears = [];
     const skills = [];
     const skillsDev = [];
+    const skillsAlpha = [];
     const hitlocs = [];
     const magics = [];
     const mutations = [];
@@ -201,6 +208,12 @@ export class BRPCharacterSheet extends ActorSheet {
       } else if (itm.type ==='skill') {
           skillsDev.push(itm)
           itm.system.grandTotal = itm.system.total + (this.actor.system.skillcategory[itm.system.category]??0)
+          let tempName = itm.name.toLowerCase()
+          if (itm.system.specialism) {
+            tempName = itm.system.specName.toLowerCase()
+          }
+          itm.system.orderName = tempName
+          skillsAlpha.push(itm);
           skills.push(itm);
           this.actor.system.totalProf = this.actor.system.totalProf + itm.system.profession
           this.actor.system.totalPers = this.actor.system.totalPers + itm.system.personal
@@ -324,6 +337,11 @@ export class BRPCharacterSheet extends ActorSheet {
           system: {category: itm.flags.brp.brpidFlag.id,total: itm.system.total},
           _id: itm._id
         });
+        skillsAlpha.push({name:itm.name, isType: true, count: skillsAlpha.filter(itm=>itm.isType).length,
+          flags: {brp: {brpidFlag: {id:itm.flags.brp.brpidFlag.id}}},
+          system: {category: itm.flags.brp.brpidFlag.id,total: itm.system.total},
+          _id: itm._id
+        });
       } 
     }  
 
@@ -348,9 +366,37 @@ export class BRPCharacterSheet extends ActorSheet {
     let previousSpec = "";
     for (let skill of skills) {
       skill.isSpecialisation = false
-      if(skill.system.specialism && previousSpec !== skill.system.mainName) {  
+      if(skill.system.specialism && (previousSpec != skill.system.mainName)) {  
         previousSpec = skill.system.mainName;  
         skill.isSpecialisation = true;
+      } 
+    }
+
+    skillsAlpha.sort(function(a, b){
+      let x = a.system.orderName;
+      let y = b.system.orderName;
+      let r = a.isType ? a.isType:false;
+      let s = b.isType ? b.isType:false;
+      let p = a.system.category;
+      let q = b.system.category;
+      if (p < q) {return -1};
+      if (p > q) {return 1};
+      if (r < s) {return 1};
+      if (s < r) {return -1};
+      if (x < y) {return -1};
+      if (x > y) {return 1};
+      return 0;
+    });
+
+    let alphaPreviousSpec = "";
+    for (let alphaskill of skillsAlpha) {
+      alphaskill.isAlphaSpecialisation = false
+      if (!alphaskill.system.specialism) {
+        alphaPreviousSpec = ""
+      }
+      if(alphaskill.system.specialism && (alphaPreviousSpec != alphaskill.system.mainName)) {  
+        alphaPreviousSpec = alphaskill.system.mainName;  
+        alphaskill.isAlphaSpecialisation = true;
       }
     }
 
@@ -403,7 +449,8 @@ export class BRPCharacterSheet extends ActorSheet {
     context.persTraits = persTraits;
     context.gears = gears;
     context.skills = skills;
-    context.skillsDev= skillsDev;
+    context.skillsDev = skillsDev;
+    context.skillsAlpha = skillsAlpha;
     context.hitlocs = hitlocs;
     context.magics = magics;
     context.mutations = mutations;
@@ -451,6 +498,8 @@ export class BRPCharacterSheet extends ActorSheet {
     html.find('.rollable.ap-name').click(BRPRollType._onArmour.bind(this));                   // Armour roll
     html.find('.rollable.reputation-name').click(BRPRollType._onReputationRoll.bind(this));   // Rollable Reputation    
     html.find('.rollStats').click(this._onRollStats.bind(this));                              // Roll Character Stats
+    html.find('.stat-arrow').click(this._onRedisttibuteStats.bind(this));                     // Redistriibute Character Stats
+    html.find('.rollable.impact').click(BRPRollType._onImpactRoll.bind(this));                // Magic Spell Impact Roll
     
     // Delete Inventory Item
     html.find('.item-delete').click(ev => {
@@ -641,7 +690,6 @@ export class BRPCharacterSheet extends ActorSheet {
 
   //Dropping an actor on an actor
   async _onDropActor(event,data) {
-    console.log(data)
     super._onDropActor(event,data)
   }
 
@@ -753,6 +801,33 @@ export class BRPCharacterSheet extends ActorSheet {
     return
   }
 
+  //Toggle Skill Order 
+  static async skillOrder(tempActor) {
+    await tempActor.update({'system.skillOrder': !tempActor.system.skillOrder})
+  }  
 
+  //Redistribute Characteristics
+  async  _onRedisttibuteStats(event) {
+    let key = event.currentTarget.dataset.stat
+    let change = event.currentTarget.dataset.type
+    let checkProp=""
+    if (change === 'decrease') {
+      //If at maximum redistribute points
+      if (this.actor.system.redistDec <= -3 && this.actor.system.stats[key].redist <= 0) {return}
+      //Don't go below min stat values
+      if ((this.actor.system.stats[key].base + this.actor.system.stats[key].redist) === 3) {return}
+      if (['int','siz'].includes(key) && ((this.actor.system.stats[key].base + this.actor.system.stats[key].redist) === 8)) {return}
+      checkProp = {[`system.stats.${key}.redist`]: this.actor.system.stats[key].redist - 1}
+    }
+
+    if (change === 'increase') {
+      //If at maximum redistribute points
+      if (this.actor.system.redistInc >= 3 && this.actor.system.stats[key].redist >= 0) {return}
+      //Don't exceed 21 stat value
+      if ((this.actor.system.stats[key].base + this.actor.system.stats[key].redist) === 21) {return}
+      checkProp = {[`system.stats.${key}.redist`]: this.actor.system.stats[key].redist + 1}
+    }
+    await this.actor.update(checkProp)  
+  }
 
 }

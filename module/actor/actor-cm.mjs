@@ -4,6 +4,7 @@ import { BRPCheck } from "../apps/check.mjs";
 import { BRPCharDev } from "../apps/charDev.mjs";
 import { BRPactorItemDrop } from "./actor-itemDrop.mjs";
 import {BRPActor } from "./actor.mjs";
+import {BRPCharacterSheet } from "./sheets/character.mjs";
 
 //Characteristic Name Context Menu Options
 export const characteristicMenuOptions = (actor,token) => [
@@ -161,6 +162,15 @@ export const skillstabMenuOptions = (actor,token) => [
   },
 
   {
+    name: game.i18n.localize("BRP.changeOrder"),
+    icon: '<i class="fas fa-arrow-up-short-wide"></i>',
+    condition: () => actor.system.lock,
+    callback: (el) => {
+      BRPCharacterSheet.skillOrder(actor);
+    }
+  },
+
+  {
     name: game.i18n.localize("BRP.calcBase"),
     icon: '<i class="fas fa-abacus"></i>',
     condition: () => !actor.system.lock,
@@ -168,8 +178,6 @@ export const skillstabMenuOptions = (actor,token) => [
       const itemId = BRPActor.charBaseSkillScores(actor);
     }
   },
-
-
 
   {
     name: game.i18n.localize("BRP.xpAllGain")+ " (" + game.settings.get('brp','xpFormula') + ")",

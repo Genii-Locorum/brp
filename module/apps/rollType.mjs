@@ -140,6 +140,20 @@ static async _onStatRoll(event){
     })
   }
 
+  //Magic Spell Impact Roll
+  static async _onImpactRoll(event){
+    let itemId = event.currentTarget.closest('.item').dataset.itemId;    
+    let cardType = 'NO'
+    BRPCheck._trigger({
+      rollType: 'IM',
+      cardType,
+      itemId,
+      actor: this.actor,
+      token: this.token
+    })
+  }
+
+
   
   //Start Weapon Skill Roll
   static async _onWeaponRoll(event){

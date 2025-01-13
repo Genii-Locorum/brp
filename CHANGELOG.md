@@ -1,5 +1,18 @@
 # CHANGELOG
 
+## 12.1.39
+- Personal Skill Points are now totalled on the Skills tab, in unlocked mode, under the correct column
+- MOVE score added to culture item and added to character sheet along with the culture
+- On the character sheet there is now an option under the Skills tab context menu to toggle how the skills are displayed
+- When adding a profession to the character you now choose the wealth level.  This can be edited when the character sheet is unlocked.
+- On the "CHAR" tab the Redistribute values are no longer manually entered.  When in "Development Mode" and with the character sheet unlocked use the arrows by the
+  stats to redistribute stats.  You can only redistribute 3 points and there are min/maxes in place.  Unless the redistributed points net to nil the column is red
+- Age has been added to the character sheet neer the top left of the Personal Section  
+- Clicking on the "Impact" of a Magic Spell or a Psychic Ability on the actor sheet causes an Impact (Damage or Healing) dice roll
+- When adding a skill, profession, personality etc the system will check if you have the Skill Category on the character and if not it will add it automatically
+- There is two game settings for the initiative formula - select a stat (or none) and enter a modifier.  If your formula is invalid you will get an error message when your world starts and the default formula is used
+  
+
 ## 12.1.38
 - Context menu for Psychic Abilities now shows XP improvement options when there is an improvement tick and development mode is on
 - All improvement checks exclude the item.system.effects score

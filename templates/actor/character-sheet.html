@@ -41,6 +41,13 @@
               <input class="personal-inp" name="system.culture" type="text" value="{{actor.system.culture}}"/>
             {{/if}}
           {{/if}}
+          {{#if isLocked}}
+            <label class="item charname">{{ localize 'BRP.age' }}:</label>
+            <div class="personal-display">{{actor.system.age}}</div>
+          {{else}}  
+            <label class="item charname">{{ localize 'BRP.age' }}:</label>
+            <input class="personal-inp" name="system.age" type="text" value="{{actor.system.age}}" data-dtype="Number"/>
+          {{/if}}
         </div>
   
         <div class="personal-grid">       
@@ -92,9 +99,17 @@
   
         <div class="personal-grid">
           <label class="charname">{{ localize 'BRP.wealth' }}:</label>
-          <input class="personal-inp" name="system.welath" type="text" value="{{actor.system.welath}}"/>
+          {{#if isLocked}}
+            <div class="personal-display">{{wealthName}}</div>       
+          {{else}}
+            <div class="wealth-input-small">
+              <select data-handle-change name="system.wealth">
+                {{selectOptions wealthOptions selected=actor.system.wealth}}
+              </select>
+            </div>  
+          {{/if}}
           <label class="charname">{{ localize 'BRP.move' }}:</label>
-          <input class="personal-inp" name="system.move" type="text" value="{{actor.system.move}}"/>
+          <input class="personal-inp centre" name="system.move" type="text" value="{{actor.system.move}}"/>
         </div>  
       </section>
  

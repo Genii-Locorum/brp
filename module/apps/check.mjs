@@ -18,6 +18,7 @@ export class BRPCheck {
   //PA - Passion Roll
   //PT - Personality Trait Roll
   //RP - Reputation Roll
+  //IM - Spell Impact Roll
   
   //Card Types
   //NO = Normnal Roll
@@ -118,11 +119,16 @@ export class BRPCheck {
           config.targetScore = skill.system.opptotal
         }          
         break;
-      case 'DM':  
+      case 'DM':
+      case 'IM':    
         weapon = particActor.items.get(config.itemId)
         config.label = weapon.name ?? ""
-        let damageData = await BRPCombat.damageFormula(weapon, particActor)
-        config.specLabel = game.i18n.localize('BRP.'+weapon.system.special)
+        let damageData = await BRPCombat.damageFormula(weapon, particActor,options.rollType)
+        if (options.rollType === 'DM') {
+          config.specLabel = game.i18n.localize('BRP.'+weapon.system.special)
+        } else {
+          config.specLabel = ""
+        }
         config.rollFormula = damageData.damage
         config.resultLevel = damageData.success
         config.shiftKey = true
@@ -151,6 +157,8 @@ export class BRPCheck {
       default: 
         ui.notifications.error(options.rollType +": " + game.i18n.format('BRP.errorRollInvalid')) 
         return false
+
+        
      }
 
     //Adjust Config based on card type
@@ -374,7 +382,7 @@ export class BRPCheck {
     config.diceRolled = diceRolled
 
     //Don't need success levels in some cases
-    if (['DM', 'AR'].includes(config.rollType)) {return}
+    if (['DM', 'AR','IM'].includes(config.rollType)) {return}
 
     //Get the level of Success
     config.resultLevel = await BRPCheck.successLevel(config)
@@ -400,6 +408,7 @@ export class BRPCheck {
     const addStatOptions = await BRPSelectLists.addStatOptions(options.characteristic)
     switch (options.rollType) {
       case 'DM':
+      case 'IM':  
         data = {
           type : options.rollType,
           rangeOptions: options.rangeOptions,
@@ -408,7 +417,8 @@ export class BRPCheck {
           label: options.label,
           askHands: options.askHands,
           askRange: options.askRange,
-          askSuccess: options.askSuccess       
+          askSuccess: options.askSuccess,
+          askLevel: options.askLevel       
         }
         break
       case 'CH':
@@ -559,8 +569,8 @@ export class BRPCheck {
       case "OP":
       case "CB":
       case "CO":  
-        //Allow checks for Normal,Combined and Oppossed cards, unless it's a Characteristic or Allegiance Check or a Damage Roll
-        if (['CH', 'AL', 'DM'].includes(msg.rollType)) {return}  
+        //Allow checks for Normal,Combined and Oppossed cards, unless it's a Characteristic or Allegiance Check or a Damage Roll or an Impact Roll
+        if (['CH', 'AL', 'DM','IM'].includes(msg.rollType)) {return}  
         for (let i of msg.chatCard) {
           if(i.diff === 'easy' || i.diffVal > 1) {continue}
           if (autoXP === '1' && i.resultLevel<2) {continue}

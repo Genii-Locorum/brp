@@ -17,7 +17,7 @@
       <div class = "centre">{{magic.system.range}}</div>
       <div class = "centre">{{magic.system.duration}}</div>
       <div class = "centre">{{magic.system.pppl}}</div>
-      <div class = "centre">{{magic.system.damage}}</div>
+      <div class = "centre {{#unless (eq magic.system.damage '')}} rollable impact {{/unless}}">{{magic.system.damage}}</div>
       <div class = "centre"><a class="item-toggle" data-property="mem"><i class="{{#if magic.system.mem}}fa-solid fa-book-open-cover{{else}}fa-light fa-book-open-cover{{/if}}"></i></a></div>
     </li>  
   {{/each}}

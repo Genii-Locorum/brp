@@ -365,7 +365,7 @@
                 <div></div>
               {{/unless}}          
 
-              <div class="font14 centre truncate" title="{{power.system.impactHint}}">{{power.system.impactName}}</div>  
+              <div class="font14 centre truncate {{#if power.system.impactDice}} rollable impact {{/if}}" title="{{power.system.impactHint}}">{{power.system.impactName}}</div>  
 
               {{#if (eq power.type "mutation")}}
                 <div></div>

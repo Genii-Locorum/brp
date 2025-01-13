@@ -119,12 +119,7 @@ export class BRPSkillSheet extends ItemSheet {
     const skillName = formData['system.mainName'] || this.item.system.mainName
     if (this.item.system.specialism) {
       const specialization = formData['system.specName'] || this.item.system.specName
-      if (this.item.system.chosen) {
-        formData.name = skillName + ' (' + specialization + ')'   
-        //formData.name = specialization + ' (' + skillName + ')'  
-      } else {
         formData.name = skillName + ' (' + specialization + ')'
-      }
     } else {
       formData.name = skillName
     }

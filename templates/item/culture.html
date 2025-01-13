@@ -52,9 +52,13 @@
             <div class="">&nbsp</div>
           {{/if}}            
         {{/each}}  
-
+        <br>
+        <div class="new-row bold">{{localize 'BRP.move'}}</div>
+        <div class="stat-input centre"><input name="system.move" type="text" value="{{item.system.move}}" data-dtype="Number"/></div>      
       </div>
       <br>
+
+
 
       {{!-- Selected Skills --}}
       <div class="horizontalboxed {{#if isGM}} droppable {{/if}} main-skills">

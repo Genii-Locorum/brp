@@ -131,6 +131,7 @@
       "move": 0,
       "hand": "Right",
       "lock": false,
+      "skillOrder": true,
       "skillcategory": {
       }
     },
@@ -506,6 +507,7 @@
       "templates": ["base"],
       "skills": [],
       "groups": [],
+      "move": 0,
       "stats": {
         "str": {
           "formula": "3d6",

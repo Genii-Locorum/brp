@@ -1,0 +1,14 @@
+<form class="brp" id="selectItem">
+    <div class="stat-name">{{headTitle}}</div>
+    <div class="radioList">
+      {{#each newList as |type id|}}
+        <div class="item-view font14">
+          <label>
+            <input type="radio" name="selectItem" value={{id}} {{#if (eq @index 0)}}checked{{/if}}></input>
+            {{type}}
+          </label>
+        </div>
+      {{/each}}
+    </div>
+    <br>
+  </form>

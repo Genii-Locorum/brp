@@ -12,8 +12,6 @@
         <br>
       {{/if}}
 
-
-    <div class="flexcol">
       {{#if askRange}}
         <div class="flexrow">
           <label class="resource-label-diff">{{ localize 'BRP.askRange' }}</label>
@@ -31,8 +29,15 @@
             {{selectOptions handOptions selected=hands}}
           </select>
         </div>  
+        <br>
       {{/if}}
-        
+
+      {{#if askLevel}}
+        <div class="flexrow">
+          <label class="resource-label-diff">{{ localize 'BRP.askLevel' }}</label>
+          <input name="level" type="text" value=1  data-dtype="Number"/>
+        </div>  
+      {{/if}}
     </div>
     <br>
   </form>

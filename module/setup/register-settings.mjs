@@ -7,6 +7,7 @@ export async function registerSettings () {
   let skillBonusOptions = await BRPSelectLists.getSkillBonusOptions();
   let reputationOptions = await BRPSelectLists.getReputationOptions();
   let xpOptions = await BRPSelectLists.getXPOptions();
+  let statOptions = await BRPSelectLists.getStatOptions();
 
   //Allow Powers
   game.settings.register('brp', 'magic', {
@@ -261,6 +262,28 @@ export async function registerSettings () {
     config: true,
     default: false,
     type: Boolean,
+  });
+
+  //Initiative
+  game.settings.register('brp', 'initStat', {
+    name: 'BRP.Settings.initStat',
+    hint: 'BRP.Settings.initStatHint',
+    requiresReload: true,
+    scope: 'world',
+    config: true,
+    default: "dex",
+    choices: statOptions,
+    type: String,
+  });
+
+  game.settings.register('brp', 'initMod', {
+    name: 'BRP.Settings.initMod',
+    hint: 'BRP.Settings.initModHint',
+    requiresReload: true,
+    scope: 'world',
+    config: true,
+    default: "+0",
+    type: String,
   });
 
   //Game Modifiers

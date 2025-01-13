@@ -94,7 +94,7 @@ export class BRPActor extends Actor {
          itm.system.bonus = bonus
          itm.system.total = itm.system.bonus + itm.system.mod 
          let key = itm.flags.brp.brpidFlag.id 
-         systemData.skillcategory[key]=itm.system.total;
+         systemData.skillcategory[key] = itm.system.total;
         }    
       }
 
@@ -337,13 +337,17 @@ export class BRPActor extends Actor {
   //Prepare Stats
   _prepStats(actorData) {
     // Loop through ability scores, calculating total and derived scores
+    actorData.system.redistInc = 0
+    actorData.system.redistDec = 0
     for (let [key, stat] of Object.entries(actorData.system.stats)) {
       stat.label = game.i18n.localize(CONFIG.BRP.stats[key]) ?? key;
       stat.labelShort = game.i18n.localize(CONFIG.BRP.statsAbbreviations[key]) ?? key;
       stat.labelDeriv = game.i18n.localize(CONFIG.BRP.statsDerived[key]) ?? key;
       stat.total = Number(stat.base) + Number(stat.redist) + Number(stat.culture) + Number(stat.exp) + Number(stat.effects) + Number(stat.age);
       stat.deriv = stat.total * 5;
- 
+      if (stat.redist < 0) {actorData.system.redistDec = actorData.system.redistDec + stat.redist}
+      if (stat.redist > 0) {actorData.system.redistInc = actorData.system.redistInc + stat.redist}
+
       //Mark all stats as visible except for EDU where it's not being used
       stat.visible = true;
       if (key === 'edu' && !game.settings.get('brp','useEDU')) {stat.visible = false}
@@ -355,6 +359,7 @@ export class BRPActor extends Actor {
       stat.visible = true;
       if (key === 'edu' && !game.settings.get('brp','useEDU')) {stat.visible = false}
     }
+    actorData.system.redistTotal = actorData.system.redistInc + actorData.system.redistDec
   }
 
   // Calculate derived scores

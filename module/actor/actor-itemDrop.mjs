@@ -1,7 +1,6 @@
 import {BRPSelectLists} from '../apps/select-lists.mjs'
 import { SkillsSelectDialog } from "../apps/skill-selection.mjs"
 import { BRPUtilities } from '../apps/utilities.mjs';
-import { BRPID } from '../brpid/brpid.mjs';
 
 export class BRPactorItemDrop {
 
@@ -113,6 +112,7 @@ export class BRPactorItemDrop {
             errMsg = nItm.name + "(" + nItm.flags.brp.brpidFlag.id + "): " + game.i18n.localize('BRP.dupItem');
           }
         } 
+        //If skill is to be added then check that the Skill Category is on the actor
       }
 
       //If a failing then check that superpower has been selected
@@ -230,6 +230,8 @@ export class BRPactorItemDrop {
 
  //Calculate Base Skill on Dropping the item on actor
  static async _calcBase(itm,actor){
+  //Check the skill Category exists
+  await this._checkSkillCat(itm,actor)
   if (itm.system.variable) {
     let stat1 = itm.system.baseFormula[1].stat
     let stat2 = itm.system.baseFormula[2].stat
@@ -320,7 +322,6 @@ export class BRPactorItemDrop {
     for (let nGrp of itm.system.groups) {
       const selected = await this._selectSkillGroup (nGrp)
         if (selected.length <1 || !selected)  {continue}
-        console.log(selected)
         for (let nSkill of selected) {
           newSkill = (await game.system.api.brpid.fromBRPIDBest({brpid:nSkill.id}))[0]      
           //If a group skill then pass to the selection
@@ -428,8 +429,18 @@ export class BRPactorItemDrop {
         }
           changes= Object.assign(changes,{[`system.stats.${key}.culture`] : Number(stat.mod)??0})
       }  
+      //Now add the move score
+      changes = Object.assign(changes,{'system.move':Number(itm.system.move)})  
       await actor.update(changes)
     }
+
+    //If a profession then select wealth level
+    if (itm.type === 'profession') {
+      let wealthOptions = await BRPSelectLists.getWealthOptions(itm.system.minWealth,itm.system.maxWealth)
+      let selected = await this.selectFromRadio(wealthOptions,"Select Wealth Level")
+      await actor.update({'system.wealth' : selected})
+    }
+
 
 
     return ({'reqResult': 1, 'errMsg': ""})
@@ -468,6 +479,7 @@ export class BRPactorItemDrop {
       }
     }
     await Item.updateDocuments(changes, {parent: actor})   
+    await actor.update({'system.wealth':""})
   }
 
   static async cultureDelete(event, actor) {
@@ -503,6 +515,7 @@ export class BRPactorItemDrop {
       'system.stats.dex.culture' :0,
       'system.stats.cha.culture' :0,
       'system.stats.edu.culture' :0,
+      'system.move':0
     })   
   }
 
@@ -569,13 +582,77 @@ export class BRPactorItemDrop {
         dlg.render(true);
       })
     newSkill.system.specName = specName
-    newSkill.name = specName + ' (' + newSkill.system.mainName + ')'  
+    newSkill.name = newSkill.system.mainName + ' (' + specName + ')'  
     newSkill.flags.brp.brpidFlag.id = "i.skill." + await BRPUtilities.toKebabCase(newSkill.name)
     newSkill.system.chosen = true;
     return newSkill
   }
 
 
+  static async selectFromRadio(list,title){
+    //Get list of items
+    let newList = list
+
+    //If there's only one item on the list then return it
+    let selected = ""
+    if (newList.length <1) {return false}
+    if (Object.keys(newList).length === 1) {
+      selected = Object.values(newList)[0]
+
+    //Otherwise call the dialog selection
+    } else {
+      let destination = 'systems/brp/templates/dialog/selectItem.html';
+      let data = {
+        headTitle: title,
+        newList,
+      }
+      const html = await renderTemplate(destination,data);
+      let usage = await new Promise(resolve => {
+        let formData = null
+        const dlg = new Dialog({
+          title: title,
+          content: html,
+          buttons: {
+            roll: {
+              label: game.i18n.localize("BRP.confirm"),
+              callback: html => {
+              formData = new FormData(html[0].querySelector('#selectItem'))
+              return resolve(formData)
+              }
+            }
+          },
+          default: 'roll',
+          close: () => {}
+          },{classes: ["brp", "sheet"]})
+          dlg.render(true);
+        })
+
+        //Get the PID from the form
+        if (usage) {
+          selected = usage.get('selectItem');
+        }
+      }
+      if (selected === "") {return false}
+      return selected
+    }
+
+    static async _checkSkillCat(skill,actor) {
+      //Check to see if the skill category already exists and if it does then do nothing
+      let newSkillCats = []
+      if (actor.items.filter(nitm=> nitm.flags.brp.brpidFlag.id === skill.system.category).length >0) {
+        return
+      } 
+      //Get the best version of the skill category
+      let newSkillCat = (await game.system.api.brpid.fromBRPIDBest({brpid:skill.system.category}))[0]
+      if (newSkillCat) {
+        newSkillCats.push(newSkillCat)
+        await Item.createDocuments(newSkillCats, {parent: actor})
+      } else {
+        let errMsg = game.i18n.format('BRP.noSkillCat',{skillCat: skill.system.category, skillName: skill.name})
+        ui.notifications.warn(errMsg);
+      }
+      return
+    }
 
 
 }

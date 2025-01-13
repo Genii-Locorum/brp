@@ -16,7 +16,7 @@
       <div class = "centre">{{psychic.system.range}}</div>
       <div class = "centre">{{psychic.system.duration}}</div>
       <div class = "centre">{{psychic.system.pppl}}</div>
-      <div class = "centre">{{psychic.system.damage}}</div>
+      <div class = "centre {{#unless (eq psychic.system.damage '')}} rollable impact {{/unless}}">{{psychic.system.damage}}</div>
       <div class = "centre rollable skill-name">{{psychic.system.grandTotal}}%</div>
       <div></div>
     </li>  

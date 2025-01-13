@@ -395,6 +395,19 @@
   padding-bottom: 0px;
 }
 
+.brp .font16-disp {
+  font-size: 16px;
+  height: 21px;
+  background-color: transparent;
+  border-top : 0px;
+  border-left : 0px;
+  border-right : 0px;
+  border-bottom : 1px transparent;
+  border-radius: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
 .brp .skillgrid {
   display: grid;
   margin:0px;
@@ -573,6 +586,14 @@ padding-top: 4px;
   padding-left:15px;
   height: 18px;
   width: 185px;
+}
+
+.brp .wealth-input-small select {
+  text-align: center;
+  border-color: rgba(68, 7, 4, 1);
+  padding-left:15px;
+  height: 18px;
+  width: 150px;
 }
 
 .brp .weapon-input input {
@@ -1519,4 +1540,9 @@ padding-top: 4px;
 
 .brp .specialismSkill{
   margin-left:5px;
+}
+
+.brp .grid-error {
+  background-color: rgba(219, 8, 8, 0.514) !important;
+
 }
