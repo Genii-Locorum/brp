@@ -1,5 +1,8 @@
 import { BRPActor } from "./actor/actor.mjs";
+import { BRPCharacterSheet } from "./actor/sheets/character.mjs";
 import { BRPItem } from "./item/item.mjs";
+import { BRPCombat} from "./combat/combat.mjs";
+import { BRPCombatTracker } from "./combat/combat-tracker.mjs";
 import { preloadHandlebarsTemplates } from "./setup/templates.mjs";
 import { handlebarsHelper } from './setup/handlebar-helper.mjs';
 import { BRP } from "./setup/config.mjs";
@@ -32,6 +35,8 @@ Hooks.once('init', async function() {
   // Define custom Document classes
   CONFIG.Actor.documentClass = BRPActor;
   CONFIG.Item.documentClass = BRPItem;
+  CONFIG.Combat.documentClass = BRPCombat;
+  CONFIG.ui.combat = BRPCombatTracker;
 
   // Preload Handlebars templates.
   return preloadHandlebarsTemplates();
@@ -71,7 +76,6 @@ Hooks.once("ready", async function() {
     initMod = "+" + initMod
   }
   initiative = initiative + initMod
-console.log(initiative)
 
   if (!Roll.validate(initiative)) {
     ui.notifications.error(game.i18n.format('BRP.initError',{formula:initiative}))
@@ -93,88 +97,9 @@ BRPHooks.listen()
 
 //Add Chat Log Hooks
 Hooks.on('renderChatLog', (app, html, data) => Chat.addChatListeners(html));
-
-//Add sub-titles in Config Settings for BRP- Advanced Rules
-Hooks.on('renderSettingsConfig', (app, html, options) => {
-  const systemTab = $(app.form).find('.tab[data-tab=system]')
-
-  systemTab
-    .find('input[name=brp\\.magic]')
-    .closest('div.form-group')
-    .before(
-      '<h3 class="setting-header">' +
-        game.i18n.localize('BRP.powers') +
-        '</h3>'
-    )
-
-    systemTab
-    .find('input[name=brp\\.useHPL]')
-    .closest('div.form-group')
-    .before(
-      '<h3 class="setting-header">' +
-        game.i18n.localize('BRP.optionalRules') +
-        '</h3>'
-    )
-
-    systemTab
-    .find('input[name=brp\\.diffValue]')
-    .closest('div.form-group')
-    .before(
-      '<h3 class="setting-header">' +
-        game.i18n.localize('BRP.rollOptions') +
-        '</h3>'
-    )
-
-    systemTab
-    .find('input[name=brp\\.resistLevels]')
-    .closest('div.form-group')
-    .after(
-      '<h3 class="setting-header">' +
-        game.i18n.localize('BRP.initiative') +
-        '</h3>'
-    )
-
-    systemTab
-    .find('input[name=brp\\.hpMod]')
-    .closest('div.form-group')
-    .before(
-      '<h3 class="setting-header">' +
-        game.i18n.localize('BRP.gameModifiers') +
-        '</h3>'
-    )
-
-    systemTab
-    .find('input[name=brp\\.hpMod]')
-    .closest('div.form-group')
-    .after(
-      '<h3 class="setting-header">' +
-        game.i18n.localize('BRP.xpModifiers') +
-        '</h3>'
-    )
-
-    systemTab
-    .find('input[name=brp\\.xpFixed]')
-    .closest('div.form-group')
-    .after(
-      '<h3 class="setting-header">' +
-        game.i18n.localize('BRP.sceneSettings') +
-        '</h3>'
-    )
-
-    systemTab
-    .find('input[name=brp\\.starterSkills]')
-    .closest('div.form-group')
-    .before(
-      '<h3 class="setting-header">' +
-        game.i18n.localize('BRP.customise') +
-        '</h3>'
-    )
-
-
-});
-
 Hooks.on('getSceneControlButtons', BRPMenu.getButtons)
 Hooks.on('renderSceneControls', BRPMenu.renderControls)
+Hooks.on('renderActorSheet', BRPCharacterSheet.renderSheet)
 
 // Run a Macro from an Item drop.
 function rollItemMacro(itemUuid) {

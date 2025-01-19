@@ -51,7 +51,10 @@ export class BRPSuperSheet extends ItemSheet {
         secrets: sheetData.editable
       }
     )  
-    
+    sheetData.powerName = game.settings.get('brp',this.item.type+'Label')
+    if (sheetData.powerName === "") {
+      sheetData.powerName = game.i18n.localize("BRP."+this.item.type)
+    }
     sheetData.enrichedGMDescriptionValue = await TextEditor.enrichHTML(
       sheetData.data.system.gmDescription,
       {

@@ -1,0 +1,32 @@
+<form class="brp flexcol" autocomplete="off">
+    <h2 class="bold">{{localize 'BRP.Settings.gameMods'}}</h2>
+
+    <div class="form-group">
+      <label class="bold">{{localize 'BRP.Settings.hpMod'}}</label>
+      <div class="form-fields" style="flex: 1;">
+        <input class="centre" name="hpMod" type="text" value="{{hpMod.value}}" data-dtype="Number"/>
+      </div>
+      <p class="settingNote">{{localize 'BRP.Settings.hpModHint'}}</p>
+    </div>
+
+    <div class="brpform-group">
+      <label class="bold">{{localize 'BRP.Settings.charSheetLogo'}}</label>
+      <div class="form-fields" style="flex: 1;">
+        <file-picker name="charSheetLogo" type="pictures" value="{{charSheetLogo.value}}"></file-picker>
+      </div>
+      <p class="settingNote">{{localize 'BRP.Settings.charSheetLogoHint'}}</p>
+    </div>
+
+
+
+    <br>
+
+    <footer class="sheet-footer flexrow">
+      <button type="submit" name="submit">
+        <i class="far fa-save"></i> {{localize "Save Changes"}}
+      </button>
+      <button type="button" name="reset">
+        <i class="fas fa-undo"></i> {{localize "Reset Defaults"}}
+      </button>
+    </footer>
+  </form>

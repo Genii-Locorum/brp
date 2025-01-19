@@ -36,6 +36,10 @@ export class BRPPsychicSheet extends ItemSheet {
       }
     }    
     sheetData.isGM = game.user.isGM
+    sheetData.powerName = game.settings.get('brp',this.item.type+'Label')
+    if (sheetData.powerName === "") {
+      sheetData.powerName = game.i18n.localize("BRP."+this.item.type)
+    }  
     //Get drop down options from select-lists.mjs
       sheetData.catOptions = await BRPSelectLists.getSpellCatOptions();
       sheetData.skillCatOptions = await BRPSelectLists.getCategoryOptions();

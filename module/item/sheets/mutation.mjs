@@ -30,25 +30,28 @@ export class BRPMutationSheet extends ItemSheet {
     const itemData = sheetData.item
     sheetData.hasOwner = this.item.isEmbedded === true
     sheetData.isGM = game.user.isGM
+    sheetData.powerName = game.settings.get('brp',this.item.type+'Label')
+    if (sheetData.powerName === "") {
+      sheetData.powerName = game.i18n.localize("BRP."+this.item.type)
+    }
     //Get selection lists
-      sheetData.catOptions = await BRPSelectLists.getMutationCatOptions();
-      sheetData.catName = game.i18n.localize("BRP." + this.item.system.impact);
-
-      sheetData.enrichedDescriptionValue = await TextEditor.enrichHTML(
-        sheetData.data.system.description,
-        {
-          async: true,
-          secrets: sheetData.editable
-        }
-      )  
+    sheetData.catOptions = await BRPSelectLists.getMutationCatOptions();
+    sheetData.catName = game.i18n.localize("BRP." + this.item.system.impact);
+    sheetData.enrichedDescriptionValue = await TextEditor.enrichHTML(
+      sheetData.data.system.description,
+      {
+        async: true,
+        secrets: sheetData.editable
+      }
+    )  
       
-      sheetData.enrichedGMDescriptionValue = await TextEditor.enrichHTML(
-        sheetData.data.system.gmDescription,
-        {
-          async: true,
-          secrets: sheetData.editable
-        }
-      )  
+    sheetData.enrichedGMDescriptionValue = await TextEditor.enrichHTML(
+      sheetData.data.system.gmDescription,
+      {
+        async: true,
+        secrets: sheetData.editable
+      }
+    )  
 
     return sheetData
   }

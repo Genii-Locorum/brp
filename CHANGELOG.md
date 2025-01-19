@@ -1,5 +1,18 @@
 # CHANGELOG
 
+## 12.1.40
+- Roll chat cards updated to increase size of the actor image and the space for the skill, weapon etc name and there is some additional info in the "expandable" section of the card
+- There is now a game setting to choose if you want to show XP & POW Improvement Dice Rolls where you have Dice So Nice module activated.  You could see a lot of dice rolled.
+- POW improvement rolls no longer increase POW when the roll is failed (oops).
+- When dropping professions etc you should no longer get console errors if actor items don't have BRPIDs.
+- There's a new game setting, which if activated, autogenerates the BRP ID for new actors based on the name.  Initially the BRPID fingerprint icon will be orange to warn you.
+- Special Weapon Damages are now being applied properly
+- Game Settings have been reorganised (the list was getting too long) in to several sub-forms - click on the relevant button to open the subform
+- There is a new advances skill category calculation - Negative Secondary - like Secondary but for stat values less than 10
+- Where you've added a different label to a Power in game settings this also applies to the list on the relevant character sheet tab and the item sheet.
+- Under BRP Game Settings > Display Options there is now two Colour settings to change the main background and secondary background colours on the actor sheet.  Enter a colour reference such as rgba(0,141,142) or #008080.
+  These are sort of a test to see if it's what people want.  I will expand the list if it is.
+
 ## 12.1.39
 - Personal Skill Points are now totalled on the Skills tab, in unlocked mode, under the correct column
 - MOVE score added to culture item and added to character sheet along with the culture

@@ -1,0 +1,62 @@
+<form class="brp flexcol" autocomplete="off">
+    <h2 class="bold">{{localize 'BRP.Settings.charOptions'}}</h2>
+
+    <div class="form-group">
+      <label class="bold">{{localize 'BRP.Settings.actorBRPID'}}</label>
+      <div class="form-fields" style="flex: 1;">
+        <input type="checkbox" {{checked actorBRPID.value}} name="actorBRPID">
+      </div>
+      <p class="settingNote">{{localize 'BRP.Settings.actorBRPIDHint'}}</p>
+    </div>    
+
+    <div class="form-group">
+      <label class="bold">{{localize 'BRP.Settings.starterSkills'}}</label>
+      <div class="form-fields" style="flex: 1;">
+        <input type="checkbox" {{checked starterSkills.value}} name="starterSkills">
+      </div>
+      <p class="settingNote">{{localize 'BRP.Settings.starterSkillsHint'}}</p>
+    </div>    
+
+    <div class="form-group">
+      <label class="bold">{{localize 'BRP.Settings.starterTraits'}}</label>
+      <div class="form-fields" style="flex: 1;">
+        <input type="checkbox" {{checked starterTraits.value}} name="starterTraits">
+      </div>
+      <p class="settingNote">{{localize 'BRP.Settings.starterTraitsHint'}}</p>
+    </div>        
+
+    <div class="form-group">
+      <label class="bold">{{localize 'BRP.Settings.background1'}}</label>
+      <div class="form-fields" style="flex: 1;">
+        <input class="centre" name="background1" type="text" value="{{background1.value}}"/>
+      </div>
+      <p class="settingNote">{{localize 'BRP.Settings.backgroundHint'}}</p>
+    </div>
+
+    <div class="form-group">
+      <label class="bold">{{localize 'BRP.Settings.background2'}}</label>
+      <div class="form-fields" style="flex: 1;">
+        <input class="centre" name="background2" type="text" value="{{background2.value}}"/>
+      </div>
+      <p class="settingNote">{{localize 'BRP.Settings.backgroundHint'}}</p>
+    </div>
+
+    <div class="form-group">
+      <label class="bold">{{localize 'BRP.Settings.background3'}}</label>
+      <div class="form-fields" style="flex: 1;">
+        <input class="centre" name="background3" type="text" value="{{background3.value}}"/>
+      </div>
+      <p class="settingNote">{{localize 'BRP.Settings.backgroundHint'}}</p>
+    </div>    
+
+    <br>
+
+    <footer class="sheet-footer flexrow">
+      <button type="submit" name="submit">
+        <i class="far fa-save"></i> {{localize "Save Changes"}}
+      </button>
+      <button type="button" name="reset">
+        <i class="fas fa-undo"></i> {{localize "Reset Defaults"}}
+      </button>
+    </footer>
+  </form>

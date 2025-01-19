@@ -5,9 +5,9 @@
       {{#each chatCard as |c key|}}
       <div class="dice-roll">
         <li class='actor-roll'>
-          <img class="open-actor" src="{{c.particImg}}" height="40" width="40" title="{{c.particName}}"/>
+          <img class="open-actor" src="{{c.particImg}}" height="60" width="60" title="{{c.particName}}"/>
           <div class="roll-details">
-            <div class="header">
+            <div class="header roll-truncate">
               <div class='name'>
                 <span class="tag">{{c.label}} ({{c.targetScore}}%)</span>
               </div>
@@ -61,7 +61,7 @@
                 {{/if}}
               </div>
               <div class="rollHidden">{{localize 'BRP.origResult'}}: {{c.origResLabel}}</div>
-              <div class="rollHidden bottom-line">{{localize 'BRP.diceRoll'}}: {{c.rollVal}}</div>
+              <div class="rollHidden bottom-line">{{localize 'BRP.diceRoll'}}: {{c.diceRolled}}</div>
             </div>
           </div>  
         {{/if}}

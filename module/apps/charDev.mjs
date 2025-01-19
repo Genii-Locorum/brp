@@ -110,6 +110,11 @@ export class BRPCharDev {
     if (Number(roll.total)+bonus > target) {
       resultLevel = 1
     }
+    //If Game Settings and Dice So Nice then show dice roll
+    if (game.settings.get('brp','xpRollDice') && game.modules.get('dice-so-nice')?.active) {
+      game.dice3d.showForRoll(roll,game.user,true,null,false)  //Roll,user,sync,whispher,blind
+    } 
+  
     return ({'level': resultLevel,
              'diceRoll': Number(roll.total)+bonus,
              'rollResult': Number(roll.total)
@@ -119,15 +124,16 @@ export class BRPCharDev {
 
   //Get ready to produce the XP check Output
   static async xpOutput(success, partic) {
-    const html = await BRPCharDev.xpChatCard(success, partic.name);
+    const html = await BRPCharDev.xpChatCard(success, partic.name, partic.img);
     let msg = await BRPCharDev.showXPChat (html,partic)
   }  
 
 
   //Prepare XP Roll Chat Card
-  static async xpChatCard (success, actorName) {
+  static async xpChatCard (success, actorName, actrImg) {
     let messageData = {
       speaker: ChatMessage.getSpeaker({ actor: actorName }),
+      actrImage: actrImg,
       success: success
     }
     const messageTemplate = 'systems/brp/templates/chat/XP-result.html'
@@ -171,16 +177,27 @@ export class BRPCharDev {
     let chance = (max-score)*5
     let resultLevel = 0
     let roll = new Roll('1D100')
+    let improvVal = 0
     await roll.evaluate();
+    //If Game Settings and Dice So Nice then show dice roll
+      if (game.settings.get('brp','xpRollDice') && game.modules.get('dice-so-nice')?.active) {
+        game.dice3d.showForRoll(roll,game.user,true,null,false)  //Roll,user,sync,whispher,blind
+      } 
+
     if (roll.total <= chance) {
       resultLevel = 1
-    }
-    let improvVal = 1
-    if (type != "fixed"){
+      if (type === "fixed") {
+        improvVal = 1
+      } else if (type != "fixed"){
       let impRoll = new Roll ('1D3-1')
       await impRoll.evaluate()
       improvVal = impRoll.total
-    }  
+      //If Game Settings and Dice So Nice then show dice roll
+        if (game.settings.get('brp','xpRollDice') && game.modules.get('dice-so-nice')?.active) {
+          game.dice3d.showForRoll(impRoll,game.user,true,null,false)  //Roll,user,sync,whispher,blind
+        } 
+      }
+    }    
     let success = []
     success.push({
       name: game.i18n.localize('BRP.StatsPowAbbr'),

@@ -1,4 +1,6 @@
 import {BRPactorItemDrop} from './actor-itemDrop.mjs'
+import { BRPID } from '../brpid/brpid.mjs';
+
 export class BRPActor extends Actor {
 
   prepareData() {
@@ -51,6 +53,7 @@ export class BRPActor extends Actor {
 
     //Set Hit Location AP to zero
     for (let itm of actorData.items) {
+
       if (itm.type === 'hit-location') {
         itm.system.av1 = 0
         itm.system.av2 = 0
@@ -87,7 +90,10 @@ export class BRPActor extends Actor {
                   break;
                 case "3":    //Negative                  
                   bonus += this._categorynegative(systemData.stats[key].total)
-                  break;                  
+                  break;
+                case "4":    //Negative Secondary                  
+                  bonus += this._categorynegsec(systemData.stats[key].total)
+                  break;                                    
               }
             }
           }
@@ -465,7 +471,6 @@ export class BRPActor extends Actor {
 
   //Create a new actor - When creating an actor set basics including tokenlink, bars, displays sight
   static async create (data, options = {}) {
-
     //If dropping from compendium check to see if the actor already exists in game.actors and if it does then get the game.actors details rather than create a copy 
     if (options.fromCompendium) {
       let tempActor = await (game.actors.filter(actr=>actr.flags.brp.brpidFlag.id === data.flags.brp.brpidFlag.id && actr.flags.brp.brpidFlag.priority === data.flags.brp.brpidFlag.priority))[0]
@@ -491,6 +496,23 @@ export class BRPActor extends Actor {
     }
 
     let actor = await super.create(data, options)
+
+    //Add BRPID based on actor name if the game setting is flagged.
+    if(game.settings.get('brp', "actorBRPID")) {
+      let tempID = await BRPID.guessId(actor)
+      if (tempID) {
+        await actor.update({'flags.brp.brpidFlag.id': tempID})
+        const html = $(actor.sheet.element).find('header.window-header a.header-button.edit-brpid-warning,header.window-header a.header-button.edit-brpid-exisiting')
+        if (html.length) {
+          html.css({
+            color: (tempID ? 'orange' : 'red')
+          })
+        }
+        actor.render()
+      }
+    }
+
+
     //Set up a general hit location for a new actor if using HPL
     if (actor.type ==='character' && game.settings.get('brp','useHPL')) {
       let brpid = "i.hit-location.general"
@@ -572,13 +594,29 @@ export class BRPActor extends Actor {
 
   // Secondary Skills Bonus
   _categorysecondary(statvalue){
-    var bonus = Math.floor((statvalue-10)/2);
+    var bonus = (statvalue-10)/2
+    if (bonus <0) {
+      bonus = Math.ceil(bonus);
+    } else {
+      bonus = Math.floor(bonus);
+    }  
     return bonus;
   }
 
   // Negative Skills Bonus
   _categorynegative(statvalue){
     var bonus = 10-statvalue;
+    return bonus; 
+  }
+
+  // Negative Secondary Skills Bonus
+  _categorynegsec(statvalue){
+    var bonus = (10-statvalue)/2
+    if (bonus <0) {
+      bonus = Math.ceil(bonus);
+    } else {
+      bonus = Math.floor(bonus);
+    }  
     return bonus; 
   }
 

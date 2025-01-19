@@ -7,6 +7,14 @@
   src: url('./fonts/modesto-condensed.woff2') format('woff2');
 }
 
+
+:root {
+  --labelback: #a2c2bb;
+  --actor-sheet-back: rgb(217, 219, 218);
+}
+
+
+
 /* Global styles */
 .window-app {
   font-family: "Roboto", sans-serif;
@@ -16,11 +24,19 @@
   color: goldenrod;
 }
 
+.category .border{
+  font-weight:bold !important;
+}
+
 .rollable:hover, .rollable:focus,.contextmenu:hover, .contextmenu:focus, .item-toggle:hover, .item-toggle:focus, .item-view:hover, .item-view:focus{
   color: #000;
   text-shadow: 0px 0px 5px red;
   font-weight:bold;
   cursor: pointer;
+}
+
+.brp .character {
+  background-color: var(--actor-sheet-back);
 }
 
 .brp .main-sheet {
@@ -40,7 +56,7 @@
 
 .brp .main-title {
   font-size: 40px;
-  background-color: #a2c2bb;
+  background-color: var(--labelback);
 }
 
 .brp .brp-header{
@@ -323,7 +339,7 @@
 }
 
 .brp .character .sheet-tabs {
-  background-color: #a2c2bb;
+  background-color: var(--labelback);
 }
 
 .brp .bottom-panel {
@@ -433,6 +449,12 @@
   align-self: center;
   overflow: hidden;
   white-space: nowrap;
+  text-overflow:ellipsis;
+}
+
+.brp .roll-truncate {
+  align-self: center;
+  overflow: hidden;
   text-overflow:ellipsis;
 }
 
@@ -1173,6 +1195,9 @@ padding-top: 4px;
   width: 100%;
   display: flex;
   flex-direction: row;
+  min-height: 40px;
+  max-height: 40px;
+  background-color: rgb(217, 219, 218);
 }
 
 .brp .actor-roll .roll-details .header .name{
@@ -1195,13 +1220,13 @@ padding-top: 4px;
   font-size: 14px;
   height: 20px;
   line-height: 20px;
-  margin: 2px 0;
+  margin: 0px ;
   display: inline-block;
   text-align: center;
 }
 
 .brp .rollHidden {
-  margin-left: 40px;
+  margin-left: 60px;
   font-size: 12px;
 }
 
@@ -1545,4 +1570,25 @@ padding-top: 4px;
 .brp .grid-error {
   background-color: rgba(219, 8, 8, 0.514) !important;
 
+}
+
+.brp .settingNote {
+  flex: 0 0 100%;
+  font-size: var(--font-size-12);
+  line-height: var(--line-height-16);
+  color: rgba(68, 7, 4, 1);
+  margin: 3px 0;
+}
+
+.brp form .brpform-group, form .form-group-stacked {
+  clear: both;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 3px 0;
+  align-items: center;
+}  
+
+.brp form .brpform-group > label {
+  flex: .5;
 }

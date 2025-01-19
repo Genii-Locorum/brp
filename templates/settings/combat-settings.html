@@ -1,0 +1,42 @@
+<form class="brp flexcol" autocomplete="off">
+    <h2 class="bold">{{localize 'BRP.Settings.combatOptions'}}</h2>
+
+    <div class="form-group">
+      <label class="bold">{{localize 'BRP.Settings.initStat'}}</label>
+      <div class="form-fields">
+        <select class="centre" name="initStat" data-dtype="String">
+          {{selectOptions initChoiceList selected=initStat.value}}
+        </select>
+      </div>
+      <p class="settingNote">{{localize 'BRP.Settings.initStatHint'}}</p>
+    </div>
+
+    <div class="form-group">
+      <label class="bold">{{localize 'BRP.Settings.initMod'}}</label>
+      <div class="form-fields" style="flex: 1;">
+        <input class="centre" name="initMod" type="text" value="{{initMod.value}}"/>
+      </div>
+      <p class="settingNote">{{localize 'BRP.Settings.initModHint'}}</p>
+    </div>   
+    
+    <div class="form-group">
+      <label class="bold">{{localize 'BRP.Settings.initRound'}}</label>
+      <div class="form-fields">
+        <select class="centre" name="initRound" data-dtype="String">
+          {{selectOptions initRoundList selected=initRound.value}}
+        </select>
+      </div>
+      <p class="settingNote">{{localize 'BRP.Settings.initRoundHint'}}</p>
+    </div>    
+
+    <br>
+
+    <footer class="sheet-footer flexrow">
+      <button type="submit" name="submit">
+        <i class="far fa-save"></i> {{localize "Save Changes"}}
+      </button>
+      <button type="button" name="reset">
+        <i class="fas fa-undo"></i> {{localize "Reset Defaults"}}
+      </button>
+    </footer>
+  </form>

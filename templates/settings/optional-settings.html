@@ -1,0 +1,106 @@
+<form class="brp flexcol" autocomplete="off">
+    <h2 class="bold">{{localize 'BRP.Settings.optionalRules'}}</h2>
+
+    <div class="form-group">
+      <label class="bold">{{localize 'BRP.Settings.useHPL'}}</label>
+      <div class="form-fields" style="flex: 1;">
+        <input type="checkbox" {{checked useHPL.value}} name="useHPL">
+      </div>
+      <p class="settingNote">{{localize 'BRP.Settings.useHPLHint'}}</p>
+    </div>
+
+    <div class="form-group">
+      <label class="bold">{{localize 'BRP.Settings.useEDU'}}</label>
+      <div class="form-fields" style="flex: 1;">
+        <input type="checkbox" {{checked useEDU.value}} name="useEDU">
+      </div>
+      <p class="settingNote">{{localize 'BRP.Settings.useEDUHint'}}</p>
+    </div>
+    
+    <div class="form-group">
+      <label class="bold">{{localize 'BRP.Settings.useSAN'}}</label>
+      <div class="form-fields" style="flex: 1;">
+        <input type="checkbox" {{checked useSAN.value}} name="useSAN">
+      </div>
+      <p class="settingNote">{{localize 'BRP.Settings.useSANHint'}}</p>
+    </div>
+    
+    <div class="form-group">
+      <label class="bold">{{localize 'BRP.Settings.useFP'}}</label>
+      <div class="form-fields" style="flex: 1;">
+        <input type="checkbox" {{checked useFP.value}} name="useFP">
+      </div>
+      <p class="settingNote">{{localize 'BRP.Settings.useFPHint'}}</p>
+    </div>
+    
+    <div class="form-group">
+      <label class="bold">{{localize 'BRP.Settings.useMP'}}</label>
+      <div class="form-fields" style="flex: 1;">
+        <input type="checkbox" {{checked useMP.value}} name="useMP">
+      </div>
+      <p class="settingNote">{{localize 'BRP.Settings.useMPHint'}}</p>
+    </div>    
+
+    <div class="form-group">
+      <label class="bold">{{localize 'BRP.Settings.skillBonus'}}</label>
+      <div class="form-fields">
+        <select class="centre" name="skillBonus" data-dtype="String">
+          {{selectOptions skillBonusList selected=skillBonus.value}}
+        </select>
+      </div>
+      <p class="settingNote">{{localize 'BRP.Settings.skillBonusHint'}}</p>
+    </div>
+  
+    <div class="form-group">
+      <label class="bold">{{localize 'BRP.Settings.useAVRand'}}</label>
+      <div class="form-fields" style="flex: 1;">
+        <input type="checkbox" {{checked useAVRand.value}} name="useAVRand">
+      </div>
+      <p class="settingNote">{{localize 'BRP.Settings.useAVRandHint'}}</p>
+    </div> 
+    
+    <div class="form-group">
+      <label class="bold">{{localize 'BRP.Settings.useAlleg'}}</label>
+      <div class="form-fields" style="flex: 1;">
+        <input type="checkbox" {{checked useAlleg.value}} name="useAlleg">
+      </div>
+      <p class="settingNote">{{localize 'BRP.Settings.useAllegHint'}}</p>
+    </div> 
+    
+    <div class="form-group">
+      <label class="bold">{{localize 'BRP.Settings.usePassion'}}</label>
+      <div class="form-fields" style="flex: 1;">
+        <input type="checkbox" {{checked usePassion.value}} name="usePassion">
+      </div>
+      <p class="settingNote">{{localize 'BRP.Settings.usePassionHint'}}</p>
+    </div> 
+    
+    <div class="form-group">
+      <label class="bold">{{localize 'BRP.Settings.useReputation'}}</label>
+      <div class="form-fields">
+        <select class="centre" name="useReputation" data-dtype="String">
+          {{selectOptions useRepList selected=useReputation.value}}
+        </select>
+      </div>
+      <p class="settingNote">{{localize 'BRP.Settings.useReputationHint'}}</p>
+    </div>    
+
+    <div class="form-group">
+      <label class="bold">{{localize 'BRP.Settings.usePersTrait'}}</label>
+      <div class="form-fields" style="flex: 1;">
+        <input type="checkbox" {{checked usePersTrait.value}} name="usePersTrait">
+      </div>
+      <p class="settingNote">{{localize 'BRP.Settings.usePersTraitHint'}}</p>
+    </div>                   
+
+    <br>
+
+    <footer class="sheet-footer flexrow">
+      <button type="submit" name="submit">
+        <i class="far fa-save"></i> {{localize "Save Changes"}}
+      </button>
+      <button type="button" name="reset">
+        <i class="fas fa-undo"></i> {{localize "Reset Defaults"}}
+      </button>
+    </footer>
+  </form>

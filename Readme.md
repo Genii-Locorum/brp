@@ -9,7 +9,7 @@ If you use our ORC Content, please also credit us as follows:
 
 Basic Role Playing for Foundry VTT
 
-This is still a beta version of BRP for Foundry WHilst it has progressed beyond simply being a character sheet it is still in early stages of development. See the Wiki guide for more information on the system.
+This is still a beta version of BRP for Foundry Whilst it has progressed beyond simply being a character sheet it is still in early stages of development. See the Wiki guide for more information on the system.
 
 So having said that this is a beta and your feedback and input will help drive the direction and prioritisation of future functionality
 

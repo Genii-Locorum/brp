@@ -1,6 +1,6 @@
 import { BRPactorDetails } from "./actorDetails.mjs"
 import { BRPSelectLists } from "./select-lists.mjs"
-import { BRPCombat } from "./combat.mjs"
+import { BRPCombatRoll } from "../combat/combat-roll.mjs"
 import { GRCard} from "../cards/combined-card.mjs"
 import { OPCard} from "../cards/opposed-card.mjs"
 import { COCard} from "../cards/cooperative-card.mjs"
@@ -123,7 +123,10 @@ export class BRPCheck {
       case 'IM':    
         weapon = particActor.items.get(config.itemId)
         config.label = weapon.name ?? ""
-        let damageData = await BRPCombat.damageFormula(weapon, particActor,options.rollType)
+        if (options.rollType === 'IM') {
+          config.label = config.label + " [" + game.i18n.localize('BRP.' + weapon.system.impact) + "] "
+        }
+        let damageData = await BRPCombatRoll.damageFormula(weapon, particActor,options.rollType)
         if (options.rollType === 'DM') {
           config.specLabel = game.i18n.localize('BRP.'+weapon.system.special)
         } else {

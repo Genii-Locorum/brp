@@ -1,5 +1,5 @@
 import { BRPUtilities } from "../apps/utilities.mjs";
-import { BRPDamage } from "../apps/damage.mjs";
+import { BRPDamage } from "../combat/damage.mjs";
 import { BRPCheck } from "../apps/check.mjs";
 import { BRPCharDev } from "../apps/charDev.mjs";
 import { BRPactorItemDrop } from "./actor-itemDrop.mjs";

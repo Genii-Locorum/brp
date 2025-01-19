@@ -30,6 +30,10 @@ export class BRPSorcerySheet extends ItemSheet {
     sheetData.hasOwner = this.item.isEmbedded === true
     sheetData.isGM = game.user.isGM
     sheetData.useMP = game.settings.get('brp','useMP');
+    sheetData.powerName = game.settings.get('brp',this.item.type+'Label')
+    if (sheetData.powerName === "") {
+      sheetData.powerName = game.i18n.localize("BRP."+this.item.type)
+    }  
     sheetData.enrichedDescriptionValue = await TextEditor.enrichHTML(
       sheetData.data.system.description,
       {

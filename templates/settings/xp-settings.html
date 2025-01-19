@@ -1,0 +1,48 @@
+<form class="brp flexcol" autocomplete="off">
+    <h2 class="bold">{{localize 'BRP.Settings.xpOptions'}}</h2>
+
+    <div class="form-group">
+      <label class="bold">{{localize 'BRP.Settings.autoXP'}}</label>
+      <div class="form-fields">
+        <select class="centre" name="autoXP" data-dtype="String">
+          {{selectOptions xpOptions selected=autoXP.value}}
+        </select>
+      </div>
+      <p class="settingNote">{{localize 'BRP.Settings.autoXPHint'}}</p>
+    </div>
+
+    <div class="form-group">
+      <label class="bold">{{localize 'BRP.Settings.xpFormula'}}</label>
+      <div class="form-fields" style="flex: 1;">
+        <input class="centre" name="xpFormula" type="text" value="{{xpFormula.value}}"/>
+      </div>
+      <p class="settingNote">{{localize 'BRP.Settings.xpFormulaHint'}}</p>
+    </div>   
+    
+    <div class="form-group">
+      <label class="bold">{{localize 'BRP.Settings.xpFixed'}}</label>
+      <div class="form-fields" style="flex: 1;">
+        <input class="centre" name="xpFixed" type="text" value="{{xpFixed.value}}"/>
+      </div>
+      <p class="settingNote">{{localize 'BRP.Settings.xpFixedHint'}}</p>
+    </div>   
+
+    <div class="form-group">
+      <label class="bold">{{localize 'BRP.Settings.xpRollDice'}}</label>
+      <div class="form-fields" style="flex: 1;">
+        <input type="checkbox" {{checked xpRollDice.value}} name="xpRollDice">
+      </div>
+      <p class="settingNote">{{localize 'BRP.Settings.xpRollDiceHint'}}</p>
+    </div>
+
+    <br>
+
+    <footer class="sheet-footer flexrow">
+      <button type="submit" name="submit">
+        <i class="far fa-save"></i> {{localize "Save Changes"}}
+      </button>
+      <button type="button" name="reset">
+        <i class="fas fa-undo"></i> {{localize "Reset Defaults"}}
+      </button>
+    </footer>
+  </form>

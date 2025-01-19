@@ -109,17 +109,6 @@ export class BRPSelectLists {
     return options;
   } 
 
-  //Skill Bonus List
-  static async getSkillBonusOptions () {    
-    let options = {
-      "0": game.i18n.localize("BRP.none"),
-      "1": game.i18n.localize("BRP.simple"),
-      "2": game.i18n.localize("BRP.advanced"),
-    };   
-    return options;
-  }
-
-
   //Advanced Skill Category Options List
   static async getAdvSkillCatOptions (){
     let options = {
@@ -127,6 +116,7 @@ export class BRPSelectLists {
       "1": game.i18n.localize("BRP.advSkillCat.1"),
       "2": game.i18n.localize("BRP.advSkillCat.2"),
       "3": game.i18n.localize("BRP.advSkillCat.3"),      
+      "4": game.i18n.localize("BRP.advSkillCat.4"),
     };   
     return options;
   }
@@ -339,16 +329,6 @@ export class BRPSelectLists {
       "4": game.i18n.localize("BRP.resultLevel.4"),
       "3": game.i18n.localize("BRP.resultLevel.3"),
       "2": game.i18n.localize("BRP.resultLevel.2"),
-    };   
-    return options;
-  }
-
-  //Reputation Options List
-  static async getReputationOptions (){
-    let options = {
-      "0": game.i18n.localize("BRP.none"),
-      "1": game.i18n.localize("BRP.single"),
-      "2": game.i18n.localize("BRP.multiple"),
     };   
     return options;
   }

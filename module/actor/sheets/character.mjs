@@ -1,7 +1,7 @@
 import { BRPContextMenu } from '../../setup/context-menu.mjs';
 import * as contextMenu from "../actor-cm.mjs";
 import {BRPactorItemDrop} from '../actor-itemDrop.mjs';
-import {BRPDamage} from '../../apps/damage.mjs';
+import {BRPDamage} from '../../combat/damage.mjs';
 import {BRPUtilities} from '../../apps/utilities.mjs';
 import {BRPRollType} from '../../apps/rollType.mjs';
 import { addBRPIDSheetHeaderButton } from '../../brpid/brpid-button.mjs'
@@ -21,7 +21,7 @@ export class BRPCharacterSheet extends ActorSheet {
 
     
     return foundry.utils.mergeObject(super.defaultOptions, {
-      classes: ["brp", "sheet", "actor"],
+      classes: ["brp", "sheet", "actor","character"],
       template: "systems/brp/templates/actor/character-sheet.html",
       width: 865,
       height: 850,
@@ -41,6 +41,7 @@ export class BRPCharacterSheet extends ActorSheet {
   async getData() {
     const context = super.getData();
     const actorData = this.actor.toObject(false);
+
     context.system = actorData.system;
     context.flags = actorData.flags;
     context.logo = game.settings.get('brp','charSheetLogo');
@@ -58,7 +59,11 @@ export class BRPCharacterSheet extends ActorSheet {
     if (actorData.system.wealth >=0 && actorData.system.wealth <=4 && actorData.system.wealth !="") {
       context.wealthName = game.i18n.localize('BRP.wealthLevel.'+actorData.system.wealth)
     }
-
+    context.magicLabel = game.settings.get('brp','magicLabel') ??  game.i18n.localize('BRP.magic')
+    context.mutationLabel = game.settings.get('brp','mutationLabel') ?? game.i18n.localize('BRP.mutation')
+    context.psychicLabel = game.settings.get('brp','psychicLabel') ?? game.i18n.localize('BRP.psychic')
+    context.sorceryLabel = game.settings.get('brp','sorceryLabel') ?? game.i18n.localize('BRP.sorcery')
+    context.superLabel = game.settings.get('brp','superLabel') ?? game.i18n.localize('BRP.super')
     context.isLocked = actorData.system.lock
     context.statLocked = true
     if (!actorData.system.lock &&  game.settings.get('brp','development')) {context.statLocked = false}
@@ -180,7 +185,6 @@ export class BRPCharacterSheet extends ActorSheet {
     const persTraits=[];
     const reputations = [];
 
-
     // Iterate through items, allocating to containers
     this.actor.system.totalProf = 0
     this.actor.system.totalPers = 0
@@ -202,6 +206,7 @@ export class BRPCharacterSheet extends ActorSheet {
     // Add items to containers.
     for (let itm of context.items) {
       itm.img = itm.img || DEFAULT_TOKEN;
+    
       if (itm.type === 'gear') {
         itm.system.equippedName = game.i18n.localize('BRP.'+itm.system.equipStatus)
         gears.push(itm);
@@ -776,6 +781,7 @@ export class BRPCharacterSheet extends ActorSheet {
     }  
     let messageData = {
       speaker: ChatMessage.getSpeaker({ actor: this.actor.name }),
+      actrImage: this.actor.img,
       results: results
     }
     const messageTemplate = 'systems/brp/templates/chat/rollStats.html'
@@ -828,6 +834,21 @@ export class BRPCharacterSheet extends ActorSheet {
       checkProp = {[`system.stats.${key}.redist`]: this.actor.system.stats[key].redist + 1}
     }
     await this.actor.update(checkProp)  
+  }
+
+  static renderSheet (sheet,html) {
+    if (game.settings.get('brp', 'secBackColour')) {
+      sheet.element.css(
+        '--labelback',
+        game.settings.get('brp', 'secBackColour')
+      )
+    }
+    if (game.settings.get('brp', 'actorBackColour')) {
+      sheet.element.css(
+        '--actor-sheet-back',
+        game.settings.get('brp', 'actorBackColour')
+      )
+    }
   }
 
 }

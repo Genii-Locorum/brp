@@ -61,9 +61,20 @@ export class GRCard {
     await roll.evaluate()
     let rollResult = Number(roll.result)
 
+    let diceRolled=""
+    for (let diceRoll = 0; diceRoll<roll.dice.length; diceRoll++) {
+      for (let thisDice = 0; thisDice<roll.dice[diceRoll].values.length; thisDice++){
+        if (thisDice !=0 || diceRoll !=0) {
+          diceRolled = diceRolled + ", "
+        }
+        diceRolled = diceRolled + roll.dice[diceRoll].values[thisDice]
+      }
+    }
+
     let successes = 0
     for (let i of chatCards) {
       i.rollResult = rollResult
+      i.diceRolled = diceRolled
       i.rollVal = rollResult
       i.resultLevel = await BRPCheck.successLevel({
         targetScore: i.targetScore,

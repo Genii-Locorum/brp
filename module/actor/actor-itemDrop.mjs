@@ -399,7 +399,7 @@ export class BRPactorItemDrop {
       }
 
       //If existing skill on actor then push to updateItems otherwise calculate base and push to addItems
-      let actItem = (await actor.items.filter(cItm => cItm.flags.brp.brpidFlag.id === nItm.flags.brp.brpidFlag.id))[0]
+      let actItem = (await actor.items.filter(dItm => dItm.getFlag('brp','brpidFlag')?.id).filter(cItm => cItm.flags.brp.brpidFlag.id === nItm.flags.brp.brpidFlag.id))[0]
       if (actItem) {
         if (itm.type === 'personality') {
           updateItems.push({_id: actItem._id, 'system.personality': nItm.system.personality, 'system.prsnlty': nItm.system.prsnlty})
@@ -639,7 +639,7 @@ export class BRPactorItemDrop {
     static async _checkSkillCat(skill,actor) {
       //Check to see if the skill category already exists and if it does then do nothing
       let newSkillCats = []
-      if (actor.items.filter(nitm=> nitm.flags.brp.brpidFlag.id === skill.system.category).length >0) {
+      if (actor.items.filter(dItm => dItm.getFlag('brp','brpidFlag')?.id).filter(nitm=> nitm.flags.brp.brpidFlag.id === skill.system.category).length >0) {
         return
       } 
       //Get the best version of the skill category

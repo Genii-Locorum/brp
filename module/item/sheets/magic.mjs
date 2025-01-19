@@ -30,12 +30,16 @@ export class BRPMagicSheet extends ItemSheet {
     const itemData = sheetData.item
     sheetData.hasOwner = this.item.isEmbedded === true
     sheetData.isGM = game.user.isGM
+    sheetData.powerName = game.settings.get('brp',this.item.type+'Label')
+    if (sheetData.powerName === "") {
+      sheetData.powerName = game.i18n.localize("BRP."+this.item.type)
+    }
     //Get drop down options from select-lists.mjs
-      sheetData.catOptions = await BRPSelectLists.getSpellCatOptions();
-      sheetData.catName = game.i18n.localize("BRP." + this.item.system.impact);
-      sheetData.skillCatOptions = await BRPSelectLists.getCategoryOptions();
-      let skillCat = (await game.system.api.brpid.fromBRPIDBest({brpid:this.item.system.category}))[0]
-      if (skillCat) {
+    sheetData.catOptions = await BRPSelectLists.getSpellCatOptions();
+    sheetData.catName = game.i18n.localize("BRP." + this.item.system.impact);
+    sheetData.skillCatOptions = await BRPSelectLists.getCategoryOptions();
+    let skillCat = (await game.system.api.brpid.fromBRPIDBest({brpid:this.item.system.category}))[0]
+    if (skillCat) {
       sheetData.skillCatName = skillCat.name
       } else {
         sheetData.skillCatName = ""

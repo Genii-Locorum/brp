@@ -1,0 +1,94 @@
+<form class="brp flexcol" autocomplete="off">
+    <h2 class="bold">{{localize 'BRP.Settings.powerRules'}}</h2>
+
+    <div class="form-group">
+      <label class="bold">{{localize 'BRP.Settings.useMagic'}}</label>
+      <div class="form-fields" style="flex: 1;">
+        <input type="checkbox" {{checked magic.value}} name="magic">
+      </div>
+      <p class="settingNote">{{localize 'BRP.Settings.useMagicHint'}}</p>
+    </div>
+
+    <div class="form-group">
+      <label class="bold">{{localize 'BRP.Settings.magicLabel'}}</label>
+      <div class="form-fields" style="flex: 1;">
+        <input class="centre" name="magicLabel" type="text" value="{{magicLabel.value}}"/>
+      </div>
+      <p class="settingNote">{{localize 'BRP.Settings.magicLabelHint'}}</p>
+    </div>
+
+    <div class="form-group">
+        <label class="bold">{{localize 'BRP.Settings.useMutation'}}</label>
+        <div class="form-fields" style="flex: 1;">
+          <input type="checkbox" {{checked mutation.value}} name="mutation">
+        </div>
+        <p class="settingNote">{{localize 'BRP.Settings.useMutationHint'}}</p>
+      </div>
+  
+      <div class="form-group">
+        <label class="bold">{{localize 'BRP.Settings.mutationLabel'}}</label>
+        <div class="form-fields" style="flex: 1;">
+          <input class="centre" name="mutationLabel" type="text" value="{{mutationLabel.value}}"/>
+        </div>
+        <p class="settingNote">{{localize 'BRP.Settings.mutationLabelHint'}}</p>
+      </div>
+
+      <div class="form-group">
+        <label class="bold">{{localize 'BRP.Settings.usePsychic'}}</label>
+        <div class="form-fields" style="flex: 1;">
+          <input type="checkbox" {{checked psychic.value}} name="psychic">
+        </div>
+        <p class="settingNote">{{localize 'BRP.Settings.usePsychicHint'}}</p>
+      </div>
+  
+      <div class="form-group">
+        <label class="bold">{{localize 'BRP.Settings.psychicLabel'}}</label>
+        <div class="form-fields" style="flex: 1;">
+          <input class="centre" name="psychicLabel" type="text" value="{{psychicLabel.value}}"/>
+        </div>
+        <p class="settingNote">{{localize 'BRP.Settings.psychicLabelHint'}}</p>
+      </div>
+
+      <div class="form-group">
+        <label class="bold">{{localize 'BRP.Settings.useSorcery'}}</label>
+        <div class="form-fields" style="flex: 1;">
+          <input type="checkbox" {{checked sorcery.value}} name="sorcery">
+        </div>
+        <p class="settingNote">{{localize 'BRP.Settings.useSorceryHint'}}</p>
+      </div>
+  
+      <div class="form-group">
+        <label class="bold">{{localize 'BRP.Settings.sorceryLabel'}}</label>
+        <div class="form-fields" style="flex: 1;">
+          <input class="centre" name="sorceryLabel" type="text" value="{{sorceryLabel.value}}"/>
+        </div>
+        <p class="settingNote">{{localize 'BRP.Settings.sorceryLabelHint'}}</p>
+      </div>
+
+      <div class="form-group">
+        <label class="bold">{{localize 'BRP.Settings.useSuper'}}</label>
+        <div class="form-fields" style="flex: 1;">
+          <input type="checkbox" {{checked super.value}} name="super">
+        </div>
+        <p class="settingNote">{{localize 'BRP.Settings.useSuperHint'}}</p>
+      </div>
+  
+      <div class="form-group">
+        <label class="bold">{{localize 'BRP.Settings.superLabel'}}</label>
+        <div class="form-fields" style="flex: 1;">
+          <input class="centre" name="superLabel" type="text" value="{{superLabel.value}}"/>
+        </div>
+        <p class="settingNote">{{localize 'BRP.Settings.superLabelHint'}}</p>
+      </div>                    
+
+      <br>
+
+    <footer class="sheet-footer flexrow">
+      <button type="submit" name="submit">
+        <i class="far fa-save"></i> {{localize "Save Changes"}}
+      </button>
+      <button type="button" name="reset">
+        <i class="fas fa-undo"></i> {{localize "Reset Defaults"}}
+      </button>
+    </footer>
+  </form>
