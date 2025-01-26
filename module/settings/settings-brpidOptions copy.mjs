@@ -1,32 +1,33 @@
 const SETTINGS = {
 
-  actorBackColour: {
-    name: "BRP.Settings.actorBackColour",
-    hint: "BRP.Settings.actorBackColourHint",
+  actorBRPID: {
+    name: "BRP.Settings.actorBRPID",
+    hint: "BRP.Settings.actorBRPIDHint",
     scope: "world",
     config: false,
-    type: String,
-    default: ""
+    type: Boolean,
+    default: false
   },
 
-  secBackColour: {
-    name: "BRP.Settings.secBackColour",
-    hint: "BRP.Settings.secBackColourHint",
+  itemBRPID: {
+    name: "BRP.Settings.itemBRPID",
+    hint: "BRP.Settings.itemBRPIDHint",
     scope: "world",
     config: false,
-    type: String,
-    default: ""
+    type: Boolean,
+    default: false
   },
 
+  
 }
 
-export class BRPDisplaySettings extends FormApplication {
+export class BRPbrpidSettings extends FormApplication {
   static get defaultOptions () {
     return foundry.utils.mergeObject(super.defaultOptions, {
       title: 'BRP.brpSettings',
       classes: ["brp","rulesmenu"],
-      id: 'display-settings',
-      template: 'systems/brp/templates/settings/display-settings.html',
+      id: 'char-settings',
+      template: 'systems/brp/templates/settings/brpid-settings.html',
       width: 550,
       height: 'auto',
       closeOnSubmit: true

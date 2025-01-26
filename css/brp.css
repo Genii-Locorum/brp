@@ -11,9 +11,21 @@
 :root {
   --labelback: #a2c2bb;
   --actor-sheet-back: rgb(217, 219, 218);
+  --actor-font-colour: black;
+  --actor-title-colour: rgba(68, 7, 4, 1);
+  --actor-tab-name-colour: black;
+  --actor-tab-active-colour: cornsilk;
+  --actor-tab-name-active-shadow: black;
+  --actor-tab-name-hover-colour: black;
+  --actor-tab-name-hover-shadow: red;
+  --actor-rollable-colour: black;
+  --actor-rollable-shadow: red;
+  --actor-back-img: none;
+  --actor-main-font: "Roboto";
+  --actor-title-font: "Modesto";
+  --actor-main-font-size: 16px;
+  --actor-title-font-size: 20px;
 }
-
-
 
 /* Global styles */
 .window-app {
@@ -29,14 +41,21 @@
 }
 
 .rollable:hover, .rollable:focus,.contextmenu:hover, .contextmenu:focus, .item-toggle:hover, .item-toggle:focus, .item-view:hover, .item-view:focus{
-  color: #000;
-  text-shadow: 0px 0px 5px red;
+  color: var(--actor-rollable-colour);
+  text-shadow: 0px 0px 5px var(--actor-rollable-shadow);
   font-weight:bold;
   cursor: pointer;
 }
 
-.brp .character {
+
+
+.character .window-content {
+  background-image: var(--actor-back-img);
+  background-size: cover;
+  padding: 8px;
+  color: var(--actor-font-colour);
   background-color: var(--actor-sheet-back);
+  font-family: var(--actor-main-font);
 }
 
 .brp .main-sheet {
@@ -45,11 +64,12 @@
 }
 
 .brp .sheet-title {
-  color:rgba(68, 7, 4, 1);
+  color:var(--actor-title-colour);
   font-weight:bold;
   text-align: center;
   text-transform:uppercase;
-  font-family:"Modesto";
+  font-family: var(--actor-title-font);
+  font-size: var(--actor-title-font-size);
   margin: 0px 0px 0px 0px;
   max-height: 58px;
 }
@@ -104,7 +124,7 @@
   padding: 0px 5px 0px 5px;
   row-gap: 0px;
   column-gap: 5px;
-  font-size: 14px;
+  font-size: calc(var(--actor-main-font-size) - 2px);
   grid-template-columns: max-content auto;
 }
 
@@ -114,7 +134,7 @@
   padding: 0px 5px 0px 5px;
   row-gap: 0px;
   column-gap: 5px;
-  font-size: 16px;
+  font-size: var(--actor-main-font-size);
   grid-template-columns: 200px 50px 30px 200px 50px;
 }
 
@@ -124,7 +144,7 @@
   padding: 0px 5px 0px 5px;
   row-gap: 0px;
   column-gap: 5px;
-  font-size: 14px;
+  font-size: calc(var(--actor-main-font-size) - 2px);
   grid-template-columns: 100px 150px 110px 90px;
 }
 
@@ -137,7 +157,7 @@
 
 .brp .personal-display {
   height:16px;
-  font-size: 14px;
+  font-size: calc(var(--actor-main-font-size) - 2px);
   border-top : 1px solid transparent;
   border-left : 1px solid transparent;
   border-right : 1px solid transparent;
@@ -150,6 +170,21 @@
 }
 
 .brp .personal-inp {
+  height:16px;
+  font-size: calc(var(--actor-main-font-size) - 2px);
+  border-top : 1px solid transparent;
+  border-left : 1px solid transparent;
+  border-right : 1px solid transparent;
+  border-bottom : 1px solid rgb(87, 86, 86);
+  border-radius: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  background-color: transparent;
+  vertical-align: middle;
+  color: var(--actor-font-colour);
+}
+
+.brp .npcpersonal-inp {
   height:16px;
   font-size: 14px;
   border-top : 1px solid transparent;
@@ -165,7 +200,7 @@
 
 .brp .personal-inp:hover  {
   height:16px;
-  font-size: 14px;
+  font-size: calc(var(--actor-main-font-size) - 2px);
   border : 1px solid rgb(75, 1, 1) !important;
   border-radius: 3px !important;
   padding-top: 0px;
@@ -180,7 +215,7 @@
   margin:0px;
   padding: 0px 0px 0px 5px;
   gap: 0px;
-  font-size: 14px;
+  font-size: calc(var(--actor-main-font-size) - 2px);
   border-left: 2px solid rgba(68, 7, 4, 1);
   border-right: 2px solid rgba(68, 7, 4, 1);
   grid-template-columns: 40px 35px 20px 10px 90px 40px;
@@ -240,12 +275,12 @@
 }
 
 .brp .resource-label {
-  color: rgba(68, 7, 4, 1);
+  color: var(--actor-title-colour);
   font-weight:bold;
   text-align: center;
   text-transform:uppercase;
-  font-family:"Modesto";
-  font-size: 20px;
+  font-family: var(--actor-title-font);
+  font-size: var(--actor-title-font-size);
   margin: 0px;
 }
 
@@ -254,7 +289,7 @@
   margin:0px;
   padding: 0px;
   gap: 0px;
-  font-size: 14px;
+  font-size: calc(var(--actor-main-font-size) - 2px);
   grid-template-columns: auto 50px 20px 50px auto;
 }
 
@@ -270,6 +305,7 @@
   padding-bottom: 0px;
   background-color: transparent;
   vertical-align: middle;
+  color: var(--actor-font-colour);
 }
 
 .brp .attrib-inp:hover{
@@ -312,17 +348,23 @@
 
 .brp nav.sheet-tabs .item {
   text-align: center;
-  font-family:"Modesto";
+  font-family: var(--actor-title-font);
   font-weight:bold;
-  font-size: 20px;
+  font-size: var(--actor-title-font-size);
   text-transform:uppercase;
   padding: 5px 8px 5px 8px;
   height: 30px;
+  color: var(--actor-tab-name-colour);
+}
+
+.brp .tabs .item:hover {
+  color: var(--actor-tab-name-hover-colour);
+  text-shadow: 0px 0px 5px var(--actor-tab-name-hover-shadow);
 }
 
 .brp .tabs .item.active {
-  text-shadow:  0 0 5px rgb(255, 123, 0);
-  color: cornsilk;
+  text-shadow: 0px 0px 5px var(--actor-tab-name-active-shadow);
+  color: var(--actor-tab-active-colour);
 }
 
 .sheet nav.sheet-tabs {
@@ -374,32 +416,36 @@
   padding: 2px 2px 2px 2px;
   row-gap: 0px;
   column-gap: 10px;
-  font-size: 14px;
+  font-size: calc(var(--actor-main-font-size) - 2px);
   grid-template-columns: 60px 70px 90px 90px 70px 90px 70px 70px 90px 30px;
 }
 
 .brp .diff-label {
-  color: rgba(68, 7, 4, 1);
+  color: var(--actor-title-colour);
   font-weight:bold;
   text-transform:uppercase;
-  font-family:"Modesto";
-  font-size: 20px;
-}
-
-.brp .font20 {
-  font-size: 20px;
+  font-family: var(--actor-title-font);
+  font-size: var(--actor-title-font-size);
 }
 
 .brp .font16 {
   font-size: 16px;
 }
 
+.brp .character .font16 {
+  font-size: var(--actor-main-font-size);
+}
+
 .brp .font14 {
   font-size: 14px;
 }
 
+.brp .character .font14{
+  font-size: calc(var(--actor-main-font-size) - 2px);
+}
+
 .brp .font16-inp {
-  font-size: 16px;
+  font-size: var(--actor-main-font-size);
   height: 21px;
   background-color: transparent;
   border-top : 0px;
@@ -409,10 +455,11 @@
   border-radius: 0px;
   padding-top: 0px;
   padding-bottom: 0px;
+  color: var(--actor-font-colour);
 }
 
 .brp .font16-disp {
-  font-size: 16px;
+  font-size: var(--actor-main-font-size);
   height: 21px;
   background-color: transparent;
   border-top : 0px;
@@ -461,6 +508,7 @@
 .brp .title-name input {
   text-align: center;
   font-weight: bold;
+  color: var(--actor-title-colour);
   border-color: rgba(68, 7, 4, 1);
   height: 20px;
 }
@@ -574,6 +622,7 @@ padding-top: 4px;
   text-align: center;
   font-weight: bold;
   border-color: rgba(68, 7, 4, 1);
+  color: var(--actor-font-colour);
   height: 18px;
 }
 
@@ -599,6 +648,7 @@ padding-top: 4px;
   font-weight: bold;
   border-color: rgba(68, 7, 4, 1);
   height: 18px;
+  color: var(--actor-font-colour);
 }  
 
 .brp .stat-input-small select {
@@ -616,6 +666,11 @@ padding-top: 4px;
   padding-left:15px;
   height: 18px;
   width: 150px;
+  color: var(--actor-font-colour);
+}
+
+.brp .character .lock-icon {
+  color: var(--actor-tab-name-colour);
 }
 
 .brp .weapon-input input {
@@ -682,7 +737,7 @@ padding-top: 4px;
   row-gap: 0px;
   column-gap: 0px;
   font-size: 14px;
-  grid-template-columns: max-content 60px 60px 60px 60px 60px 60px 60px 60px 60px;
+  grid-template-columns: 250px 60px 60px 60px 60px 60px 60px 60px 60px 60px;
   border-right: 1px solid black;
   border-bottom: 1px solid black;
 }
@@ -690,6 +745,7 @@ padding-top: 4px;
 .brp .skill-cell {
   border-top: 1px solid black;
   border-left: 1px solid black;
+  color: var(--actor-font-colour);
 }
 
 .brp .skill-cell-name {
@@ -697,14 +753,6 @@ padding-top: 4px;
   padding-right: 5px;
   border-top: 1px solid black;
   border-left: 1px solid black;
-}
-
-.brp .diff-label {
-  color: rgba(68, 7, 4, 1);
-  font-weight:bold;
-  text-transform:uppercase;
-  font-family:"Modesto";
-  font-size: 20px;
 }
 
 .brp .skill-occ {
@@ -749,6 +797,7 @@ padding-top: 4px;
   padding-left: 2px;
   padding-right: 2px;
   width: 100%;
+  color: var(--actor-font-colour);
 }
 
 .brp .skill-listitem {
@@ -763,7 +812,7 @@ padding-top: 4px;
   align-self: center;
   font-weight: bolder;
   height:20px;
-  color: rgba(68, 7, 4, 1);
+  color: var(--actor-title-colour);
   border-bottom: solid 1px rgba(68, 7, 4, 1);
  }
 
@@ -868,7 +917,7 @@ padding-top: 4px;
 
 .brp .background-doc{
   border: 1px solid rgba(68, 7, 4, 1);
-  font-size:14px;
+  font-size: calc(var(--actor-main-font-size) - 2px);
   font-weight: bold;
   padding-left: 10px;
   padding-right: 10px;
@@ -892,7 +941,7 @@ padding-top: 4px;
 
 .brp .deriv-name{
   margin: auto 0px auto 0px;
-  font-size: 14px;
+  font-size: calc(var(--actor-main-font-size) - 2px);
 }
 
 .brp .horizontalboxed {
@@ -1205,6 +1254,8 @@ padding-top: 4px;
   font-size: 14px;
   font-weight: bold;
   padding-left: 2px;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 
 .brp .actor-roll .roll-details .header .a{
@@ -1591,4 +1642,17 @@ padding-top: 4px;
 
 .brp form .brpform-group > label {
   flex: .5;
+}
+
+.brp .background-subtitle {
+  font-weight: bold;
+  color: var(--actor-title-colour);
+}
+
+.brp .settingsButton{
+  max-height: 35px;
+}
+
+.brp .settingsForm{
+  max-height: 550px;
 }

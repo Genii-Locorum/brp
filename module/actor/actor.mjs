@@ -406,6 +406,38 @@ export class BRPActor extends Actor {
     systemData.power.max = systemData.stats.pow.total+systemData.power.mod;
     systemData.xpBonus = Math.ceil(systemData.stats.int.total/2);
     systemData.dmgBonus = this._damageBonus (systemData.stats.str.total+systemData.stats.siz.total)
+
+    //Set Resource Labels
+    if (game.settings.get('brp','ppLabelLong')) {
+      systemData.power.label = game.settings.get('brp','ppLabelLong')
+    } else {
+      systemData.power.label = game.i18n.localize('BRP.pp')
+    }
+    if (game.settings.get('brp','ppLabelShort')) {
+      systemData.power.labelAbbr = game.settings.get('brp','ppLabelShort')
+    } else {
+      systemData.power.labelAbbr = game.i18n.localize('BRP.ppShort')
+    }
+    if (game.settings.get('brp','hpLabelLong')) {
+      systemData.health.label = game.settings.get('brp','hpLabelLong')
+    } else {
+      systemData.health.label = game.i18n.localize('BRP.health')
+    }
+    if (game.settings.get('brp','hpLabelShort')) {
+      systemData.health.labelAbbr = game.settings.get('brp','hpLabelShort')
+    } else {
+      systemData.health.labelAbbr = game.i18n.localize('BRP.hp')
+    }
+    if (game.settings.get('brp','fpLabelLong')) {
+      systemData.fatigue.label = game.settings.get('brp','fpLabelLong')
+    } else {
+      systemData.fatigue.label = game.i18n.localize('BRP.fatigue')
+    }
+    if (game.settings.get('brp','fpLabelShort')) {
+      systemData.fatigue.labelAbbr = game.settings.get('brp','fpLabelShort')
+    } else {
+      systemData.fatigue.labelAbbr = game.i18n.localize('BRP.fp')
+    }
   }
 
   //Used for Rolling NPCs when token dropped

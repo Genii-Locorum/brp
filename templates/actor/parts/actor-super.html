@@ -3,7 +3,7 @@
     <div class="diff-label">{{superLabel}}</div>
     <div class="diff-label centre" title="{{ localize 'BRP.rangePsyHint'}}">{{ localize 'BRP.range'}}</div>
     <div class="diff-label centre">{{ localize 'BRP.duration'}}</div>
-    <div class="diff-label centre" title ="{{localize 'BRP.ppplHint'}}">{{#if useMP}}{{ localize "BRP.mpCost" }}{{else}}{{ localize "BRP.ppCost" }}{{/if}}</div>
+    <div class="diff-label centre" title ="{{localize 'BRP.ppplHint' label=system.power.labelAbbr}}">{{system.power.labelAbbr}}</div>
     <div class="diff-label centre">{{ localize 'BRP.level'}}</div>
   </div>    
   {{#each superpowers as |super id|}}

@@ -7,7 +7,7 @@ import { preloadHandlebarsTemplates } from "./setup/templates.mjs";
 import { handlebarsHelper } from './setup/handlebar-helper.mjs';
 import { BRP } from "./setup/config.mjs";
 import { BRPHooks } from './hooks/index.mjs'
-import { registerSettings } from './setup/register-settings.mjs'
+import { registerSettings } from './settings/register-settings.mjs'
 import { BRPSystemSocket } from "./apps/socket.mjs"
 import { BRPUtilities } from "./apps/utilities.mjs"
 import { BRPMenu } from "./setup/layers.mjs"

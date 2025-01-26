@@ -109,7 +109,7 @@
 
           {{#if (eq item.system.weaponType 'artillery')}}
             <div class="weapon-2main-scores">
-              <div class="skill-display">{{localize 'BRP.ap'}}/{{localize 'BRP.hp'}}</div>
+              <div class="skill-display">{{localize 'BRP.ap'}}/{{item.system.healthLabelAbbr}}</div>
               <div class="weapon-input"><input name="system.ap" type="text" value="{{item.system.ap}}" data-dtype="Number"/></div>
               <div class="weapon-input"><input name="system.hp" type="text" value="{{item.system.hp}}" data-dtype="Number"/></div>
             </div>  
@@ -119,7 +119,7 @@
                 <div class="skill-display">{{localize 'BRP.ap'}}</div>
                 <div class="weapon-input"><input name="system.ap" type="text" value="{{item.system.ap}}" data-dtype="Number"/></div>
               {{else}}
-                <div class="skill-display">{{localize 'BRP.hp'}}</div>
+                <div class="skill-display">{{item.system.healthLabelAbbr}}</div>
                 <div class="weapon-input"><input name="system.hp" type="text" value="{{item.system.hp}}" data-dtype="Number"/></div>
               {{/if}}
             </div>  
@@ -156,9 +156,9 @@
             </div>
             <div class="skill-display">{{localize 'BRP.encSiz'}}</div>
             <div class="weapon-input"><input name="system.enc" type="text" value="{{item.system.enc}}" data-dtype="Number"/></div>
-            <div class="skill-display">{{#if useMP}}{{localize 'BRP.mpStoreCurr'}}{{else}}{{localize 'BRP.ppStoreCurr'}}{{/if}}</div> 
+            <div class="skill-display">{{localize 'BRP.ppStoreCurr' label=item.system.powerLabelAbbr}}</div> 
             <div class="weapon-input"><input name="system.pSCurr" type="text" value="{{item.system.pSCurr}}" data-dtype="Number"/></div>              
-            <div class="skill-display">{{#if useMP}}{{localize 'BRP.mpStoreMax'}}{{else}}{{localize 'BRP.ppStoreMax'}}{{/if}}</div>
+            <div class="skill-display">{{localize 'BRP.ppStoreMax' label=item.system.powerLabelAbbr}}</div>
             <div class="weapon-input"><input name="system.pSMax" type="text" value="{{item.system.pSMax}}" data-dtype="Number"/></div>
             {{#if (eq item.system.weaponType 'shield')}}
               <div class="skill-display">{{localize 'BRP.coverage'}}</div>
@@ -194,7 +194,7 @@
 
             {{#if (eq item.system.weaponType 'artillery')}}
               <div class="weapon-2main-scores">
-                <div class="skill-display">{{localize 'BRP.ap'}}/{{localize 'BRP.hp'}}</div>
+                <div class="skill-display">{{localize 'BRP.ap'}}/{{item.system.healthLabelAbbr}}</div>
                 <div class="weapon-display centre boxed">{{item.system.ap}}</div>
                 <div class="weapon-display centre boxed">{{item.system.hp}}</div>
               </div>  
@@ -204,7 +204,7 @@
                   <div class="skill-display">{{localize 'BRP.ap'}}</div>
                   <div class="weapon-display centre boxed">{{item.system.ap}}</div>
                 {{else}}
-                  <div class="skill-display">{{localize 'BRP.hp'}}</div>
+                  <div class="skill-display">{{item.system.healthLabelAbbr}}</div>
                   <div class="weapon-display centre boxed">{{item.system.hp}}</div>
                 {{/if}}
               </div>  
@@ -237,9 +237,9 @@
               <div class="weapon-display centre boxed">{{priceName}}</div>            
               <div class="skill-display">{{localize 'BRP.enc'}}</div>
               <div class="weapon-display centre boxed">{{item.system.enc}}</div>
-              <div class="skill-display">{{#if useMP}}{{localize 'BRP.mpStoreCurr'}}{{else}}{{localize 'BRP.ppStoreCurr'}}{{/if}}</div> 
+              <div class="skill-display">{{localize 'BRP.ppStoreCurr' label=item.system.powerLabelAbbr}}</div> 
               <div class="weapon-input"><input name="system.pSCurr" type="text" value="{{item.system.pSCurr}}" data-dtype="Number"/></div>              
-              <div class="skill-display">{{#if useMP}}{{localize 'BRP.mpStoreMax'}}{{else}}{{localize 'BRP.ppStoreMax'}}{{/if}}</div>
+              <div class="skill-display">{{localize 'BRP.ppStoreMax' label=item.system.powerLabelAbbr}}</div>
               <div class="weapon-input"><input name="system.pSMax" type="text" value="{{item.system.pSMax}}" data-dtype="Number"/></div>
               {{#if (eq item.system.weaponType 'shield')}}
                 <div class="skill-display">{{localize 'BRP.coverage'}}</div>
@@ -276,7 +276,7 @@
                 {{selectOptions equippedOptions selected=item.system.equipStatus}}
               </select>
             </div>
-            <div class="skill-display">{{localize 'BRP.hpCurr'}}/{{localize 'BRP.ammo'}}</div>
+            <div class="skill-display">{{localize 'BRP.hpCurr' label=item.system.healthLabelAbbr}}/{{localize 'BRP.ammo'}}</div>
             <div class="weapon-input"><input name="system.hpCurr" type="text" value="{{item.system.hpCurr}}" data-dtype="Number"/></div>
             <div class="weapon-input"><input name="system.ammoCurr" type="text" value="{{item.system.ammoCurr}}" data-dtype="Number"/></div>
             <div class="skill-display">{{localize 'BRP.quantity'}}</div>

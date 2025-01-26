@@ -46,7 +46,6 @@ export class BRPCharacterSheet extends ActorSheet {
     context.flags = actorData.flags;
     context.logo = game.settings.get('brp','charSheetLogo');
     context.useEDU = game.settings.get('brp','useEDU');
-    context.useMP = game.settings.get('brp','useMP');
     context.useFP = game.settings.get('brp','useFP');
     context.useSAN = game.settings.get('brp','useSAN');
     context.useHPL = game.settings.get('brp','useHPL');
@@ -836,7 +835,20 @@ export class BRPCharacterSheet extends ActorSheet {
     await this.actor.update(checkProp)  
   }
 
+  //Implement Game Settings for Colours
   static renderSheet (sheet,html) {
+    if (game.settings.get('brp', 'actorFontColour')) {
+      sheet.element.css(
+        '--actor-font-colour',
+        game.settings.get('brp', 'actorFontColour')
+      )
+    }
+    if (game.settings.get('brp', 'actorTitleColour')) {
+      sheet.element.css(
+        '--actor-title-colour',
+        game.settings.get('brp', 'actorTitleColour')
+      )
+    }
     if (game.settings.get('brp', 'secBackColour')) {
       sheet.element.css(
         '--labelback',
@@ -849,6 +861,115 @@ export class BRPCharacterSheet extends ActorSheet {
         game.settings.get('brp', 'actorBackColour')
       )
     }
+    if (game.settings.get('brp', 'actorTabNameColour')) {
+      sheet.element.css(
+        '--actor-tab-name-colour',
+        game.settings.get('brp', 'actorTabNameColour')
+      )
+    }
+    if (game.settings.get('brp', 'actorTabNameActiveColour')) {
+      sheet.element.css(
+        '--actor-tab-active-colour',
+        game.settings.get('brp', 'actorTabNameActiveColour')
+      )
+    }
+    if (game.settings.get('brp', 'actorTabNameHoverColour')) {
+      sheet.element.css(
+        '--actor-tab-name-hover-colour',
+        game.settings.get('brp', 'actorTabNameHoverColour')
+      )
+    }
+    if (game.settings.get('brp', 'actorTabNameShadowColour')) {
+      sheet.element.css(
+        '--actor-tab-name-hover-shadow',
+        game.settings.get('brp', 'actorTabNameShadowColour')
+      )
+    }        
+    if (game.settings.get('brp', 'actorTabActiveShadowColour')) {
+      sheet.element.css(
+        '--actor-tab-name-active-shadow',
+        game.settings.get('brp', 'actorTabActiveShadowColour')
+      )
+    }  
+    if (game.settings.get('brp', 'actorRollableColour')) {
+      sheet.element.css(
+        '--actor-rollable-colour',
+        game.settings.get('brp', 'actorRollableColour')
+      )
+    }  
+    if (game.settings.get('brp', 'actorRollableShadowColour')) {
+      sheet.element.css(
+        '--actor-rollable-shadow',
+        game.settings.get('brp', 'actorRollableShadowColour')
+      )
+    }      
+    if (game.settings.get('brp', 'actorSheetBackground')) {
+      let imagePath = "url(/"+game.settings.get('brp', 'actorSheetBackground')+")"
+      sheet.element.css(
+        '--actor-back-img',
+        imagePath
+      )
+    }  
+    if (game.settings.get('brp', 'charSheetMainFont')) {
+      let fontSource="url(/"+game.settings.get('brp', 'charSheetMainFont')+")"
+      const customSheetFont = new FontFace(
+        'customSheetFont',
+        fontSource
+      )
+      customSheetFont
+        .load()
+        .then(function (loadedFace) {
+          document.fonts.add(loadedFace)
+        })
+        .catch(function (error) {
+          ui.notifications.error(error)
+        })
+      sheet.element.css(
+        '--actor-main-font',
+        'customSheetFont'
+      )  
+    }
+    if (game.settings.get('brp', 'charSheetTitleFont')) {
+      let fontSource="url(/"+game.settings.get('brp', 'charSheetTitleFont')+")"
+      const customSheetSecondaryFont = new FontFace(
+        'customSheetSecondaryFont',
+        fontSource
+      )
+      customSheetSecondaryFont
+        .load()
+        .then(function (loadedFace) {
+          document.fonts.add(loadedFace)
+        })
+        .catch(function (error) {
+          ui.notifications.error(error)
+        })
+      sheet.element.css(
+        '--actor-title-font',
+        'customSheetSecondaryFont'
+      )  
+    }
+    if (game.settings.get('brp', 'charSheetMainFontSize')) {
+      let fontSize = game.settings.get('brp', 'charSheetMainFontSize')+"px"
+      sheet.element.css(
+        '--actor-main-font-size',
+        fontSize
+      )
+    } 
+    if (game.settings.get('brp', 'charSheetTitleFontSize')) {
+      let fontSize = game.settings.get('brp', 'charSheetTitleFontSize')+"px"
+      sheet.element.css(
+        '--actor-title-font-size',
+        fontSize
+      )
+    } 
+
+
+
+
+
+
+
+
   }
 
 }

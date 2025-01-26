@@ -29,7 +29,6 @@ export class BRPArmourSheet extends ItemSheet {
       const sheetData = super.getData()
       const itemData = sheetData.item
       sheetData.hasOwner = this.item.isEmbedded === true
-      sheetData.useMP = game.settings.get('brp','useMP');
       const actor = this.item.parent
       sheetData.isGM = game.user.isGM
       //Get drop down options from select-lists.mjs

@@ -28,7 +28,7 @@
             {{#if isGM}}  
               <div class="skill-display">{{ localize "BRP.range" }}</div>
               <div class="stat-input"><input name="system.range" type="text" value="{{item.system.range}}"/></div>
-              <div class="skill-display" title ="{{localize 'BRP.ppplHint'}}">{{#if useMP}}{{ localize "BRP.mpCost" }}{{else}}{{ localize "BRP.ppCost" }}{{/if}}</div>
+              <div class="skill-display" title ="{{localize 'BRP.ppplHint' label=item.system.powerLabel}}">{{localize "BRP.ppCost" label=item.system.powerLabelAbbr}}</div>
               <div class="stat-input"><input name="system.pppl" type="text" value="{{item.system.pppl}}" data-dtype="Number"/></div>
               <div class="skill-display" title ="{{localize 'BRP.costLvlHint'}}">{{ localize "BRP.powCost" }}</div>
               <div class="stat-input"><input name="system.powCost" type="text" value="{{item.system.powCost}}"/></div>

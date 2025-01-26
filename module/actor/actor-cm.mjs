@@ -836,7 +836,7 @@ export const woundMenuOptions = (actor,token) => [
 //Gear Item Context Menu Options 
 export const powerAttMenuOptions = (actor,token) => [
   {
-    name: game.i18n.localize("BRP.fatigue"),
+    name: actor.system.power.label,
     icon: "",
     condition: () => true,
     callback: (el) => {}
@@ -870,13 +870,13 @@ export const powerAttMenuOptions = (actor,token) => [
 //Gear Item Context Menu Options 
 export const fatigueAttMenuOptions = (actor,token) => [
   {
-    name: game.i18n.localize("BRP.fatigue"),
+    name: actor.system.fatigue.label,
     icon: "",
     condition: () => true,
     callback: (el) => {}
   },
   {
-    name: game.i18n.localize("BRP.fpSpend"),
+    name: game.i18n.localize("BRP.ppSpend"),
     icon: '<i class="fas fa-person-running"></i>',
     condition: () => true,
     callback: (el) => {
@@ -884,7 +884,7 @@ export const fatigueAttMenuOptions = (actor,token) => [
     }
   },
   {
-    name: game.i18n.localize("BRP.fpRecover"),
+    name: game.i18n.localize("BRP.ppRecover"),
     icon: '<i class="fas fa-bed-empty"></i>',
     condition: () => true,
     callback: (el) => {
@@ -892,7 +892,7 @@ export const fatigueAttMenuOptions = (actor,token) => [
     }
   },
   {
-    name: game.i18n.localize("BRP.fpRecoverAll"),
+    name: game.i18n.localize("BRP.ppRecoverAll"),
     icon: '<i class="fas fa-sun"></i>',
     condition: () => true,
     callback: (el) => {

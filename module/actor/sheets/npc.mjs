@@ -18,7 +18,7 @@ export class BRPNpcSheet extends ActorSheet {
       classes: ["brp", "sheet", "actor"],
       template: "systems/brp/templates/actor/npc-sheet.html",
       width: 595,
-      height: 750,
+      height: 770,
     });
   }
 
@@ -36,7 +36,6 @@ export class BRPNpcSheet extends ActorSheet {
     context.system = actorData.system;
     context.flags = actorData.flags;
     context.useEDU = game.settings.get('brp','useEDU');
-    context.useMP = game.settings.get('brp','useMP');
     context.useFP = game.settings.get('brp','useFP');
     context.useSAN = game.settings.get('brp','useSAN');
     context.useHPL = game.settings.get('brp','useHPL');

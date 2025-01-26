@@ -6,8 +6,8 @@
     <div class="diff-label centre">{{ localize 'BRP.range'}}</div>  
     <div class="diff-label centre">{{ localize 'BRP.att'}}</div>
     <div class="diff-label centre" title ="{{localize 'BRP.handCrewHint'}}">{{ localize 'BRP.handCrew'}}</div>
-    <div class="diff-label centre" style="grid-column: 7 / span 2;" title="{{ localize 'BRP.ppStoreHint' }}">{{#if useMP}}{{localize 'BRP.mpShort'}}{{else}}{{localize 'BRP.ppShort'}}{{/if}}</div>
-    <div class="diff-label centre" title ="{{localize 'BRP.hpApHint'}}" style="grid-column: 9 / span 2;">{{ localize 'BRP.hp'}}</div>
+    <div class="diff-label centre" style="grid-column: 7 / span 2;" title="{{ localize 'BRP.ppStoreHint' label=system.power.label}}">{{system.power.labelAbbr}}</div>
+    <div class="diff-label centre" title ="{{localize 'BRP.hpApHint' label=system.health.labelAbbr}}" style="grid-column: 9 / span 2;">{{system.health.labelAbbr}}</div>
     <div class="diff-label centre">{{ localize 'BRP.enc'}}</div>
     <div class="diff-label centre" title="{{ localize 'BRP.ammoHint' }}">{{ localize 'BRP.ammo'}}</div>
     <div class="diff-label centre" title="{{ localize 'BRP.status' }}">{{ localize 'BRP.statusShort'}}</div>
@@ -66,7 +66,7 @@
       <div class="diff-label" style="grid-column: 1 / span 2;">{{ localize 'BRP.hitLoc'}}</div>
       <div class="diff-label centre">{{ localize 'BRP.hitLocRange'}}</div> 
       <div></div>
-      <div class="diff-label centre" title = "{{ localize 'BRP.health' }}">{{ localize 'BRP.hp'}}</div>
+      <div class="diff-label centre" title = "{{system.health.label}}">{{system.health.labelAbbr}}</div>
       <div></div>
       <div class="diff-label centre" title="{{ localize 'BRP.apHint'}}">{{ localize 'BRP.ap'}}</div>
       <div class="diff-label centre">{{ localize 'BRP.status'}}</div>

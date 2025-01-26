@@ -24,7 +24,7 @@
           <div class="stat-input"><input name="system.lowRoll" type="text" value="{{item.system.lowRoll}}" data-dtype="Number"/></div>
           <div class="skill-display">{{localize 'BRP.hitLocHighRoll'}}</div>
           <div class="stat-input"><input name="system.highRoll" type="text" value="{{item.system.highRoll}}" data-dtype="Number"/></div>
-          <div class="skill-display" title="{{localize 'BRP.hitLocFractionHint'}}">{{localize 'BRP.hitLocFraction'}}</div>
+          <div class="skill-display" title="{{localize 'BRP.hitLocFractionHint'}}">{{localize 'BRP.hitLocFraction' label=item.system.healthLabelAbbr}}</div>
           <div class="stat-input"><input name="system.fractionHP" type="text" value="{{item.system.fractionHP}}" data-dtype="Number"/></div>
           <div class="skill-display" title="{{localize 'BRP.hitLocFractionHint'}}">{{localize 'BRP.hitLocENCFraction'}}</div>
           <div class="stat-input"><input name="system.fractionENC" type="text" value="{{item.system.fractionENC}}" data-dtype="Number"/></div>
@@ -55,7 +55,7 @@
         <br>
         {{#if hasOwner}}
         <div class="hitloc-scores">
-          <div class="skill-display new-row" title="{{localize 'BRP.hpAdjHint'}}">{{localize 'BRP.hpAdj'}}</div>
+          <div class="skill-display new-row" title="{{localize 'BRP.hpAdjHint' label=item.system.healthLabelAbbr}}">{{localize 'BRP.hpAdj' label = item.system.healthLabelAbbr}}</div>
           <div class="stat-input"><input name="system.adj" type="text" value="{{item.system.adj}}" data-dtype="Number"/></div>
           <br>
         </div>

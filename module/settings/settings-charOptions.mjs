@@ -1,33 +1,59 @@
 const SETTINGS = {
 
-  hpMod: {
-    name: 'BRP.Settings.hpMod',
-    hint: 'BRP.Settings.hpModHint',
-    scope: 'world',
+  starterSkills: {
+    name: "BRP.Settings.starterSkills",
+    hint: "BRP.Settings.starterSkillsHint",
+    scope: "world",
     config: false,
-    default: 1,
-    type: Number,
+    type: Boolean,
+    default: false
   },
 
-  charSheetLogo: {
-    name: "BRP.Settings.charSheetLogo",
-    hint: "BRP.Settings.charSheetLogoHint",
+  starterTraits: {
+    name: "BRP.Settings.starterTraits",
+    hint: "BRP.Settings.starterTraitsHint",
+    scope: "world",
+    config: false,
+    type: Boolean,
+    default: false
+  },
+
+  background1: {
+    name: "BRP.Settings.background1",
+    hint: "BRP.Settings.backgroundHint",
     scope: "world",
     config: false,
     type: String,
-    filePicker: 'Image',
-    default: 'systems/brp/assets/char-sheet-logo.png',
+    default: "Background"
   },
+
+  background2: {
+    name: "BRP.Settings.background2",
+    hint: "BRP.Settings.backgroundHint",
+    scope: "world",
+    config: false,
+    type: String,
+    default: "Biography"
+  },
+
+  background3: {
+    name: "BRP.Settings.background3",
+    hint: "BRP.Settings.backgroundHint",
+    scope: "world",
+    config: false,
+    type: String,
+    default: "Backstory"
+  }
 
 }
 
-export class BRPGameModifiers extends FormApplication {
+export class BRPCharSettings extends FormApplication {
   static get defaultOptions () {
     return foundry.utils.mergeObject(super.defaultOptions, {
       title: 'BRP.brpSettings',
       classes: ["brp","rulesmenu"],
-      id: 'gameMod-settings',
-      template: 'systems/brp/templates/settings/gameMod-settings.html',
+      id: 'char-settings',
+      template: 'systems/brp/templates/settings/char-settings.html',
       width: 550,
       height: 'auto',
       closeOnSubmit: true

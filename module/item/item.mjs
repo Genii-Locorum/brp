@@ -1,5 +1,6 @@
 import {BRPCheck} from "../apps/check.mjs"
 import {isCtrlKey} from '../apps/helper.mjs'
+import { BRPID } from '../brpid/brpid.mjs';
 
 export class BRPItem extends Item {
   constructor (data, context) {
@@ -58,6 +59,28 @@ export class BRPItem extends Item {
 
   prepareData() {
     super.prepareData();
+  }
+
+  prepareDerivedData() {
+    const itemData = this;
+    const systemData = itemData.system;
+
+    //Set Resource Labels
+      if (game.settings.get('brp','ppLabelLong')) {
+        systemData.powerLabel = game.settings.get('brp','ppLabelLong')
+      } else {
+        systemData.powerLabel = game.i18n.localize('BRP.pp')
+      }
+      if (game.settings.get('brp','ppLabelShort')) {
+        systemData.powerLabelAbbr = game.settings.get('brp','ppLabelShort')
+      } else {
+        systemData.powerLabeLAbbr = game.i18n.localize('BRP.ppShort')
+      }
+      if (game.settings.get('brp','hpLabelShort')) {
+        systemData.healthLabelAbbr = game.settings.get('brp','hpLabelShort')
+      } else {
+        systemData.healthLabeLAbbr = game.i18n.localize('BRP.hp')
+      }
   }
 
    getRollData() {
@@ -130,5 +153,30 @@ export class BRPItem extends Item {
       opp,
     })
   }  
-  
+ 
+
+  //Add BRPIDs to newly created items
+  static async createDocuments(data=[], context={}) {
+    if ( context.keepEmbeddedIds === undefined ) context.keepEmbeddedIds = false;
+    let created = await super.createDocuments(data, context);
+
+    //Add BRPID based on item name if the game setting is flagged.
+    for (let item of created) {
+      if(game.settings.get('brp', "itemBRPID")) {
+        let tempID = await BRPID.guessId(item)
+        if (tempID) {
+          await item.update({'flags.brp.brpidFlag.id': tempID})
+          const html = $(item.sheet.element).find('header.window-header a.header-button.edit-brpid-warning,header.window-header a.header-button.edit-brpid-exisiting')
+          if (html.length) {
+            html.css({
+              color: (tempID ? 'orange' : 'red')
+            })
+          }
+          item.render()
+        }
+      }
+    }
+    return created
+  }
+
 }

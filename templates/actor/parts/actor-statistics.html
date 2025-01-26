@@ -50,12 +50,12 @@
     <div></div>  
     <div class="bold">{{localize 'BRP.psp'}}</div>
     <div class="attrib-disp centre"> {{actor.system.totalPers}}%</div>
-    <div class="bold">{{localize 'BRP.hpBonus'}}</div>
+    <div class="bold">{{localize 'BRP.hpBonus' label=system.health.labelAbbr}}</div>
     <div class="centre" ><input class="attrib-inp" type="text" name="system.health.mod" value="{{system.health.mod}}" data-dtype="Number"/></div>
     <div></div>  
     <div class="bold">{{localize 'BRP.pfsp'}}</div>
     <div class="attrib-disp centre"> {{actor.system.totalProf}}%</div>
-    <div class="bold">{{#if useMP}}{{localize 'BRP.mpBonus'}}{{else}}{{localize 'BRP.ppBonus'}}{{/if}}</div>
+    <div class="bold">{{localize 'BRP.ppBonus' label=system.power.labelAbbr}}</div>
     <div class="centre" ><input class="attrib-inp" type="text" name="system.power.mod" value="{{system.power.mod}}" data-dtype="Number"/></div>
     <div></div>  
     <div class="bold">{{localize 'BRP.totalXP'}}</div>

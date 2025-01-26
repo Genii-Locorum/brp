@@ -35,14 +35,59 @@ const SETTINGS = {
     default: false,
     type: Boolean
   },
-    
-  useMP: {
-    name: 'BRP.Settings.useMP',
-    hint: 'BRP.Settings.useMPHint',
+
+  hpLabelLong: {
+    name: 'BRP.Settings.hpLabelLong',
+    hint: 'BRP.Settings.hpLabelLongHint',
     scope: 'world',
     config: false,
-    default: false,
-    type: Boolean
+    default: "",
+    type: String    
+  },
+
+  hpLabelShort: {
+    name: 'BRP.Settings.hpLabelShort',
+    hint: 'BRP.Settings.hpLabelShortHint',
+    scope: 'world',
+    config: false,
+    default: "",
+    type: String    
+  },
+
+  ppLabelLong: {
+    name: 'BRP.Settings.ppLabelLong',
+    hint: 'BRP.Settings.ppLabelLongHint',
+    scope: 'world',
+    config: false,
+    default: "",
+    type: String    
+  },
+
+  ppLabelShort: {
+    name: 'BRP.Settings.ppLabelShort',
+    hint: 'BRP.Settings.ppLabelShortHint',
+    scope: 'world',
+    config: false,
+    default: "",
+    type: String    
+  },
+
+  fpLabelLong: {
+    name: 'BRP.Settings.fpLabelLong',
+    hint: 'BRP.Settings.fpLabelLongHint',
+    scope: 'world',
+    config: false,
+    default: "",
+    type: String    
+  },
+
+  fpLabelShort: {
+    name: 'BRP.Settings.fpLabelShort',
+    hint: 'BRP.Settings.fpLabelShortHint',
+    scope: 'world',
+    config: false,
+    default: "",
+    type: String    
   },
 
   skillBonus: {

@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## 12.1.41
+- Slight tweak to roll cards to centre the first line next to the actor image
+- A lot more options to adjust the character sheet - https://github.com/Genii-Locorum/brp/wiki/Game-Settings:-Display-Options
+- The character sheet logo setting has moved to the Display Options
+- The character sheet visual adjustments are a work in progress - please feedback any other changes needed or areas where the expected results aren't working.
+- Instead of selecting to use Magic Points rather than Power Points you can now add a name and abbreviation instead of Power Points/PP - see the Optional Game Rules settings
+- You can also change the name and abbreviations for Hit Points and Fatigue Points. 
+- BRP IDs can be automatically added for Items now - see the BRPID game settings (Actor BRPID has moved here from Char Settings)
+
 ## 12.1.40
 - Roll chat cards updated to increase size of the actor image and the space for the skill, weapon etc name and there is some additional info in the "expandable" section of the card
 - There is now a game setting to choose if you want to show XP & POW Improvement Dice Rolls where you have Dice So Nice module activated.  You could see a lot of dice rolled.
@@ -23,7 +32,7 @@
 - Age has been added to the character sheet neer the top left of the Personal Section  
 - Clicking on the "Impact" of a Magic Spell or a Psychic Ability on the actor sheet causes an Impact (Damage or Healing) dice roll
 - When adding a skill, profession, personality etc the system will check if you have the Skill Category on the character and if not it will add it automatically
-- There is two game settings for the initiative formula - select a stat (or none) and enter a modifier.  If your formula is invalid you will get an error message when your world starts and the default formula is used
+- There are two game settings for the initiative formula - select a stat (or none) and enter a modifier.  If your formula is invalid you will get an error message when your world starts and the default formula is used
   
 
 ## 12.1.38

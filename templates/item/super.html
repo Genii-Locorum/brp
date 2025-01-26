@@ -46,7 +46,7 @@
           <div class="stat-input"><input name="system.duration" type="text" value="{{item.system.duration}}"/></div>
           <div class="skill-display" title ="{{localize 'BRP.cpcHint'}}">{{ localize "BRP.cpc" }}</div>
           <div class="stat-input"><input name="system.cpc" type="text" value="{{item.system.cpc}}"/></div>
-          <div class="skill-display" title ="{{localize 'BRP.ppplHint'}}">{{#if useMP}}{{ localize "BRP.mpCost" }}{{else}}{{ localize "BRP.ppCost" }}{{/if}}</div>
+          <div class="skill-display" title ="{{localize 'BRP.ppplHint' label=item.system.powerLabelAbbr}}">{{ localize "BRP.ppCost" label=item.system.powerLabelAbbr}}</div>
           <div class="stat-input"><input name="system.pppl" type="text" value="{{item.system.pppl}}"/></div>
         {{else}}  
           <div class="skill-display">{{ localize "BRP.range" }}</div>
@@ -55,7 +55,7 @@
           <div class="weapon-display centre boxed">{{item.system.duration}}</div>
           <div class="skill-display" title ="{{localize 'BRP.cpcHint'}}">{{ localize "BRP.cpc" }}</div>
           <div class="weapon-display centre boxed">{{item.system.cpc}}</div>
-          <div class="skill-display" title ="{{localize 'BRP.ppplHint'}}">{{#if useMP}}{{ localize "BRP.mpCost" }}{{else}}{{ localize "BRP.ppCost" }}{{/if}}</div>
+          <div class="skill-display" title ="{{localize 'BRP.ppplHint'label=item.system.powerLabelAbbr}}">{{ localize "BRP.ppCost" label=item.system.powerLabelAbbr}}</div>
           <div class="weapon-display centre boxed">{{item.system.pppl}}</div>
         {{/if}}
         {{#if hasOwner}}

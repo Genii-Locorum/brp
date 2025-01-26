@@ -1,4 +1,4 @@
-<form class="brp flexcol" autocomplete="off">
+<form class="brp settingsForm flexcol" autocomplete="off">
     <h2 class="bold">{{localize 'BRP.Settings.optionalRules'}}</h2>
 
     <div class="form-group">
@@ -32,14 +32,54 @@
       </div>
       <p class="settingNote">{{localize 'BRP.Settings.useFPHint'}}</p>
     </div>
+
+    <div class="form-group">
+      <label class="bold">{{localize 'BRP.Settings.hpLabelLong'}}</label>
+      <div class="form-fields" style="flex: 1;">
+        <input class="centre" name="hpLabelLong" type="text" value="{{hpLabelLong.value}}"/>
+      </div>
+      <p class="settingNote">{{localize 'BRP.Settings.hpLabelLongHint'}}</p>
+    </div>
+
+    <div class="form-group">
+      <label class="bold">{{localize 'BRP.Settings.hpLabelShort'}}</label>
+      <div class="form-fields" style="flex: 1;">
+        <input class="centre" name="hpLabelShort" type="text" value="{{hpLabelShort.value}}"/>
+      </div>
+      <p class="settingNote">{{localize 'BRP.Settings.hpLabelShortHint'}}</p>
+    </div>    
+
+    <div class="form-group">
+      <label class="bold">{{localize 'BRP.Settings.ppLabelLong'}}</label>
+      <div class="form-fields" style="flex: 1;">
+        <input class="centre" name="ppLabelLong" type="text" value="{{ppLabelLong.value}}"/>
+      </div>
+      <p class="settingNote">{{localize 'BRP.Settings.ppLabelLongHint'}}</p>
+    </div>
     
     <div class="form-group">
-      <label class="bold">{{localize 'BRP.Settings.useMP'}}</label>
+      <label class="bold">{{localize 'BRP.Settings.ppLabelShort'}}</label>
       <div class="form-fields" style="flex: 1;">
-        <input type="checkbox" {{checked useMP.value}} name="useMP">
+        <input class="centre" name="ppLabelShort" type="text" value="{{ppLabelShort.value}}"/>
       </div>
-      <p class="settingNote">{{localize 'BRP.Settings.useMPHint'}}</p>
-    </div>    
+      <p class="settingNote">{{localize 'BRP.Settings.ppLabelShortHint'}}</p>
+    </div>
+
+    <div class="form-group">
+      <label class="bold">{{localize 'BRP.Settings.fpLabelLong'}}</label>
+      <div class="form-fields" style="flex: 1;">
+        <input class="centre" name="fpLabelLong" type="text" value="{{fpLabelLong.value}}"/>
+      </div>
+      <p class="settingNote">{{localize 'BRP.Settings.fpLabelLongHint'}}</p>
+    </div>
+
+    <div class="form-group">
+      <label class="bold">{{localize 'BRP.Settings.fpLabelShort'}}</label>
+      <div class="form-fields" style="flex: 1;">
+        <input class="centre" name="fpLabelShort" type="text" value="{{fpLabelShort.value}}"/>
+      </div>
+      <p class="settingNote">{{localize 'BRP.Settings.fpLabelShortHint'}}</p>
+    </div>
 
     <div class="form-group">
       <label class="bold">{{localize 'BRP.Settings.skillBonus'}}</label>
@@ -93,14 +133,17 @@
       <p class="settingNote">{{localize 'BRP.Settings.usePersTraitHint'}}</p>
     </div>                   
 
-    <br>
+    
 
+
+    <br>
     <footer class="sheet-footer flexrow">
-      <button type="submit" name="submit">
+      <button class = "settingsButton" type="submit" name="submit">
         <i class="far fa-save"></i> {{localize "Save Changes"}}
       </button>
-      <button type="button" name="reset">
+      <button class="settingsButton" type="button" name="reset">
         <i class="fas fa-undo"></i> {{localize "Reset Defaults"}}
       </button>
     </footer>
+    <br>
   </form>

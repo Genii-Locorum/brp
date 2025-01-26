@@ -141,15 +141,9 @@ export class BRPSuperSheet extends ItemSheet {
   async _onItemView (event) {
     const target = $(event.currentTarget).closest('.item')
     const itemId = target.data('item-id')
-    const item = this.actor.items.get(itemId)
+    const item = await fromUuid(itemId)
     item.sheet.render(true);
   }
 
-  async _onItemView (event) {
-    const item = $(event.currentTarget).closest('.item')
-    const brpid = item.data('brpid')
-    let tempItem = (await game.system.api.brpid.fromBRPIDBest({brpid:brpid}))[0]
-    if (tempItem) {tempItem.sheet.render(true)};
-  }  
 
 }

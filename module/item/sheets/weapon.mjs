@@ -29,7 +29,6 @@ export class BRPWeaponSheet extends ItemSheet {
       const sheetData = super.getData();
       const itemData = sheetData.item;
       sheetData.hasOwner = this.item.isEmbedded === true;
-      sheetData.useMP = game.settings.get('brp','useMP');
       sheetData.npcOwner = false
       if (sheetData.hasOwner) {
         if (this.item.parent.type === 'npc') {
