@@ -7,7 +7,7 @@ import { BRPNPCSettings } from "./settings-NPCOptions.mjs";
 import { BRPCharSettings } from "./settings-charOptions.mjs";
 import { BRPGameModifiers } from "./settings-gameModifiers.mjs";
 import { BRPDisplaySettings } from "./settings-displayOptions.mjs";
-import { BRPbrpidSettings } from "./settings-brpidOptions copy.mjs";
+import { BRPbrpidSettings } from "./settings-brpidOptions.mjs";
 
 
 export async function registerSettings () {

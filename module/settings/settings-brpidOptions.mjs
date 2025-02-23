@@ -1,52 +1,42 @@
 const SETTINGS = {
 
-  initStat: {
-    name: 'BRP.Settings.initStat',
-    hint: 'BRP.Settings.initStatHint',
-    scope: 'world',
+  actorBRPID: {
+    name: "BRP.Settings.actorBRPID",
+    hint: "BRP.Settings.actorBRPIDHint",
+    scope: "world",
     config: false,
-    default: "dex",
-    type: String,
+    type: Boolean,
+    default: false
   },
 
-  initMod: {
-    name: 'BRP.Settings.initMod',
-    hint: 'BRP.Settings.initModHint',
-    scope: 'world',
+  itemBRPID: {
+    name: "BRP.Settings.itemBRPID",
+    hint: "BRP.Settings.itemBRPIDHint",
+    scope: "world",
     config: false,
-    default: "+0",
-    type: String,
+    type: Boolean,
+    default: false
   },
 
-  initRound: {
-    name: "BRP.Settings.initRound",
-    hint: "BRP.Settings.initRoundHint",
+  firstAidBRPID: {
+    name: "BRP.Settings.firstAidBRPID",
+    hint: "BRP.Settings.firstAidBRPIDHint",
     scope: "world",
     config: false,
     type: String,
-    default: "no",
+    default: "i.skill.first-aid"   
   },
 
-  quickCombat: {
-    name: "BRP.Settings.quickCombat",
-    hint: "BRP.Settings.quickCombatHint",
-    scope: "world",
-    config: false,
-    default: false,
-    type: Boolean
-  },  
-
+  
 }
 
-import { BRPSelectLists } from "../apps/select-lists.mjs";
-
-export class BRPCombatRuleSettings extends FormApplication {
+export class BRPbrpidSettings extends FormApplication {
   static get defaultOptions () {
     return foundry.utils.mergeObject(super.defaultOptions, {
       title: 'BRP.brpSettings',
       classes: ["brp","rulesmenu"],
-      id: 'combat-settings',
-      template: 'systems/brp/templates/settings/combat-settings.html',
+      id: 'char-settings',
+      template: 'systems/brp/templates/settings/brpid-settings.html',
       width: 550,
       height: 'auto',
       closeOnSubmit: true
@@ -61,15 +51,6 @@ export class BRPCombatRuleSettings extends FormApplication {
         setting: v
       }
     }
-
-    options.initChoiceList = await BRPSelectLists.getStatOptions();
-
-    options.initRoundList = {
-      "no": game.i18n.localize ('BRP.no'),
-      "manual": game.i18n.localize ('BRP.manual'),
-      "auto": game.i18n.localize ('BRP.automatic'),
-    }
-
     return options
   }
   

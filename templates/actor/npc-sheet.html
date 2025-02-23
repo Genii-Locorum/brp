@@ -15,7 +15,7 @@
 
     {{#if (eq system.viewTab "1")}}
 
-    <setion class="npc-main-grid">
+    <setion class="npc-main-grid {{#if (eq resource 5)}}npc-main-grid-5{{else}}npc-main-grid-4{{/if}}">
         {{!-- Stats Section --}}
         <section class="npc-stats-grid">
             {{#each system.stats as |stat key|}}
@@ -57,6 +57,13 @@
               <div class=" centre"><input class="centre npcpersonal-inp" name="system.sanity.value" type="text" value="{{system.sanity.value}}" data-dtype="Number"/></div>
               <div class=" centre"> / </div>
               <div class="centre"><input class="centre npcpersonal-inp" name="system.sanity.max" type="text" value="{{system.sanity.max}}" data-dtype="Number"/></div>
+            {{/isOr}}
+
+            {{#isOr useRes5 useBeastiary}}
+              <div class="charname" title="{{system.res5.label}}">{{system.res5.labelAbbr}}</div>
+              <div class=" centre"><input class="centre npcpersonal-inp" name="system.res5.value" type="text" value="{{system.res5.value}}" data-dtype="Number"/></div>
+              <div class=" centre"> / </div>
+              <div class="centre"><input class="centre npcpersonal-inp" name="system.res5.max" type="text" value="{{system.res5.max}}" data-dtype="Number"/></div>
             {{/isOr}}
         </section>
 
@@ -554,6 +561,8 @@
         <div><input class="centre npcpersonal-inp" name="system.health.mod" type="text" value="{{actor.system.health.mod}}" data-dtype="Number"/></div>
         <div class="new-row">{{localize 'BRP.ppBonus' label=system.power.labelAbbr}}</div>
         <div><input class="centre npcpersonal-inp" name="system.power.mod" type="text" value="{{actor.system.power.mod}}" data-dtype="Number"/></div>
+        <div class="new-row">{{localize 'BRP.fpBonus' label=system.fatigue.labelAbbr}}</div>
+        <div><input class="centre npcpersonal-inp" name="system.fatigue.mod" type="text" value="{{actor.system.fatigue.mod}}" data-dtype="Number"/></div>
         <div class="new-row">&NonBreakingSpace;</div>
         <div class="new-row">{{localize 'BRP.calculation' label=system.health.labelAbbr}}</div>
         <div style="grid-column: 2 / span 2;">{{actor.system.hp.formula}}</div>

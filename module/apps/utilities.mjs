@@ -1,5 +1,6 @@
 import { BRPCharacterSheet } from '../actor/sheets/character.mjs';
 import { BRPactorDetails } from './actorDetails.mjs';
+import { BRPCheck } from './check.mjs';
 
 export class BRPUtilities {
 
@@ -236,4 +237,38 @@ export class BRPUtilities {
           .toLocaleLowerCase()
       )
   }  
+
+  //Send Item Description to Chat
+  static async sendToChat(el, actor,dataitem) {
+    const itemId = await this.getDataset(el, dataitem)
+    if (!itemId) {return}
+    const item = actor.items.get(itemId);
+    let description = item.system.description.replace(/(<([^>]+)>)/g, "");
+    let label = item.name
+    let chatType = CONST.CHAT_MESSAGE_STYLES.OTHER
+    let chatTemplate =  'systems/brp/templates/chat/itemDescription.html'
+
+    let chatMsgData = {
+      description,
+      label,
+      chatType,
+      chatTemplate,
+    }  
+    const html = await BRPCheck.startChat(chatMsgData)
+
+    let chatData={}
+      chatData = {
+        author: game.user.id,
+        type: chatMsgData.chatType,
+        content: html,
+        speaker: {
+          actor,
+          alias: actor.name,
+        },
+      }
+    let msg = await ChatMessage.create(chatData)
+    return msg._id
+
+  }
+
 }    

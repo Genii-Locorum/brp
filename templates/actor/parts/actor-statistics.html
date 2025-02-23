@@ -60,6 +60,11 @@
     <div></div>  
     <div class="bold">{{localize 'BRP.totalXP'}}</div>
     <div class="attrib-disp centre"> {{actor.system.totalXP}}%</div>
+    {{#if useFP}}
+      <div class="bold">{{localize 'BRP.fpBonus' label=system.fatigue.labelAbbr}}</div>
+      <div class="centre" ><input class="attrib-inp" type="text" name="system.fatigue.mod" value="{{system.fatigue.mod}}" data-dtype="Number"/></div>
+      <div></div>
+    {{/if}}
     <div class="bold">{{localize 'BRP.totalENC'}}</div>
     <div class="attrib-disp centre"> {{actor.system.enc}}</div>
   </div>

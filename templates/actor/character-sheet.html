@@ -162,17 +162,17 @@
     {{!-- Secondary Stats --}}
     <section>
       <div class="header-fields">
-        <div class="resources {{#if (eq resource 4)}} resource-4col{{else}} {{#if (eq resource 3)}} resource-3col{{else}} resource-2col{{/if}}{{/if}}">
+        <div class="resources {{#if (eq resource 5)}} resource-5col{{else}}{{#if (eq resource 4)}} resource-4col{{else}} {{#if (eq resource 3)}} resource-3col{{else}} resource-2col{{/if}}{{/if}}{{/if}}">
   
           <div class="each-resource centre">
             <div data-target="system.health" class="resource-label attribute-name">{{system.health.label}}
             </div>
             <div class="resource-grid">
-              <div></div> 
+              <div class="right rollable addDamage"><a title="{{localize 'BRP.addWound'}}"><i class="fas fa-sword"></i></a></div>
               <div class="attrib-disp">{{system.health.value}}</div>
               <span class="divider"> / </span>
-              <div class="attrib-disp">{{system.health.max}}</div>
-              <div title="{{localize 'BRP.dailyHP'}}">{{#unless useHPL}}{{system.health.daily}}{{/unless}}</div> 
+              <div class="attrib-disp" title="{{#unless useHPL}}{{localize 'BRP.dailyHP' value=system.health.daily}}{{/unless}}">{{system.health.max}}</div>
+              <div class="left rollable healWound"><a title="{{localize 'BRP.healWound'}}"><i class="fas fa-heart"></i></a></div>
             </div>
           </div>
   
@@ -213,6 +213,19 @@
           </div>
           {{/if}}
   
+          {{#if useRES5}}
+          <div class="each-resource centre">
+            <label for="system.res5.value" class="resource-label res5 contextmenu">{{system.res5.label}}</label>
+            <div class="resource-grid">
+              <div></div>  
+              <input class="attrib-inp" type="text" name="system.res5.value" value="{{system.res5.value}}" data-dtype="Number"/>
+              <span class="divider"> / </span>
+              <input class="attrib-inp" type="text" name="system.res5.max" value="{{system.res5.max}}" data-dtype="Number"/>
+              <div></div>     
+            </div>
+          </div>
+          {{/if}}
+
         </div>
       </div>
     </section>

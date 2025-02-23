@@ -36,6 +36,15 @@ const SETTINGS = {
     type: Boolean
   },
 
+  useRes5: {
+    name: 'BRP.Settings.useRes5',
+    hint: 'BRP.Settings.useRes5Hint',
+    scope: 'world',
+    config: false,
+    default: false,
+    type: Boolean
+  },
+
   hpLabelLong: {
     name: 'BRP.Settings.hpLabelLong',
     hint: 'BRP.Settings.hpLabelLongHint',
@@ -84,6 +93,24 @@ const SETTINGS = {
   fpLabelShort: {
     name: 'BRP.Settings.fpLabelShort',
     hint: 'BRP.Settings.fpLabelShortHint',
+    scope: 'world',
+    config: false,
+    default: "",
+    type: String    
+  },
+
+  res5LabelLong: {
+    name: 'BRP.Settings.res5LabelLong',
+    hint: 'BRP.Settings.res5LabelLongHint',
+    scope: 'world',
+    config: false,
+    default: "",
+    type: String    
+  },
+
+  res5LabelShort: {
+    name: 'BRP.Settings.res5LabelShort',
+    hint: 'BRP.Settings.res5LabelShortHint',
     scope: 'world',
     config: false,
     default: "",

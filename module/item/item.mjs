@@ -74,12 +74,12 @@ export class BRPItem extends Item {
       if (game.settings.get('brp','ppLabelShort')) {
         systemData.powerLabelAbbr = game.settings.get('brp','ppLabelShort')
       } else {
-        systemData.powerLabeLAbbr = game.i18n.localize('BRP.ppShort')
+        systemData.powerLabelAbbr = game.i18n.localize('BRP.ppShort')
       }
       if (game.settings.get('brp','hpLabelShort')) {
         systemData.healthLabelAbbr = game.settings.get('brp','hpLabelShort')
       } else {
-        systemData.healthLabeLAbbr = game.i18n.localize('BRP.hp')
+        systemData.healthLabelAbbr = game.i18n.localize('BRP.hp')
       }
   }
 

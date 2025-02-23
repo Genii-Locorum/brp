@@ -22,22 +22,9 @@ export class BRPactorDetails {
         }
       }  
 
-      //TODO TEST THEM REMOVE BELOW
-      /*let particId = "";
-      let particType ="";
-      let particName ="";
-          if (token && !token.actorLink){
-            particId = token._id;
-            particType = "token";
-            particName = token.name; 
-          } else {
-            particId = actor._id;
-            particType = "actor";
-            particName = actor.name;
-          }*/
-        let partic = ({particId, particType, particName})
-        return partic;
-      }
+      let partic = ({particId, particType, particName})
+      return partic;
+    }
 
     // Get token/actor - determine precedence
     static async _getParticipantPriority(token,actor){

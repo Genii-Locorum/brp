@@ -29,7 +29,14 @@
       <p class="settingNote">{{localize 'BRP.Settings.initRoundHint'}}</p>
     </div>    
 
-    
+        
+    <div class="form-group">
+      <label class="bold">{{localize 'BRP.Settings.quickCombat'}}</label>
+      <div class="form-fields" style="flex: 1;">
+        <input type="checkbox" {{checked quickCombat.value}} name="quickCombat">
+      </div>
+      <p class="settingNote">{{localize 'BRP.Settings.quickCombatHint'}}</p>
+    </div>
 
 
     <br>

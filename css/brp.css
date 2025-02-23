@@ -262,6 +262,10 @@
   row-gap: 0px;
 }
 
+.brp .resource-5col {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
 .brp .resource-4col {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
@@ -1347,6 +1351,15 @@ padding-top: 4px;
   height: 90px;
 }
 
+.brp .npc-main-grid-4 {
+  height:90px
+}
+
+.brp .npc-main-grid-5 {
+  height:110px
+}
+
+
 .brp .npc-stats-grid {
   display: grid; 
   margin:0px;
@@ -1655,4 +1668,9 @@ padding-top: 4px;
 
 .brp .settingsForm{
   max-height: 550px;
+}
+
+.brp .quick-combat{
+  margin-left: 60px;
+  background-color: rgba(0, 0, 0, 0.25);
 }

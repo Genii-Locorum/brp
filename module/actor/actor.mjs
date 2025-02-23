@@ -221,7 +221,7 @@ export class BRPActor extends Actor {
         } else if (itm.system.currHP<1 && itm.system.locType === 'abdomen') {
           itm.system.injured = true
           systemData.injured = true
-        } else if (itm.system.currHP<1 && itm.system.locType === 'abdomen') {
+        } else if (itm.system.currHP<1 && itm.system.locType === 'chest') {
           itm.system.incapacitated = true
           systemData.incapacitated = true
         } else if (itm.system.currHP<1 && itm.system.locType === 'head') {
@@ -260,7 +260,7 @@ export class BRPActor extends Actor {
 
       //Round ENC to 2 decimals and then adjust fatigue
       systemData.enc = (systemData.enc).toFixed(2)
-      systemData.fatigue.max = Math.ceil(systemData.stats.str.total + systemData.stats.con.total - systemData.enc);
+      systemData.fatigue.max = Math.ceil(systemData.stats.str.total + systemData.stats.con.total - systemData.enc + systemData.fatigue.mod);
 
     //Derive Health Statuses from total HP
     if (systemData.health.value <1) {
@@ -287,7 +287,7 @@ export class BRPActor extends Actor {
 
 
     let damage = 0
-    systemData.fatigue.max = Math.ceil(systemData.stats.str.total + systemData.stats.con.total);
+    systemData.fatigue.max = Math.ceil(systemData.stats.str.total + systemData.stats.con.total+systemData.fatigue.mod);
 
     for (let itm of actorData.items) {
       if (['skill','psychic','magic', 'passion','reputation'].includes(itm.type)) {
@@ -437,6 +437,16 @@ export class BRPActor extends Actor {
       systemData.fatigue.labelAbbr = game.settings.get('brp','fpLabelShort')
     } else {
       systemData.fatigue.labelAbbr = game.i18n.localize('BRP.fp')
+    }
+    if (game.settings.get('brp','res5LabelLong')) {
+      systemData.res5.label = game.settings.get('brp','res5LabelLong')
+    } else {
+      systemData.res5.label = game.i18n.localize('BRP.res5')
+    }
+    if (game.settings.get('brp','res5LabelShort')) {
+      systemData.res5.labelAbbr = game.settings.get('brp','res5LabelShort')
+    } else {
+      systemData.res5.labelAbbr = game.i18n.localize('BRP.res5Abbr')
     }
   }
 

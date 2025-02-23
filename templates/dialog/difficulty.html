@@ -26,6 +26,7 @@
             </select>
           {{/if}}
         {{/if}}
+  
 
         {{#isOr (eq cardType 'RE') (eq cardType 'PP')}} 
         <label>{{#if (eq cardType 'RE')}}{{localize "BRP.resistVal"}}{{else}}{{localize "BRP.vsPOW"}}{{/if}}</label>   
@@ -33,11 +34,44 @@
         {{/isOr}}           
       </div>
       <br>
-  
+
       <div class="flexrow">
         <label title = "{{ localize 'BRP.flatModHint' }}" >{{localize "BRP.flatMod"}}</label>   
           <input data-handle-change class="diff-number-input" type="text" value="{{formData.flatMod}}" name="flatMod">
       </div>
+      <br>
+
+      {{#if askRange}}
+        <div class="flexrow">
+          <label class="resource-label-diff">{{ localize 'BRP.askRange' }}</label>
+          <select data-handle-change name="range">
+            {{selectOptions rangeOptions selected=range}}
+          </select>
+        </div>  
+        <br>
+      {{/if}}
+
+      {{#if askHands}}
+        <div class="flexrow">
+          <label class="resource-label-diff">{{ localize 'BRP.askHands' }}</label>
+          <select data-handle-change name="hands">
+            {{selectOptions handOptions selected=hands}}
+          </select>
+        </div>  
+        <br>
+      {{/if}}
+
+      {{#if firstAid}}
+        <div class="flexrow">
+          <label class="resource-label-diff">{{ localize 'BRP.selectWound' }}</label>
+          <select data-handle-change name="wound">
+            {{selectOptions woundList}}
+          </select>
+        </div>  
+        <br>
+      {{/if}}
+
     </div>
     <br>
+
   </form>

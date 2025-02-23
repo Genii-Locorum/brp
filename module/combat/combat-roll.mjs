@@ -4,7 +4,7 @@ import { BRPCheck } from "../apps/check.mjs"
 export class BRPCombatRoll{
 
   //Get damage formula from weapon/spell and actor
-  static async damageFormula(weapon, actor,type) {
+  static async damageFormula(weapon, actor,type,success) {
 
     let damage = ""
     let damageBonus = ""
@@ -15,38 +15,27 @@ export class BRPCombatRoll{
     let successOptions = await BRPSelectLists.getSuccessOptions()
     let range = ""
     let hands = ""
-    let success = ""
     let level = 1
     let damData = {}
     let handOptions = {}
     let rangeOptions = {}
     let label = game.i18n.localize('BRP.damage')
 
+    //If success blank then ask for success level 
+    if (success !="") {askSuccess = false}
+
     //If this is a weapon Damage Roll
     if (type === 'DM') {
       //Get the damage
       damage = weapon.system.dmg1
-      //Get weapon range Options
-      rangeOptions = Object.assign(rangeOptions,{
-        dmg1: game.i18n.localize("BRP.range") +":"+weapon.system.range1,
-        dmg2: game.i18n.localize("BRP.range") +":"+weapon.system.range2,
-      })
-      //Get weapon Hand Options
-      handOptions = Object.assign(handOptions,{
-        1: game.i18n.localize("BRP.1H"),
-        2: game.i18n.localize("BRP.2H"),
-      })
-      //If there's a third weapon range add it
-      if (weapon.system.range3 !=""){
-        rangeOptions= Object.assign(rangeOptions,{
-          dmg3: game.i18n.localize("BRP.range") +":"+weapon.system.range3
-        })
-      }
-      //If there is more than one weapon range then make sure we ask for the range
-      if (weapon.system.range2 != ""){askRange = true}
-      //If there the weapon is 1-2H then ask how many hands used
-      if (weapon.system.hands === "1-2H"){askHands = true}
 
+      //Get weapon range Options
+      rangeOptions = Object.assign(rangeOptions,await this.getRangeOptions(weapon));
+      if (Object.keys(rangeOptions).length > 1){askRange = true}
+      
+      //Het hand Options
+      handOptions = Object.assign(handOptions,await this.getHandOptions(weapon));
+      if (Object.keys(handOptions).length > 1){askHands = true}
 
     //If this is a magic spell impact roll  
     } else if (type === 'IM') {
@@ -98,17 +87,7 @@ export class BRPCombatRoll{
     
     //Work out damage bonus for Damage rolls
     if (type === 'DM') {
-      if (askHands && hands === "1"){
-        damageBonus = actor.system.dmgBonus.half
-      } else if (askHands && hands === "2"){
-        damageBonus = actor.system.dmgBonus.full
-      } else if (weapon.system.db === 'half') {
-        damageBonus = actor.system.dmgBonus.half
-      } else if (weapon.system.db === 'full') {
-        damageBonus = actor.system.dmgBonus.full        
-      } else  {
-        damageBonus = ""        
-      }
+      damageBonus = await this.getDamageBonus (actor,weapon,hands)
     }
 
 
@@ -162,4 +141,50 @@ export class BRPCombatRoll{
   }
 
 
+  //Get weapon Range Options
+  static async getRangeOptions (weapon) {
+    let rangeOptions = {
+      dmg1: game.i18n.localize("BRP.range") +":"+weapon.system.range1,      
+    }
+    if (weapon.system.range2 !=""){
+      rangeOptions= Object.assign(rangeOptions,{
+        dmg2: game.i18n.localize("BRP.range") +":"+weapon.system.range2
+      })
+    }
+    if (weapon.system.range3 !=""){
+      rangeOptions= Object.assign(rangeOptions,{
+        dmg3: game.i18n.localize("BRP.range") +":"+weapon.system.range3
+      })
+    }
+    return rangeOptions
+  }
+  
+  //Get wweapon Hand Options
+  static async getHandOptions (weapon) {
+    let handOptions = {}
+    if (weapon.system.hands === "1-2H") {
+      handOptions = Object.assign(handOptions,{
+        1: game.i18n.localize("BRP.1H"),
+        2: game.i18n.localize("BRP.2H"),
+      })
+    }
+    return handOptions
+  }
+
+  //Get weapon Damage Bonus
+  static async getDamageBonus (actor,weapon,hands) {
+    let damageBonus = ""
+    if (hands === "1"){
+      damageBonus = actor.system.dmgBonus.half
+    } else if (hands === "2"){
+      damageBonus = actor.system.dmgBonus.full
+    } else if (weapon.system.db === 'half') {
+      damageBonus = actor.system.dmgBonus.half
+    } else if (weapon.system.db === 'full') {
+      damageBonus = actor.system.dmgBonus.full        
+    } else  {
+      damageBonus = ""        
+    }
+    return damageBonus
+  }
 } 

@@ -490,6 +490,14 @@ export const magicMenuOptions = (actor,token) => [
     }
   },    
   {
+    name: game.i18n.localize("BRP.sendToChat"),
+    icon: '<i class="fas fa-scroll"></i>',
+    condition: () => true,
+    callback: (el) => {
+      const itemId = BRPUtilities.sendToChat(el, actor, "itemId");
+    }
+  },  
+  {
     name: game.i18n.localize("BRP.view"),
     icon: '<i class="fas fa-magnifying-glass"></i>',
     condition: () => true,
@@ -515,6 +523,14 @@ export const mutationMenuOptions = (actor,token) => [
     condition: () => true,
     callback: (el) => {}
   },
+  {
+    name: game.i18n.localize("BRP.sendToChat"),
+    icon: '<i class="fas fa-scroll"></i>',
+    condition: () => true,
+    callback: (el) => {
+      const itemId = BRPUtilities.sendToChat(el, actor, "itemId");
+    }
+  },    
   {
     name: game.i18n.localize("BRP.view"),
     icon: '<i class="fas fa-magnifying-glass"></i>',
@@ -614,6 +630,14 @@ export const psychicMenuOptions = (actor,token) => [
     }
   },  
   {
+    name: game.i18n.localize("BRP.sendToChat"),
+    icon: '<i class="fas fa-scroll"></i>',
+    condition: () => true,
+    callback: (el) => {
+      const itemId = BRPUtilities.sendToChat(el, actor, "itemId");
+    }
+  },    
+  {
     name: game.i18n.localize("BRP.view"),
     icon: '<i class="fas fa-magnifying-glass"></i>',
     condition: () => true,
@@ -640,6 +664,14 @@ export const superMenuOptions = (actor,token) => [
     callback: (el) => {}
   },
   {
+    name: game.i18n.localize("BRP.sendToChat"),
+    icon: '<i class="fas fa-scroll"></i>',
+    condition: () => true,
+    callback: (el) => {
+      const itemId = BRPUtilities.sendToChat(el, actor, "itemId");
+    }
+  },    
+  {
     name: game.i18n.localize("BRP.view"),
     icon: '<i class="fas fa-magnifying-glass"></i>',
     condition: () => true,
@@ -665,6 +697,14 @@ export const failingMenuOptions = (actor,token) => [
     condition: () => true,
     callback: (el) => {}
   },
+  {
+    name: game.i18n.localize("BRP.sendToChat"),
+    icon: '<i class="fas fa-scroll"></i>',
+    condition: () => true,
+    callback: (el) => {
+      const itemId = BRPUtilities.sendToChat(el, actor, "itemId");
+    }
+  },    
   {
     name: game.i18n.localize("BRP.view"),
     icon: '<i class="fas fa-magnifying-glass"></i>',

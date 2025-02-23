@@ -48,6 +48,7 @@ export class BRPCharacterSheet extends ActorSheet {
     context.useEDU = game.settings.get('brp','useEDU');
     context.useFP = game.settings.get('brp','useFP');
     context.useSAN = game.settings.get('brp','useSAN');
+    context.useRES5 = game.settings.get('brp','useRes5');
     context.useHPL = game.settings.get('brp','useHPL');
     context.useAlleg = game.settings.get('brp','useAlleg');
     context.usePassion = game.settings.get('brp','usePassion');    
@@ -77,6 +78,7 @@ export class BRPCharacterSheet extends ActorSheet {
     let resource = 2;
     if (game.settings.get('brp','useFP')) {resource++};
     if (game.settings.get('brp','useSAN')) {resource++};
+    if (game.settings.get('brp','useRes5')) {resource++};
     context.resource = resource;
     context.magicLabel = game.i18n.localize('BRP.magic')
     if (game.settings.get('brp','magicLabel') != "") {context.magicLabel = game.settings.get('brp','magicLabel')}
@@ -495,7 +497,8 @@ export class BRPCharacterSheet extends ActorSheet {
     html.find('.rollable.allegiance-name').click(BRPRollType._onAllegianceRoll.bind(this));   // Rollable Allegiance
     html.find('.rollable.passion-name').click(BRPRollType._onPassionRoll.bind(this));         // Rollable Passion
     html.find('.rollable.persTrait-name').click(BRPRollType._onPersTraitRoll.bind(this));     // Rollable Personality Trait    
-    html.find('.addWound').click(this._addWound.bind(this));                                  // Add Inventory Item
+    html.find('.addDamage').click(this._addDamage.bind(this));                                // Add Damage
+    html.find('.healWound').click(this._healWound.bind(this));                                // Heal Wound
     html.find('.rollable.damage-name').click(BRPRollType._onDamageRoll.bind(this));           // Damage Roll
     html.find('.rollable.weapon-name').click(BRPRollType._onWeaponRoll.bind(this));           // Weapon Skill Roll
     html.find('.rollable.attribute').click(this._onAttribute.bind(this));                     // Attribute modifier
@@ -595,11 +598,6 @@ export class BRPCharacterSheet extends ActorSheet {
     }
 
   }
-
-
-
-
-
 
   // Handle clickable rolls.
   _onRoll(event) {
@@ -703,11 +701,15 @@ export class BRPCharacterSheet extends ActorSheet {
     return this.actor.createEmbeddedDocuments("Item", newItemData);
   }  
 
-  //Add a Wound
-  async _addWound(event) {
-    await BRPDamage.takeDamage(event, this.actor, this.token,0)
+  //Add Damage
+  async _addDamage(event) {
+    await BRPDamage.addDamage(event, this.actor, this.token,0)
   }
 
+  //Heal a Wound
+  async _healWound(event) {
+    await BRPDamage.treatWound(event,this.actor)
+  }
 
   //Start Attribute modify
     async _onAttribute(event) {

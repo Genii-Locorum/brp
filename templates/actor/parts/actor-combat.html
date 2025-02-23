@@ -75,7 +75,7 @@
       {{#each hitlocs as |hitloc key|}}
         <li class="item" style="list-style:none;" data-item-id="{{hitloc._id}}">
           <div class="hitloc-tab-grid">
-            <div class="centre addWound" title="{{ localize 'BRP.addWound' }}" data-item-id="{{hitloc._id}}" data-type="wound">
+            <div class="centre addDamage" title="{{ localize 'BRP.addWound' }}" data-item-id="{{hitloc._id}}" data-type="wound">
               <a><i class="item-control fas fa-plus"></i></a>
             </div>
             <div class="item item-edit font14 {{#unless (eq hitloc.system.lowRoll 0)}}hitloc-name contextmenu{{/unless}}" data-item-id="{{hitloc._id}}">{{hitloc.system.displayName}}</div>
@@ -122,7 +122,7 @@
     {{else}} 
     <div class="diff-label">
       <span title="{{ localize 'BRP.woundHint' }}">{{ localize 'BRP.wounds'}} (</span>
-      <span class="centre addWound" title="{{ localize 'BRP.addWound' }}" data-item-id="total" data-type="wound">
+      <span class="centre addDamage" title="{{ localize 'BRP.addWound' }}" data-item-id="total" data-type="wound">
         <a><i class="item-control fas fa-plus"></i></a>
       </span>
       <span>)</span>

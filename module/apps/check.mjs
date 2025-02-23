@@ -1,6 +1,7 @@
 import { BRPactorDetails } from "./actorDetails.mjs"
 import { BRPSelectLists } from "./select-lists.mjs"
 import { BRPCombatRoll } from "../combat/combat-roll.mjs"
+import { BRPDamage } from "../combat/damage.mjs"
 import { GRCard} from "../cards/combined-card.mjs"
 import { OPCard} from "../cards/opposed-card.mjs"
 import { COCard} from "../cards/cooperative-card.mjs"
@@ -19,6 +20,7 @@ export class BRPCheck {
   //PT - Personality Trait Roll
   //RP - Reputation Roll
   //IM - Spell Impact Roll
+  //QC - Quick Combat
   
   //Card Types
   //NO = Normnal Roll
@@ -45,6 +47,7 @@ export class BRPCheck {
     let partic =await BRPactorDetails._getParticipantId(options.token,options.actor)
     let particImg = await BRPactorDetails.getParticImg(partic.particId,partic.particType)
     let particActor = await BRPactorDetails._getParticipant(partic.particId,partic.particType)
+    let target = await BRPactorDetails._getTargetId()
     let weapon = ""
     let skill = ""
     let config = {
@@ -60,6 +63,9 @@ export class BRPCheck {
       particId: partic.particId,
       particType: partic.particType,
       particImg,
+      targetName: target.targetName,
+      targetId: target.targetId,
+      targetType: target.targetType,
       characteristic: options.characteristic ?? false,
       skillId: options.skillId ?? false,
       itemId: options.itemId?? false,
@@ -79,7 +85,25 @@ export class BRPCheck {
       needDiff: options.needDiff ?? true,
       label: options.label ?? "",
       specLabel: options.specLabel ?? "",
-      opp: options.opp ?? "false"
+      opp: options.opp ?? "false",
+      description: "",
+      askHand: false,
+      askRange: false,
+      handOptions: {},
+      rangeOptions: {},
+      handsUsed: "",
+      rangeUsed: "dmg1",
+      dmgCrit: 0,
+      dmgSpec: 0,
+      dmgNorm: 0,
+      dmgCritForm: "",
+      dmgSpecForm: "",
+      dmgNormForm: "",
+      firstAid: false,
+      woundList: {},
+      woundTreated: "",
+      healing: 0,
+      healingLabel: ""
     }
 
     //Adjust Config based on roll type
@@ -99,6 +123,15 @@ export class BRPCheck {
           config.rawScore = skill.system.total + (options.actor.system.skillcategory[skill.system.category] ?? 0)
           config.targetScore = skill.system.total + (options.actor.system.skillcategory[skill.system.category] ?? 0)
         }
+        if (["magic","mutation","psychic","sorcery","super","failing"].includes(skill.type)) {
+          config.description = skill.system.description.replace(/(<([^>]+)>)/g, "");
+        }
+
+        //Check for First Aid
+        if (game.settings.get('brp','firstAidBRPID') != "" && game.settings.get('brp','firstAidBRPID') === skill.flags.brp.brpidFlag.id ) {
+          await BRPCheck.firstAid(config)
+        }
+
         break
       case 'AL':  
       case 'PA':
@@ -126,7 +159,7 @@ export class BRPCheck {
         if (options.rollType === 'IM') {
           config.label = config.label + " [" + game.i18n.localize('BRP.' + weapon.system.impact) + "] "
         }
-        let damageData = await BRPCombatRoll.damageFormula(weapon, particActor,options.rollType)
+        let damageData = await BRPCombatRoll.damageFormula(weapon, particActor,options.rollType,"")
         if (options.rollType === 'DM') {
           config.specLabel = game.i18n.localize('BRP.'+weapon.system.special)
         } else {
@@ -150,13 +183,36 @@ export class BRPCheck {
           config.targetScore = skill.system.total + (options.actor.system.skillcategory[skill.system.category] ?? 0)
         }
         config.malfunction = weapon.system.mal          
-        break     
+        break   
       case 'AR':
         config.label = options.label
         config.rollFormula = options.AVform  
         config.shiftKey = true
         config.chatTemplate =  'systems/brp/templates/chat/roll-armour.html'
         break
+      case 'QC':  
+        weapon = particActor.items.get(config.itemId)
+        config.label = weapon.name ?? ""
+        if (particActor.type === 'npc') {
+          config.rawScore = weapon.system.npcVal
+          config.targetScore = weapon.system.npcVal         
+        } else {
+          skill = particActor.items.get(config.skillId)
+          config.label = skill.name ?? ""
+          config.rawScore = skill.system.total + (options.actor.system.skillcategory[skill.system.category] ?? 0)
+          config.targetScore = skill.system.total + (options.actor.system.skillcategory[skill.system.category] ?? 0)
+        }  
+        if (weapon.system.hands === "1-2H") {
+          config.handOptions = Object.assign(config.handOptions, await BRPCombatRoll.getHandOptions(weapon));
+          config.askHands = true
+        }
+        config.rangeOptions = Object.assign(config.rangeOptions,await BRPCombatRoll.getRangeOptions(weapon));
+        if (Object.keys(config.rangeOptions).length > 1){config.askRange = true}
+        config.malfunction = weapon.system.mal        
+        config.chatTemplate =  'systems/brp/templates/chat/quick-combat.html' 
+        config.specLabel = game.i18n.localize('BRP.'+weapon.system.special) 
+
+        break   
       default: 
         ui.notifications.error(options.rollType +": " + game.i18n.format('BRP.errorRollInvalid')) 
         return false
@@ -232,6 +288,16 @@ export class BRPCheck {
           config.resistance = Number(usage.get('resistance'))
           config.flatMod = Number(usage.get('flatMod'))  
           config.diffVal = Number(usage.get('diffVal'))
+          if(config.askHands) {
+            config.handsUsed = usage.get('hands')
+          }
+          if(config.askRange) {
+            config.rangeUsed = usage.get('range')
+          }
+          if(config.firstAid) {
+            config.woundTreated = usage.get('wound')
+          }
+
       }
     } 
  
@@ -315,6 +381,9 @@ export class BRPCheck {
         particId: config.particId,
         particType: config.particType,
         particImg: config.particImg,
+        targetName: config.targetName,
+        targetId: config.targetId,
+        targetType: config.targetType,
         characteristic: config.characteristic ?? false,
         label: config.label,
         skillId: config.skillId,
@@ -338,7 +407,16 @@ export class BRPCheck {
         resultLevel: config.resultLevel,
         resultLabel: game.i18n.localize('BRP.resultLevel.'+config.resultLevel),
         specLabel: config.specLabel,
-        opp: config.opp
+        opp: config.opp,
+        description: config.description,
+        dmgCrit: config.dmgCrit,
+        dmgSpec: config.dmgSpec,
+        dmgNorm: config.dmgNorm,
+        dmgCritForm: config.dmgCritForm,
+        dmgSpecForm: config.dmgSpecForm,
+        dmgNormForm: config.dmgNormForm,
+        healing: config.healing,
+        healingLabel: config.healingLabel
       }]
     }
 
@@ -400,6 +478,36 @@ export class BRPCheck {
       if (config.resultLevel > 2) {config.resultLevel = 2}
       if (config.resultLevel < 1) {config.resultLevel = 1}
     }
+
+    //If Successful Quick Combat Roll then get the damage scores
+    if (config.rollType === 'QC' && config.resultLevel > 1) {
+      let actor = await BRPactorDetails._getParticipant(config.particId, config.particType)
+      let weapon = await actor.items.get(config.itemId)
+      let damBon = await BRPCombatRoll.getDamageBonus (actor,weapon,config.handsUsed)
+      let damForm = weapon.system[config.rangeUsed]
+      
+      config.dmgCritForm = await BRPCombatRoll.damageAssess (weapon, damForm, damBon, "4","DM")
+      config.dmgSpecForm = await BRPCombatRoll.damageAssess (weapon, damForm, damBon, "3","DM")
+      config.dmgNormForm = await BRPCombatRoll.damageAssess (weapon, damForm, damBon, "2","DM")
+
+      let critRoll = new Roll(config.dmgCritForm)
+      await critRoll.evaluate()
+      config.dmgCrit = Number(critRoll.total)
+      let specRoll = new Roll(config.dmgSpecForm)
+      await specRoll.evaluate()
+      config.dmgSpec = Number(specRoll.total)
+      let normRoll = new Roll(config.dmgNormForm)
+      await normRoll.evaluate()
+      config.dmgNorm = Number(normRoll.total)
+    }
+
+    //If First Aid Roll
+    if (config.firstAid) {
+      let healing = []
+      healing = await BRPDamage.applyHealing(config.woundTreated,config.resultLevel)
+      config.healing = healing.value
+      config.healingLabel = healing.formula
+    }
     return  
   }
 
@@ -409,6 +517,7 @@ export class BRPCheck {
   static async RollDialog (options) {
     let data =""
     const addStatOptions = await BRPSelectLists.addStatOptions(options.characteristic)
+    const difficultyOptions = await BRPSelectLists.getDifficultyOptions()
     switch (options.rollType) {
       case 'DM':
       case 'IM':  
@@ -439,9 +548,25 @@ export class BRPCheck {
           addStatOptions,
         }
       break  
-      
-        default:  
-        const difficultyOptions = await BRPSelectLists.getDifficultyOptions()
+      case 'QC':
+        data = {
+          type : options.rollType,
+          diffVal: options.diffVal,
+          cardType: options.cardType,
+          needDiff: options.needDiff,
+          useDiffValue: options.useDiffValue,
+          label: options.label,
+          diff: options.diff,
+          difficultyOptions: difficultyOptions,
+          askHands: options.askHands,
+          askRange: options.askRange,
+          rangeOptions: options.rangeOptions,
+          handOptions: options.handOptions,
+        }
+      break  
+
+      default:  
+
         data = {
           type : options.rollType,
           addStat: options.addStat,
@@ -453,6 +578,8 @@ export class BRPCheck {
           diff: options.diff,
           difficultyOptions,
           addStatOptions,
+          firstAid: options.firstAid,
+          woundList: options.woundList
         }
       break  
     }
@@ -684,5 +811,67 @@ export class BRPCheck {
       if (!messages.length) {return false}
       else {return messages[0].id}
   }
+
+  //First Aid Roll
+  static async firstAid(config) {
+
+    //DO NOT PROCESS YET - still a work in progress
+    return
+
+    //If not Coop, Combined or Normal Roll then don't trigger first aid
+    if(!['GR','CO','NO'].includes(config.cardType)){
+      return
+    }
+
+    //If Cooperatie or Combined Roll and not first partipant then don't trigger first aid
+    if (['GR', 'CO'].includes(config.cardType)) {
+      let checkData = {
+        cardType: config.cardType,
+        chatCard: [{
+          particId: config.particId
+      }]
+      }
+      let checkMsgId = await BRPCheck.checkNewMsg (checkData)
+      if (checkMsgId != false) {
+        return
+      }
+    }    
+
+    let actor = await BRPactorDetails._getParticipant(config.particId, config.particType)
+    let target = await BRPactorDetails._getParticipant(config.targetId, config.targetType)
+    //If there is target selected then use them, otherwise the actor making the roll
+    let partic = actor
+    if (target) {partic = target}
+
+    //Get wounds depending on whether this is a character or NPC
+    if (partic.type === 'character') {
+      let wounds = await partic.items.filter(itm=>itm.type === 'wound').filter(wnd=>!wnd.system.treated)
+      if (wounds.length === 0) {return}
+      config.firstAid = true
+      wounds.sort(function(a, b){
+        let x = a.system.value;
+        let y = b.system.value;
+        if (x < y) {return 1};
+        if (x > y) {return -1};
+        return 0;
+      });
+      for (let wound of wounds) {
+        let wndLoc = partic.items.get(wound.system.locId)
+        let label = ""
+        if (wndLoc) {
+          label = partic.name + ": " + wndLoc.system.displayName + " (" + wound.system.value + ")"
+        } else {
+          label = partic.name + ": " + game.i18n.localize('BRP.general') + " (" + wound.system.value + ")"
+        }
+        config.woundList = Object.assign(config.woundList,{[wound.uuid]:label}) 
+      } 
+
+    }
+    
+    
+    return
+  }
+
+
 
 } 

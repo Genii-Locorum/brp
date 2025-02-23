@@ -159,12 +159,17 @@ static async _onStatRoll(event){
   static async _onWeaponRoll(event){
     let itemId = event.currentTarget.closest('.item').dataset.itemId;    
     let skillId = event.currentTarget.closest('.item').dataset.skillId;    
+    let rollType = 'CM'
     let cardType = 'CB'
-    if (game.settings.get('brp','switchShift')) {
+    if (game.settings.get('brp','quickCombat') && event.shiftKey) {
+      rollType = 'QC'
+      cardType = "NO"
+      event.shiftKey = false
+    } else if (game.settings.get('brp','switchShift')) {
         event.shiftKey = !event.shiftKey
     }
     BRPCheck._trigger({
-      rollType: 'CM',
+      rollType,
       cardType,
       itemId,
       skillId,

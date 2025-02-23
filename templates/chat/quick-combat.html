@@ -1,18 +1,6 @@
 <form class="brp gr-card">
   <div class="">
-    {{#if (eq rollType 'CM')}}
-      <div class="bold">{{localize 'BRP.card.CM'}}</div>  
-    {{else}}    
-      {{#if (eq cardType 'RE')}}
-        <div class="bold">{{localize 'BRP.card.RE'}}</div>  
-      {{else}}  
-        {{#if (eq cardType 'PP')}}
-          <div class="bold">{{localize 'BRP.card.PP'}}</div>  
-        {{else}}    
-          <div class="bold">{{localize 'BRP.card.NO'}}</div>  
-        {{/if}}  
-      {{/if}}
-    {{/if}}
+    <div class="bold">{{localize 'BRP.card.QC'}}</div> 
     <ol class="gr-list">
       {{#each chatCard as |c key|}}
         <div class="dice-roll">
@@ -25,15 +13,15 @@
                 </div>
               </div>
               {{#if (eq c.resultLevel 4)}}
-                <span class="pending roll-succ">{{c.resultLabel}}: {{c.rollVal}} {{#unless (eq healing 0)}} [{{healing}}]{{/unless}}<i class="result-success fas fa-certificate"></i><i class="result-success fas fa-certificate"></i><i class="result-success fas fa-certificate"></i>
+                <span class="pending roll-succ">{{c.resultLabel}}: {{c.rollVal}} <i class="result-success fas fa-certificate"></i><i class="result-success fas fa-certificate"></i><i class="result-success fas fa-certificate"></i>
               {{/if}}
               
               {{#if (eq c.resultLevel 3)}}
-                <span class="pending roll-succ">{{c.resultLabel}}: {{c.rollVal}} {{#unless (eq healing 0)}} [{{healing}}]{{/unless}}<i class="result-success fas fa-certificate"></i><i class="result-success fas fa-certificate"></i>
+                <span class="pending roll-succ">{{c.resultLabel}}: {{c.rollVal}} <i class="result-success fas fa-certificate"></i><i class="result-success fas fa-certificate"></i>
               {{/if}}
           
               {{#if (eq c.resultLevel 2)}}
-                <span class="pending roll-succ">{{c.resultLabel}}: {{c.rollVal}} {{#unless (eq healing 0)}} [{{healing}}]{{/unless}}<i class="result-success fas fa-certificate"></i>
+                <span class="pending roll-succ">{{c.resultLabel}}: {{c.rollVal}} <i class="result-success fas fa-certificate"></i>
               {{/if}}
               
               {{#if (eq c.resultLevel 1)}}
@@ -41,7 +29,7 @@
               {{/if}}
               
               {{#if (eq c.resultLevel 0)}}
-                <span class="pending roll-fumb">{{c.resultLabel}}: {{c.rollVal}} {{#unless (eq healing 0)}} [{{healing}}]{{/unless}}<i class=" result-fail fas fa-skull"></i><i class="result-fail fas fa-skull"></i><i class=" result-fail fas fa-skull"></i>
+                <span class="pending roll-fumb">{{c.resultLabel}}: {{c.rollVal}} <i class=" result-fail fas fa-skull"></i><i class="result-fail fas fa-skull"></i><i class=" result-fail fas fa-skull"></i>
               {{/if}}
               {{#if (lt c.malfunction 0)}}
                 <span class="bold result-fail">  {{localize 'BRP.malfunction'}}</span>
@@ -67,18 +55,17 @@
                   +{{c.flatMod}}
                 {{/if}}
               </div>
-              {{#unless (eq c.healingLabel "")}}
-                <div class="rollHidden">{{localize 'BRP.healing'}}: {{c.healingLabel}}[{{c.healing}}]</div>
-              {{/unless}}
-              {{#if (eq c.description "")}}
-                <div class="rollHidden bottom-line">{{localize 'BRP.diceRoll'}}: {{c.diceRolled}}</div>
-              {{else}}
-                <div class="rollHidden">{{localize 'BRP.diceRoll'}}: {{c.diceRolled}}</div>
-                <div class="rollHidden bottom-line"> {{localize 'BRP.description'}}: {{c.description}}</div>
-              {{/if}}
+              <div class="rollHidden">{{localize 'BRP.diceRoll'}}: {{c.diceRolled}}</div>
+              <div class="rollHidden"> {{localize 'BRP.critical'}}: {{dmgCritForm}}</div>
+              <div class="rollHidden"> {{localize 'BRP.special'}}: {{dmgSpecForm}}</div>
+              <div class="rollHidden bottom-line"> {{localize 'BRP.normal'}}: {{dmgNormForm}}</div>
+
             </div>
           </div>  
         </div>  
+        {{#if (gt c.resultLevel 1)}}
+          <div class='quick-combat centre' title="{{localize 'BRP.damagesAbbrHint'}}">{{localize 'BRP.damagesAbbr'}}: {{dmgCrit}}/{{dmgSpec}}[{{specLabel}}]/{{dmgNorm}}</div>  
+        {{/if}}
       {{/each}}
     </ol>
   </div>

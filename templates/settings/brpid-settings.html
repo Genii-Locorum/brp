@@ -1,5 +1,5 @@
 <form class="brp settingsForm flexcol" autocomplete="off">
-    <h2 class="bold">{{localize 'BRP.Settings.charOptions'}}</h2>
+    <h2 class="bold">{{localize 'BRP.Settings.brpidOptions'}}</h2>
 
     <div class="form-group">
       <label class="bold">{{localize 'BRP.Settings.actorBRPID'}}</label>
@@ -17,6 +17,13 @@
       <p class="settingNote">{{localize 'BRP.Settings.itemBRPIDHint'}}</p>
     </div>      
 
+    <div class="form-group">
+      <label class="bold">{{localize 'BRP.Settings.firstAidBRPID'}}</label>
+      <div class="form-fields" style="flex: 1;">
+        <input class="centre" name="firstAidBRPID" type="text" value="{{firstAidBRPID.value}}"/>
+      </div>
+      <p class="settingNote">{{localize 'BRP.Settings.firstAidBRPIDHint'}}</p>
+    </div>
 
 
     <br>

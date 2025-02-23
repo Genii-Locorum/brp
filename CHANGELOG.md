@@ -1,4 +1,14 @@
-# CHANGELOG
+# CHANGE LOG
+
+## 12.1.42
+- Error witn Item "HP and PP" labels showing as undefined fixed.
+- Damage to the chest now triggers the correct statuses
+- There are icons to the left and right of Hit Points, the sword adds a wound, the heart heals a wound.
+- For powers (Magic, Sorcery, Superpower etc) the context menu now has the option to send the item description to the chat window.
+- When power roles (Magic, Psychic) are made then the description is also shown in the "hidden" section of the roll.  This only applies to Normal rolls at the moment.
+- There's a new Combat game setting that let's you have a "Quick Combat" roll.  This is a non-oppossed combat roll that also shows the damage that would be caused for each success level
+- There is now a Custom Resource in the "Optional Rules" menu - you can turn it on/off and give it a label.  It will then appear on the actor sheet.  There is no automation added.
+- There is now a Fatigue Point modifier on actors.
 
 ## 12.1.41
 - Slight tweak to roll cards to centre the first line next to the actor image

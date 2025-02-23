@@ -38,6 +38,7 @@ export class BRPNpcSheet extends ActorSheet {
     context.useEDU = game.settings.get('brp','useEDU');
     context.useFP = game.settings.get('brp','useFP');
     context.useSAN = game.settings.get('brp','useSAN');
+    context.useRes5 = game.settings.get('brp','useRes5');
     context.useHPL = game.settings.get('brp','useHPL');
     context.useAlleg = game.settings.get('brp','useAlleg');
     context.usePassion = game.settings.get('brp','usePassion');    
@@ -46,6 +47,14 @@ export class BRPNpcSheet extends ActorSheet {
     context.useBeastiary = game.settings.get('brp', 'beastiary')
     context.statOptions = await BRPSelectLists.addStatOptions("");
     context.showArmour = false
+
+    context.resource = 2
+    if (game.settings.get('brp','useFP')) {context.resource++}
+    if (game.settings.get('brp','useSAN')) {context.resource++}
+    if (game.settings.get('brp','useRes5')) {context.resource++}
+
+    if (game.settings.get('brp', 'beastiary')) {context.resource = 5}
+
     if (!context.useHPL || context.useBeastiary) {context.showArmour = true}
 
     context.extDescValue = await TextEditor.enrichHTML(

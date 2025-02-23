@@ -102,11 +102,16 @@
         },
         "fatigue": {
           "value": 5,
-          "max": 5
+          "max": 5,
+          "mod": 0
         },
         "sanity": {
           "value": 5,
           "max": 5
+        },
+        "res5": {
+          "value": 0,
+          "max": 0
         }
       }
     },

@@ -34,6 +34,14 @@
     </div>
 
     <div class="form-group">
+      <label class="bold">{{localize 'BRP.Settings.useRes5'}}</label>
+      <div class="form-fields" style="flex: 1;">
+        <input type="checkbox" {{checked useRes5.value}} name="useRes5">
+      </div>
+      <p class="settingNote">{{localize 'BRP.Settings.useRes5Hint'}}</p>
+    </div>
+
+    <div class="form-group">
       <label class="bold">{{localize 'BRP.Settings.hpLabelLong'}}</label>
       <div class="form-fields" style="flex: 1;">
         <input class="centre" name="hpLabelLong" type="text" value="{{hpLabelLong.value}}"/>
@@ -79,6 +87,22 @@
         <input class="centre" name="fpLabelShort" type="text" value="{{fpLabelShort.value}}"/>
       </div>
       <p class="settingNote">{{localize 'BRP.Settings.fpLabelShortHint'}}</p>
+    </div>
+
+    <div class="form-group">
+      <label class="bold">{{localize 'BRP.Settings.res5LabelLong'}}</label>
+      <div class="form-fields" style="flex: 1;">
+        <input class="centre" name="res5LabelLong" type="text" value="{{res5LabelLong.value}}"/>
+      </div>
+      <p class="settingNote">{{localize 'BRP.Settings.res5LabelLongHint'}}</p>
+    </div>
+
+    <div class="form-group">
+      <label class="bold">{{localize 'BRP.Settings.res5LabelShort'}}</label>
+      <div class="form-fields" style="flex: 1;">
+        <input class="centre" name="res5LabelShort" type="text" value="{{res5LabelShort.value}}"/>
+      </div>
+      <p class="settingNote">{{localize 'BRP.Settings.res5LabelShortHint'}}</p>
     </div>
 
     <div class="form-group">
