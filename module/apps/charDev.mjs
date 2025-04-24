@@ -1,5 +1,5 @@
-import { BRPactorDetails} from './actorDetails.mjs'
-import { OPCard} from "../cards/opposed-card.mjs"
+import { BRPactorDetails } from './actorDetails.mjs'
+import { OPCard } from "../cards/opposed-card.mjs"
 
 export class BRPCharDev {
 
@@ -15,49 +15,49 @@ export class BRPCharDev {
   }
 
   //Do XP improve for all items in actor
-  static async onXPGainAll(actor,token,rollType) {
+  static async onXPGainAll(actor, token, rollType) {
     let success = []
-    let results ={}
+    let results = {}
     let partic = await BRPactorDetails._getParticipantPriority(token, actor);
-    for (let i of partic.items) { 
+    for (let i of partic.items) {
       if (i.system.improve) {
-        results = await BRPCharDev.xpCheck(actor,token,i._id, rollType,'false');
+        results = await BRPCharDev.xpCheck(actor, token, i._id, rollType, 'false');
         success.push(results)
       }
       if (i.type === "persTrait") {
         if (i.system.oppimprove) {
-          results = await BRPCharDev.xpCheck(actor,token,i._id, rollType,'true');
+          results = await BRPCharDev.xpCheck(actor, token, i._id, rollType, 'true');
           success.push(results)
         }
       }
     }
-      await BRPCharDev.xpOutput(success, partic)
+    await BRPCharDev.xpOutput(success, partic)
     return;
   }
 
   //Prep a single XP check
-  static async onXPGainSingle(itemId,actor,token,rollType,opp) {
+  static async onXPGainSingle(itemId, actor, token, rollType, opp) {
     let success = []
-    let results ={}
+    let results = {}
     let partic = await BRPactorDetails._getParticipantPriority(token, actor);
     let item = partic.items.get(itemId)
-    if (opp === 'false' && !item.system.improve) {return}
-    if (opp === 'true' && !item.system.oppimprove) {return}
-    results = await BRPCharDev.xpCheck(actor,token,itemId, rollType,opp);
+    if (opp === 'false' && !item.system.improve) { return }
+    if (opp === 'true' && !item.system.oppimprove) { return }
+    results = await BRPCharDev.xpCheck(actor, token, itemId, rollType, opp);
     success.push(results)
     await BRPCharDev.xpOutput(success, partic)
     return;
-  }  
+  }
 
   //Make XP check and if appropriate calc/roll XP gain
-  static async xpCheck(actor,token,itemId,type,opp) {
+  static async xpCheck(actor, token, itemId, type, opp) {
     let partic = await BRPactorDetails._getParticipantPriority(token, actor);
     let improvVal = 0
     let item = partic.items.get(itemId)
     let name = item.name
     let score = item.system.total
     //Exclude system.effects from the improvement score
-    if (['skill','magic','psychic'].includes(item.type)) {
+    if (['skill', 'magic', 'psychic'].includes(item.type)) {
       score = score - item.system.effects
     }
 
@@ -66,30 +66,30 @@ export class BRPCharDev {
       name = item.system.oppName
     }
 
-    if (opp ==='false' && !item.system.improve) {return}
-    if (opp === 'true' && !item.system.oppimprove) {return}
-    let result = await BRPCharDev.xpRoll (score, actor.system.xpBonus)
-    if(result.level === 1) {
-      if(type === 'fixed') {
-        improvVal = game.settings.get('brp','xpFixed')
-      }  else {
-        let roll = new Roll(game.settings.get('brp','xpFormula'))
+    if (opp === 'false' && !item.system.improve) { return }
+    if (opp === 'true' && !item.system.oppimprove) { return }
+    let result = await BRPCharDev.xpRoll(score, actor.system.xpBonus)
+    if (result.level === 1) {
+      if (type === 'fixed') {
+        improvVal = game.settings.get('brp', 'xpFixed')
+      } else {
+        let roll = new Roll(game.settings.get('brp', 'xpFormula'))
         await roll.evaluate();
         improvVal = roll.total
       }
     }
     if (opp === 'false') {
       await item.update({
-                         'system.improve': false,
-                         'system.xp': item.system.xp+improvVal
-                        })
+        'system.improve': false,
+        'system.xp': item.system.xp + improvVal
+      })
     } else {
       await item.update({
-                        'system.oppimprove': false,
-                        'system.xp': item.system.xp-improvVal
-       })
+        'system.oppimprove': false,
+        'system.xp': item.system.xp - improvVal
+      })
 
-    }                    
+    }
     return ({
       name: name,
       level: result.level,
@@ -97,56 +97,57 @@ export class BRPCharDev {
       rollResult: result.rollResult,
       score: score,
       improvVal,
-    })  
+    })
   }
 
 
   //XP Check Dice Roll & return success level
-  static async xpRoll(target,bonus) {
+  static async xpRoll(target, bonus) {
     let resultLevel = 0
     let roll = new Roll('1D100')
     await roll.evaluate();
-    target =Math.min(target,100)
-    if (Number(roll.total)+bonus > target) {
+    target = Math.min(target, 100)
+    if (Number(roll.total) + bonus > target) {
       resultLevel = 1
     }
     //If Game Settings and Dice So Nice then show dice roll
-    if (game.settings.get('brp','xpRollDice') && game.modules.get('dice-so-nice')?.active) {
-      game.dice3d.showForRoll(roll,game.user,true,null,false)  //Roll,user,sync,whispher,blind
-    } 
-  
-    return ({'level': resultLevel,
-             'diceRoll': Number(roll.total)+bonus,
-             'rollResult': Number(roll.total)
-            })
+    if (game.settings.get('brp', 'xpRollDice') && game.modules.get('dice-so-nice')?.active) {
+      game.dice3d.showForRoll(roll, game.user, true, null, false)  //Roll,user,sync,whispher,blind
+    }
+
+    return ({
+      'level': resultLevel,
+      'diceRoll': Number(roll.total) + bonus,
+      'rollResult': Number(roll.total)
+    })
   }
 
 
   //Get ready to produce the XP check Output
   static async xpOutput(success, partic) {
     const html = await BRPCharDev.xpChatCard(success, partic.name, partic.img);
-    let msg = await BRPCharDev.showXPChat (html,partic)
-  }  
+    let msg = await BRPCharDev.showXPChat(html, partic)
+  }
 
 
   //Prepare XP Roll Chat Card
-  static async xpChatCard (success, actorName, actrImg) {
+  static async xpChatCard(success, actorName, actrImg) {
     let messageData = {
       speaker: ChatMessage.getSpeaker({ actor: actorName }),
       actrImage: actrImg,
       success: success
     }
     const messageTemplate = 'systems/brp/templates/chat/XP-result.html'
-    let html = await renderTemplate (messageTemplate, messageData);
+    let html = await renderTemplate(messageTemplate, messageData);
     return html;
   }
 
 
   // Display the XP chat card
   static async showXPChat(html, actor) {
-    let chatData={};
-    let chatType=""
-    if (!foundry.utils.isNewerVersion(game.version,'11')) {
+    let chatData = {};
+    let chatType = ""
+    if (!foundry.utils.isNewerVersion(game.version, '11')) {
       chatType = CONST.CHAT_MESSAGE_STYLES.OTHER
     } else {
       chatType = CONST.CHAT_MESSAGE_OTHER
@@ -162,42 +163,42 @@ export class BRPCharDev {
         actor: actor._id,
         alias: actor.name,
       },
-      }
+    }
     let msg = await ChatMessage.create(chatData);
     foundry.audio.AudioHelper.play({ src: CONFIG.sounds.dice }, true)
-    return 
+    return
   }
 
 
   //POW Improvement Check
-  static async powImprov (actor,token,type){
+  static async powImprov(actor, token, type) {
     let partic = await BRPactorDetails._getParticipantPriority(token, actor);
     let max = 21   //TODO - replace this with variable based on culture
     let score = partic.system.stats.pow.total
-    let chance = (max-score)*5
+    let chance = (max - score) * 5
     let resultLevel = 0
     let roll = new Roll('1D100')
     let improvVal = 0
     await roll.evaluate();
     //If Game Settings and Dice So Nice then show dice roll
-      if (game.settings.get('brp','xpRollDice') && game.modules.get('dice-so-nice')?.active) {
-        game.dice3d.showForRoll(roll,game.user,true,null,false)  //Roll,user,sync,whispher,blind
-      } 
+    if (game.settings.get('brp', 'xpRollDice') && game.modules.get('dice-so-nice')?.active) {
+      game.dice3d.showForRoll(roll, game.user, true, null, false)  //Roll,user,sync,whispher,blind
+    }
 
     if (roll.total <= chance) {
       resultLevel = 1
       if (type === "fixed") {
         improvVal = 1
-      } else if (type != "fixed"){
-      let impRoll = new Roll ('1D3-1')
-      await impRoll.evaluate()
-      improvVal = impRoll.total
-      //If Game Settings and Dice So Nice then show dice roll
-        if (game.settings.get('brp','xpRollDice') && game.modules.get('dice-so-nice')?.active) {
-          game.dice3d.showForRoll(impRoll,game.user,true,null,false)  //Roll,user,sync,whispher,blind
-        } 
+      } else if (type != "fixed") {
+        let impRoll = new Roll('1D3-1')
+        await impRoll.evaluate()
+        improvVal = impRoll.total
+        //If Game Settings and Dice So Nice then show dice roll
+        if (game.settings.get('brp', 'xpRollDice') && game.modules.get('dice-so-nice')?.active) {
+          game.dice3d.showForRoll(impRoll, game.user, true, null, false)  //Roll,user,sync,whispher,blind
+        }
       }
-    }    
+    }
     let success = []
     success.push({
       name: game.i18n.localize('BRP.StatsPowAbbr'),
@@ -206,12 +207,13 @@ export class BRPCharDev {
       rollResult: roll.total,
       score: chance,
       improvVal,
-    }) 
+    })
     await BRPCharDev.xpOutput(success, partic)
 
-    await partic.update ({'system.stats.pow.exp': partic.system.stats.pow.exp + improvVal,
-                          'system.stats.pow.improve':false
-                        })
+    await partic.update({
+      'system.stats.pow.exp': partic.system.stats.pow.exp + improvVal,
+      'system.stats.pow.improve': false
+    })
     return;
   }
 }

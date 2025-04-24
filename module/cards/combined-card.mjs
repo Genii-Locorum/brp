@@ -1,70 +1,70 @@
-import { BRPCheck} from "../apps/check.mjs"
-import { OPCard} from "./opposed-card.mjs"
+import { BRPCheck } from "../apps/check.mjs"
+import { OPCard } from "./opposed-card.mjs"
 
 export class GRCard {
 
   //Add a new skill to a Combined Card
-  static async GRAdd (config, msgId) {
+  static async GRAdd(config, msgId) {
     if (game.user.isGM) {
       let targetMsg = await game.messages.get(msgId)
-      if ((targetMsg.flags.brp.chatCard).length >=5 && (targetMsg.flags.brp.cardType === 'GR' || targetMsg.flags.brp.cardType === 'CO')) {
-        ui.notifications.warn(game.i18n.localize('BRP.resolveMax'))    
+      if ((targetMsg.flags.brp.chatCard).length >= 5 && (targetMsg.flags.brp.cardType === 'GR' || targetMsg.flags.brp.cardType === 'CO')) {
+        ui.notifications.warn(game.i18n.localize('BRP.resolveMax'))
         return
-      } else if ((targetMsg.flags.brp.chatCard).length >=2 && targetMsg.flags.brp.cardType === 'OP') {
-        ui.notifications.warn(game.i18n.localize('BRP.resolveMax'))    
+      } else if ((targetMsg.flags.brp.chatCard).length >= 2 && targetMsg.flags.brp.cardType === 'OP') {
+        ui.notifications.warn(game.i18n.localize('BRP.resolveMax'))
         return
       }
 
       let newChatCards = targetMsg.flags.brp.chatCard
       newChatCards.push(config.chatCard[0])
-      await targetMsg.update({'flags.brp.chatCard' :newChatCards})
+      await targetMsg.update({ 'flags.brp.chatCard': newChatCards })
       const pushhtml = await BRPCheck.startChat(targetMsg.flags.brp)
-      await targetMsg.update({content: pushhtml})
+      await targetMsg.update({ content: pushhtml })
     } else {
       const availableGM = game.users.find(d => d.active && d.isGM)?.id
       if (availableGM) {
         game.socket.emit('system.brp', {
           type: 'GRAdd',
           to: availableGM,
-          value: {config, msgId}
+          value: { config, msgId }
         })
       } else {
-        ui.notifications.warn(game.i18n.localize('BRP.noAvailableGM'))     
+        ui.notifications.warn(game.i18n.localize('BRP.noAvailableGM'))
       }
     }
   }
 
-  
+
   //Remove a skill from a combined card
-  static async GRRemove (config) {
+  static async GRRemove(config) {
     let targetMsg = await game.messages.get(config.targetChatId)
     let rank = config.dataset.rank
-    let newChatCards =targetMsg.flags.brp.chatCard
+    let newChatCards = targetMsg.flags.brp.chatCard
     newChatCards.splice(rank, 1)
-    await targetMsg.update({'flags.brp.chatCard' :newChatCards})
+    await targetMsg.update({ 'flags.brp.chatCard': newChatCards })
     return
   }
 
 
   //Resolve a combined card - roll dice, update and close
-  static async GRResolve (config) {
+  static async GRResolve(config) {
     let targetMsg = await game.messages.get(config.targetChatId)
-    let chatCards =targetMsg.flags.brp.chatCard
+    let chatCards = targetMsg.flags.brp.chatCard
     let cardType = targetMsg.flags.brp.cardType
-    if (chatCards.length <2) {
+    if (chatCards.length < 2) {
       ui.notifications.warn(game.i18n.localize('BRP.resolveMore'))
       return
     }
-    
+
     let newchatCards = []
     let roll = new Roll(chatCards[0].rollFormula)
     await roll.evaluate()
     let rollResult = Number(roll.result)
 
-    let diceRolled=""
-    for (let diceRoll = 0; diceRoll<roll.dice.length; diceRoll++) {
-      for (let thisDice = 0; thisDice<roll.dice[diceRoll].values.length; thisDice++){
-        if (thisDice !=0 || diceRoll !=0) {
+    let diceRolled = ""
+    for (let diceRoll = 0; diceRoll < roll.dice.length; diceRoll++) {
+      for (let thisDice = 0; thisDice < roll.dice[diceRoll].values.length; thisDice++) {
+        if (thisDice != 0 || diceRoll != 0) {
           diceRolled = diceRolled + ", "
         }
         diceRolled = diceRolled + roll.dice[diceRoll].values[thisDice]
@@ -81,30 +81,34 @@ export class GRCard {
         rollVal: i.rollVal,
         cardType,
       })
-      if (i.resultLevel > 1) {successes++}
-      i.resultLabel = game.i18n.localize('BRP.resultLevel.'+i.resultLevel)
+      if (i.resultLevel > 1) { successes++ }
+      i.resultLabel = game.i18n.localize('BRP.resultLevel.' + i.resultLevel)
       newchatCards.push(i)
     }
     //await OPCard.showDiceRoll(chatCards[0])
-    successes = successes/chatCards.length    
-    await targetMsg.update({'flags.brp.chatCard' :newchatCards,
-                            'flags.brp.state': 'closed',
-                            'flags.brp.successLevel': successes,
-                            'flags.brp.rollResult': rollResult,
-                            'rolls': [roll]})
+    successes = successes / chatCards.length
+    await targetMsg.update({
+      'flags.brp.chatCard': newchatCards,
+      'flags.brp.state': 'closed',
+      'flags.brp.successLevel': successes,
+      'flags.brp.rollResult': rollResult,
+      'rolls': [roll]
+    })
     const pushhtml = await BRPCheck.startChat(targetMsg.flags.brp)
-    await targetMsg.update({content: pushhtml})                        
-    await BRPCheck.tickXP (targetMsg.flags.brp)
+    await targetMsg.update({ content: pushhtml })
+    await BRPCheck.tickXP(targetMsg.flags.brp)
     return
-  }  
+  }
 
-  static async GRClose (config) {
+  static async GRClose(config) {
     let targetMsg = await game.messages.get(config.targetChatId)
-    await targetMsg.update({'flags.brp.state': 'closed',
-                            'flgs.brp.successLevel': -1,
-                            'flags.brp.chatCard' :[]})
+    await targetMsg.update({
+      'flags.brp.state': 'closed',
+      'flgs.brp.successLevel': -1,
+      'flags.brp.chatCard': []
+    })
     const pushhtml = await BRPCheck.startChat(targetMsg.flags.brp)
-    await targetMsg.update({content: pushhtml})                        
+    await targetMsg.update({ content: pushhtml })
     return
-  }  
+  }
 }

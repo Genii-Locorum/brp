@@ -1,13 +1,13 @@
 <form class="brp">
   <div class="dice-roll">
-    <div class="font14" style="display: block">  
+    <div class="font14" style="display: block">
       <div class="XPCheck bold"> {{localize 'BRP.rollStats'}}</div>
-      <img class="open-actor" src="{{actrImage}}" height="60" width="60"/>
-      {{#each results as | line key|}}  
+      <img class="open-actor" src="{{actrImage}}" height="60" width="60" />
+      {{#each results as | line key|}}
         <div class="flavour-result" style="padding-left: 10px">
-          {{line.label}} ({{line.formula}}: {{line.diceRolled}}) = {{line.result}} 
-        </div>  
-      {{/each}}  
+          {{line.label}} ({{line.formula}}: {{line.diceRolled}}) = {{line.result}}
+        </div>
+      {{/each}}
     </div>
   </div>
-</form>  
+</form>

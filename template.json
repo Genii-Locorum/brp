@@ -1,6 +1,9 @@
 {
   "Actor": {
-    "types": ["character","npc"],
+    "types": [
+      "character",
+      "npc"
+    ],
     "templates": {
       "base": {
         "stats": {
@@ -9,7 +12,7 @@
             "redist": 0,
             "culture": 0,
             "exp": 0,
-            "age":0,
+            "age": 0,
             "effects": 0,
             "cost": 1,
             "formula": ""
@@ -19,7 +22,7 @@
             "redist": 0,
             "culture": 0,
             "exp": 0,
-            "age":0,
+            "age": 0,
             "effects": 0,
             "cost": 1,
             "formula": ""
@@ -29,7 +32,7 @@
             "redist": 0,
             "culture": 0,
             "exp": 0,
-            "age":0,
+            "age": 0,
             "effects": 0,
             "cost": 3,
             "formula": ""
@@ -39,7 +42,7 @@
             "redist": 0,
             "culture": 0,
             "exp": 0,
-            "age":0,
+            "age": 0,
             "effects": 0,
             "cost": 1,
             "formula": ""
@@ -49,10 +52,10 @@
             "redist": 0,
             "culture": 0,
             "exp": 0,
-            "age":0,
+            "age": 0,
             "effects": 0,
             "cost": 3,
-            "improve":false,
+            "improve": false,
             "formula": ""
           },
           "dex": {
@@ -60,7 +63,7 @@
             "redist": 0,
             "culture": 0,
             "exp": 0,
-            "age":0,
+            "age": 0,
             "effects": 0,
             "cost": 3,
             "formula": ""
@@ -70,7 +73,7 @@
             "redist": 0,
             "culture": 0,
             "exp": 0,
-            "age":0,
+            "age": 0,
             "effects": 0,
             "cost": 1,
             "formula": ""
@@ -80,7 +83,7 @@
             "redist": 0,
             "culture": 0,
             "exp": 0,
-            "age":0,
+            "age": 0,
             "effects": 0,
             "cost": 3,
             "formula": ""
@@ -116,7 +119,9 @@
       }
     },
     "character": {
-      "templates": ["base"],
+      "templates": [
+        "base"
+      ],
       "biography": "",
       "background": "",
       "backstory": "",
@@ -137,11 +142,12 @@
       "hand": "Right",
       "lock": false,
       "skillOrder": true,
-      "skillcategory": {
-      }
+      "skillcategory": {}
     },
     "npc": {
-      "templates": ["base"],
+      "templates": [
+        "base"
+      ],
       "description": "",
       "extDesc": "",
       "majorWnd": false,
@@ -152,7 +158,7 @@
       "sanLoss": "",
       "sanDesc": "",
       "movDesc": "",
-      "ap": 0,      
+      "ap": 0,
       "bap": 0,
       "apRnd": "",
       "bapRnd": "",
@@ -194,11 +200,34 @@
         "stat1": "siz",
         "stat2": "con",
         "multi": 0.5
-      }    
+      }
     }
   },
   "Item": {
-    "types": ["gear","skill","hit-location", "personality", "profession","power","magic","mutation","psychic","sorcery","super","failing","powerMod","armour","weapon","wound","allegiance","passion","persTrait","reputation","skillcat","culture"],
+    "types": [
+      "gear",
+      "skill",
+      "hit-location",
+      "personality",
+      "profession",
+      "power",
+      "magic",
+      "mutation",
+      "psychic",
+      "sorcery",
+      "super",
+      "failing",
+      "powerMod",
+      "armour",
+      "weapon",
+      "wound",
+      "allegiance",
+      "passion",
+      "persTrait",
+      "reputation",
+      "skillcat",
+      "culture"
+    ],
     "templates": {
       "base": {
         "description": "",
@@ -206,16 +235,20 @@
       }
     },
     "gear": {
-      "templates": ["base"],
+      "templates": [
+        "base"
+      ],
       "quantity": 1,
       "enc": 0,
       "price": "",
       "equipStatus": "carried",
-      "pSCurr":0,
+      "pSCurr": 0,
       "pSMax": 0
     },
     "skill": {
-      "templates": ["base"],
+      "templates": [
+        "base"
+      ],
       "subType": "",
       "base": 0,
       "xp": 0,
@@ -225,22 +258,22 @@
       "personal": 0,
       "effects": 0,
       "baseFormula": {
-        "1":{
-              "stat":"fixed",
-              "value":0
-            },
-        "2":{
-              "stat":"fixed",
-              "value":0
-            },
-        "Func": "or"    
+        "1": {
+          "stat": "fixed",
+          "value": 0
+        },
+        "2": {
+          "stat": "fixed",
+          "value": 0
+        },
+        "Func": "or"
       },
       "noXP": false,
       "category": "cmmnmod",
       "chosen": false,
       "specialism": false,
-      "group":false,
-      "groupSkills" : [],
+      "group": false,
+      "groupSkills": [],
       "variable": false,
       "specName": "",
       "mainName": "",
@@ -251,9 +284,8 @@
       "basic": false,
       "combat": false
     },
-
     "hit-location": {
-      "displayName":"",
+      "displayName": "",
       "creatureType": "",
       "lowRoll": 0,
       "highRoll": 0,
@@ -273,30 +305,34 @@
       "apRnd": "",
       "bapRnd": ""
     },
-
     "personality": {
-      "templates": ["base"],
+      "templates": [
+        "base"
+      ],
       "skills": [],
       "groups": []
     },
-
     "profession": {
-      "templates": ["base"],
+      "templates": [
+        "base"
+      ],
       "skills": [],
       "groups": [],
       "powers": [],
       "minWealth": 0,
-      "maxWealth":0
+      "maxWealth": 0
     },
-
     "power": {
-      "templates": ["base"],
+      "templates": [
+        "base"
+      ],
       "level": 0,
       "category": ""
-    }, 
-
+    },
     "magic": {
-      "templates": ["base"],
+      "templates": [
+        "base"
+      ],
       "base": 0,
       "xp": 0,
       "profession": 0,
@@ -316,16 +352,18 @@
       "mem": false,
       "improve": false
     },
-
     "mutation": {
-      "templates": ["base"],
+      "templates": [
+        "base"
+      ],
       "impact": "adv",
       "minorOnly": false,
       "minor": true
     },
-
     "psychic": {
-      "templates": ["base"],
+      "templates": [
+        "base"
+      ],
       "base": 0,
       "xp": 0,
       "profession": 0,
@@ -344,23 +382,25 @@
       "cultural": false,
       "improve": false
     },
-
     "sorcery": {
-      "templates": ["base"],
+      "templates": [
+        "base"
+      ],
       "mem": false,
       "range": "",
       "pppl": "1",
       "powCost": "0",
       "maxLvl": 1,
       "currLvl": 1,
-      "memLvl":1,
+      "memLvl": 1,
       "var": false
     },
-
     "super": {
-      "templates": ["base"],
+      "templates": [
+        "base"
+      ],
       "powerMod": [],
-      "category":"",
+      "category": "",
       "cpc": "1",
       "cpcSpent": 0,
       "level": 1,
@@ -373,18 +413,24 @@
       "chosen": false
     },
     "failing": {
-      "templates": ["base"],
+      "templates": [
+        "base"
+      ],
       "shortDesc": "",
       "cpcMod": 0
     },
     "powerMod": {
-      "templates": ["base"],
+      "templates": [
+        "base"
+      ],
       "shortDesc": "",
       "cpcMod": 0,
       "perLvl": false
     },
     "armour": {
-      "templates": ["base"],
+      "templates": [
+        "base"
+      ],
       "av1": 0,
       "av2": 0,
       "avr1": "",
@@ -407,11 +453,13 @@
       "equipStatus": "carried",
       "HPL": false,
       "coverage": "",
-      "pSCurr":0,
+      "pSCurr": 0,
       "pSMax": 0
     },
     "weapon": {
-      "templates": ["base"],
+      "templates": [
+        "base"
+      ],
       "weaponType": "",
       "skill1": "none",
       "skill2": "none",
@@ -430,9 +478,9 @@
       "db": 0,
       "att": 0,
       "special": "",
-      "range1":  "S",
-      "range2":  "",
-      "range3":  "",
+      "range1": "S",
+      "range2": "",
+      "range3": "",
       "hands": "1H",
       "crew": "",
       "hp": 0,
@@ -445,7 +493,7 @@
       "rof": 0,
       "radius": 0,
       "parry": true,
-      "str":0,
+      "str": 0,
       "dex": 0,
       "enc": 0,
       "price": "",
@@ -453,7 +501,7 @@
       "coverage": "",
       "quantity": 1,
       "npcVal": 0,
-      "pSCurr":0,
+      "pSCurr": 0,
       "pSMax": 0
     },
     "wound": {
@@ -463,7 +511,9 @@
       "locId": ""
     },
     "allegiance": {
-      "templates": ["base"],
+      "templates": [
+        "base"
+      ],
       "allegPoints": 0,
       "opposeAlleg": "",
       "allegTitle": "",
@@ -472,16 +522,20 @@
       "allegAllied": false,
       "allegApoth": false,
       "benefits": "",
-      "xp": 0      
+      "xp": 0
     },
     "passion": {
-      "templates": ["base"],
+      "templates": [
+        "base"
+      ],
       "base": 0,
       "improve": false,
-      "xp": 0      
+      "xp": 0
     },
     "persTrait": {
-      "templates": ["base"],
+      "templates": [
+        "base"
+      ],
       "oppName": "",
       "base": 0,
       "improve": false,
@@ -490,11 +544,15 @@
       "basic": false
     },
     "reputation": {
-      "templates": ["base"],
-      "base": 0      
+      "templates": [
+        "base"
+      ],
+      "base": 0
     },
     "skillcat": {
-      "templates": ["base"],
+      "templates": [
+        "base"
+      ],
       "attrib": {
         "str": "0",
         "con": "0",
@@ -506,10 +564,12 @@
         "edu": "0"
       },
       "stat": "none",
-      "mod": 0   
+      "mod": 0
     },
     "culture": {
-      "templates": ["base"],
+      "templates": [
+        "base"
+      ],
       "skills": [],
       "groups": [],
       "move": 0,
@@ -544,9 +604,9 @@
         },
         "edu": {
           "formula": "2d6+6",
-          "mod":0
+          "mod": 0
         }
-      }  
-    }      
+      }
+    }
   }
 }

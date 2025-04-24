@@ -1,11 +1,11 @@
 <form class="brp gr-card">
   <div class="">
-    <div class="bold">{{localize 'BRP.card.QC'}}</div> 
+    <div class="bold">{{localize 'BRP.card.QC'}}</div>
     <ol class="gr-list">
       {{#each chatCard as |c key|}}
         <div class="dice-roll">
           <li class='actor-roll'>
-            <img class="open-actor" src="{{c.particImg}}" height="60" width="60" title="{{c.particName}}"/>
+            <img class="open-actor" src="{{c.particImg}}" height="60" width="60" title="{{c.particName}}" />
             <div class="roll-details">
               <div class="header roll-truncate">
                 <div class='name'>
@@ -15,26 +15,26 @@
               {{#if (eq c.resultLevel 4)}}
                 <span class="pending roll-succ">{{c.resultLabel}}: {{c.rollVal}} <i class="result-success fas fa-certificate"></i><i class="result-success fas fa-certificate"></i><i class="result-success fas fa-certificate"></i>
               {{/if}}
-              
+
               {{#if (eq c.resultLevel 3)}}
                 <span class="pending roll-succ">{{c.resultLabel}}: {{c.rollVal}} <i class="result-success fas fa-certificate"></i><i class="result-success fas fa-certificate"></i>
               {{/if}}
-          
+
               {{#if (eq c.resultLevel 2)}}
                 <span class="pending roll-succ">{{c.resultLabel}}: {{c.rollVal}} <i class="result-success fas fa-certificate"></i>
               {{/if}}
-              
+
               {{#if (eq c.resultLevel 1)}}
                 <span class="pending roll-fail">{{c.resultLabel}}: {{c.rollVal}} <i class="result-fail fas fa-skull"></i>
               {{/if}}
-              
+
               {{#if (eq c.resultLevel 0)}}
                 <span class="pending roll-fumb">{{c.resultLabel}}: {{c.rollVal}} <i class=" result-fail fas fa-skull"></i><i class="result-fail fas fa-skull"></i><i class=" result-fail fas fa-skull"></i>
               {{/if}}
               {{#if (lt c.malfunction 0)}}
-                <span class="bold result-fail">  {{localize 'BRP.malfunction'}}</span>
+                <span class="bold result-fail"> {{localize 'BRP.malfunction'}}</span>
               {{/if}}
-            </span>
+              </span>
             </div>
 
 
@@ -45,8 +45,8 @@
               <div class="rollHidden">{{localize 'BRP.rawScore'}}: {{c.rawScore}}</div>
               {{#isOr (eq ../cardType 'RE') (eq ../cardType 'PP')}}
                 <div class="rollHidden">{{localize 'BRP.resistVal'}}: {{c.resistance}}</div>
-              {{else}}
-                <div class="rollHidden">{{localize 'BRP.difficulty'}}: {{c.diffLabel}}</div>
+      {{else}}
+        <div class="rollHidden">{{localize 'BRP.difficulty'}}: {{c.diffLabel}}</div>
               {{/isOr}}
               <div class="rollHidden"> {{localize 'BRP.flatMod'}}:
                 {{#if (lt c.flatMod 0)}}
@@ -61,12 +61,12 @@
               <div class="rollHidden bottom-line"> {{localize 'BRP.normal'}}: {{dmgNormForm}}</div>
 
             </div>
-          </div>  
-        </div>  
+          </div>
+        </div>
         {{#if (gt c.resultLevel 1)}}
-          <div class='quick-combat centre' title="{{localize 'BRP.damagesAbbrHint'}}">{{localize 'BRP.damagesAbbr'}}: {{dmgCrit}}/{{dmgSpec}}[{{specLabel}}]/{{dmgNorm}}</div>  
+          <div class='quick-combat centre' title="{{localize 'BRP.damagesAbbrHint'}}">{{localize 'BRP.damagesAbbr'}}: {{dmgCrit}}/{{dmgSpec}}[{{specLabel}}]/{{dmgNorm}}</div>
         {{/if}}
       {{/each}}
     </ol>
   </div>
-</form>  
+</form>

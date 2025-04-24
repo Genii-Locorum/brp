@@ -1,8 +1,5 @@
 {
-
-
   "BRP": {
-    
     "StatsStr": "Strength",
     "StatsCon": "Constitution",
     "StatsSiz": "Size",
@@ -11,7 +8,6 @@
     "StatsDex": "Dexterity",
     "StatsCha": "Charisma",
     "StatsEdu": "Education",
-  
     "StatsStrAbbr": "STR",
     "StatsConAbbr": "CON",
     "StatsSizAbbr": "SIZ",
@@ -20,7 +16,6 @@
     "StatsDexAbbr": "DEX",
     "StatsChaAbbr": "CHA",
     "StatsEduAbbr": "EDU",
-  
     "StatsStrDeriv": "Effort",
     "StatsConDeriv": "Stamina",
     "StatsSizDeriv": "Damage Mod",
@@ -29,9 +24,6 @@
     "StatsDexDeriv": "Agility",
     "StatsChaDeriv": "Charm",
     "StatsEduDeriv": "Knowledge",
-
-
-
     "1H": "1H",
     "2H": "2H",
     "1-2H": "1/2H",
@@ -136,7 +128,7 @@
     "carried": "Carried",
     "castHealing": "Healing Spell",
     "category": "Category",
-    "categoryShort":"Cat",
+    "categoryShort": "Cat",
     "changeOrder": "Change Order",
     "character": "Character",
     "characteristic": "Characteristic",
@@ -247,7 +239,7 @@
     "fpBonus": "{label} Bonus",
     "fpRecover": "Regain 1 FP",
     "fpRecoverAll": "Regain all FP",
-    "fpSpend":" Spend 1 FP",
+    "fpSpend": " Spend 1 FP",
     "full": "Full",
     "gameModifiers": "Game Modifiers",
     "gear": "Gear",
@@ -302,7 +294,7 @@
     "impossible": "Impossible",
     "improve": "Improvement check",
     "incapacitated": "Incapacitated",
-    "incapacitatedHint":"Your character is incapacitated and can no longer fight.  If this is a limb you may try to heal yourself, if a chest wound you can not perform any actions.",
+    "incapacitatedHint": "Your character is incapacitated and can no longer fight.  If this is a limb you may try to heal yourself, if a chest wound you can not perform any actions.",
     "increase": "Increase",
     "inexpensive": "Inexpensive",
     "initError": "The Initiative Formula '{formula}' in game settings is not valid.  The default of DEX is being used",
@@ -327,7 +319,7 @@
     "lock": "Double click to lock/unlock the actor sheet",
     "locTypeHint": "Body locations result in death if there's 3 times the max HP, otherwise it's a limb and is severed in these circumstances",
     "magic": "Magic",
-    "magical":"Magical",
+    "magical": "Magical",
     "major": "Major",
     "majorWound": "Major Wound",
     "majorWoundAbbr": "Mjr Wnd",
@@ -361,8 +353,8 @@
     "mpCurr": "Curr MP",
     "mpMax": "Max MP",
     "mpShort": "MP",
-    "mpStoreCurr":" Current Stored MP",
-    "mpStoreMax":" Max Stored MP",
+    "mpStoreCurr": " Current Stored MP",
+    "mpStoreMax": " Max Stored MP",
     "multiple": "Multiple",
     "multiplier": "Multiplier",
     "mutation": "Mutation",
@@ -395,7 +387,7 @@
     "oppImprove": "Opposed Improvement check",
     "opposeAlleg": "Opposed Allegiance",
     "opposed": "Opposed",
-    "opposedTotal":"Opposed Total",
+    "opposedTotal": "Opposed Total",
     "opposedTrait": "Opposed Trait",
     "optionalRules": "Optional Rules",
     "options": "Options",
@@ -410,7 +402,7 @@
     "passion": "Passion",
     "percmod": "Perception",
     "percPen": "Perception Modifier:",
-    "perLvl":"per level",
+    "perLvl": "per level",
     "perLvlHint": "CP reward is multiplied by superpower level if active",
     "pers": "Pers",
     "personal": "Personal",
@@ -506,7 +498,7 @@
     "skill": "Skill",
     "skillcat": "Skill Category",
     "skillHint": "Click the skill score for a normal roll (SHIFT + click to roll average difficulty/no mods), CTRL + click for an oppossed roll, ALT + click for a combined roll.",
-    "skillMod":"Skill Mods",
+    "skillMod": "Skill Mods",
     "skillModHint": "Penalty to Manipulation/Perception/Physical/both Hide & Stealth skills",
     "skillOpt": "Skill Options",
     "skills": "Skills",
@@ -548,27 +540,27 @@
       "prompt": "This token has rollable characteristics.<br>What do you want to do ?",
       "rolled": "{name} characteristics rolled",
       "title": "Rollables detected"
-    },  
+    },
     "total": "Total",
     "totalENC": "Total ENC",
-    "totalXP":"Total XP",
+    "totalXP": "Total XP",
     "trait": "Trait",
     "treated": "Treated",
     "treatWound": "Treat Wound",
     "tricky": "Tricky",
-    "type":"Type",
+    "type": "Type",
     "UnableToCopyToClipboard": "Unable to copy to clipboard, this is likely due to your browser security settings.",
     "unconscious": "Unconscious",
     "unconsciousHint": "Your character is knocked unconscious and must receive medical attention.",
     "untreated": "Untreated",
-    "var":"var",
+    "var": "var",
     "variable": "Variable Base",
     "variableHint": "Toggle this on to choose rules that determine base skill chance",
     "view": "View",
     "viewBaseStat": "View creature base stats",
     "viewItem": "View Item",
     "viewStat": "View NPC stats, skills etc",
-    "vsPOW":"vs POW value",
+    "vsPOW": "vs POW value",
     "wealth": "Wealth",
     "wealthLevel": {
       "0": "Destitute",
@@ -593,7 +585,6 @@
     "xpModifiers": "XP Settings",
     "xpRoll": "Improvement Checks",
     "zcmbtmod": "Combat",
-
     "resultLevel": {
       "0": "Fumble",
       "1": "Fail",
@@ -601,7 +592,6 @@
       "3": "Special",
       "4": "Critical"
     },
-
     "card": {
       "NO": "Normal Roll",
       "PP": "POW v POW",
@@ -616,10 +606,8 @@
       "IM": "Magic Spell Impact",
       "QC": "Quick Combat"
     },
-
     "ErrorRollNotFound": "Type of roll not found!",
-
-    "Settings":{
+    "Settings": {
       "actorBackColour": "Actor Sheet Background Colour",
       "actorBackColourHint": "Actor Character sheet main background colour",
       "actorBRPID": "Add Actor BRPID",
@@ -663,9 +651,9 @@
       "charSheetMainFontSize": "Character Sheet Main Font Size",
       "charSheetMainFontSizeHint": "Change the pixel size of the main font on the character sheet",
       "charSheetTitleFont": "Character Sheet Title Font",
-      "charSheetTitleFontHint": "Change the title font on the character sheet",     
+      "charSheetTitleFontHint": "Change the title font on the character sheet",
       "charSheetTitleFontSize": "Character Sheet Title Font Size",
-      "charSheetTitleFontSizeHint": "Change the pixel size of the title font on the character sheet",      
+      "charSheetTitleFontSizeHint": "Change the pixel size of the title font on the character sheet",
       "combatOptions": "Combat Settings",
       "combatOptionsHint": "Set combat and initiative options",
       "diceOptions": "Dice Roll Optional Settings",
@@ -695,11 +683,11 @@
       "hpMod": "Hit Point Modifier",
       "hpModHint": "For Characters: 1 = default, 1.5 increases HP by 50%, 2 = Double",
       "initMod": "Initiative Modifier",
-      "initModHint" : "Enter the initiative modifer (e.g. +3, +1D3, *2)",
+      "initModHint": "Enter the initiative modifer (e.g. +3, +1D3, *2)",
       "initRound": "Reroll Initiative",
       "initRoundHint": "Reroll initiative every combat round - no, manually or automatically",
       "initStat": "Initiative Stat",
-      "initStatHint" : "Choose the stat that the initiative is based off (used Fixed for no stat)",
+      "initStatHint": "Choose the stat that the initiative is based off (used Fixed for no stat)",
       "itemBRPID": "Add Item BRPID",
       "itemBRPIDHint": "Automatically add BRPID to items when created",
       "magicLabel": "Magic Tab Title",
@@ -754,7 +742,7 @@
       "tokenDropBarsHint": "Define whether the NPC resource bars are shown on the token",
       "useAlleg": "Include Allegiances",
       "useAllegHint": "Allows characters to have allegiances",
-      "useAVRand":"Use Random Armour Values",
+      "useAVRand": "Use Random Armour Values",
       "useAVRandHint": "Uses random armour values (e.g. 1D6 instead of fixed value)",
       "useEDU": "Include Education",
       "useEDUHint": "Characters will have an EDU characteristic",
@@ -791,7 +779,6 @@
       "xpRollDice": "Show Improvement Dice Rolls",
       "xpRollDiceHint": "Show XP & POW improvement dice rolls if you have Dice So Nice"
     },
-
     "BRPIDFlag": {
       "documents-in-world": "{count} documents in the world",
       "documents-in-compendiums": "{count} documents in compendiums",
@@ -808,6 +795,6 @@
       "priority": "System ID Priority",
       "summary": "Set a group identifier that can be used to find the the most up to date version of this {type}. The System ID should use the English translation of the {type} to support localization across all languages.",
       "title": "Edit System ID (BRPID)"
-    }    
+    }
   }
 }

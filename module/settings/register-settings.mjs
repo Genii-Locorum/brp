@@ -10,7 +10,7 @@ import { BRPDisplaySettings } from "./settings-displayOptions.mjs";
 import { BRPbrpidSettings } from "./settings-brpidOptions.mjs";
 
 
-export async function registerSettings () {
+export async function registerSettings() {
 
   //Power Menu Button
   game.settings.registerMenu('brp', 'powerRules', {
@@ -70,7 +70,7 @@ export async function registerSettings () {
     type: BRPNPCSettings,
     restricted: true
   })
-  BRPNPCSettings.registerSettings()  
+  BRPNPCSettings.registerSettings()
 
   //Character Options Menu Button
   game.settings.registerMenu('brp', 'charOptions', {
@@ -80,7 +80,7 @@ export async function registerSettings () {
     type: BRPCharSettings,
     restricted: true
   })
-  BRPCharSettings.registerSettings()    
+  BRPCharSettings.registerSettings()
 
   //Game Modifiers Menu Button
   game.settings.registerMenu('brp', 'gameMods', {
@@ -90,7 +90,7 @@ export async function registerSettings () {
     type: BRPGameModifiers,
     restricted: true
   })
-  BRPGameModifiers.registerSettings()    
+  BRPGameModifiers.registerSettings()
 
   //Display Settings Button
   game.settings.registerMenu('brp', 'displayOptions', {
@@ -100,7 +100,7 @@ export async function registerSettings () {
     type: BRPDisplaySettings,
     restricted: true
   })
-  BRPDisplaySettings.registerSettings()      
+  BRPDisplaySettings.registerSettings()
 
   //BRPID Settings Button
   game.settings.registerMenu('brp', 'brpidOptions', {
@@ -110,7 +110,7 @@ export async function registerSettings () {
     type: BRPbrpidSettings,
     restricted: true
   })
-  BRPbrpidSettings.registerSettings()      
+  BRPbrpidSettings.registerSettings()
 
   game.settings.register('brp', "switchShift", {
     name: "BRP.Settings.switchShift",
@@ -121,12 +121,12 @@ export async function registerSettings () {
     default: false
   });
 
-  //Invisible Game Settings 
+  //Invisible Game Settings
   game.settings.register('brp', "development", {
     name: "",
     hint: "",
     scope: "world",
-    requiresReload:false,
+    requiresReload: false,
     config: false,
     type: Boolean,
     default: false
@@ -136,7 +136,7 @@ export async function registerSettings () {
     name: "",
     hint: "",
     scope: "world",
-    requiresReload:false,
+    requiresReload: false,
     config: false,
     type: Boolean,
     default: false
@@ -146,7 +146,7 @@ export async function registerSettings () {
     name: "",
     hint: "",
     scope: "world",
-    requiresReload:false,
+    requiresReload: false,
     config: false,
     type: String,
     default: "12.1.36"

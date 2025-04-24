@@ -1,43 +1,43 @@
 <form class="brp" id="difficulty-roll-form">
-    <div class = "diff-label">{{label}}</div>
-    <br>
-    <div class="flexcol">
-      {{#if askSuccess}}
-        <div class="flexrow">
-          <label class="resource-label-diff">{{ localize 'BRP.askSuccess' }}</label>
-          <select data-handle-change name="success">
-            {{selectOptions successOptions selected=success}}
-          </select>
-        </div>  
-        <br>
-      {{/if}}
+  <div class="diff-label">{{label}}</div>
+  <br>
+  <div class="flexcol">
+    {{#if askSuccess}}
+      <div class="flexrow">
+        <label class="resource-label-diff">{{ localize 'BRP.askSuccess' }}</label>
+        <select data-handle-change name="success">
+          {{selectOptions successOptions selected=success}}
+        </select>
+      </div>
+      <br>
+    {{/if}}
 
-      {{#if askRange}}
-        <div class="flexrow">
-          <label class="resource-label-diff">{{ localize 'BRP.askRange' }}</label>
-          <select data-handle-change name="range">
-            {{selectOptions rangeOptions selected=range}}
-          </select>
-        </div>  
-        <br>
-      {{/if}}
+    {{#if askRange}}
+      <div class="flexrow">
+        <label class="resource-label-diff">{{ localize 'BRP.askRange' }}</label>
+        <select data-handle-change name="range">
+          {{selectOptions rangeOptions selected=range}}
+        </select>
+      </div>
+      <br>
+    {{/if}}
 
-      {{#if askHands}}
-        <div class="flexrow">
+    {{#if askHands}}
+      <div class="flexrow">
         <label class="resource-label-diff">{{ localize 'BRP.askHands' }}</label>
-          <select data-handle-change name="hands">
-            {{selectOptions handOptions selected=hands}}
-          </select>
-        </div>  
-        <br>
-      {{/if}}
+        <select data-handle-change name="hands">
+          {{selectOptions handOptions selected=hands}}
+        </select>
+      </div>
+      <br>
+    {{/if}}
 
-      {{#if askLevel}}
-        <div class="flexrow">
-          <label class="resource-label-diff">{{ localize 'BRP.askLevel' }}</label>
-          <input name="level" type="text" value=1  data-dtype="Number"/>
-        </div>  
-      {{/if}}
-    </div>
-    <br>
-  </form>
+    {{#if askLevel}}
+      <div class="flexrow">
+        <label class="resource-label-diff">{{ localize 'BRP.askLevel' }}</label>
+        <input name="level" type="text" value=1 data-dtype="Number" />
+      </div>
+    {{/if}}
+  </div>
+  <br>
+</form>

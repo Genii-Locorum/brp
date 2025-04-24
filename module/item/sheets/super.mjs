@@ -4,13 +4,13 @@ import { addBRPIDSheetHeaderButton } from '../../brpid/brpid-button.mjs'
 export class BRPSuperSheet extends ItemSheet {
 
   //Add BRPID buttons to sheet
-  _getHeaderButtons () {
+  _getHeaderButtons() {
     const headerButtons = super._getHeaderButtons()
     addBRPIDSheetHeaderButton(headerButtons, this)
     return headerButtons
   }
 
-  static get defaultOptions () {
+  static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ['brp', 'sheet', 'super'],
       template: 'systems/brp/templates/item/super.html',
@@ -18,11 +18,11 @@ export class BRPSuperSheet extends ItemSheet {
       height: 550,
       dragDrop: [{ dragSelector: '.item' }],
       scrollY: ['.tab.description'],
-      tabs: [{navSelector: '.sheet-tabs',contentSelector: '.sheet-body',initial: 'details'}]
+      tabs: [{ navSelector: '.sheet-tabs', contentSelector: '.sheet-body', initial: 'details' }]
     })
   }
 
-  async getData () {
+  async getData() {
     const sheetData = super.getData()
     sheetData.isGM = game.user.isGM
     sheetData.hasOwner = this.item.isEmbedded === true
@@ -30,9 +30,9 @@ export class BRPSuperSheet extends ItemSheet {
     sheetData.hasOwner = this.item.isEmbedded === true
     const actor = this.item.parent
     const powerMods = [];
-    if(actor) {
-      for (let itm of itemData.system.powerMod){
-        let tempItm = fromUuidSync(itm.uuid)  
+    if (actor) {
+      for (let itm of itemData.system.powerMod) {
+        let tempItm = fromUuidSync(itm.uuid)
         powerMods.push(tempItm);
       }
     }
@@ -40,8 +40,8 @@ export class BRPSuperSheet extends ItemSheet {
     sheetData.powerMods = powerMods.sort(BRPUtilities.sortByNameKey);
 
     //Ensure mainName is populated
-    if( this.item.system.mainName ==="" ) {
-      this.object.update({'system.mainName': this.item.name});
+    if (this.item.system.mainName === "") {
+      this.object.update({ 'system.mainName': this.item.name });
     }
 
     sheetData.enrichedDescriptionValue = await TextEditor.enrichHTML(
@@ -50,10 +50,10 @@ export class BRPSuperSheet extends ItemSheet {
         async: true,
         secrets: sheetData.editable
       }
-    )  
-    sheetData.powerName = game.settings.get('brp',this.item.type+'Label')
+    )
+    sheetData.powerName = game.settings.get('brp', this.item.type + 'Label')
     if (sheetData.powerName === "") {
-      sheetData.powerName = game.i18n.localize("BRP."+this.item.type)
+      sheetData.powerName = game.i18n.localize("BRP." + this.item.type)
     }
     sheetData.enrichedGMDescriptionValue = await TextEditor.enrichHTML(
       sheetData.data.system.gmDescription,
@@ -61,12 +61,12 @@ export class BRPSuperSheet extends ItemSheet {
         async: true,
         secrets: sheetData.editable
       }
-    )  
+    )
 
     return sheetData
   }
 
-  activateListeners (html) {
+  activateListeners(html) {
     super.activateListeners(html)
     // Everything below here is only needed if the sheet is editable
     if (!this.options.editable) return
@@ -81,14 +81,14 @@ export class BRPSuperSheet extends ItemSheet {
   }
 
   //Allow for a skill being dragged and dropped on to the peronality sheet either in the main skill list or an Optional Group
-  async _onDrop (event, type = 'powerMod', collectionName = 'powerMod') {
+  async _onDrop(event, type = 'powerMod', collectionName = 'powerMod') {
     event.preventDefault()
     event.stopPropagation()
     //If the item isn't owned by an actor then don't allow the drop
-    if (!this.item.parent) {return}
+    if (!this.item.parent) { return }
     const dataList = await BRPUtilities.getDataFromDropEvent(event, 'Item')
     const collection = this.item.system[collectionName] ? foundry.utils.duplicate(this.item.system[collectionName]) : []
- 
+
     for (const item of dataList) {
       if (!item || !item.system) continue
       if (![type].includes(item.type)) {
@@ -97,34 +97,34 @@ export class BRPSuperSheet extends ItemSheet {
 
       //Dropping in Main Skill list
       if (collection.find(el => el.brpid === item.flags.brp.brpidFlag.id)) {
-        ui.notifications.warn(item.name + " : " +   game.i18n.localize('BRP.dupItem'));
+        ui.notifications.warn(item.name + " : " + game.i18n.localize('BRP.dupItem'));
         continue
       }
 
       //Create Embedded PowerMod on Actor Sheet and push the ID in to the collection (i.e. don't push the item)
       const actor = this.item.parent
       const itemData = foundry.utils.duplicate(item)
-      let newItem = await Item.create(itemData, {parent: actor});
-      collection.push({uuid: newItem.uuid, brpid: newItem.flags.brp.brpidFlag.id})
+      let newItem = await Item.create(itemData, { parent: actor });
+      collection.push({ uuid: newItem.uuid, brpid: newItem.flags.brp.brpidFlag.id })
     }
     await this.item.update({ [`system.${collectionName}`]: collection })
   }
 
   //Handle toggle states
-  async onItemToggle(event){
+  async onItemToggle(event) {
     event.preventDefault();
-    const prop=event.currentTarget.closest('.item-toggle').dataset.property;
-    let checkProp={};
+    const prop = event.currentTarget.closest('.item-toggle').dataset.property;
+    let checkProp = {};
     if (prop === 'specialism' || prop === 'chosen') {
-      checkProp = {[`system.${prop}`] : !this.object.system[prop]}
-    } else {return }      
-    
+      checkProp = { [`system.${prop}`]: !this.object.system[prop] }
+    } else { return }
+
     const item = await this.object.update(checkProp);
     return item;
   }
 
-  //Delete's an item in the main list      
-  async _onItemDelete (event, collectionName = 'items') {
+  //Delete's an item in the main list
+  async _onItemDelete(event, collectionName = 'items') {
     const item = $(event.currentTarget).closest('.item')
     const itemId = item.data('item-id')
     const itemIndex = this.item.system[collectionName].findIndex(i => (itemId && i.uuid === itemId))
@@ -138,7 +138,7 @@ export class BRPSuperSheet extends ItemSheet {
   }
 
   //View an item in the main list
-  async _onItemView (event) {
+  async _onItemView(event) {
     const target = $(event.currentTarget).closest('.item')
     const itemId = target.data('item-id')
     const item = await fromUuid(itemId)

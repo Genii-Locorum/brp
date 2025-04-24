@@ -1,7 +1,7 @@
 import { BRPUtilities } from '../apps/utilities.mjs'
 
 export class BRPID {
-  static init () {
+  static init() {
     CONFIG.Actor.compendiumIndexFields.push('flags.brp.brpidFlag')
     CONFIG.Item.compendiumIndexFields.push('flags.brp.brpidFlag')
     CONFIG.JournalEntry.compendiumIndexFields.push('flags.brp.brpidFlag')
@@ -16,7 +16,7 @@ export class BRPID {
    * Returns RegExp for valid type and format
    * @returns RegExp
    */
-  static regExKey () {
+  static regExKey() {
     return new RegExp('^(' + Object.keys(BRPID.gamePropertyLookup).join('|') + ')\\.(.*?)\\.(.+)$')
   }
 
@@ -25,7 +25,7 @@ export class BRPID {
    * @param document
    * @returns string
    */
-  static getPrefix (document) {
+  static getPrefix(document) {
     for (const type in BRPID.documentNameLookup) {
       if (document instanceof BRPID.documentNameLookup[type]) {
         return type + '.' + (document.type ?? '') + '.'
@@ -39,7 +39,7 @@ export class BRPID {
    * @param document
    * @returns string
    */
-  static guessId (document) {
+  static guessId(document) {
     return BRPID.getPrefix(document) + BRPUtilities.toKebabCase(document.name)
   }
 
@@ -48,7 +48,7 @@ export class BRPID {
    * @param key
    * @returns string
    */
-  static guessGroupFromKey (id) {
+  static guessGroupFromKey(id) {
     if (id) {
       const key = id.replace(/([^\\.-]+)$/, '')
       if (key.substr(-1) === '-') {
@@ -63,7 +63,7 @@ export class BRPID {
    * @param document
    * @returns string
    */
-  static guessGroupFromDocument (document) {
+  static guessGroupFromDocument(document) {
     return BRPID.guessGroupFromKey(document.flags?.brp?.brpidFlag?.id)
   }
 
@@ -76,7 +76,7 @@ export class BRPID {
    * @param showLoading Show loading bar
    * @returns array
    */
-  static async expandItemArray ({ itemList, lang = game.i18n.lang, langFallback = true, showLoading = false } = {}) {
+  static async expandItemArray({ itemList, lang = game.i18n.lang, langFallback = true, showLoading = false } = {}) {
     let items = []
     const brpids = itemList.filter(it => typeof it === 'string')
     items = itemList.filter(it => typeof it !== 'string')
@@ -95,7 +95,7 @@ export class BRPID {
         for (const doc of all) {
           notmissing.push(doc.flags.brp.brpidFlag.id)
         }
-        ui.notifications.warn(game.i18n.format('BRP.BRPIDFlag.error.documents-not-found', { brpids: brpids.filter(x => !notmissing.includes(x)).join(', '), lang}))
+        ui.notifications.warn(game.i18n.format('BRP.BRPIDFlag.error.documents-not-found', { brpids: brpids.filter(x => !notmissing.includes(x)).join(', '), lang }))
       }
       items = items.concat(all)
     }
@@ -109,7 +109,7 @@ export class BRPID {
    * @param list array of items
    * @returns array
    */
-  static findBRPIdInList (brpid, list) {
+  static findBRPIdInList(brpid, list) {
     let itemName = ''
     const BRPIDKeys = foundry.utils.flattenObject(game.i18n.translations.BRP.BRPIDFlag.keys)
     if (typeof BRPIDKeys[brpid] !== 'undefined') {
@@ -124,7 +124,7 @@ export class BRPID {
    * @param list array of items
    * @returns RegExp
    */
-  static makeGroupRegEx (brpids) {
+  static makeGroupRegEx(brpids) {
     if (typeof brpids === 'string') {
       brpids = [brpids]
     } else if (typeof brpids === 'undefined' || typeof brpids.filter !== 'function') {
@@ -184,7 +184,7 @@ export class BRPID {
    * @param showLoading Show loading bar
    * @returns array
    */
-  static async fromBRPIDRegexAll ({ brpidRegExp, type, lang = game.i18n.lang, scope = 'match', langFallback = true, showLoading = false } = {}) {
+  static async fromBRPIDRegexAll({ brpidRegExp, type, lang = game.i18n.lang, scope = 'match', langFallback = true, showLoading = false } = {}) {
     if (!brpidRegExp) {
       return []
     }
@@ -237,7 +237,7 @@ export class BRPID {
    * @param showLoading Show loading bar
    * @returns array
    */
-  static async fromBRPIDAll ({ brpid, lang = game.i18n.lang, scope = 'match', langFallback = true, showLoading = false } = {}) {
+  static async fromBRPIDAll({ brpid, lang = game.i18n.lang, scope = 'match', langFallback = true, showLoading = false } = {}) {
     if (!brpid || typeof brpid !== 'string') {
       return []
     }
@@ -262,7 +262,7 @@ export class BRPID {
    * @param langFallback should the system fall back to en incase there is no translation
    * @param showLoading Show loading bar
    */
-  static async fromBRPIDRegexBest ({ brpidRegExp, type, lang = game.i18n.lang, langFallback = true, showLoading = false } = {}) {
+  static async fromBRPIDRegexBest({ brpidRegExp, type, lang = game.i18n.lang, langFallback = true, showLoading = false } = {}) {
     const allDocuments = await this.fromBRPIDRegexAll({ brpidRegExp, type, lang, scope: 'all', langFallback, showLoading })
     const bestDocuments = this.filterBestBRPID(allDocuments)
     return bestDocuments
@@ -277,7 +277,7 @@ export class BRPID {
    * @param lang the language to match against ("en", "es", ...)
    * @param langFallback should the system fall back to en incase there is no translation
    */
-  static fromBRPID (brpid, lang = game.i18n.lang, langFallback = true) {
+  static fromBRPID(brpid, lang = game.i18n.lang, langFallback = true) {
     return BRPID.fromBRPIDBest({ brpid, lang, langFallback })
   }
 
@@ -291,7 +291,7 @@ export class BRPID {
    * @param langFallback should the system fall back to en incase there is no translation
    * @param showLoading Show loading bar
    */
-  static fromBRPIDBest ({ brpid, lang = game.i18n.lang, langFallback = true, showLoading = false } = {}) {
+  static fromBRPIDBest({ brpid, lang = game.i18n.lang, langFallback = true, showLoading = false } = {}) {
     if (!brpid || typeof brpid !== 'string') {
       return []
     }
@@ -305,7 +305,7 @@ export class BRPID {
    * @param documents
    * @returns
    */
-  static filterBestBRPID (documents) {
+  static filterBestBRPID(documents) {
     const bestMatchDocuments = new Map()
     for (const doc of documents) {
       const docBRPID = doc.getFlag('brp', 'brpidFlag')?.id
@@ -346,7 +346,7 @@ export class BRPID {
    * @param langFallback should the system fall back to en in case there is no translation
    * @returns
    */
-  static filterAllBRPID (documents, langFallback) {
+  static filterAllBRPID(documents, langFallback) {
     if (!langFallback) {
       return documents
     }
@@ -384,7 +384,7 @@ export class BRPID {
    * @param progressBar If greater than zero show percentage
    * @returns array
    */
-  static async documentsFromWorld ({ brpidRegExp, type, lang = game.i18n.lang, langFallback = true, progressBar = 0 } = {}) {
+  static async documentsFromWorld({ brpidRegExp, type, lang = game.i18n.lang, langFallback = true, progressBar = 0 } = {}) {
     if (!brpidRegExp) {
       return []
     }
@@ -412,7 +412,7 @@ export class BRPID {
 
     return candidateDocuments.sort(BRPID.compareBRPIDPrio)
   }
-  
+
   /**
    * Get a list of all documents matching the BRPID regex, and language from the compendiums.
    * The document list is sorted with the highest priority first.
@@ -423,7 +423,7 @@ export class BRPID {
    * @param progressBar If greater than zero show percentage
    * @returns array
    */
-  static async documentsFromCompendia ({ brpidRegExp, type, lang = game.i18n.lang, langFallback = true, progressBar = 0 }) {
+  static async documentsFromCompendia({ brpidRegExp, type, lang = game.i18n.lang, langFallback = true, progressBar = 0 }) {
     if (!brpidRegExp) {
       return []
     }
@@ -468,14 +468,14 @@ export class BRPID {
       }
     }
     return candidateDocuments.sort(BRPID.compareBRPIDPrio)
-  }  
+  }
 
   /**
    * Sort a list of document on BRPID priority - the highest first.
    * @example
    * aListOfDocuments.sort(BRPID.compareBRPIDPrio)
    */
-  static compareBRPIDPrio (a, b) {
+  static compareBRPIDPrio(a, b) {
     return (
       b.getFlag('brp', 'brpidFlag')?.priority -
       a.getFlag('brp', 'brpidFlag')?.priority
@@ -486,7 +486,7 @@ export class BRPID {
    * Translates the first part of a BRPID to what those documents are called in the `game` object.
    * @param brpid a single brpid
    */
-  static getGameProperty (brpid) {
+  static getGameProperty(brpid) {
     const type = brpid.split('.')[0]
     const gameProperty = BRPID.gamePropertyLookup[type]
     if (!gameProperty) {
@@ -497,7 +497,7 @@ export class BRPID {
     return gameProperty
   }
 
-  static get gamePropertyLookup () {
+  static get gamePropertyLookup() {
     return {
       a: 'actors',
       c: 'cards',
@@ -514,7 +514,7 @@ export class BRPID {
    * Translates the first part of a BRPID to what those documents are called in the `game` object.
    * @param brpid a single brpid
    */
-  static getDocumentType (brpid) {
+  static getDocumentType(brpid) {
     const type = brpid.split('.')[0]
     const documentType = BRPID.documentNameLookup[type]
     if (!documentType) {
@@ -525,7 +525,7 @@ export class BRPID {
     return documentType
   }
 
-  static get documentNameLookup () {
+  static get documentNameLookup() {
     return {
       a: Actor,
       c: Card,
@@ -537,4 +537,4 @@ export class BRPID {
       s: Scene
     }
   }
-}  
+}

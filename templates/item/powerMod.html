@@ -1,12 +1,12 @@
 <form class="{{cssClass}} brp" autocomplete="off">
   <header class="sheet-header">
-  
+
     <div class="hitlocgrid">
       <div class="item-title"> {{localize 'BRP.powerMod'}}:</div>
-      <div class="stat-input"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></div>
-    </div>  
-  
-    <img class="item-image" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="50" width="50"/>
+      <div class="stat-input"><input name="name" type="text" value="{{item.name}}" placeholder="Name" /></div>
+    </div>
+
+    <img class="item-image" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="50" width="50" />
 
   </header>
 
@@ -23,25 +23,25 @@
   <section class="item-bottom-panel">
     <section class="sheet-body">
       <br>
-  
+
       {{!-- Details Tab --}}
-      <div class="tab active" data-group="primary" data-tab="details">  
+      <div class="tab active" data-group="primary" data-tab="details">
         <div class="powermod-scores">
-          {{#if isGM}}  
-            <div class="skill-display" title ="{{localize 'BRP.cpcModHint'}}">{{localize 'BRP.cpcMod'}}</div>
-            <div class="stat-input"><input name="system.cpcMod" type="text" value="{{item.system.cpcMod}}" data-dtype="Number"/></div>
+          {{#if isGM}}
+            <div class="skill-display" title="{{localize 'BRP.cpcModHint'}}">{{localize 'BRP.cpcMod'}}</div>
+            <div class="stat-input"><input name="system.cpcMod" type="text" value="{{item.system.cpcMod}}" data-dtype="Number" /></div>
             <div></div>
-            <div class="skill-cat item-toggle {{#if item.system.perLvl}} toggle-active  {{/if}}" title ="{{localize 'BRP.perLvlHint'}}" data-property = "perLvl">{{localize 'BRP.perLvl'}}</div>
+            <div class="skill-cat item-toggle {{#if item.system.perLvl}} toggle-active  {{/if}}" title="{{localize 'BRP.perLvlHint'}}" data-property="perLvl">{{localize 'BRP.perLvl'}}</div>
           {{else}}
-            <div class="skill-display" title ="{{localize 'BRP.cpcModHint'}}">{{localize 'BRP.cpcMod'}}</div>
+            <div class="skill-display" title="{{localize 'BRP.cpcModHint'}}">{{localize 'BRP.cpcMod'}}</div>
             <div class="hitloc-display centre boxed">{{item.system.cpcMod}}</div>
             <div></div>
             <div>perlevel</div>
           {{/if}}
-        </div> 
+        </div>
         <br>
         <div class="bold font14"> {{localize 'BRP.description'}}:</div>
-        <div class="font14 stat-input"><input name="system.shortDesc" type="text" value="{{item.system.shortDesc}}"/></div>
+        <div class="font14 stat-input"><input name="system.shortDesc" type="text" value="{{item.system.shortDesc}}" /></div>
         <br>
       </div>
 

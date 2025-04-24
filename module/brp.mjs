@@ -1,7 +1,7 @@
 import { BRPActor } from "./actor/actor.mjs";
 import { BRPCharacterSheet } from "./actor/sheets/character.mjs";
 import { BRPItem } from "./item/item.mjs";
-import { BRPCombat} from "./combat/combat.mjs";
+import { BRPCombat } from "./combat/combat.mjs";
 import { BRPCombatTracker } from "./combat/combat-tracker.mjs";
 import { preloadHandlebarsTemplates } from "./setup/templates.mjs";
 import { handlebarsHelper } from './setup/handlebar-helper.mjs';
@@ -14,7 +14,7 @@ import { BRPMenu } from "./setup/layers.mjs"
 import * as Chat from "./apps/chat.mjs";
 
 //  Init Hook
-Hooks.once('init', async function() {
+Hooks.once('init', async function () {
 
   // Add utility classes to the global game object so that they're more easily
   // accessible in global contexts.
@@ -51,37 +51,36 @@ Hooks.on('ready', async () => {
 
 //Remove certain Items types from the list of options to create under the items menu (can still be created directly from the character sheet)
 Hooks.on("renderDialog", (dialog, html) => {
-  let deprecatedTypes = ["wound"]; // 
+  let deprecatedTypes = ["wound"]; //
   Array.from(html.find("#document-create option")).forEach(i => {
-      if (deprecatedTypes.includes(i.value))
-      {
-          i.remove()
-      }
+    if (deprecatedTypes.includes(i.value)) {
+      i.remove()
+    }
   })
 })
 
 // Ready Hook
-Hooks.once("ready", async function() {
+Hooks.once("ready", async function () {
   // Always reset GM Tool toggles to False
   if (game.user.isGM) {
-    game.settings.set('brp','development', false);
-    game.settings.set('brp','beastiary', false);
-  }  
+    game.settings.set('brp', 'development', false);
+    game.settings.set('brp', 'beastiary', false);
+  }
 
-  let initForm = game.settings.get('brp','initStat')
-  let initMod = game.settings.get('brp','initMod')
+  let initForm = game.settings.get('brp', 'initStat')
+  let initMod = game.settings.get('brp', 'initMod')
   let initiative = "@stats." + initForm + ".total"
-  if (initForm === 'fixed') {initiative = ""}
-  if (!["+","*","/"].includes(initMod.charAt(0))) {
+  if (initForm === 'fixed') { initiative = "" }
+  if (!["+", "*", "/"].includes(initMod.charAt(0))) {
     initMod = "+" + initMod
   }
   initiative = initiative + initMod
 
   if (!Roll.validate(initiative)) {
-    ui.notifications.error(game.i18n.format('BRP.initError',{formula:initiative}))
+    ui.notifications.error(game.i18n.format('BRP.initError', { formula: initiative }))
     initiative = "@stats.dex.total+0"
-  }  
-    CONFIG.Combat.initiative = {
+  }
+  CONFIG.Combat.initiative = {
     formula: initiative,
     decimals: 0
   };
@@ -90,7 +89,7 @@ Hooks.once("ready", async function() {
     if (game.user) {
       return BRPUtilities.createMacro(bar, data, slot);
     }
-  }); 
+  });
 });
 
 BRPHooks.listen()

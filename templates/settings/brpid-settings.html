@@ -1,39 +1,39 @@
 <form class="brp settingsForm flexcol" autocomplete="off">
-    <h2 class="bold">{{localize 'BRP.Settings.brpidOptions'}}</h2>
+  <h2 class="bold">{{localize 'BRP.Settings.brpidOptions'}}</h2>
 
-    <div class="form-group">
-      <label class="bold">{{localize 'BRP.Settings.actorBRPID'}}</label>
-      <div class="form-fields" style="flex: 1;">
-        <input type="checkbox" {{checked actorBRPID.value}} name="actorBRPID">
-      </div>
-      <p class="settingNote">{{localize 'BRP.Settings.actorBRPIDHint'}}</p>
-    </div>    
-
-    <div class="form-group">
-      <label class="bold">{{localize 'BRP.Settings.itemBRPID'}}</label>
-      <div class="form-fields" style="flex: 1;">
-        <input type="checkbox" {{checked itemBRPID.value}} name="itemBRPID">
-      </div>
-      <p class="settingNote">{{localize 'BRP.Settings.itemBRPIDHint'}}</p>
-    </div>      
-
-    <div class="form-group">
-      <label class="bold">{{localize 'BRP.Settings.firstAidBRPID'}}</label>
-      <div class="form-fields" style="flex: 1;">
-        <input class="centre" name="firstAidBRPID" type="text" value="{{firstAidBRPID.value}}"/>
-      </div>
-      <p class="settingNote">{{localize 'BRP.Settings.firstAidBRPIDHint'}}</p>
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.actorBRPID'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <input type="checkbox" {{checked actorBRPID.value}} name="actorBRPID">
     </div>
+    <p class="settingNote">{{localize 'BRP.Settings.actorBRPIDHint'}}</p>
+  </div>
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.itemBRPID'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <input type="checkbox" {{checked itemBRPID.value}} name="itemBRPID">
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.itemBRPIDHint'}}</p>
+  </div>
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.firstAidBRPID'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <input class="centre" name="firstAidBRPID" type="text" value="{{firstAidBRPID.value}}" />
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.firstAidBRPIDHint'}}</p>
+  </div>
 
 
-    <br>
-    <footer class="sheet-footer flexrow">
-      <button class="settingsButton" type="submit" name="submit">
-        <i class="far fa-save"></i> {{localize "Save Changes"}}
-      </button>
-      <button class="settingsButton" type="button" name="reset">
-        <i class="fas fa-undo"></i> {{localize "Reset Defaults"}}
-      </button>
-    </footer>
-    <br>
-  </form>
+  <br>
+  <footer class="sheet-footer flexrow">
+    <button class="settingsButton" type="submit" name="submit">
+      <i class="far fa-save"></i> {{localize "Save Changes"}}
+    </button>
+    <button class="settingsButton" type="button" name="reset">
+      <i class="fas fa-undo"></i> {{localize "Reset Defaults"}}
+    </button>
+  </footer>
+  <br>
+</form>

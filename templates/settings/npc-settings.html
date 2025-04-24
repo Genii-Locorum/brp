@@ -1,47 +1,47 @@
 <form class="brp settingsForm flexcol" autocomplete="off">
-    <h2 class="bold">{{localize 'BRP.Settings.npcOptions'}}</h2>
+  <h2 class="bold">{{localize 'BRP.Settings.npcOptions'}}</h2>
 
-    <div class="form-group">
-      <label class="bold">{{localize 'BRP.Settings.tokenDropMode'}}</label>
-      <div class="form-fields">
-        <select class="centre" name="tokenDropMode" data-dtype="String">
-          {{selectOptions tokenDropModeOptions selected=tokenDropMode.value}}
-        </select>
-      </div>
-      <p class="settingNote">{{localize 'BRP.Settings.tokenDropModeHint'}}</p>
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.tokenDropMode'}}</label>
+    <div class="form-fields">
+      <select class="centre" name="tokenDropMode" data-dtype="String">
+        {{selectOptions tokenDropModeOptions selected=tokenDropMode.value}}
+      </select>
     </div>
+    <p class="settingNote">{{localize 'BRP.Settings.tokenDropModeHint'}}</p>
+  </div>
 
-    <div class="form-group">
-      <label class="bold">{{localize 'BRP.Settings.tokenDropName'}}</label>
-      <div class="form-fields">
-        <select class="centre" name="npcName" data-dtype="String">
-          {{selectOptions NPCNameOptions selected=npcName.value}}
-        </select>
-      </div>
-      <p class="settingNote">{{localize 'BRP.Settings.tokenDropNameHint'}}</p>
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.tokenDropName'}}</label>
+    <div class="form-fields">
+      <select class="centre" name="npcName" data-dtype="String">
+        {{selectOptions NPCNameOptions selected=npcName.value}}
+      </select>
     </div>
+    <p class="settingNote">{{localize 'BRP.Settings.tokenDropNameHint'}}</p>
+  </div>
 
-    <div class="form-group">
-      <label class="bold">{{localize 'BRP.Settings.tokenDropBars'}}</label>
-      <div class="form-fields">
-        <select class="centre" name="npcBars" data-dtype="String">
-          {{selectOptions NPCBarsOptions selected=npcBars.value}}
-        </select>
-      </div>
-      <p class="settingNote">{{localize 'BRP.Settings.tokenDropBarsHint'}}</p>
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.tokenDropBars'}}</label>
+    <div class="form-fields">
+      <select class="centre" name="npcBars" data-dtype="String">
+        {{selectOptions NPCBarsOptions selected=npcBars.value}}
+      </select>
     </div>
+    <p class="settingNote">{{localize 'BRP.Settings.tokenDropBarsHint'}}</p>
+  </div>
 
-    
 
 
-    <br>
-    <footer class="sheet-footer flexrow">
-      <button class = "settingsButton" type="submit" name="submit">
-        <i class="far fa-save"></i> {{localize "Save Changes"}}
-      </button>
-      <button class="settingsButton" type="button" name="reset">
-        <i class="fas fa-undo"></i> {{localize "Reset Defaults"}}
-      </button>
-    </footer>
-    <br>
-  </form>
+
+  <br>
+  <footer class="sheet-footer flexrow">
+    <button class="settingsButton" type="submit" name="submit">
+      <i class="far fa-save"></i> {{localize "Save Changes"}}
+    </button>
+    <button class="settingsButton" type="button" name="reset">
+      <i class="fas fa-undo"></i> {{localize "Reset Defaults"}}
+    </button>
+  </footer>
+  <br>
+</form>

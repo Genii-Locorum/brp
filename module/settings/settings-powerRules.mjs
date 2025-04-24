@@ -8,7 +8,7 @@ const SETTINGS = {
     type: Boolean,
     default: true
   },
-    
+
   magicLabel: {
     name: 'BRP.Settings.magicLabel',
     hint: 'BRP.Settings.magicLabelHint',
@@ -17,7 +17,7 @@ const SETTINGS = {
     type: String,
     default: ""
   },
-    
+
   mutation: {
     name: 'BRP.Settings.useMutation',
     hint: 'BRP.Settings.useMutationHint',
@@ -26,7 +26,7 @@ const SETTINGS = {
     type: Boolean,
     default: true
   },
-    
+
   mutationLabel: {
     name: 'BRP.Settings.mutationLabel',
     hint: 'BRP.Settings.mutationLabelHint',
@@ -35,7 +35,7 @@ const SETTINGS = {
     type: String,
     default: ""
   },
-    
+
   psychic: {
     name: 'BRP.Settings.usePsychic',
     hint: 'BRP.Settings.usePsychicHint',
@@ -44,7 +44,7 @@ const SETTINGS = {
     type: Boolean,
     default: true
   },
-    
+
   psychicLabel: {
     name: 'BRP.Settings.psychicLabel',
     hint: 'BRP.Settings.psychicLabelHint',
@@ -62,7 +62,7 @@ const SETTINGS = {
     type: Boolean,
     default: true
   },
-    
+
   sorceryLabel: {
     name: 'BRP.Settings.sorceryLabel',
     hint: 'BRP.Settings.sorceryLabelHint',
@@ -71,7 +71,7 @@ const SETTINGS = {
     type: String,
     default: ""
   },
-    
+
   super: {
     name: 'BRP.Settings.useSuper',
     hint: 'BRP.Settings.useSuperHint',
@@ -80,7 +80,7 @@ const SETTINGS = {
     type: Boolean,
     default: true
   },
-    
+
   superLabel: {
     name: 'BRP.Settings.superLabel',
     hint: 'BRP.Settings.superLabelHint',
@@ -92,7 +92,7 @@ const SETTINGS = {
 }
 
 export class BRPPowerRuleSettings extends FormApplication {
-  static get defaultOptions () {
+  static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       title: 'BRP.brpSettings',
       id: 'power-settings',
@@ -102,8 +102,8 @@ export class BRPPowerRuleSettings extends FormApplication {
       closeOnSubmit: true
     })
   }
-  
-  getData () {
+
+  getData() {
     const options = {}
     for (const [k, v] of Object.entries(SETTINGS)) {
       options[k] = {
@@ -113,19 +113,19 @@ export class BRPPowerRuleSettings extends FormApplication {
     }
     return options
   }
-  
-  static registerSettings () {
+
+  static registerSettings() {
     for (const [k, v] of Object.entries(SETTINGS)) {
       game.settings.register('brp', k, v)
     }
   }
 
-  activateListeners (html) {
+  activateListeners(html) {
     super.activateListeners(html)
     html.find('button[name=reset]').on('click', event => this.onResetDefaults(event))
   }
 
-  async onResetDefaults (event) {
+  async onResetDefaults(event) {
     event.preventDefault()
     for await (const [k, v] of Object.entries(SETTINGS)) {
       await game.settings.set('brp', k, v?.default)
@@ -133,10 +133,10 @@ export class BRPPowerRuleSettings extends FormApplication {
     return this.render()
   }
 
-  async _updateObject (event, data) {
+  async _updateObject(event, data) {
     for await (const key of Object.keys(SETTINGS)) {
       game.settings.set('brp', key, data[key])
     }
-  }  
+  }
 
-}    
+}

@@ -1,12 +1,12 @@
 <form class="{{cssClass}} brp" autocomplete="off">
   <header class="sheet-header">
-  
+
     <div class="hitlocgrid">
       <div class="item-title"> {{localize 'BRP.equipment'}}:</div>
-      <div class="stat-input"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></div>
-    </div>  
-  
-    <img class="item-image" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="50" width="50"/>
+      <div class="stat-input"><input name="name" type="text" value="{{item.name}}" placeholder="Name" /></div>
+    </div>
+
+    <img class="item-image" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="50" width="50" />
 
   </header>
 
@@ -23,39 +23,39 @@
   <section class="item-bottom-panel">
     <section class="sheet-body">
       <br>
-  
+
       {{!-- Details Tab --}}
-      <div class="tab active" data-group="primary" data-tab="details">  
+      <div class="tab active" data-group="primary" data-tab="details">
         <div class="armour-scores">
-            <div class="skill-display">{{localize 'BRP.enc'}}</div>
-            <div class="weapon-input"><input name="system.enc" type="text" value="{{item.system.enc}}" data-dtype="Number"/></div>
-            <div class="skill-display">{{localize 'BRP.price'}}</div>
-            <div class="stat-input-small">
-              <select data-handle-change name="system.price">
-                {{selectOptions priceOptions selected=item.system.price}}
-              </select>
-            </div>
-            <div class="skill-display">{{localize 'BRP.ppStoreCurr' label=item.system.powerLabelAbbr}}</div> 
-            <div class="weapon-input"><input name="system.pSCurr" type="text" value="{{item.system.pSCurr}}" data-dtype="Number"/></div>              
-            <div class="skill-display">{{localize 'BRP.ppStoreMax' label=item.system.powerLabelAbbr}}</div>
-            <div class="weapon-input"><input name="system.pSMax" type="text" value="{{item.system.pSMax}}" data-dtype="Number"/></div>
+          <div class="skill-display">{{localize 'BRP.enc'}}</div>
+          <div class="weapon-input"><input name="system.enc" type="text" value="{{item.system.enc}}" data-dtype="Number" /></div>
+          <div class="skill-display">{{localize 'BRP.price'}}</div>
+          <div class="stat-input-small">
+            <select data-handle-change name="system.price">
+              {{selectOptions priceOptions selected=item.system.price}}
+            </select>
+          </div>
+          <div class="skill-display">{{localize 'BRP.ppStoreCurr' label=item.system.powerLabelAbbr}}</div>
+          <div class="weapon-input"><input name="system.pSCurr" type="text" value="{{item.system.pSCurr}}" data-dtype="Number" /></div>
+          <div class="skill-display">{{localize 'BRP.ppStoreMax' label=item.system.powerLabelAbbr}}</div>
+          <div class="weapon-input"><input name="system.pSMax" type="text" value="{{item.system.pSMax}}" data-dtype="Number" /></div>
         </div>
         <br>
 
         {{#if hasOwner}}
-        <div class="armour-scores">
-          <div class="skill-display">{{localize 'BRP.quantity'}}</div>
-          <div class="weapon-input"><input name="system.quantity" type="text" value="{{item.system.quantity}}" data-dtype="Number"/></div>
-          <div class="skill-display" title="{{ localize 'BRP.actualENCHint'}}">{{localize 'BRP.actualENC'}}</div>
-          <div class="gear-display boxed">{{item.system.actlEnc}}</div>
-          <div class="skill-display">{{localize 'BRP.status'}}</div>
-          <div class="stat-input-small">
-            <select data-handle-change name="system.equipStatus">
-              {{selectOptions equippedOptions selected=item.system.equipStatus}}
-            </select>
+          <div class="armour-scores">
+            <div class="skill-display">{{localize 'BRP.quantity'}}</div>
+            <div class="weapon-input"><input name="system.quantity" type="text" value="{{item.system.quantity}}" data-dtype="Number" /></div>
+            <div class="skill-display" title="{{ localize 'BRP.actualENCHint'}}">{{localize 'BRP.actualENC'}}</div>
+            <div class="gear-display boxed">{{item.system.actlEnc}}</div>
+            <div class="skill-display">{{localize 'BRP.status'}}</div>
+            <div class="stat-input-small">
+              <select data-handle-change name="system.equipStatus">
+                {{selectOptions equippedOptions selected=item.system.equipStatus}}
+              </select>
+            </div>
           </div>
-        </div>    
-        {{/if}}  
+        {{/if}}
 
       </div>
 

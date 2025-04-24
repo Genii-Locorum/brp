@@ -8,33 +8,33 @@
       <div class="diff-label centre">{{ localize 'BRP.total'}}</div>
       <div></div>
       <div class="right diff-label">{{ localize 'BRP.opposedTrait'}}</div>
-    </div>    
+    </div>
     {{#each persTraits as |persTrait id|}}
       <li class="item trait-listitem" data-item-id="{{persTrait._id}}">
-        <div class="new-row item-edit persTrait-name contextmenu"  data-item-id="{{persTrait._id}}" data-xp="{{persTrait.system.improve}}" data-opp='false'>{{persTrait.name}}</div>
-        <div title = "{{ localize 'BRP.improve' }}"><a class="item-toggle" data-property="improve"><i class="{{#if persTrait.system.improve}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>
-        <div class = "centre rollable persTrait-name" data-opp="false">{{persTrait.system.total}}%</div>
+        <div class="new-row item-edit persTrait-name contextmenu" data-item-id="{{persTrait._id}}" data-xp="{{persTrait.system.improve}}" data-opp='false'>{{persTrait.name}}</div>
+        <div title="{{ localize 'BRP.improve' }}"><a class="item-toggle" data-property="improve"><i class="{{#if persTrait.system.improve}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>
+        <div class="centre rollable persTrait-name" data-opp="false">{{persTrait.system.total}}%</div>
         <div><a class="centre"><i class="plainIcon fa-regular fa-scale-balanced"></i></a></div>
-        <div class = "centre rollable persTrait-name" data-opp="true" >{{persTrait.system.opptotal}}%</div>
-        <div class="right" title = "{{ localize 'BRP.oppImprove' }}"><a class="item-toggle" data-property="oppimprove"><i class="{{#if persTrait.system.oppimprove}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>
-        <div class="right persTrait-name contextmenu"  data-item-id="{{persTrait._id}}" data-xp="{{persTrait.system.oppimprove}}" data-opp='true'>{{persTrait.system.oppName}}</div>
-      </li>  
+        <div class="centre rollable persTrait-name" data-opp="true">{{persTrait.system.opptotal}}%</div>
+        <div class="right" title="{{ localize 'BRP.oppImprove' }}"><a class="item-toggle" data-property="oppimprove"><i class="{{#if persTrait.system.oppimprove}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>
+        <div class="right persTrait-name contextmenu" data-item-id="{{persTrait._id}}" data-xp="{{persTrait.system.oppimprove}}" data-opp='true'>{{persTrait.system.oppName}}</div>
+      </li>
     {{/each}}
     <br>
   {{/if}}
 
-  {{#if usePassion}}    
+  {{#if usePassion}}
     <div class="magic-listitem">
       <div class="diff-label">{{ localize 'BRP.passion'}}</div>
       <div></div>
       <div class="diff-label centre">{{ localize 'BRP.total'}}</div>
-    </div>    
+    </div>
     {{#each passions as |passion id|}}
       <li class="item magic-listitem" data-item-id="{{passion._id}}">
-        <div class="new-row item-edit passion-name contextmenu"  data-item-id="{{passion._id}}" data-xp="{{passion.system.improve}}">{{passion.name}}</div>
-        <div title = "{{ localize 'BRP.improve' }}"><a class="item-toggle" data-property="improve"><i class="{{#if passion.system.improve}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>
-        <div class = "centre rollable passion-name" >{{passion.system.total}}%</div>
-      </li>  
+        <div class="new-row item-edit passion-name contextmenu" data-item-id="{{passion._id}}" data-xp="{{passion.system.improve}}">{{passion.name}}</div>
+        <div title="{{ localize 'BRP.improve' }}"><a class="item-toggle" data-property="improve"><i class="{{#if passion.system.improve}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>
+        <div class="centre rollable passion-name">{{passion.system.total}}%</div>
+      </li>
     {{/each}}
-  {{/if}}  
+  {{/if}}
 </ol>
