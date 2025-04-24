@@ -1,3 +1,4 @@
+import { BRPActiveEffect } from "./apps/active-effect.mjs";
 import { BRPActor } from "./actor/actor.mjs";
 import { BRPCharacterSheet } from "./actor/sheets/character.mjs";
 import { BRPItem } from "./item/item.mjs";
@@ -37,6 +38,7 @@ Hooks.once('init', async function () {
   CONFIG.Item.documentClass = BRPItem;
   CONFIG.Combat.documentClass = BRPCombat;
   CONFIG.ui.combat = BRPCombatTracker;
+  CONFIG.ActiveEffect.documentClass = BRPActiveEffect;
 
   // Preload Handlebars templates.
   return preloadHandlebarsTemplates();

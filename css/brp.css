@@ -544,13 +544,18 @@
   grid-column-start: 1;
 }
 
-.brp .skill-cat {
+.brp .skill-cat,
+.brp .clickable-button {
   border: 1px solid black;
   border-radius: 3px;
   font-size: 14px;
   background-color: lightgrey;
   font-weight: bold;
   text-align: center;
+}
+
+.brp .clickable-button {
+  cursor: pointer;
 }
 
 .brp .mutation-cat {
@@ -691,6 +696,24 @@
   border-color: rgba(68, 7, 4, 1);
   height: calc(100% - 2px);
   width: 185px;
+}
+
+.brp div.active-effect-change-edit {
+  align-items: center;
+  gap: 1rem;
+}
+
+.brp div.active-effect-change-edit select {
+  flex: 0 0 auto;
+}
+
+.brp div.active-effect-change-edit input {
+  flex: 0 0 3rem;
+}
+
+.brp div.active-effect-change-edit a.control-button {
+  flex: 0 0 30px;
+  text-align: center;
 }
 
 .brp .stat-display {

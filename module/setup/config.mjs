@@ -35,3 +35,17 @@ BRP.statsDerived = {
   "edu": "BRP.StatsEduDeriv",
 };
 
+BRP.keysActiveEffects = {
+  'system.stats.str.base': 'BRP.StatsStrAbbr',
+  'system.stats.con.base': 'BRP.StatsConAbbr',
+  'system.stats.int.base': 'BRP.StatsIntAbbr',
+  'system.stats.siz.base': 'BRP.StatsSizAbbr',
+  'system.stats.pow.base': 'BRP.StatsPowAbbr',
+  'system.stats.dex.base': 'BRP.StatsDexAbbr',
+  'system.stats.cha.base': 'BRP.StatsChaAbbr',
+  'system.stats.edu.base': 'BRP.StatsEduAbbr',
+  'system.health.max': 'BRP.health',
+  'system.power.max': 'BRP.mp',
+  'system.fatigue.max': 'BRP.fatigue',
+  'system.sanity.max': 'BRP.sanity',
+};
