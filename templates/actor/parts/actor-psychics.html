@@ -5,20 +5,20 @@
     <div class="diff-label centre" title="{{ localize 'BRP.rangePsyHint'}}">{{ localize 'BRP.range'}}</div>
     <div class="diff-label centre">{{ localize 'BRP.duration'}}</div>
     <div class="diff-label centre">{{system.power.labelAbbr}}</div>
-    <div class="diff-label centre" title = "{{ localize 'BRP.impactHint' }}">{{ localize 'BRP.impact'}}</div>
+    <div class="diff-label centre" title="{{ localize 'BRP.impactHint' }}">{{ localize 'BRP.impact'}}</div>
     <div class="diff-label centre">{{ localize 'BRP.total'}}</div>
     <div></div>
-  </div>    
+  </div>
   {{#each psychics as |psychic id|}}
     <li class="item psychic-listitem" data-item-id="{{psychic._id}}">
       <div class="item-edit psychic-name contextmenu" data-item-id="{{psychic._id}}" data-xp="{{psychic.system.improve}}">{{psychic.name}}</div>
-      <div title = "{{ localize 'BRP.improve' }}"><a class="item-toggle" data-property="improve"><i class="{{#if psychic.system.improve}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>
-      <div class = "centre">{{psychic.system.range}}</div>
-      <div class = "centre">{{psychic.system.duration}}</div>
-      <div class = "centre">{{psychic.system.pppl}}</div>
-      <div class = "centre {{#unless (eq psychic.system.damage '')}} rollable impact {{/unless}}">{{psychic.system.damage}}</div>
-      <div class = "centre rollable skill-name">{{psychic.system.grandTotal}}%</div>
+      <div title="{{ localize 'BRP.improve' }}"><a class="item-toggle" data-property="improve"><i class="{{#if psychic.system.improve}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>
+      <div class="centre">{{psychic.system.range}}</div>
+      <div class="centre">{{psychic.system.duration}}</div>
+      <div class="centre">{{psychic.system.pppl}}</div>
+      <div class="centre {{#unless (eq psychic.system.damage '')}} rollable impact {{/unless}}">{{psychic.system.damage}}</div>
+      <div class="centre rollable skill-name">{{psychic.system.grandTotal}}%</div>
       <div></div>
-    </li>  
+    </li>
   {{/each}}
 </ol>

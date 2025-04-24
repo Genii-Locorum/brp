@@ -1,10 +1,10 @@
 import { BRPSelectLists } from "../apps/select-lists.mjs"
 import { BRPCheck } from "../apps/check.mjs"
 
-export class BRPCombatRoll{
+export class BRPCombatRoll {
 
   //Get damage formula from weapon/spell and actor
-  static async damageFormula(weapon, actor,type,success) {
+  static async damageFormula(weapon, actor, type, success) {
 
     let damage = ""
     let damageBonus = ""
@@ -21,8 +21,8 @@ export class BRPCombatRoll{
     let rangeOptions = {}
     let label = game.i18n.localize('BRP.damage')
 
-    //If success blank then ask for success level 
-    if (success !="") {askSuccess = false}
+    //If success blank then ask for success level
+    if (success != "") { askSuccess = false }
 
     //If this is a weapon Damage Roll
     if (type === 'DM') {
@@ -30,23 +30,23 @@ export class BRPCombatRoll{
       damage = weapon.system.dmg1
 
       //Get weapon range Options
-      rangeOptions = Object.assign(rangeOptions,await this.getRangeOptions(weapon));
-      if (Object.keys(rangeOptions).length > 1){askRange = true}
-      
-      //Het hand Options
-      handOptions = Object.assign(handOptions,await this.getHandOptions(weapon));
-      if (Object.keys(handOptions).length > 1){askHands = true}
+      rangeOptions = Object.assign(rangeOptions, await this.getRangeOptions(weapon));
+      if (Object.keys(rangeOptions).length > 1) { askRange = true }
 
-    //If this is a magic spell impact roll  
+      //Het hand Options
+      handOptions = Object.assign(handOptions, await this.getHandOptions(weapon));
+      if (Object.keys(handOptions).length > 1) { askHands = true }
+
+      //If this is a magic spell impact roll
     } else if (type === 'IM') {
       damage = weapon.system.damage
       //If no impact then return
-      if (damage === "" || weapon.system.impact === 'other') {return}
-      label = game.i18n.localize('BRP.'+ weapon.system.impact)
+      if (damage === "" || weapon.system.impact === 'other') { return }
+      label = game.i18n.localize('BRP.' + weapon.system.impact)
       askLevel = true
-    //If not weapon damage or spell impact then return  
-    } else {return}
-         
+      //If not weapon damage or spell impact then return
+    } else { return }
+
 
     if (askRange || askHands || askSuccess || askLevel) {
       damData = {
@@ -59,8 +59,8 @@ export class BRPCombatRoll{
         askRange,
         askSuccess,
         askLevel,
-        dialogTemplate: 'systems/brp/templates/dialog/damageDiff.html'  
-      }  
+        dialogTemplate: 'systems/brp/templates/dialog/damageDiff.html'
+      }
 
       let usage = await BRPCheck.RollDialog(damData)
       if (usage) {
@@ -71,35 +71,35 @@ export class BRPCombatRoll{
       }
 
       //If you've asked the range then get adjust damage for it
-      if (askRange){
+      if (askRange) {
         damage = weapon.system[range]
       }
 
       //If you asked the spell level then adjust damage for it
-      if (askLevel){
+      if (askLevel) {
         let tempdam = ""
-        for (let damlevel = 1; damlevel<=level; damlevel++) {
+        for (let damlevel = 1; damlevel <= level; damlevel++) {
           tempdam = tempdam + "+" + damage
         }
         damage = tempdam
       }
     }
-    
+
     //Work out damage bonus for Damage rolls
     if (type === 'DM') {
-      damageBonus = await this.getDamageBonus (actor,weapon,hands)
+      damageBonus = await this.getDamageBonus(actor, weapon, hands)
     }
 
 
-    //Work out damage formula based on weapon damage, damage bonus, success level and weapon special 
+    //Work out damage formula based on weapon damage, damage bonus, success level and weapon special
     //damage = damage + damageBonus
-    damage = await BRPCombatRoll.damageAssess (weapon, damage, damageBonus, success,type)     
+    damage = await BRPCombatRoll.damageAssess(weapon, damage, damageBonus, success, type)
 
     let damageData = ({ damage, success })
     return damageData
   }
 
-  static async damageAssess (weapon, damForm, damBon, success,type) {
+  static async damageAssess(weapon, damForm, damBon, success, type) {
 
     let newFormula = ""
     let specialType = "other"
@@ -111,59 +111,59 @@ export class BRPCombatRoll{
       newFormula = await newFormula.evaluate({ maximize: true })
       newFormula = newFormula.total + damBon
       if (type === 'DM') {
-        specialType = weapon.system.special 
+        specialType = weapon.system.special
       }
     } else if (success === "3") {
       if (type === 'DM') {
-        specialType = weapon.system.special 
+        specialType = weapon.system.special
       }
       switch (specialType) {
         case 'crush':
-        case 'crushknock':  
+        case 'crushknock':
           if (damBon.startsWith('-')) {
             newFormula = damForm
           } else if (damBon === '+0') {
             newFormula = damForm + '+1D4'
           } else {
-            newFormula = damForm + damBon + damBon  
+            newFormula = damForm + damBon + damBon
           }
           break
         case 'impale':
         case 'impknock':
-            newFormula = damForm + "+" + damForm + damBon
+          newFormula = damForm + "+" + damForm + damBon
           break
         default:
-          newFormula = damForm + damBon  
-      } 
-    } else {newFormula = damForm + damBon}
+          newFormula = damForm + damBon
+      }
+    } else { newFormula = damForm + damBon }
 
     return newFormula
   }
 
 
   //Get weapon Range Options
-  static async getRangeOptions (weapon) {
+  static async getRangeOptions(weapon) {
     let rangeOptions = {
-      dmg1: game.i18n.localize("BRP.range") +":"+weapon.system.range1,      
+      dmg1: game.i18n.localize("BRP.range") + ":" + weapon.system.range1,
     }
-    if (weapon.system.range2 !=""){
-      rangeOptions= Object.assign(rangeOptions,{
-        dmg2: game.i18n.localize("BRP.range") +":"+weapon.system.range2
+    if (weapon.system.range2 != "") {
+      rangeOptions = Object.assign(rangeOptions, {
+        dmg2: game.i18n.localize("BRP.range") + ":" + weapon.system.range2
       })
     }
-    if (weapon.system.range3 !=""){
-      rangeOptions= Object.assign(rangeOptions,{
-        dmg3: game.i18n.localize("BRP.range") +":"+weapon.system.range3
+    if (weapon.system.range3 != "") {
+      rangeOptions = Object.assign(rangeOptions, {
+        dmg3: game.i18n.localize("BRP.range") + ":" + weapon.system.range3
       })
     }
     return rangeOptions
   }
-  
+
   //Get wweapon Hand Options
-  static async getHandOptions (weapon) {
+  static async getHandOptions(weapon) {
     let handOptions = {}
     if (weapon.system.hands === "1-2H") {
-      handOptions = Object.assign(handOptions,{
+      handOptions = Object.assign(handOptions, {
         1: game.i18n.localize("BRP.1H"),
         2: game.i18n.localize("BRP.2H"),
       })
@@ -172,19 +172,19 @@ export class BRPCombatRoll{
   }
 
   //Get weapon Damage Bonus
-  static async getDamageBonus (actor,weapon,hands) {
+  static async getDamageBonus(actor, weapon, hands) {
     let damageBonus = ""
-    if (hands === "1"){
+    if (hands === "1") {
       damageBonus = actor.system.dmgBonus.half
-    } else if (hands === "2"){
+    } else if (hands === "2") {
       damageBonus = actor.system.dmgBonus.full
     } else if (weapon.system.db === 'half') {
       damageBonus = actor.system.dmgBonus.half
     } else if (weapon.system.db === 'full') {
-      damageBonus = actor.system.dmgBonus.full        
-    } else  {
-      damageBonus = ""        
+      damageBonus = actor.system.dmgBonus.full
+    } else {
+      damageBonus = ""
     }
     return damageBonus
   }
-} 
+}

@@ -1,4 +1,4 @@
- export const preloadHandlebarsTemplates = async function() {
+export const preloadHandlebarsTemplates = async function () {
   return loadTemplates([
 
     // Actor partials.

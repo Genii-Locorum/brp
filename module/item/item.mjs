@@ -1,9 +1,9 @@
-import {BRPCheck} from "../apps/check.mjs"
-import {isCtrlKey} from '../apps/helper.mjs'
+import { BRPCheck } from "../apps/check.mjs"
+import { isCtrlKey } from '../apps/helper.mjs'
 import { BRPID } from '../brpid/brpid.mjs';
 
 export class BRPItem extends Item {
-  constructor (data, context) {
+  constructor(data, context) {
     if (typeof data.img === 'undefined') {
       if (data.type === 'powerMod') {
         data.img = 'systems/brp/assets/Icons/broken-shield.svg'
@@ -66,25 +66,25 @@ export class BRPItem extends Item {
     const systemData = itemData.system;
 
     //Set Resource Labels
-      if (game.settings.get('brp','ppLabelLong')) {
-        systemData.powerLabel = game.settings.get('brp','ppLabelLong')
-      } else {
-        systemData.powerLabel = game.i18n.localize('BRP.pp')
-      }
-      if (game.settings.get('brp','ppLabelShort')) {
-        systemData.powerLabelAbbr = game.settings.get('brp','ppLabelShort')
-      } else {
-        systemData.powerLabelAbbr = game.i18n.localize('BRP.ppShort')
-      }
-      if (game.settings.get('brp','hpLabelShort')) {
-        systemData.healthLabelAbbr = game.settings.get('brp','hpLabelShort')
-      } else {
-        systemData.healthLabelAbbr = game.i18n.localize('BRP.hp')
-      }
+    if (game.settings.get('brp', 'ppLabelLong')) {
+      systemData.powerLabel = game.settings.get('brp', 'ppLabelLong')
+    } else {
+      systemData.powerLabel = game.i18n.localize('BRP.pp')
+    }
+    if (game.settings.get('brp', 'ppLabelShort')) {
+      systemData.powerLabelAbbr = game.settings.get('brp', 'ppLabelShort')
+    } else {
+      systemData.powerLabelAbbr = game.i18n.localize('BRP.ppShort')
+    }
+    if (game.settings.get('brp', 'hpLabelShort')) {
+      systemData.healthLabelAbbr = game.settings.get('brp', 'hpLabelShort')
+    } else {
+      systemData.healthLabelAbbr = game.i18n.localize('BRP.hp')
+    }
   }
 
-   getRollData() {
-    if ( !this.actor ) return null;
+  getRollData() {
+    if (!this.actor) return null;
     const rollData = this.actor.getRollData();
     rollData.item = foundry.utils.deepClone(this.system);
     return rollData;
@@ -96,48 +96,48 @@ export class BRPItem extends Item {
     let altKey = event.altKey;
     let ctrlKey = isCtrlKey(event ?? false);
     let cardType = "NO";
-    let rollType =""
+    let rollType = ""
     let skillId = "";
     let itemId = "";
     let opp = 'false'
     let shiftKey = event.shiftKey;
-    if (game.settings.get('brp','switchShift')) {
+    if (game.settings.get('brp', 'switchShift')) {
       shiftKey = !shiftKey
     }
-  
+
     switch (item.type) {
       case 'skill':
-        rollType="SK"
+        rollType = "SK"
         skillId = item._id
-        if (ctrlKey){cardType='OP'}
-        if (altKey){cardType='GR'}
+        if (ctrlKey) { cardType = 'OP' }
+        if (altKey) { cardType = 'GR' }
         break
       case 'allegiance':
-        rollType="AL"
+        rollType = "AL"
         skillId = item._id
-        break  
+        break
       case 'passion':
-        rollType="PA"
-        if (ctrlKey){cardType='OP'}
+        rollType = "PA"
+        if (ctrlKey) { cardType = 'OP' }
         skillId = item._id
-        break  
+        break
       case 'persTrait':
-        rollType="PT"
-        if (ctrlKey){cardType='OP'}
-        if (altKey){opp ='true'}
+        rollType = "PT"
+        if (ctrlKey) { cardType = 'OP' }
+        if (altKey) { opp = 'true' }
         skillId = item._id
-        break        
-      case 'weapon' :
-        rollType="CM"
+        break
+      case 'weapon':
+        rollType = "CM"
         itemId = item._id
         skillId = actor.items.get(itemId).system.sourceID
         break
-      case 'reputation' :
-        rollType="PA"
-        if (ctrlKey){cardType='OP'}
-        if (altKey){cardType='GR'}
+      case 'reputation':
+        rollType = "PA"
+        if (ctrlKey) { cardType = 'OP' }
+        if (altKey) { cardType = 'GR' }
         skillId = item._id
-        break  
+        break
       default:
         item.sheet.render(true);
         return
@@ -152,20 +152,20 @@ export class BRPItem extends Item {
       actor,
       opp,
     })
-  }  
- 
+  }
+
 
   //Add BRPIDs to newly created items
-  static async createDocuments(data=[], context={}) {
-    if ( context.keepEmbeddedIds === undefined ) context.keepEmbeddedIds = false;
+  static async createDocuments(data = [], context = {}) {
+    if (context.keepEmbeddedIds === undefined) context.keepEmbeddedIds = false;
     let created = await super.createDocuments(data, context);
 
     //Add BRPID based on item name if the game setting is flagged.
     for (let item of created) {
-      if(game.settings.get('brp', "itemBRPID")) {
+      if (game.settings.get('brp', "itemBRPID")) {
         let tempID = await BRPID.guessId(item)
         if (tempID) {
-          await item.update({'flags.brp.brpidFlag.id': tempID})
+          await item.update({ 'flags.brp.brpidFlag.id': tempID })
           const html = $(item.sheet.element).find('header.window-header a.header-button.edit-brpid-warning,header.window-header a.header-button.edit-brpid-exisiting')
           if (html.length) {
             html.css({

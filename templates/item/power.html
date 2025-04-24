@@ -2,11 +2,11 @@
   <header class="sheet-header">
     <div class="hitlocgrid">
       <div class="item-title"> {{localize 'BRP.power'}}:</div>
-      <div class="stat-input"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></div>
-    </div>  
-    <img class="item-image" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="50" width="50"/>
+      <div class="stat-input"><input name="name" type="text" value="{{item.name}}" placeholder="Name" /></div>
+    </div>
+    <img class="item-image" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="50" width="50" />
   </header>
-  
+
   {{!-- Item Sheet Navigation --}}
   <section class="nav-panel">
     <nav class="sheet-tabs tabs" data-group="primary">
@@ -15,12 +15,12 @@
       {{#if isGM}}<a class="item" data-tab="gmNotes">{{ localize "BRP.gmNotes" }}</a>{{/if}}
     </nav>
   </section>
-  
+
   {{!-- Sheet Body --}}
   <section class="item-bottom-panel">
     <section class="sheet-body">
-     <br>
-   
+      <br>
+
       {{!-- Details Tab --}}
       <div class="tab active" data-group="primary" data-tab="details">
         <div class="base-grid">
@@ -32,12 +32,12 @@
               </select>
             </div>
           {{else}}
-            <div class="stat-display boxed">{{catName}}</div>  
+            <div class="stat-display boxed">{{catName}}</div>
           {{/if}}
         </div>
         <br>
         {{#if hasOwner}}
-          <div class="base-grid">  
+          <div class="base-grid">
             <div class="item-title"> {{localize 'BRP.level'}}:</div>
             <div class="stat-input centre">
               <select data-handle-change name="system.level">
@@ -45,7 +45,7 @@
               </select>
             </div>
           </div>
-        {{/if}}      
+        {{/if}}
       </div>
 
       {{!-- Description Tab --}}
@@ -54,8 +54,8 @@
         <div>
           {{editor enrichedDescriptionValue engine="prosemirror" class="description-doc" target="system.description" button=true owner=owner editable=editable}}
         </div>
-      </div>  
-           
+      </div>
+
       {{!-- GM Description Tab --}}
       <div class="tab active" data-group="primary" data-tab="gmNotes">
         <div class="bold"> {{localize 'BRP.gmNotes'}}:</div>
@@ -66,5 +66,3 @@
     </section>
   </section>
 </form>
-  
-  

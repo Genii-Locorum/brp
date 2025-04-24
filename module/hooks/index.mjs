@@ -7,12 +7,12 @@ import * as CreateToken from './create-token.mjs'
 
 
 export const BRPHooks = {
-    listen () {
-      Init.listen()
-        CreateToken.listen()
-        RenderActorSheet.listen()
-        RenderItemSheet.listen()
-        RenderDialog.listen()
-        RenderChatMessage.listen()
-    }
+  listen() {
+    Init.listen()
+    CreateToken.listen()
+    RenderActorSheet.listen()
+    RenderItemSheet.listen()
+    RenderDialog.listen()
+    RenderChatMessage.listen()
   }
+}

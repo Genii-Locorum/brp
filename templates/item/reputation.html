@@ -1,12 +1,12 @@
 <form class="{{cssClass}} brp" autocomplete="off">
   <header class="sheet-header">
-  
+
     <div class="hitlocgrid">
-      <div class="item-title"> {{localize 'BRP.reputation'}}:</div> 
-      <div class="stat-input"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></div>
-    </div>  
-  
-    <img class="item-image" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="50" width="50"/>
+      <div class="item-title"> {{localize 'BRP.reputation'}}:</div>
+      <div class="stat-input"><input name="name" type="text" value="{{item.name}}" placeholder="Name" /></div>
+    </div>
+
+    <img class="item-image" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="50" width="50" />
 
   </header>
 
@@ -23,17 +23,17 @@
   <section class="item-bottom-panel">
     <section class="sheet-body">
       <br>
-  
+
       {{!-- Details Tab --}}
-      <div class="tab active" data-group="primary" data-tab="details">  
+      <div class="tab active" data-group="primary" data-tab="details">
 
         {{#if hasOwner}}
-        <div class="item-title"> {{localize 'BRP.scores'}}:</div>
-        <div class="armour-scores">
-          <div class="skill-display new-row indent">{{localize 'BRP.base'}}</div>
-          <div class="weapon-input centre"><input name="system.base" type="text" value="{{item.system.base}}" data-dtype="Number"/></div>
-        </div>    
-        {{/if}}  
+          <div class="item-title"> {{localize 'BRP.scores'}}:</div>
+          <div class="armour-scores">
+            <div class="skill-display new-row indent">{{localize 'BRP.base'}}</div>
+            <div class="weapon-input centre"><input name="system.base" type="text" value="{{item.system.base}}" data-dtype="Number" /></div>
+          </div>
+        {{/if}}
       </div>
 
       {{!-- Description Tab --}}

@@ -1,80 +1,80 @@
 <form class="{{cssClass}} brp" autocomplete="off">
-    <header class="sheet-header">
-    
-      <div class="hitlocgrid">
-        <div class="item-title"> {{localize 'BRP.hitLoc'}}:</div>
-        <div class="title-name bold centre boxed" style="padding-top:4px;">{{item.name}}</div>
-      </div>  
-    
-      <img class="item-image" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="50" width="50"/>
-  
-    </header>
-  
-    {{!-- Sheet Body --}}
-    <section class="power-sheet-body">
-      <br>
-      <div class="hitloc-scores">
-        {{#if isGM}}  
-          <div class="skill-display">{{localize 'BRP.hitLocName'}}</div>
-          <div class="stat-input"><input name="system.displayName" type="text" value="{{item.system.displayName}}"/></div>
-          <div class="skill-display">{{localize 'BRP.hitLocCreatureType'}}</div>
-          <div class="stat-input"><input name="system.creatureType" type="text" value="{{item.system.creatureType}}"/></div>
-          <br>
-          <div class="new-row skill-display">{{localize 'BRP.hitLocLowRoll'}}</div>
-          <div class="stat-input"><input name="system.lowRoll" type="text" value="{{item.system.lowRoll}}" data-dtype="Number"/></div>
-          <div class="skill-display">{{localize 'BRP.hitLocHighRoll'}}</div>
-          <div class="stat-input"><input name="system.highRoll" type="text" value="{{item.system.highRoll}}" data-dtype="Number"/></div>
-          <div class="skill-display" title="{{localize 'BRP.hitLocFractionHint'}}">{{localize 'BRP.hitLocFraction' label=item.system.healthLabelAbbr}}</div>
-          <div class="stat-input"><input name="system.fractionHP" type="text" value="{{item.system.fractionHP}}" data-dtype="Number"/></div>
-          <div class="skill-display" title="{{localize 'BRP.hitLocFractionHint'}}">{{localize 'BRP.hitLocENCFraction'}}</div>
-          <div class="stat-input"><input name="system.fractionENC" type="text" value="{{item.system.fractionENC}}" data-dtype="Number"/></div>
-          <div class="skill-display" title="{{localize 'BRP.hitLocTypeHint'}}">{{localize 'BRP.hitLocType'}}</div>
-          <div class="hitloc-input-small">
-            <select data-handle-change name="system.locType">
-              {{selectOptions locTypeOptions selected=item.system.locType}}
-            </select>
-          </div>
-        {{else}}
-          <div class="skill-display">{{localize 'BRP.hitLocName'}}</div>
-          <div class="hitloc-display centre boxed">{{item.system.displayName}}</div>
-          <div class="skill-display">{{localize 'BRP.hitLocCreatureType'}}</div>
-          <div class="hitloc-display centre boxed">{{item.system.creatureType}}</div>
-          <br>
-          <div class="new-row skill-display">{{localize 'BRP.hitLocLowRoll'}}</div>
-          <div class="hitloc-display centre boxed">{{item.system.lowRoll}}</div>
-          <div class="skill-display">{{localize 'BRP.hitLocHighRoll'}}</div>
-          <div class="hitloc-display centre boxed">{{item.system.highRoll}}</div>
-          <div class="skill-display" title="{{localize 'BRP.hitLocFractionHint'}}">{{localize 'BRP.hitLocFraction'}}</div>
-          <div class="hitloc-display centre boxed">{{item.system.fractionHP}}</div>
-          <div class="skill-display" title="{{localize 'BRP.hitLocFractionHint'}}">{{localize 'BRP.hitLocENCFraction'}}</div>
-          <div class="hitloc-display centre boxed">{{item.system.fractionENC}}</div>
-          <div class="skill-display" title="{{localize 'BRP.hitLocTypeHint'}}">{{localize 'BRP.hitLocType'}}</div>
-          <div class="hitloc-display centre boxed">{{hitLocName}}</div>
-        {{/if}}
-        </div>  
+  <header class="sheet-header">
+
+    <div class="hitlocgrid">
+      <div class="item-title"> {{localize 'BRP.hitLoc'}}:</div>
+      <div class="title-name bold centre boxed" style="padding-top:4px;">{{item.name}}</div>
+    </div>
+
+    <img class="item-image" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="50" width="50" />
+
+  </header>
+
+  {{!-- Sheet Body --}}
+  <section class="power-sheet-body">
+    <br>
+    <div class="hitloc-scores">
+      {{#if isGM}}
+        <div class="skill-display">{{localize 'BRP.hitLocName'}}</div>
+        <div class="stat-input"><input name="system.displayName" type="text" value="{{item.system.displayName}}" /></div>
+        <div class="skill-display">{{localize 'BRP.hitLocCreatureType'}}</div>
+        <div class="stat-input"><input name="system.creatureType" type="text" value="{{item.system.creatureType}}" /></div>
         <br>
-        {{#if hasOwner}}
-        <div class="hitloc-scores">
-          <div class="skill-display new-row" title="{{localize 'BRP.hpAdjHint' label=item.system.healthLabelAbbr}}">{{localize 'BRP.hpAdj' label = item.system.healthLabelAbbr}}</div>
-          <div class="stat-input"><input name="system.adj" type="text" value="{{item.system.adj}}" data-dtype="Number"/></div>
-          <br>
+        <div class="new-row skill-display">{{localize 'BRP.hitLocLowRoll'}}</div>
+        <div class="stat-input"><input name="system.lowRoll" type="text" value="{{item.system.lowRoll}}" data-dtype="Number" /></div>
+        <div class="skill-display">{{localize 'BRP.hitLocHighRoll'}}</div>
+        <div class="stat-input"><input name="system.highRoll" type="text" value="{{item.system.highRoll}}" data-dtype="Number" /></div>
+        <div class="skill-display" title="{{localize 'BRP.hitLocFractionHint'}}">{{localize 'BRP.hitLocFraction' label=item.system.healthLabelAbbr}}</div>
+        <div class="stat-input"><input name="system.fractionHP" type="text" value="{{item.system.fractionHP}}" data-dtype="Number" /></div>
+        <div class="skill-display" title="{{localize 'BRP.hitLocFractionHint'}}">{{localize 'BRP.hitLocENCFraction'}}</div>
+        <div class="stat-input"><input name="system.fractionENC" type="text" value="{{item.system.fractionENC}}" data-dtype="Number" /></div>
+        <div class="skill-display" title="{{localize 'BRP.hitLocTypeHint'}}">{{localize 'BRP.hitLocType'}}</div>
+        <div class="hitloc-input-small">
+          <select data-handle-change name="system.locType">
+            {{selectOptions locTypeOptions selected=item.system.locType}}
+          </select>
         </div>
+      {{else}}
+        <div class="skill-display">{{localize 'BRP.hitLocName'}}</div>
+        <div class="hitloc-display centre boxed">{{item.system.displayName}}</div>
+        <div class="skill-display">{{localize 'BRP.hitLocCreatureType'}}</div>
+        <div class="hitloc-display centre boxed">{{item.system.creatureType}}</div>
+        <br>
+        <div class="new-row skill-display">{{localize 'BRP.hitLocLowRoll'}}</div>
+        <div class="hitloc-display centre boxed">{{item.system.lowRoll}}</div>
+        <div class="skill-display">{{localize 'BRP.hitLocHighRoll'}}</div>
+        <div class="hitloc-display centre boxed">{{item.system.highRoll}}</div>
+        <div class="skill-display" title="{{localize 'BRP.hitLocFractionHint'}}">{{localize 'BRP.hitLocFraction'}}</div>
+        <div class="hitloc-display centre boxed">{{item.system.fractionHP}}</div>
+        <div class="skill-display" title="{{localize 'BRP.hitLocFractionHint'}}">{{localize 'BRP.hitLocENCFraction'}}</div>
+        <div class="hitloc-display centre boxed">{{item.system.fractionENC}}</div>
+        <div class="skill-display" title="{{localize 'BRP.hitLocTypeHint'}}">{{localize 'BRP.hitLocType'}}</div>
+        <div class="hitloc-display centre boxed">{{hitLocName}}</div>
+      {{/if}}
+    </div>
+    <br>
+    {{#if hasOwner}}
+      <div class="hitloc-scores">
+        <div class="skill-display new-row" title="{{localize 'BRP.hpAdjHint' label=item.system.healthLabelAbbr}}">{{localize 'BRP.hpAdj' label = item.system.healthLabelAbbr}}</div>
+        <div class="stat-input"><input name="system.adj" type="text" value="{{item.system.adj}}" data-dtype="Number" /></div>
+        <br>
+      </div>
 
-          <div class="item-title"> {{localize 'BRP.options'}}:</div>
-          <div class="base-4grid">
-            <div class="skill-cat item-toggle {{#if item.system.injured}} toggle-active  {{/if}}" title ="{{localize 'BRP.injuredHint'}}" data-property = "injured">{{localize 'BRP.injured'}}</div>
-            <div class="skill-cat item-toggle {{#if item.system.incapacitated}} toggle-active  {{/if}}" title ="{{localize 'BRP.incapacitatedHint'}}" data-property = "incapacitated">{{localize 'BRP.incapacitated'}}</div>
-            {{#if (eq item.system.locType 'limb')}}
-              <div class="skill-cat item-toggle {{#if item.system.severed}} toggle-active  {{/if}}" title ="{{localize 'BRP.severedHint'}}" data-property = "severed">{{localize 'BRP.severed'}}</div>
-            {{else}}
-              <div class="skill-cat item-toggle {{#if item.system.unconscious}} toggle-active  {{/if}}" title ="{{localize 'BRP.unconsciousHint'}}" data-property = "unconscious">{{localize 'BRP.unconscious'}}</div>
-              <div class="skill-cat item-toggle {{#if item.system.dead}} toggle-active  {{/if}}" title ="{{localize 'BRP.deadHint'}}" data-property = "dead">{{localize 'BRP.dead'}}</div>
-            {{/if}}
-            <div class="skill-cat item-toggle {{#if item.system.bleeding}} toggle-active  {{/if}}" title ="{{localize 'BRP.bleedingHint'}}" data-property = "bleeding">{{localize 'BRP.bleeding'}}</div>
+      <div class="item-title"> {{localize 'BRP.options'}}:</div>
+      <div class="base-4grid">
+        <div class="skill-cat item-toggle {{#if item.system.injured}} toggle-active  {{/if}}" title="{{localize 'BRP.injuredHint'}}" data-property="injured">{{localize 'BRP.injured'}}</div>
+        <div class="skill-cat item-toggle {{#if item.system.incapacitated}} toggle-active  {{/if}}" title="{{localize 'BRP.incapacitatedHint'}}" data-property="incapacitated">{{localize 'BRP.incapacitated'}}</div>
+        {{#if (eq item.system.locType 'limb')}}
+          <div class="skill-cat item-toggle {{#if item.system.severed}} toggle-active  {{/if}}" title="{{localize 'BRP.severedHint'}}" data-property="severed">{{localize 'BRP.severed'}}</div>
+        {{else}}
+          <div class="skill-cat item-toggle {{#if item.system.unconscious}} toggle-active  {{/if}}" title="{{localize 'BRP.unconsciousHint'}}" data-property="unconscious">{{localize 'BRP.unconscious'}}</div>
+          <div class="skill-cat item-toggle {{#if item.system.dead}} toggle-active  {{/if}}" title="{{localize 'BRP.deadHint'}}" data-property="dead">{{localize 'BRP.dead'}}</div>
+        {{/if}}
+        <div class="skill-cat item-toggle {{#if item.system.bleeding}} toggle-active  {{/if}}" title="{{localize 'BRP.bleedingHint'}}" data-property="bleeding">{{localize 'BRP.bleeding'}}</div>
 
-          </div>  
-        {{/if}}        
+      </div>
+    {{/if}}
 
-      <br>
-    </section>
-  </form>
+    <br>
+  </section>
+</form>

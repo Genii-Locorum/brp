@@ -1,19 +1,19 @@
 <form class="brp">
   <div class="dice-roll">
-    <div class="font14" style="display: block">  
+    <div class="font14" style="display: block">
       <div class="XPCheck bold"> {{localize 'BRP.xpRoll'}}</div>
-      <img class="open-actor" src="{{actrImage}}" height="60" width="60"/>
-      {{#each success as | line key|}}  
+      <img class="open-actor" src="{{actrImage}}" height="60" width="60" />
+      {{#each success as | line key|}}
         <div class="flavour-result" style="padding-left: 10px">
-          {{line.name}} ({{line.score}}-{{line.diceRoll}}) 
+          {{line.name}} ({{line.score}}-{{line.diceRoll}})
           {{#if (eq line.level 1)}}
             +{{improvVal}}
             <i class="result-success fas fa-certificate"></i>
           {{else}}
-            <i class="result-fail fas fa-skull"></i>  
-          {{/if}}      
-        </div>  
-      {{/each}}  
+            <i class="result-fail fas fa-skull"></i>
+          {{/if}}
+        </div>
+      {{/each}}
     </div>
   </div>
-</form>  
+</form>

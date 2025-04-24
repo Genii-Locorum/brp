@@ -42,7 +42,7 @@ const SETTINGS = {
     scope: "world",
     config: false,
     type: String,
-    default: ""   
+    default: ""
   },
 
   actorTabNameActiveColour: {
@@ -51,7 +51,7 @@ const SETTINGS = {
     scope: "world",
     config: false,
     type: String,
-    default: ""   
+    default: ""
   },
 
   actorTabNameHoverColour: {
@@ -60,7 +60,7 @@ const SETTINGS = {
     scope: "world",
     config: false,
     type: String,
-    default: ""   
+    default: ""
   },
 
   actorTabNameShadowColour: {
@@ -69,7 +69,7 @@ const SETTINGS = {
     scope: "world",
     config: false,
     type: String,
-    default: ""   
+    default: ""
   },
 
   actorTabActiveShadowColour: {
@@ -78,7 +78,7 @@ const SETTINGS = {
     scope: "world",
     config: false,
     type: String,
-    default: ""   
+    default: ""
   },
 
   actorRollableColour: {
@@ -87,7 +87,7 @@ const SETTINGS = {
     scope: "world",
     config: false,
     type: String,
-    default: ""   
+    default: ""
   },
 
   actorRollableShadowColour: {
@@ -96,7 +96,7 @@ const SETTINGS = {
     scope: "world",
     config: false,
     type: String,
-    default: ""   
+    default: ""
   },
 
   actorSheetBackground: {
@@ -143,7 +143,7 @@ const SETTINGS = {
     scope: "world",
     config: false,
     type: Number,
-    default: 16   
+    default: 16
   },
 
   charSheetTitleFontSize: {
@@ -152,16 +152,16 @@ const SETTINGS = {
     scope: "world",
     config: false,
     type: Number,
-    default: 20   
+    default: 20
   },
 
 }
 
 export class BRPDisplaySettings extends FormApplication {
-  static get defaultOptions () {
+  static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       title: 'BRP.brpSettings',
-      classes: ["brp","rulesmenu"],
+      classes: ["brp", "rulesmenu"],
       id: 'display-settings',
       template: 'systems/brp/templates/settings/display-settings.html',
       width: 550,
@@ -169,8 +169,8 @@ export class BRPDisplaySettings extends FormApplication {
       closeOnSubmit: true
     })
   }
-  
-  async getData () {
+
+  async getData() {
     const options = {}
     for (const [k, v] of Object.entries(SETTINGS)) {
       options[k] = {
@@ -180,19 +180,19 @@ export class BRPDisplaySettings extends FormApplication {
     }
     return options
   }
-  
-  static registerSettings () {
+
+  static registerSettings() {
     for (const [k, v] of Object.entries(SETTINGS)) {
       game.settings.register('brp', k, v)
     }
   }
 
-  activateListeners (html) {
+  activateListeners(html) {
     super.activateListeners(html)
     html.find('button[name=reset]').on('click', event => this.onResetDefaults(event))
   }
 
-  async onResetDefaults (event) {
+  async onResetDefaults(event) {
     event.preventDefault()
     for await (const [k, v] of Object.entries(SETTINGS)) {
       await game.settings.set('brp', k, v?.default)
@@ -200,10 +200,10 @@ export class BRPDisplaySettings extends FormApplication {
     return this.render()
   }
 
-  async _updateObject (event, data) {
+  async _updateObject(event, data) {
     for await (const key of Object.keys(SETTINGS)) {
       game.settings.set('brp', key, data[key])
     }
-  }  
+  }
 
-}    
+}

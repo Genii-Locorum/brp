@@ -1,12 +1,12 @@
 <form class="{{cssClass}} brp" autocomplete="off">
   <header class="sheet-header">
-  
+
     <div class="hitlocgrid">
       <div class="item-title"> {{localize 'BRP.persTrait'}}:</div>
-      <div class="stat-input"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></div>
-    </div>  
-  
-    <img class="item-image" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="50" width="50"/>
+      <div class="stat-input"><input name="name" type="text" value="{{item.name}}" placeholder="Name" /></div>
+    </div>
+
+    <img class="item-image" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="50" width="50" />
 
   </header>
 
@@ -23,44 +23,44 @@
   <section class="item-bottom-panel">
     <section class="sheet-body">
       <br>
-  
+
       {{!-- Details Tab --}}
-      <div class="tab active" data-group="primary" data-tab="details">  
+      <div class="tab active" data-group="primary" data-tab="details">
 
         <div class="magic-grid">
           <div class="skill-display">{{localize 'BRP.opposedTrait'}}</div>
-          <div class="stat-input"><input name="system.oppName" type="text" value="{{item.system.oppName}}"/></div>
-        </div>  
+          <div class="stat-input"><input name="system.oppName" type="text" value="{{item.system.oppName}}" /></div>
+        </div>
         <br>
         <div class="item-title"> {{localize 'BRP.options'}}:</div>
         <div class="options-grid">
-            <div class="skill-cat {{#if isGM}} item-toggle {{/if}} {{#if item.system.basic}} toggle-active  {{/if}}" title ="{{localize 'BRP.basicTraitHint'}}" data-property = "basic">{{localize 'BRP.basicTrait'}}</div>
-        </div> 
+          <div class="skill-cat {{#if isGM}} item-toggle {{/if}} {{#if item.system.basic}} toggle-active  {{/if}}" title="{{localize 'BRP.basicTraitHint'}}" data-property="basic">{{localize 'BRP.basicTrait'}}</div>
+        </div>
         <br>
 
         {{#if hasOwner}}
-        <div class="item-title"> {{localize 'BRP.scores'}}:</div>
-        <div class="armour-scores">
-          <div class="skill-display new-row indent">{{localize 'BRP.base'}}</div>
-          <div class="weapon-input centre"><input name="system.base" type="text" value="{{item.system.base}}" data-dtype="Number"/></div>
-          <div class="skill-display indent">{{localize 'BRP.xp'}}</div>
-          <div class="weapon-input centre"><input name="system.xp" type="text" value="{{item.system.xp}}" data-dtype="Number"/></div>
-          <div class="skill-display indent">{{localize 'BRP.total'}}</div>
-          <div class="weapon-input centre">{{item.system.total}}</div>
-          <div class="new-row skill-display indent">{{localize 'BRP.opposedTotal'}}</div>
-          <div class="weapon-input centre">{{item.system.opptotal}}</div>
-          <br>
-          <div class="new-row"></div>
+          <div class="item-title"> {{localize 'BRP.scores'}}:</div>
+          <div class="armour-scores">
+            <div class="skill-display new-row indent">{{localize 'BRP.base'}}</div>
+            <div class="weapon-input centre"><input name="system.base" type="text" value="{{item.system.base}}" data-dtype="Number" /></div>
+            <div class="skill-display indent">{{localize 'BRP.xp'}}</div>
+            <div class="weapon-input centre"><input name="system.xp" type="text" value="{{item.system.xp}}" data-dtype="Number" /></div>
+            <div class="skill-display indent">{{localize 'BRP.total'}}</div>
+            <div class="weapon-input centre">{{item.system.total}}</div>
+            <div class="new-row skill-display indent">{{localize 'BRP.opposedTotal'}}</div>
+            <div class="weapon-input centre">{{item.system.opptotal}}</div>
+            <br>
+            <div class="new-row"></div>
 
-          <div class="new-row skill-display new-row">{{localize 'BRP.improve'}}</div>
-          <div class="centre itemIcon"><a class="item-toggle nopad" data-property="improve"><i class="{{#if item.system.improve}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>
-          <br>
-          <div class="new-row skill-display new-row">{{localize 'BRP.oppImprove'}}</div>
-          <div class="centre itemIcon"><a class="item-toggle nopad" data-property="oppimprove"><i class="{{#if item.system.oppimprove}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>
+            <div class="new-row skill-display new-row">{{localize 'BRP.improve'}}</div>
+            <div class="centre itemIcon"><a class="item-toggle nopad" data-property="improve"><i class="{{#if item.system.improve}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>
+            <br>
+            <div class="new-row skill-display new-row">{{localize 'BRP.oppImprove'}}</div>
+            <div class="centre itemIcon"><a class="item-toggle nopad" data-property="oppimprove"><i class="{{#if item.system.oppimprove}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>
 
 
-        </div>    
-        {{/if}}  
+          </div>
+        {{/if}}
       </div>
 
       {{!-- Description Tab --}}

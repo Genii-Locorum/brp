@@ -1,11 +1,11 @@
 <form class="brp gr-card">
   <div class="">
-    <div class="bold">{{localize 'BRP.card.CO'}}</div>  
+    <div class="bold">{{localize 'BRP.card.CO'}}</div>
     <ol class="gr-list">
       {{#each chatCard as |c key|}}
         <div class="dice-roll">
           <li class='actor-roll'>
-            <img class="open-actor" src="{{c.particImg}}" height="60" width="60" title="{{c.particName}}"/>
+            <img class="open-actor" src="{{c.particImg}}" height="60" width="60" title="{{c.particName}}" />
             <div class="roll-details">
               <div class="header roll-truncate">
                 <div class='name'>
@@ -16,30 +16,30 @@
                 {{/unless}}
               </div>
               {{#if (eq ../state 'closed')}}
-                    {{#if (eq c.resultLevel 4)}}
-                      <span class="pending roll-succ">{{c.resultLabel}}: {{c.rollVal}} <i class="result-success fas fa-certificate"></i><i class="result-success fas fa-certificate"></i><i class="result-success fas fa-certificate"></i></span>
-                    {{/if}}
-              
-                    {{#if (eq c.resultLevel 3)}}
-                      <span class="pending roll-succ">{{c.resultLabel}}: {{c.rollVal}} <i class="result-success fas fa-certificate"></i><i class="result-success fas fa-certificate"></i></span>
-                    {{/if}}
-          
-                    {{#if (eq c.resultLevel 2)}}
-                      <span class="pending roll-succ">{{c.resultLabel}}: {{c.rollVal}} <i class="result-success fas fa-certificate"></i></span>
-                    {{/if}}
-              
-                    {{#if (eq c.resultLevel 1)}}
-                      <span class="pending roll-fail">{{c.resultLabel}}: {{c.rollVal}} <i class="result-fail fas fa-skull"></i></span>
-                    {{/if}}
-              
-                    {{#if (eq c.resultLevel 0)}}
-                      <span class="pending roll-fumb">{{c.resultLabel}}: {{c.rollVal}} <i class=" result-fail fas fa-skull"></i><i class="result-fail fas fa-skull"></i><i class=" result-fail fas fa-skull"></i></span>
-                    {{/if}}
+                {{#if (eq c.resultLevel 4)}}
+                  <span class="pending roll-succ">{{c.resultLabel}}: {{c.rollVal}} <i class="result-success fas fa-certificate"></i><i class="result-success fas fa-certificate"></i><i class="result-success fas fa-certificate"></i></span>
+                {{/if}}
+
+                {{#if (eq c.resultLevel 3)}}
+                  <span class="pending roll-succ">{{c.resultLabel}}: {{c.rollVal}} <i class="result-success fas fa-certificate"></i><i class="result-success fas fa-certificate"></i></span>
+                {{/if}}
+
+                {{#if (eq c.resultLevel 2)}}
+                  <span class="pending roll-succ">{{c.resultLabel}}: {{c.rollVal}} <i class="result-success fas fa-certificate"></i></span>
+                {{/if}}
+
+                {{#if (eq c.resultLevel 1)}}
+                  <span class="pending roll-fail">{{c.resultLabel}}: {{c.rollVal}} <i class="result-fail fas fa-skull"></i></span>
+                {{/if}}
+
+                {{#if (eq c.resultLevel 0)}}
+                  <span class="pending roll-fumb">{{c.resultLabel}}: {{c.rollVal}} <i class=" result-fail fas fa-skull"></i><i class="result-fail fas fa-skull"></i><i class=" result-fail fas fa-skull"></i></span>
+                {{/if}}
               {{else}}
-                <span class='pending' title="{{localize 'BRP.grTag'}}">{{localize 'BRP.difficulty'}}: {{c.diffLabel}} 
+                <span class='pending' title="{{localize 'BRP.grTag'}}">{{localize 'BRP.difficulty'}}: {{c.diffLabel}}
                   {{#if (lt c.flatMod 0)}}
                     ({{c.flatMod}})
-                  {{/if}}  
+                  {{/if}}
                   {{#if (gt c.flatMod 0)}}
                     (+{{c.flatMod}})
                   {{/if}}
@@ -61,38 +61,38 @@
                 </div>
                 <div class="rollHidden bottom-line">{{localize 'BRP.diceRoll'}}: {{c.diceRolled}}</div>
               </div>
-            </div>  
+            </div>
           {{/if}}
-        </div>  
+        </div>
       {{/each}}
     </ol>
   </div>
   {{#unless (eq state 'closed')}}
     <button class='cardbutton owner-only' data-partic-id="{{initiator}}" data-particType="{{initiatorType}}" data-preset='resolve-co-card' type="button">{{localize 'BRP.resolveCard'}}</button>
     <button class='cardbutton owner-only' data-preset='close-card' type="button">{{localize 'BRP.closeCard'}}</button>
-  {{else}} 
-    {{#unless (eq successLevel -1)}} 
-      <h3 class="chat-dice" >
+  {{else}}
+    {{#unless (eq successLevel -1)}}
+      <h3 class="chat-dice">
         {{#if (eq successLevel 4)}}
-        <span class="">{{successLabel}}: {{successRoll}} <i class="result-success fas fa-certificate"></i><i class="result-success fas fa-certificate"></i><i class="result-success fas fa-certificate"></i></span>
-      {{/if}}
+          <span class="">{{successLabel}}: {{successRoll}} <i class="result-success fas fa-certificate"></i><i class="result-success fas fa-certificate"></i><i class="result-success fas fa-certificate"></i></span>
+        {{/if}}
 
-      {{#if (eq successLevel 3)}}
-        <span class="">{{successLabel}}: {{successRoll}} <i class="result-success fas fa-certificate"></i><i class="result-success fas fa-certificate"></i></span>
-      {{/if}}
+        {{#if (eq successLevel 3)}}
+          <span class="">{{successLabel}}: {{successRoll}} <i class="result-success fas fa-certificate"></i><i class="result-success fas fa-certificate"></i></span>
+        {{/if}}
 
-      {{#if (eq successLevel 2)}}
-        <span class="">{{successLabel}}: {{successRoll}} <i class="result-success fas fa-certificate"></i></span>
-      {{/if}}
+        {{#if (eq successLevel 2)}}
+          <span class="">{{successLabel}}: {{successRoll}} <i class="result-success fas fa-certificate"></i></span>
+        {{/if}}
 
-      {{#if (eq successLevel 1)}}
-        <span class="">{{successLabel}}: {{successRoll}} <i class="result-fail fas fa-skull"></i></span>
-      {{/if}}
+        {{#if (eq successLevel 1)}}
+          <span class="">{{successLabel}}: {{successRoll}} <i class="result-fail fas fa-skull"></i></span>
+        {{/if}}
 
-      {{#if (eq successLevel 0)}}
-        <span class="">{{successLabel}}: {{successRoll}} <i class=" result-fail fas fa-skull"></i><i class="result-fail fas fa-skull"></i><i class=" result-fail fas fa-skull"></i></span>
-      {{/if}}
+        {{#if (eq successLevel 0)}}
+          <span class="">{{successLabel}}: {{successRoll}} <i class=" result-fail fas fa-skull"></i><i class="result-fail fas fa-skull"></i><i class=" result-fail fas fa-skull"></i></span>
+        {{/if}}
       </h3>
     {{/unless}}
   {{/unless}}
-</form>  
+</form>

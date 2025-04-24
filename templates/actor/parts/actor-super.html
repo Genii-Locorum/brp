@@ -3,30 +3,30 @@
     <div class="diff-label">{{superLabel}}</div>
     <div class="diff-label centre" title="{{ localize 'BRP.rangePsyHint'}}">{{ localize 'BRP.range'}}</div>
     <div class="diff-label centre">{{ localize 'BRP.duration'}}</div>
-    <div class="diff-label centre" title ="{{localize 'BRP.ppplHint' label=system.power.labelAbbr}}">{{system.power.labelAbbr}}</div>
+    <div class="diff-label centre" title="{{localize 'BRP.ppplHint' label=system.power.labelAbbr}}">{{system.power.labelAbbr}}</div>
     <div class="diff-label centre">{{ localize 'BRP.level'}}</div>
-  </div>    
+  </div>
   {{#each superpowers as |super id|}}
     <li class="item super-listitem" data-item-id="{{super._id}}">
       <div class="item-edit super-name contextmenu">{{super.name}}</div>
-      <div class = "centre">{{super.system.range}}</div>
-      <div class = "centre">{{super.system.duration}}</div>
-      <div class = "centre">{{super.system.pppl}}</div>
-      <div class = "centre">{{super.system.level}}</div>
-    </li>  
+      <div class="centre">{{super.system.range}}</div>
+      <div class="centre">{{super.system.duration}}</div>
+      <div class="centre">{{super.system.pppl}}</div>
+      <div class="centre">{{super.system.level}}</div>
+    </li>
   {{/each}}
   <br>
   <div class="failing-listitem">
     <div class="diff-label">{{ localize 'BRP.failing'}}</div>
-  </div>    
+  </div>
   {{#each failings as |failing id|}}
-  <li class="item failing-listitem" data-item-id="{{failing._id}}">
-    {{#if (eq failing.system.shortDesc '')}}
-      <div class="item-edit failing-name contextmenu">{{failing.name}}</div>    
-    {{else}}
-      <div class="item-edit failing-name contextmenu">{{failing.system.shortDesc}}</div>
-    {{/if}}  
-  </li>  
-{{/each}}  
+    <li class="item failing-listitem" data-item-id="{{failing._id}}">
+      {{#if (eq failing.system.shortDesc '')}}
+        <div class="item-edit failing-name contextmenu">{{failing.name}}</div>
+      {{else}}
+        <div class="item-edit failing-name contextmenu">{{failing.system.shortDesc}}</div>
+      {{/if}}
+    </li>
+  {{/each}}
 
 </ol>

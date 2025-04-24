@@ -1,4 +1,4 @@
-import {BRPactorItemDrop} from './actor-itemDrop.mjs'
+import { BRPactorItemDrop } from './actor-itemDrop.mjs'
 import { BRPID } from '../brpid/brpid.mjs';
 
 export class BRPActor extends Actor {
@@ -20,7 +20,7 @@ export class BRPActor extends Actor {
     this._prepareNpcData(actorData);
   }
 
-  //Prepare Character specific data 
+  //Prepare Character specific data
   async _prepareCharacterData(actorData) {
     if (actorData.type !== 'character') return;
     const systemData = actorData.system;
@@ -28,14 +28,14 @@ export class BRPActor extends Actor {
     this._prepDerivedStats(actorData)
 
     systemData.health.value = systemData.health.max;
- 
+
     //Initialise Powers IDs
     systemData.magic = "";
     systemData.mutation = "";
     systemData.psychic = "";
     systemData.sorcery = "";
     systemData.super = "";
-    
+
     //Initialise health statuses and other values
     systemData.dead = false;
     systemData.severed = false;
@@ -70,39 +70,39 @@ export class BRPActor extends Actor {
     }
 
     //Calculate Skill Category Bonuses
-      for (let itm of actorData.items) {
-        if (itm.type === 'skillcat') {
-          let bonus = 0;
-          if (game.settings.get('brp','skillBonus') ==="1" && itm.system.stat != 'none') {
-             bonus = Math.ceil(systemData.stats[itm.system.stat].total/2);
-          } else if (game.settings.get('brp','skillBonus') ==="2") {
-            for (let [key, value] of Object.entries(itm.system.attrib)) {
-              if (key === 'edu' && !game.settings.get('brp','useEDU')) {continue}
-              
-              switch (value) {
-                case "0":    //No adjustment
-                  break;
-                case "1":    //Primary                  
-                  bonus += this._categoryprimary(systemData.stats[key].total)
-                  break;
-                case "2":    //Secondary                  
-                  bonus += this._categorysecondary(systemData.stats[key].total)
-                  break;
-                case "3":    //Negative                  
-                  bonus += this._categorynegative(systemData.stats[key].total)
-                  break;
-                case "4":    //Negative Secondary                  
-                  bonus += this._categorynegsec(systemData.stats[key].total)
-                  break;                                    
-              }
+    for (let itm of actorData.items) {
+      if (itm.type === 'skillcat') {
+        let bonus = 0;
+        if (game.settings.get('brp', 'skillBonus') === "1" && itm.system.stat != 'none') {
+          bonus = Math.ceil(systemData.stats[itm.system.stat].total / 2);
+        } else if (game.settings.get('brp', 'skillBonus') === "2") {
+          for (let [key, value] of Object.entries(itm.system.attrib)) {
+            if (key === 'edu' && !game.settings.get('brp', 'useEDU')) { continue }
+
+            switch (value) {
+              case "0":    //No adjustment
+                break;
+              case "1":    //Primary
+                bonus += this._categoryprimary(systemData.stats[key].total)
+                break;
+              case "2":    //Secondary
+                bonus += this._categorysecondary(systemData.stats[key].total)
+                break;
+              case "3":    //Negative
+                bonus += this._categorynegative(systemData.stats[key].total)
+                break;
+              case "4":    //Negative Secondary
+                bonus += this._categorynegsec(systemData.stats[key].total)
+                break;
             }
           }
-         itm.system.bonus = bonus
-         itm.system.total = itm.system.bonus + itm.system.mod 
-         let key = itm.flags.brp.brpidFlag.id 
-         systemData.skillcategory[key] = itm.system.total;
-        }    
+        }
+        itm.system.bonus = bonus
+        itm.system.total = itm.system.bonus + itm.system.mod
+        let key = itm.flags.brp.brpidFlag.id
+        systemData.skillcategory[key] = itm.system.total;
       }
+    }
 
     //Calcualte/adjust scores for items (itm)
     for (let itm of actorData.items) {
@@ -111,164 +111,164 @@ export class BRPActor extends Actor {
         itm.system.total = itm.system.base + itm.system.xp + itm.system.effects + itm.system.profession + itm.system.personality + itm.system.personal + itm.system.culture
         itm.system.catBonus = systemData.skillcategory[itm.system.category]
 
-      //If Allegiance the set total and potential Ally status
-      } else if (itm.type === 'allegiance') {  
+        //If Allegiance the set total and potential Ally status
+      } else if (itm.type === 'allegiance') {
         itm.system.total = itm.system.allegPoints + itm.system.xp
         itm.system.potAlly = false
 
-      //If Passion the set total 
-      } else if (itm.type === 'passion') {  
+        //If Passion the set total
+      } else if (itm.type === 'passion') {
         itm.system.total = itm.system.base + itm.system.xp
-        
-      //If Personality Trait the set total 
-      } else if (itm.type === 'persTrait') {  
-        itm.system.total = Math.max(0,Math.min(100,itm.system.base + itm.system.xp))
-        itm.system.opptotal = 100-itm.system.total
 
-      //If Reputation set total 
-      } else if (itm.type === 'reputation') {  
+        //If Personality Trait the set total
+      } else if (itm.type === 'persTrait') {
+        itm.system.total = Math.max(0, Math.min(100, itm.system.base + itm.system.xp))
+        itm.system.opptotal = 100 - itm.system.total
+
+        //If Reputation set total
+      } else if (itm.type === 'reputation') {
         itm.system.total = itm.system.base
-        
-      //If gear/weapon, calculates the encumbrance
-      } else if (['gear' , 'weapon'].includes (itm.type)) {
+
+        //If gear/weapon, calculates the encumbrance
+      } else if (['gear', 'weapon'].includes(itm.type)) {
         if (itm.system.equipStatus === 'carried') {
           itm.system.actlEnc = itm.system.quantity * itm.system.enc
           systemData.enc = Number(systemData.enc + itm.system.actlEnc)
-        } else {itm.system.actlEnc = 0}
+        } else { itm.system.actlEnc = 0 }
 
         if (itm.system.equipStatus != 'stored') {
-          if (itm.system.pSCurr > 0) {systemData.psCurr = systemData.psCurr + itm.system.pSCurr}
-          if (itm.system.pSMax > 0) {systemData.psMax = systemData.psMax + itm.system.pSMax}
-        }  
+          if (itm.system.pSCurr > 0) { systemData.psCurr = systemData.psCurr + itm.system.pSCurr }
+          if (itm.system.pSMax > 0) { systemData.psMax = systemData.psMax + itm.system.pSMax }
+        }
 
-      //If armour
+        //If armour
       } else if (itm.type === 'armour') {
         //Calc encumbrance based on carry status and if using HPL
         if (itm.system.equipStatus === 'carried') {
-          if (game.settings.get('brp','useHPL')) {
-            itm.system.actlEnc = Math.round(itm.system.quantity * itm.system.enc / actorData.items.get(itm.system.hitlocID).system.fractionENC *10)/10
+          if (game.settings.get('brp', 'useHPL')) {
+            itm.system.actlEnc = Math.round(itm.system.quantity * itm.system.enc / actorData.items.get(itm.system.hitlocID).system.fractionENC * 10) / 10
           } else {
             itm.system.actlEnc = Number(itm.system.quantity * itm.system.enc)
-         }
-        //If not carried then zero ENC
+          }
+          //If not carried then zero ENC
         } else {
           itm.system.actlEnc = 0
-        } 
+        }
         systemData.enc = systemData.enc + itm.system.actlEnc
         if (itm.system.equipStatus != 'stored') {
-          if (itm.system.pSCurr > 0) {systemData.psCurr = systemData.psCurr + itm.system.pSCurr}
-          if (itm.system.pSMax > 0) {systemData.psMax = systemData.psMax + itm.system.pSMax}
-          if (game.settings.get('brp','useHPL')) {
+          if (itm.system.pSCurr > 0) { systemData.psCurr = systemData.psCurr + itm.system.pSCurr }
+          if (itm.system.pSMax > 0) { systemData.psMax = systemData.psMax + itm.system.pSMax }
+          if (game.settings.get('brp', 'useHPL')) {
             let hitLoc = actorData.items.get(itm.system.hitlocID)
-            hitLoc.system.ppCurr+=itm.system.ppCurr
-            hitLoc.system.pSCurr+=Number(itm.system.pSCurr)
-          }  
-        }  
+            hitLoc.system.ppCurr += itm.system.ppCurr
+            hitLoc.system.pSCurr += Number(itm.system.pSCurr)
+          }
+        }
 
 
         //Add the Armour Point Score to the Hit Location if worn
-        if (itm.system.equipStatus === 'worn'){
-          if (game.settings.get('brp','useHPL')) {
+        if (itm.system.equipStatus === 'worn') {
+          if (game.settings.get('brp', 'useHPL')) {
             let hitLoc = actorData.items.get(itm.system.hitlocID)
-            hitLoc.system.av1+=itm.system.av1
-            hitLoc.system.mnplmod+=itm.system.mnplmod
-            hitLoc.system.percmod+=itm.system.percmod
-            hitLoc.system.physmod+=itm.system.physmod
-            hitLoc.system.stealthmod+=itm.system.stealthmod
-            if (itm.system.av2 > 0) { 
-              hitLoc.system.av2+=itm.system.av2
-            } 
+            hitLoc.system.av1 += itm.system.av1
+            hitLoc.system.mnplmod += itm.system.mnplmod
+            hitLoc.system.percmod += itm.system.percmod
+            hitLoc.system.physmod += itm.system.physmod
+            hitLoc.system.stealthmod += itm.system.stealthmod
+            if (itm.system.av2 > 0) {
+              hitLoc.system.av2 += itm.system.av2
+            }
             if (itm.system.avr1 != "") {
-              hitLoc.system.avr1+="+" + itm.system.avr1
-            }  
+              hitLoc.system.avr1 += "+" + itm.system.avr1
+            }
             if (itm.system.avr2 != "") {
-              hitLoc.system.avr2+="+" + itm.system.avr2
-            } 
+              hitLoc.system.avr2 += "+" + itm.system.avr2
+            }
           } else {
-            systemData.av1+=itm.system.av1
-            systemData.av2+=itm.system.av2
-            if (itm.system.avr1 != "") {          
-              systemData.avr1+="+" + itm.system.avr1
-            }  
+            systemData.av1 += itm.system.av1
+            systemData.av2 += itm.system.av2
+            if (itm.system.avr1 != "") {
+              systemData.avr1 += "+" + itm.system.avr1
+            }
             if (itm.system.avr2 != "") {
-              systemData.avr2+="+" + itm.system.avr2
-            } 
+              systemData.avr2 += "+" + itm.system.avr2
+            }
           }
-        } 
-        if (game.settings.get('brp','useHPL')) {
+        }
+        if (game.settings.get('brp', 'useHPL')) {
           let hitLoc = actorData.items.get(itm.system.hitlocID)
-          hitLoc.system.enc+=itm.system.actlEnc
-        }  
-        //If power then record the ID against the category  
+          hitLoc.system.enc += itm.system.actlEnc
+        }
+        //If power then record the ID against the category
       } else if (itm.type === 'power') {
         systemData[itm.system.category] = itm._id;
       } else if (itm.type === 'profession') {
         systemData.profession = itm.name
         systemData.professionId = itm._id;
-      //If hit locations calculation HPL max and current and statuses  
-      } else if (itm.type === 'hit-location' && game.settings.get('brp','useHPL')) {
+        //If hit locations calculation HPL max and current and statuses
+      } else if (itm.type === 'hit-location' && game.settings.get('brp', 'useHPL')) {
         itm.system.injured = false;
-        itm.system.maxHP = Math.max((Math.ceil(systemData.health.max / itm.system.fractionHP) + itm.system.adj),0);
+        itm.system.maxHP = Math.max((Math.ceil(systemData.health.max / itm.system.fractionHP) + itm.system.adj), 0);
         itm.system.currHP = itm.system.maxHP
         //Loop through items (wnd) to find wounds
         for (let wnd of actorData.items) {
           if (wnd.type === 'wound' && wnd.system.locId === itm._id) {
-            itm.system.currHP= itm.system.currHP - wnd.system.value 
+            itm.system.currHP = itm.system.currHP - wnd.system.value
           }
         }
-        if (itm.system.currHP<1 && itm.system.locType === 'limb') {
+        if (itm.system.currHP < 1 && itm.system.locType === 'limb') {
           itm.system.injured = true
-        } else if (itm.system.currHP<1 && itm.system.locType === 'abdomen') {
+        } else if (itm.system.currHP < 1 && itm.system.locType === 'abdomen') {
           itm.system.injured = true
           systemData.injured = true
-        } else if (itm.system.currHP<1 && itm.system.locType === 'chest') {
+        } else if (itm.system.currHP < 1 && itm.system.locType === 'chest') {
           itm.system.incapacitated = true
           systemData.incapacitated = true
-        } else if (itm.system.currHP<1 && itm.system.locType === 'head') {
+        } else if (itm.system.currHP < 1 && itm.system.locType === 'head') {
           itm.system.unconscious = true
           systemData.unconscious = true
-        } 
-        if (itm.system.bleeding) {systemData.bleeding = true}
-        if (itm.system.unconscious) {systemData.unconscious = true}
-        if (itm.system.incapacitated) {systemData.incapacitated = true}
-        if (itm.system.severed) {systemData.severed = true}
-        if (itm.system.dead) {systemData.dead = true}
-      //If wound calculate total HPL  
+        }
+        if (itm.system.bleeding) { systemData.bleeding = true }
+        if (itm.system.unconscious) { systemData.unconscious = true }
+        if (itm.system.incapacitated) { systemData.incapacitated = true }
+        if (itm.system.severed) { systemData.severed = true }
+        if (itm.system.dead) { systemData.dead = true }
+        //If wound calculate total HPL
       } else if (itm.type === 'wound') {
         systemData.health.value = systemData.health.value - itm.system.value
       }
 
-    }  
+    }
 
     //Calculate allegiance target
-    let allegiances = actorData.items.filter(itm=>itm.type === 'allegiance')
-      allegiances.sort(function(a, b){
-        let x = a.system.total;
-        let y = b.system.total;
-        if (x < y) {return 1};
-        if (x > y) {return -1};
-        return 0;
-      });
-      //If there is one allegiance
-      let ally=""
-      if (allegiances.length === 1 && allegiances[0].system.total >=20) {
-        actorData.items.get(allegiances[0]._id).system.potAlly = true
-      } else if (allegiances.length > 1 && (allegiances[0].system.total - allegiances[1].system.total) >=20) {
-        actorData.items.get(allegiances[0]._id).system.potAlly = true
-      }
+    let allegiances = actorData.items.filter(itm => itm.type === 'allegiance')
+    allegiances.sort(function (a, b) {
+      let x = a.system.total;
+      let y = b.system.total;
+      if (x < y) { return 1 };
+      if (x > y) { return -1 };
+      return 0;
+    });
+    //If there is one allegiance
+    let ally = ""
+    if (allegiances.length === 1 && allegiances[0].system.total >= 20) {
+      actorData.items.get(allegiances[0]._id).system.potAlly = true
+    } else if (allegiances.length > 1 && (allegiances[0].system.total - allegiances[1].system.total) >= 20) {
+      actorData.items.get(allegiances[0]._id).system.potAlly = true
+    }
 
 
-      //Round ENC to 2 decimals and then adjust fatigue
-      systemData.enc = (systemData.enc).toFixed(2)
-      systemData.fatigue.max = Math.ceil(systemData.stats.str.total + systemData.stats.con.total - systemData.enc + systemData.fatigue.mod);
+    //Round ENC to 2 decimals and then adjust fatigue
+    systemData.enc = (systemData.enc).toFixed(2)
+    systemData.fatigue.max = Math.ceil(systemData.stats.str.total + systemData.stats.con.total - systemData.enc + systemData.fatigue.mod);
 
     //Derive Health Statuses from total HP
-    if (systemData.health.value <1) {
+    if (systemData.health.value < 1) {
       systemData.dead = true;
-    } else if (systemData.health.value <3) {
+    } else if (systemData.health.value < 3) {
       systemData.unconscious = true;
     }
-  }  
+  }
 
   //Prepare NPC specific data.
   async _prepareNpcData(actorData) {
@@ -282,34 +282,34 @@ export class BRPActor extends Actor {
       stat.labelShort = game.i18n.localize(CONFIG.BRP.statsAbbreviations[key]) ?? key;
       //Mark all stats as visible except for EDU where it's not being used
       stat.visible = true;
-      if (key === 'edu' && !game.settings.get('brp','useEDU')) {stat.visible = false}
+      if (key === 'edu' && !game.settings.get('brp', 'useEDU')) { stat.visible = false }
     }
 
 
     let damage = 0
-    systemData.fatigue.max = Math.ceil(systemData.stats.str.total + systemData.stats.con.total+systemData.fatigue.mod);
+    systemData.fatigue.max = Math.ceil(systemData.stats.str.total + systemData.stats.con.total + systemData.fatigue.mod);
 
     for (let itm of actorData.items) {
-      if (['skill','psychic','magic', 'passion','reputation'].includes(itm.type)) {
-      itm.system.total = itm.system.base;
+      if (['skill', 'psychic', 'magic', 'passion', 'reputation'].includes(itm.type)) {
+        itm.system.total = itm.system.base;
       } else if (['allegiance'].includes(itm.type)) {
         itm.system.total = itm.system.allegPoints;
       } else if (['persTrait'].includes(itm.type)) {
         itm.system.total = itm.system.base;
         itm.system.opptotal = 100 - itm.system.base;
       }
-      else if (itm.type === 'hit-location' && game.settings.get('brp','useHPL')) {
+      else if (itm.type === 'hit-location' && game.settings.get('brp', 'useHPL')) {
         itm.system.injured = false;
-        itm.system.maxHP = Math.max((Math.ceil(systemData.health.max / itm.system.fractionHP) + itm.system.adj),0);
-        damage = damage + Math.max(itm.system.maxHP - itm.system.currHP,0)
-      } 
+        itm.system.maxHP = Math.max((Math.ceil(systemData.health.max / itm.system.fractionHP) + itm.system.adj), 0);
+        damage = damage + Math.max(itm.system.maxHP - itm.system.currHP, 0)
+      }
     }
 
     //If using HPL then set current health
-    if (game.settings.get('brp','useHPL')) {
+    if (game.settings.get('brp', 'useHPL')) {
       systemData.health.value = systemData.health.max - damage
     }
-  }  
+  }
 
 
   getRollData() {
@@ -351,20 +351,20 @@ export class BRPActor extends Actor {
       stat.labelDeriv = game.i18n.localize(CONFIG.BRP.statsDerived[key]) ?? key;
       stat.total = Number(stat.base) + Number(stat.redist) + Number(stat.culture) + Number(stat.exp) + Number(stat.effects) + Number(stat.age);
       stat.deriv = stat.total * 5;
-      if (stat.redist < 0) {actorData.system.redistDec = actorData.system.redistDec + stat.redist}
-      if (stat.redist > 0) {actorData.system.redistInc = actorData.system.redistInc + stat.redist}
+      if (stat.redist < 0) { actorData.system.redistDec = actorData.system.redistDec + stat.redist }
+      if (stat.redist > 0) { actorData.system.redistInc = actorData.system.redistInc + stat.redist }
 
       //Mark all stats as visible except for EDU where it's not being used
       stat.visible = true;
-      if (key === 'edu' && !game.settings.get('brp','useEDU')) {stat.visible = false}
+      if (key === 'edu' && !game.settings.get('brp', 'useEDU')) { stat.visible = false }
     }
     if (actorData.type === 'npc')
-    for (let [key, stat] of Object.entries(actorData.system.baseStats)) {
-      stat.labelShort = game.i18n.localize(CONFIG.BRP.statsAbbreviations[key]) ?? key;
-      //Mark all stats as visible except for EDU where it's not being used
-      stat.visible = true;
-      if (key === 'edu' && !game.settings.get('brp','useEDU')) {stat.visible = false}
-    }
+      for (let [key, stat] of Object.entries(actorData.system.baseStats)) {
+        stat.labelShort = game.i18n.localize(CONFIG.BRP.statsAbbreviations[key]) ?? key;
+        //Mark all stats as visible except for EDU where it's not being used
+        stat.visible = true;
+        if (key === 'edu' && !game.settings.get('brp', 'useEDU')) { stat.visible = false }
+      }
     actorData.system.redistTotal = actorData.system.redistInc + actorData.system.redistDec
   }
 
@@ -372,86 +372,86 @@ export class BRPActor extends Actor {
   _prepDerivedStats(actorData) {
     let systemData = actorData.system
     if (actorData.type === 'character') {
-      systemData.health.max = Math.ceil((systemData.stats.con.total + systemData.stats.siz.total) * game.settings.get('brp','hpMod')/2)+systemData.health.mod;
+      systemData.health.max = Math.ceil((systemData.stats.con.total + systemData.stats.siz.total) * game.settings.get('brp', 'hpMod') / 2) + systemData.health.mod;
     } else {
       let health = 0
       let formula = ""
       let statCount = 0
       if (systemData.hp.stat1 != 'none') {
         health += systemData.stats[systemData.hp.stat1].total
-        statCount ++
+        statCount++
         formula = game.i18n.localize(CONFIG.BRP.statsAbbreviations[systemData.hp.stat1])
       }
       if (systemData.hp.stat2 != 'none') {
         health += systemData.stats[systemData.hp.stat2].total
-        statCount ++
-        if (statCount === 2) {formula = formula + " + "}
+        statCount++
+        if (statCount === 2) { formula = formula + " + " }
         formula = formula + game.i18n.localize(CONFIG.BRP.statsAbbreviations[systemData.hp.stat2])
       }
       health = Math.ceil(health * systemData.hp.multi)
       if (statCount === 1) {
-        formula = "(" + formula + " * " + systemData.hp.multi +")"
+        formula = "(" + formula + " * " + systemData.hp.multi + ")"
       } else if (statCount === 2) {
-        formula = "((" + formula + ") * " + systemData.hp.multi +")"
+        formula = "((" + formula + ") * " + systemData.hp.multi + ")"
       }
       if (systemData.health.mod < 0) {
-        formula = formula + " "+systemData.health.mod        
-      } else if(systemData.health.mod > 0) {
-        formula = formula + " + "+systemData.health.mod        
-      }  
+        formula = formula + " " + systemData.health.mod
+      } else if (systemData.health.mod > 0) {
+        formula = formula + " + " + systemData.health.mod
+      }
       systemData.hp.formula = formula
-      systemData.health.max = health + systemData.health.mod??0
-    } 
-    systemData.health.mjrwnd = Math.ceil(systemData.health.max/2);
-    systemData.power.max = systemData.stats.pow.total+systemData.power.mod;
-    systemData.xpBonus = Math.ceil(systemData.stats.int.total/2);
-    systemData.dmgBonus = this._damageBonus (systemData.stats.str.total+systemData.stats.siz.total)
+      systemData.health.max = health + systemData.health.mod ?? 0
+    }
+    systemData.health.mjrwnd = Math.ceil(systemData.health.max / 2);
+    systemData.power.max = systemData.stats.pow.total + systemData.power.mod;
+    systemData.xpBonus = Math.ceil(systemData.stats.int.total / 2);
+    systemData.dmgBonus = this._damageBonus(systemData.stats.str.total + systemData.stats.siz.total)
 
     //Set Resource Labels
-    if (game.settings.get('brp','ppLabelLong')) {
-      systemData.power.label = game.settings.get('brp','ppLabelLong')
+    if (game.settings.get('brp', 'ppLabelLong')) {
+      systemData.power.label = game.settings.get('brp', 'ppLabelLong')
     } else {
       systemData.power.label = game.i18n.localize('BRP.pp')
     }
-    if (game.settings.get('brp','ppLabelShort')) {
-      systemData.power.labelAbbr = game.settings.get('brp','ppLabelShort')
+    if (game.settings.get('brp', 'ppLabelShort')) {
+      systemData.power.labelAbbr = game.settings.get('brp', 'ppLabelShort')
     } else {
       systemData.power.labelAbbr = game.i18n.localize('BRP.ppShort')
     }
-    if (game.settings.get('brp','hpLabelLong')) {
-      systemData.health.label = game.settings.get('brp','hpLabelLong')
+    if (game.settings.get('brp', 'hpLabelLong')) {
+      systemData.health.label = game.settings.get('brp', 'hpLabelLong')
     } else {
       systemData.health.label = game.i18n.localize('BRP.health')
     }
-    if (game.settings.get('brp','hpLabelShort')) {
-      systemData.health.labelAbbr = game.settings.get('brp','hpLabelShort')
+    if (game.settings.get('brp', 'hpLabelShort')) {
+      systemData.health.labelAbbr = game.settings.get('brp', 'hpLabelShort')
     } else {
       systemData.health.labelAbbr = game.i18n.localize('BRP.hp')
     }
-    if (game.settings.get('brp','fpLabelLong')) {
-      systemData.fatigue.label = game.settings.get('brp','fpLabelLong')
+    if (game.settings.get('brp', 'fpLabelLong')) {
+      systemData.fatigue.label = game.settings.get('brp', 'fpLabelLong')
     } else {
       systemData.fatigue.label = game.i18n.localize('BRP.fatigue')
     }
-    if (game.settings.get('brp','fpLabelShort')) {
-      systemData.fatigue.labelAbbr = game.settings.get('brp','fpLabelShort')
+    if (game.settings.get('brp', 'fpLabelShort')) {
+      systemData.fatigue.labelAbbr = game.settings.get('brp', 'fpLabelShort')
     } else {
       systemData.fatigue.labelAbbr = game.i18n.localize('BRP.fp')
     }
-    if (game.settings.get('brp','res5LabelLong')) {
-      systemData.res5.label = game.settings.get('brp','res5LabelLong')
+    if (game.settings.get('brp', 'res5LabelLong')) {
+      systemData.res5.label = game.settings.get('brp', 'res5LabelLong')
     } else {
       systemData.res5.label = game.i18n.localize('BRP.res5')
     }
-    if (game.settings.get('brp','res5LabelShort')) {
-      systemData.res5.labelAbbr = game.settings.get('brp','res5LabelShort')
+    if (game.settings.get('brp', 'res5LabelShort')) {
+      systemData.res5.labelAbbr = game.settings.get('brp', 'res5LabelShort')
     } else {
       systemData.res5.labelAbbr = game.i18n.localize('BRP.res5Abbr')
     }
   }
 
   //Used for Rolling NPCs when token dropped
-  get hasRollableCharacteristics () {
+  get hasRollableCharacteristics() {
     for (const [, value] of Object.entries(this.system.baseStats)) {
       if (isNaN(Number(value.random))) return true
       if (isNaN(Number(value.average))) return true
@@ -460,7 +460,7 @@ export class BRPActor extends Actor {
   }
 
   //Roll Random Stats
-  async rollCharacteristicsValue () {
+  async rollCharacteristicsValue() {
     const stats = {}
     for (const [key, value] of Object.entries(this.system.baseStats)) {
       if (value.random && !value.random.startsWith('@')) {
@@ -476,9 +476,9 @@ export class BRPActor extends Actor {
     await this.update(stats)
     await this.updateVitals()
   }
-  
+
   //Roll Average Stats
-  async averageCharacteristicsValue () {
+  async averageCharacteristicsValue() {
     const stats = {}
     for (const [key, value] of Object.entries(this.system.baseStats)) {
       if (value.average && !value.average.startsWith('@')) {
@@ -496,27 +496,28 @@ export class BRPActor extends Actor {
   }
 
   //Update Current HP, FP etc and HPL when Rolled or Average Roll
-  async updateVitals () {
-    let checkProp = {'system.health.value': this.system.health.max,
+  async updateVitals() {
+    let checkProp = {
+      'system.health.value': this.system.health.max,
       'system.power.value': this.system.power.max,
       'system.fatigue.value': this.system.fatigue.max,
-      'system.sanity.value': this.system.sanity.max 
-     }
-    await this.update(checkProp)
-    if (game.settings.get('brp','useHPL')) {
-      let hitLocs = this.items.filter(itm => itm.type==='hit-location').map(itm => {
-        return { _id: itm.id, 'system.currHP': itm.system.maxHP}
-      })
-      await Item.updateDocuments(hitLocs, {parent: this})   
+      'system.sanity.value': this.system.sanity.max
     }
-  } 
+    await this.update(checkProp)
+    if (game.settings.get('brp', 'useHPL')) {
+      let hitLocs = this.items.filter(itm => itm.type === 'hit-location').map(itm => {
+        return { _id: itm.id, 'system.currHP': itm.system.maxHP }
+      })
+      await Item.updateDocuments(hitLocs, { parent: this })
+    }
+  }
 
   //Create a new actor - When creating an actor set basics including tokenlink, bars, displays sight
-  static async create (data, options = {}) {
-    //If dropping from compendium check to see if the actor already exists in game.actors and if it does then get the game.actors details rather than create a copy 
+  static async create(data, options = {}) {
+    //If dropping from compendium check to see if the actor already exists in game.actors and if it does then get the game.actors details rather than create a copy
     if (options.fromCompendium) {
-      let tempActor = await (game.actors.filter(actr=>actr.flags.brp.brpidFlag.id === data.flags.brp.brpidFlag.id && actr.flags.brp.brpidFlag.priority === data.flags.brp.brpidFlag.priority))[0]
-      if (tempActor) {return tempActor}
+      let tempActor = await (game.actors.filter(actr => actr.flags.brp.brpidFlag.id === data.flags.brp.brpidFlag.id && actr.flags.brp.brpidFlag.priority === data.flags.brp.brpidFlag.priority))[0]
+      if (tempActor) { return tempActor }
     }
 
 
@@ -534,16 +535,16 @@ export class BRPActor extends Actor {
           range: 30,
           enabled: true
         }]
-      },data.prototypeToken || {})
+      }, data.prototypeToken || {})
     }
 
     let actor = await super.create(data, options)
 
     //Add BRPID based on actor name if the game setting is flagged.
-    if(game.settings.get('brp', "actorBRPID")) {
+    if (game.settings.get('brp', "actorBRPID")) {
       let tempID = await BRPID.guessId(actor)
       if (tempID) {
-        await actor.update({'flags.brp.brpidFlag.id': tempID})
+        await actor.update({ 'flags.brp.brpidFlag.id': tempID })
         const html = $(actor.sheet.element).find('header.window-header a.header-button.edit-brpid-warning,header.window-header a.header-button.edit-brpid-exisiting')
         if (html.length) {
           html.css({
@@ -556,49 +557,49 @@ export class BRPActor extends Actor {
 
 
     //Set up a general hit location for a new actor if using HPL
-    if (actor.type ==='character' && game.settings.get('brp','useHPL')) {
+    if (actor.type === 'character' && game.settings.get('brp', 'useHPL')) {
       let brpid = "i.hit-location.general"
 
       const itemData = [{
         name: game.i18n.localize('BRP.general'),
         type: 'hit-location',
         img: 'systems/brp/assets/Icons/arm-bandage.svg',
-        flags: {brp: {brpidFlag: {id: "i.hit-location.general"}}},
+        flags: { brp: { brpidFlag: { id: "i.hit-location.general" } } },
         system: {
           "fractionHP": 1,
           "fractionENC": 1,
           "lowRoll": 0,
-          "highRoll":0,
+          "highRoll": 0,
           "locType": "general"
         }
       }];
-      const newItem = await Item.createDocuments(itemData, {parent: actor});
+      const newItem = await Item.createDocuments(itemData, { parent: actor });
     }
 
     //Add Starter Skills if toggled on
-    if (actor.type === 'character' && game.settings.get('brp','starterSkills')) {
+    if (actor.type === 'character' && game.settings.get('brp', 'starterSkills')) {
       let newSkills = []
-      let skillList = (await game.system.api.brpid.fromBRPIDRegexBest({ brpidRegExp:new RegExp('^i.skill'), type: 'i' })).filter(itm => itm.system.basic)
+      let skillList = (await game.system.api.brpid.fromBRPIDRegexBest({ brpidRegExp: new RegExp('^i.skill'), type: 'i' })).filter(itm => itm.system.basic)
       for (let itm of skillList) {
-        if (actor.items.filter(nitm=> nitm.flags.brp.brpidFlag.id === itm.flags.brp.brpidFlag.id ).length <1) {
-          itm.system.base = await BRPactorItemDrop._calcBase(itm,actor);
+        if (actor.items.filter(nitm => nitm.flags.brp.brpidFlag.id === itm.flags.brp.brpidFlag.id).length < 1) {
+          itm.system.base = await BRPactorItemDrop._calcBase(itm, actor);
           newSkills.push(itm);
         }
       }
-    await Item.createDocuments(newSkills, {parent: actor});
-    await BRPActor.charBaseSkillScores(actor);
+      await Item.createDocuments(newSkills, { parent: actor });
+      await BRPActor.charBaseSkillScores(actor);
     }
 
     //Add Starter Traits if toggled on
-    if (actor.type === 'character' && game.settings.get('brp','starterTraits') && game.settings.get('brp','usePersTrait')) {
+    if (actor.type === 'character' && game.settings.get('brp', 'starterTraits') && game.settings.get('brp', 'usePersTrait')) {
       let newTraits = []
-      let traitList = (await game.system.api.brpid.fromBRPIDRegexBest({ brpidRegExp:new RegExp('^i.persTrait'), type: 'i' })).filter(itm => itm.system.basic)
+      let traitList = (await game.system.api.brpid.fromBRPIDRegexBest({ brpidRegExp: new RegExp('^i.persTrait'), type: 'i' })).filter(itm => itm.system.basic)
       for (let itm of traitList) {
-        if (actor.items.filter(nitm=> nitm.flags.brp.brpidFlag.id === itm.flags.brp.brpidFlag.id ).length <1) {
+        if (actor.items.filter(nitm => nitm.flags.brp.brpidFlag.id === itm.flags.brp.brpidFlag.id).length < 1) {
           newTraits.push(itm);
         }
       }
-    await Item.createDocuments(newTraits, {parent: actor});
+      await Item.createDocuments(newTraits, { parent: actor });
     }
 
 
@@ -606,66 +607,66 @@ export class BRPActor extends Actor {
     //Add Skill Categories
     if (actor.type === 'character') {
       let newSkillCats = []
-      let skillCatList = (await game.system.api.brpid.fromBRPIDRegexBest({ brpidRegExp:new RegExp('^i.skillcat'), type: 'i' }))
+      let skillCatList = (await game.system.api.brpid.fromBRPIDRegexBest({ brpidRegExp: new RegExp('^i.skillcat'), type: 'i' }))
       for (let itm of skillCatList) {
-        if (actor.items.filter(nitm=> nitm.flags.brp.brpidFlag.id === itm.flags.brp.brpidFlag.id ).length <1) {
+        if (actor.items.filter(nitm => nitm.flags.brp.brpidFlag.id === itm.flags.brp.brpidFlag.id).length < 1) {
           newSkillCats.push(itm)
         }
       }
-    await Item.createDocuments(newSkillCats, {parent: actor})
+      await Item.createDocuments(newSkillCats, { parent: actor })
     }
     return actor
   }
 
   //Recalculate all skill base scores
   static async charBaseSkillScores(actor) {
-    let change=[]
+    let change = []
     for (let itm of actor.items) {
-      if (itm.type != 'skill') {continue}
-      let baseScore = await BRPactorItemDrop._calcBase(itm,actor)
-      change.push({_id: itm._id, "system.base": baseScore})
+      if (itm.type != 'skill') { continue }
+      let baseScore = await BRPactorItemDrop._calcBase(itm, actor)
+      change.push({ _id: itm._id, "system.base": baseScore })
     }
-    await Item.updateDocuments(change, {parent:actor})
+    await Item.updateDocuments(change, { parent: actor })
   }
 
-  // Primary Skills Bonus 
-  _categoryprimary(statvalue){
-    var bonus = statvalue-10;
+  // Primary Skills Bonus
+  _categoryprimary(statvalue) {
+    var bonus = statvalue - 10;
     return bonus;
   }
 
   // Secondary Skills Bonus
-  _categorysecondary(statvalue){
-    var bonus = (statvalue-10)/2
-    if (bonus <0) {
+  _categorysecondary(statvalue) {
+    var bonus = (statvalue - 10) / 2
+    if (bonus < 0) {
       bonus = Math.ceil(bonus);
     } else {
       bonus = Math.floor(bonus);
-    }  
+    }
     return bonus;
   }
 
   // Negative Skills Bonus
-  _categorynegative(statvalue){
-    var bonus = 10-statvalue;
-    return bonus; 
+  _categorynegative(statvalue) {
+    var bonus = 10 - statvalue;
+    return bonus;
   }
 
   // Negative Secondary Skills Bonus
-  _categorynegsec(statvalue){
-    var bonus = (10-statvalue)/2
-    if (bonus <0) {
+  _categorynegsec(statvalue) {
+    var bonus = (10 - statvalue) / 2
+    if (bonus < 0) {
       bonus = Math.ceil(bonus);
     } else {
       bonus = Math.floor(bonus);
-    }  
-    return bonus; 
+    }
+    return bonus;
   }
 
   //Damage Bonus
-  _damageBonus (value) {
-    let dmgBonus={}
-    if (value <13) {
+  _damageBonus(value) {
+    let dmgBonus = {}
+    if (value < 13) {
       dmgBonus.full = '-1D6'
       dmgBonus.half = '-1D3'
     } else if (value < 17) {
@@ -681,8 +682,8 @@ export class BRPActor extends Actor {
       dmgBonus.full = '+1D6'
       dmgBonus.half = '+1D3'
     } else {
-      dmgBonus.full = "+" + (Math.ceil((value-40)/16)+1) + "D6"
-      dmgBonus.half = "+" + (Math.ceil((value-40)/16)+1) + "D3"
+      dmgBonus.full = "+" + (Math.ceil((value - 40) / 16) + 1) + "D6"
+      dmgBonus.half = "+" + (Math.ceil((value - 40) / 16) + 1) + "D3"
     }
     return dmgBonus
   }

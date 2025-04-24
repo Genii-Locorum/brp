@@ -1,7 +1,7 @@
 import { BRPUtilities } from '../apps/utilities.mjs'
 
 export class BRPIDEditor extends FormApplication {
-  static get defaultOptions () {
+  static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ['brp', 'dialog', 'brpid-editor'],
       template: 'systems/brp/templates/brpid/brpid-editor.html',
@@ -14,7 +14,7 @@ export class BRPIDEditor extends FormApplication {
     })
   }
 
-  async getData () {
+  async getData() {
     const sheetData = super.getData()
 
     sheetData.supportedLanguages = CONFIG.supportedLanguages
@@ -96,7 +96,7 @@ export class BRPIDEditor extends FormApplication {
     return sheetData
   }
 
-  activateListeners (html) {
+  activateListeners(html) {
     super.activateListeners(html)
 
     html.find('a.copy-to-clipboard').click(function (e) {
@@ -128,7 +128,7 @@ export class BRPIDEditor extends FormApplication {
     })
   }
 
-  async _updateObject (event, formData) {
+  async _updateObject(event, formData) {
     const id = formData.id || ''
     await this.object.update({
       'flags.brp.brpidFlag.id': id,
@@ -144,4 +144,4 @@ export class BRPIDEditor extends FormApplication {
     this.render()
   }
 
-}  
+}

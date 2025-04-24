@@ -1,34 +1,34 @@
-<form class= "brp" id="treat-wound-form">
-    <br>    
-    <div class="flexcol">
-      <div class="stat-name centre">{{localize 'BRP.healPrompt'}}</div>
-      <div class="flexrow">
-        <input class="stat-name centre" name="treat-wound" type="text" placeholder=0 data-dtype="Number"/>
-      </div>
-      <br>
+<form class="brp" id="treat-wound-form">
+  <br>
+  <div class="flexcol">
+    <div class="stat-name centre">{{localize 'BRP.healPrompt'}}</div>
+    <div class="flexrow">
+      <input class="stat-name centre" name="treat-wound" type="text" placeholder=0 data-dtype="Number" />
     </div>
+    <br>
+  </div>
 
-    {{#if getType}}
-      <div class="stat-name centre">{{localize 'BRP.healType'}}</div>
+  {{#if getType}}
+    <div class="stat-name centre">{{localize 'BRP.healType'}}</div>
     <br>
     <div class="flexrow">
-        <select class="stat-name centre" data-handle-change name="healType">
-          {{selectOptions healTypes}}
-        </select>
-      </div>
-    <br>  
-    {{/if}}
+      <select class="stat-name centre" data-handle-change name="healType">
+        {{selectOptions healTypes}}
+      </select>
+    </div>
+    <br>
+  {{/if}}
 
-    {{#if getWnd}}
-      <div class="stat-name centre">{{localize 'BRP.selectWound'}}</div>
+  {{#if getWnd}}
+    <div class="stat-name centre">{{localize 'BRP.selectWound'}}</div>
     <br>
     <div class="flexrow">
-        <select class="stat-name centre" data-handle-change name="woundId">
-          {{selectOptions wndList}}
-        </select>
-      </div>
-    <br>  
-    {{/if}}
+      <select class="stat-name centre" data-handle-change name="woundId">
+        {{selectOptions wndList}}
+      </select>
+    </div>
+    <br>
+  {{/if}}
 
 
 </form>

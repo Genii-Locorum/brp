@@ -1,12 +1,12 @@
 <form class="{{cssClass}} brp" autocomplete="off">
   <header class="sheet-header">
-  
+
     <div class="hitlocgrid">
       <div class="item-title"> {{localize 'BRP.armour'}}:</div>
-      <div class="stat-input"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></div>
-    </div>  
-  
-    <img class="item-image" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="50" width="50"/>
+      <div class="stat-input"><input name="name" type="text" value="{{item.name}}" placeholder="Name" /></div>
+    </div>
+
+    <img class="item-image" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="50" width="50" />
 
   </header>
 
@@ -23,24 +23,24 @@
   <section class="item-bottom-panel">
     <section class="sheet-body">
       <br>
-  
+
       {{!-- Details Tab --}}
-      <div class="tab active" data-group="primary" data-tab="details">  
+      <div class="tab active" data-group="primary" data-tab="details">
         <div class="powermod-scores">
           <div></div>
-          <div class="bold centre">{{localize 'BRP.fixed'}}</div> 
+          <div class="bold centre">{{localize 'BRP.fixed'}}</div>
           <div></div>
           <div class="bold centre">{{localize 'BRP.random'}}</div>
-          {{#if isGM}}  
+          {{#if isGM}}
             <div class="skill-display">{{localize 'BRP.av'}}</div>
-            <div class="stat-input"><input name="system.av1" type="text" value="{{item.system.av1}}" data-dtype="Number"/></div>
+            <div class="stat-input"><input name="system.av1" type="text" value="{{item.system.av1}}" data-dtype="Number" /></div>
             <div></div>
-            <div class="stat-input"><input name="system.avr1" type="text" value="{{item.system.avr1}}"/></div>
+            <div class="stat-input"><input name="system.avr1" type="text" value="{{item.system.avr1}}" /></div>
             {{#if item.system.armBal}}
               <div class="skill-display">{{localize 'BRP.avb'}}</div>
-              <div class="stat-input"><input name="system.av2" type="text" value="{{item.system.av2}}" data-dtype="Number"/></div>
+              <div class="stat-input"><input name="system.av2" type="text" value="{{item.system.av2}}" data-dtype="Number" /></div>
               <div></div>
-              <div class="stat-input"><input name="system.avr2" type="text" value="{{item.system.avr2}}"/></div>
+              <div class="stat-input"><input name="system.avr2" type="text" value="{{item.system.avr2}}" /></div>
             {{/if}}
           {{else}}
             <div class="skill-display">{{localize 'BRP.av'}}</div>
@@ -52,9 +52,9 @@
               <div class="hitloc-display centre boxed">{{item.system.av2}}</div>
               <div></div>
               <div class="hitloc-display centre boxed">{{item.system.avr2}}</div>
-            {{/if}}  
+            {{/if}}
           {{/if}}
-        </div> 
+        </div>
         <br>
         <div class="armour-scores">
           {{#if isGM}}
@@ -65,11 +65,11 @@
               </select>
             </div>
             <div class="skill-display">{{localize 'BRP.enc'}}</div>
-            <div class="weapon-input"><input name="system.enc" type="text" value="{{item.system.enc}}" data-dtype="Number"/></div>
+            <div class="weapon-input"><input name="system.enc" type="text" value="{{item.system.enc}}" data-dtype="Number" /></div>
             <div class="skill-display">{{localize 'BRP.fitSIZ'}}</div>
-            <div class="weapon-input"><input name="system.sizRng" type="text" value="{{item.system.sizRng}}" data-dtype="Number"/></div>
+            <div class="weapon-input"><input name="system.sizRng" type="text" value="{{item.system.sizRng}}" data-dtype="Number" /></div>
             <div class="skill-display">{{localize 'BRP.time'}}</div>
-            <div class="weapon-input"><input name="system.time" type="text" value="{{item.system.time}}" data-dtype="Number"/></div>
+            <div class="weapon-input"><input name="system.time" type="text" value="{{item.system.time}}" data-dtype="Number" /></div>
             <div class="skill-display">{{localize 'BRP.price'}}</div>
             <div class="stat-input-small">
               <select data-handle-change name="system.price">
@@ -77,18 +77,18 @@
               </select>
             </div>
             <div class="skill-display">{{localize 'BRP.mnplPen'}}</div>
-            <div class="weapon-input"><input name="system.mnplmod" type="text" value="{{item.system.mnplmod}}" data-dtype="Number"/></div>
+            <div class="weapon-input"><input name="system.mnplmod" type="text" value="{{item.system.mnplmod}}" data-dtype="Number" /></div>
             <div class="skill-display">{{localize 'BRP.percPen'}}</div>
-            <div class="weapon-input"><input name="system.percmod" type="text" value="{{item.system.percmod}}" data-dtype="Number"/></div>
+            <div class="weapon-input"><input name="system.percmod" type="text" value="{{item.system.percmod}}" data-dtype="Number" /></div>
             <div class="skill-display">{{localize 'BRP.physPen'}}</div>
-            <div class="weapon-input"><input name="system.physmod" type="text" value="{{item.system.physmod}}" data-dtype="Number"/></div>
+            <div class="weapon-input"><input name="system.physmod" type="text" value="{{item.system.physmod}}" data-dtype="Number" /></div>
             <div class="skill-display">{{localize 'BRP.stealthPen'}}</div>
-            <div class="weapon-input"><input name="system.stealthmod" type="text" value="{{item.system.stealthmod}}" data-dtype="Number"/></div>
+            <div class="weapon-input"><input name="system.stealthmod" type="text" value="{{item.system.stealthmod}}" data-dtype="Number" /></div>
             <div class="skill-display">{{localize 'BRP.coverage'}}</div>
-            <div class="weapon-input"><input name="system.coverage" type="text" value="{{item.system.coverage}}"/></div>
+            <div class="weapon-input"><input name="system.coverage" type="text" value="{{item.system.coverage}}" /></div>
             {{#if item.system.armVar}}
               <div class="skill-display">{{localize 'BRP.energyMax'}}</div>
-              <div class="weapon-input"><input name="system.ppMax" type="text" value="{{item.system.ppMax}}" data-dtype="Number"/></div>
+              <div class="weapon-input"><input name="system.ppMax" type="text" value="{{item.system.ppMax}}" data-dtype="Number" /></div>
             {{/if}}
           {{else}}
             <div class="skill-display">{{localize 'BRP.burden'}}</div>
@@ -116,44 +116,44 @@
               <div class="weapon-display centre boxed">{{item.system.ppMax}}</div>
             {{/if}}
           {{/if}}
-          <div class="skill-display">{{localize 'BRP.ppStoreCurr' label=item.system.powerLabelAbbr}}</div> 
-          <div class="weapon-input"><input name="system.pSCurr" type="text" value="{{item.system.pSCurr}}" data-dtype="Number"/></div>              
+          <div class="skill-display">{{localize 'BRP.ppStoreCurr' label=item.system.powerLabelAbbr}}</div>
+          <div class="weapon-input"><input name="system.pSCurr" type="text" value="{{item.system.pSCurr}}" data-dtype="Number" /></div>
           <div class="skill-display">{{localize 'BRP.ppStoreMax' label=item.system.powerLabelAbbr}}</div>
-          <div class="weapon-input"><input name="system.pSMax" type="text" value="{{item.system.pSMax}}" data-dtype="Number"/></div>
+          <div class="weapon-input"><input name="system.pSMax" type="text" value="{{item.system.pSMax}}" data-dtype="Number" /></div>
 
         </div>
         <br>
 
         <div class="item-title"> {{localize 'BRP.options'}}:</div>
         <div class="base-grid">
-          <div class="skill-cat {{#if isGM}} item-toggle {{/if}} {{#if item.system.armBal}} toggle-active  {{/if}}" title ="{{localize 'BRP.armBalHint'}}" data-property = "armBal">{{localize 'BRP.armBal'}}</div>
-          <div class="skill-cat {{#if isGM}} item-toggle {{/if}} {{#if item.system.armVar}} toggle-active  {{/if}}" title ="{{localize 'BRP.armVarHint'}}" data-property = "armVar">{{localize 'BRP.armVar'}}</div>
-          <div class="skill-cat {{#if isGM}} item-toggle {{/if}} {{#if item.system.HPL}} toggle-active  {{/if}}" title ="{{localize 'BRP.armHPLHint'}}" data-property = "HPL">{{localize 'BRP.armHPL'}}</div>
-        </div>  
+          <div class="skill-cat {{#if isGM}} item-toggle {{/if}} {{#if item.system.armBal}} toggle-active  {{/if}}" title="{{localize 'BRP.armBalHint'}}" data-property="armBal">{{localize 'BRP.armBal'}}</div>
+          <div class="skill-cat {{#if isGM}} item-toggle {{/if}} {{#if item.system.armVar}} toggle-active  {{/if}}" title="{{localize 'BRP.armVarHint'}}" data-property="armVar">{{localize 'BRP.armVar'}}</div>
+          <div class="skill-cat {{#if isGM}} item-toggle {{/if}} {{#if item.system.HPL}} toggle-active  {{/if}}" title="{{localize 'BRP.armHPLHint'}}" data-property="HPL">{{localize 'BRP.armHPL'}}</div>
+        </div>
         <br>
 
         {{#if hasOwner}}
-        <div class="armour-scores">
-          <div class="skill-display" title="{{ localize 'BRP.actualENCHint'}}">{{localize 'BRP.actualENC'}}</div>
-          <div class="gear-display">{{item.system.actlEnc}}</div>
-          <div class="skill-display">{{localize 'BRP.hit-location'}}</div>
-          <div class="stat-input-small">
-            <select data-handle-change name="system.hitlocID">
-              {{selectOptions hitLocOptions selected=item.system.hitlocID}}
-            </select>
+          <div class="armour-scores">
+            <div class="skill-display" title="{{ localize 'BRP.actualENCHint'}}">{{localize 'BRP.actualENC'}}</div>
+            <div class="gear-display">{{item.system.actlEnc}}</div>
+            <div class="skill-display">{{localize 'BRP.hit-location'}}</div>
+            <div class="stat-input-small">
+              <select data-handle-change name="system.hitlocID">
+                {{selectOptions hitLocOptions selected=item.system.hitlocID}}
+              </select>
+            </div>
+            <div class="skill-display">{{localize 'BRP.status'}}</div>
+            <div class="stat-input-small">
+              <select data-handle-change name="system.equipStatus">
+                {{selectOptions equippedOptions selected=item.system.equipStatus}}
+              </select>
+            </div>
+            {{#if item.system.armVar}}
+              <div class="skill-display">{{localize 'BRP.energyCurr'}}</div>
+              <div class="weapon-input"><input name="system.ppCurr" type="text" value="{{item.system.ppCurr}}" data-dtype="Number" /></div>
+            {{/if}}
           </div>
-          <div class="skill-display">{{localize 'BRP.status'}}</div>
-          <div class="stat-input-small">
-            <select data-handle-change name="system.equipStatus">
-              {{selectOptions equippedOptions selected=item.system.equipStatus}}
-            </select>
-          </div>
-          {{#if item.system.armVar}}
-            <div class="skill-display">{{localize 'BRP.energyCurr'}}</div>
-            <div class="weapon-input"><input name="system.ppCurr" type="text" value="{{item.system.ppCurr}}" data-dtype="Number"/></div>
-          {{/if}}  
-        </div>    
-        {{/if}}  
+        {{/if}}
 
       </div>
 

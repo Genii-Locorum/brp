@@ -2,11 +2,11 @@
   <header class="sheet-header">
     <div class="hitlocgrid">
       <div class="item-title"> {{localize 'BRP.profession'}}:</div>
-      <div class="stat-input"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></div>
-    </div>  
-    <img class="item-image" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="50" width="50"/>
+      <div class="stat-input"><input name="name" type="text" value="{{item.name}}" placeholder="Name" /></div>
+    </div>
+    <img class="item-image" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="50" width="50" />
   </header>
-  
+
   {{!-- Item Sheet Navigation --}}
   <section class="nav-panel">
     <nav class="sheet-tabs tabs" data-group="primary">
@@ -17,7 +17,7 @@
       {{#if isGM}}<a class="item" data-tab="gmNotes">{{ localize "BRP.gmNotes" }}</a>{{/if}}
     </nav>
   </section>
-  
+
   {{!-- Sheet Body --}}
   <section class="item-bottom-panel">
     <section class="sheet-body">
@@ -27,24 +27,24 @@
       <div class="tab active" data-group="primary" data-tab="wealth">
         <div class="hitlocgrid">
           <div class="wealth-display">{{localize 'BRP.minWealth'}}</div>
-          {{#if isGM}}  
-          <select data-handle-change name="system.minWealth">
-            {{selectOptions minWealthOptions selected=item.system.minWealth}}
-          </select>
+          {{#if isGM}}
+            <select data-handle-change name="system.minWealth">
+              {{selectOptions minWealthOptions selected=item.system.minWealth}}
+            </select>
           {{else}}
             <div class="title-name boxed centre">{{minWealth}}</div>
           {{/if}}
-        <div class="wealth-display">{{localize 'BRP.maxWealth'}}</div>
-        {{#if isGM}}  
-        <select data-handle-change name="system.maxWealth">
-          {{selectOptions maxWealthOptions selected=item.system.maxWealth}}
-        </select>
-        {{else}}
-          <div class="title-name boxed centre">{{maxWealth}}</div>
-        {{/if}}      
-        </div>  
-      </div>  
-  
+          <div class="wealth-display">{{localize 'BRP.maxWealth'}}</div>
+          {{#if isGM}}
+            <select data-handle-change name="system.maxWealth">
+              {{selectOptions maxWealthOptions selected=item.system.maxWealth}}
+            </select>
+          {{else}}
+            <div class="title-name boxed centre">{{maxWealth}}</div>
+          {{/if}}
+        </div>
+      </div>
+
       {{!-- Skills Tab --}}
       <div class="tab active" data-group="primary" data-tab="skills">
         {{!-- Selected Skills --}}
@@ -52,7 +52,7 @@
           <div class="item-title">{{ localize "BRP.skills"}}</div>
           <ol class="item-list">
             {{#each perSkill as |skill|}}
-              <li class="item flexrow" data-item-id="{{skill.uuid}}" data-brpid="{{skill.brpid}}" >
+              <li class="item flexrow" data-item-id="{{skill.uuid}}" data-brpid="{{skill.brpid}}">
                 <div class="item-name flexrow">
                   {{#if skill.variable}}
                     <div class="item-view font14" title="{{skill.brpid}}">{{skill.name}} ({{ localize 'BRP.var'}})</div>
@@ -72,57 +72,57 @@
                 </div>
               </li>
             {{/each}}
-        </ol>
-      </div>
-      <br>
-  
-      {{!-- Optional Skill Groups --}}
-      <div class="item-title">{{ localize "BRP.optionSkills" }}    
-        {{#if isGM}}
-          <a class="group-control add-group" title="{{localize 'BRP.addGroup'}}"><i class="item-control fas fa-plus"></i></a>
-        {{/if}}
-      </div>
-  
-      {{#each data.system.groups as |group key|}}
-        <ol class="item-list group" style='border: 1px groove;' data-group={{key}} >
-          <div class='{{#if ../isGM}} droppable {{/if}} optional-skills font14'>
-            <div class="form-group font14">
-              <label class="bold group-label">{{ localize "BRP.choose" }}</label>
-              {{#if ../isGM}}  
-                <div class="stat-input font14"><input type="text" name="system.groups.{{key}}.options" value="{{lookup this 'options'}}" data-dtype="Number"/></div>
-                <a class="group-control remove-group" title="{{localize 'BRP.deleteGroup'}}"><i class="item-control fas fa-minus" style="line-height: 20px;"></i></a>
-              {{else}}
-                <div class="boxed centre">{{lookup this 'options'}}</div>
-              {{/if}}
+          </ol>
+        </div>
+        <br>
+
+        {{!-- Optional Skill Groups --}}
+        <div class="item-title">{{ localize "BRP.optionSkills" }}
+          {{#if isGM}}
+            <a class="group-control add-group" title="{{localize 'BRP.addGroup'}}"><i class="item-control fas fa-plus"></i></a>
+          {{/if}}
+        </div>
+
+        {{#each data.system.groups as |group key|}}
+          <ol class="item-list group" style='border: 1px groove;' data-group={{key}}>
+            <div class='{{#if ../isGM}} droppable {{/if}} optional-skills font14'>
+              <div class="form-group font14">
+                <label class="bold group-label">{{ localize "BRP.choose" }}</label>
+                {{#if ../isGM}}
+                  <div class="stat-input font14"><input type="text" name="system.groups.{{key}}.options" value="{{lookup this 'options'}}" data-dtype="Number" /></div>
+                  <a class="group-control remove-group" title="{{localize 'BRP.deleteGroup'}}"><i class="item-control fas fa-minus" style="line-height: 20px;"></i></a>
+                {{else}}
+                  <div class="boxed centre">{{lookup this 'options'}}</div>
+                {{/if}}
               </div>
-              
-            {{#each ../grpSkill as |skill|}}
-              {{#if (eq skill.index key)}}
-                <li class="item flexrow" data-item-id="{{skill.uuid}}" data-brpid="{{skill.brpid}}">
-                  <div class="item-name flexrow">
-                  {{#if skill.variable}}
-                    <div class="item-view font14" title="{{skill.brpid}}">{{skill.name}} ({{ localize 'BRP.var'}})</div>
-                  {{else}}
-                    {{#if skill.group}}
-                      <div class="item-view font14" title="{{skill.brpid}}">{{skill.name}} ({{ localize 'BRP.grp'}})</div>
-                    {{else}}
-                      <div class="item-view font14" title="{{skill.brpid}}">{{skill.name}} ({{skill.base}}%)</div>
-                    {{/if}}
-                  {{/if}}
-                  </div>
-                  <div class="item-controls">
-                    {{#if ../../isGM}}  
-                      <a class="item-control group-item-delete" title="{{localize 'BRP.deleteItem'}}"><i class="fas fa-trash"></i></a>
-                    {{/if}}
-                  </div>
-                </li>
-              {{/if}}  
-            {{/each}}
-          </div>
-        </ol>
-      {{/each}}
-      </div>    
-  
+
+              {{#each ../grpSkill as |skill|}}
+                {{#if (eq skill.index key)}}
+                  <li class="item flexrow" data-item-id="{{skill.uuid}}" data-brpid="{{skill.brpid}}">
+                    <div class="item-name flexrow">
+                      {{#if skill.variable}}
+                        <div class="item-view font14" title="{{skill.brpid}}">{{skill.name}} ({{ localize 'BRP.var'}})</div>
+                      {{else}}
+                        {{#if skill.group}}
+                          <div class="item-view font14" title="{{skill.brpid}}">{{skill.name}} ({{ localize 'BRP.grp'}})</div>
+                        {{else}}
+                          <div class="item-view font14" title="{{skill.brpid}}">{{skill.name}} ({{skill.base}}%)</div>
+                        {{/if}}
+                      {{/if}}
+                    </div>
+                    <div class="item-controls">
+                      {{#if ../../isGM}}
+                        <a class="item-control group-item-delete" title="{{localize 'BRP.deleteItem'}}"><i class="fas fa-trash"></i></a>
+                      {{/if}}
+                    </div>
+                  </li>
+                {{/if}}
+              {{/each}}
+            </div>
+          </ol>
+        {{/each}}
+      </div>
+
       {{!-- Powers Tab --}}
       <div class="tab active" data-group="primary" data-tab="powers">
         {{!-- Selected Powers --}}
@@ -130,7 +130,7 @@
           <div class="item-title">{{ localize "BRP.powers"}}</div>
           <ol class="item-list">
             {{#each perPower as |power|}}
-              <li class="item flexrow" data-item-id="{{power.uuid}}" data-brpid="{{power.brpid}}" >
+              <li class="item flexrow" data-item-id="{{power.uuid}}" data-brpid="{{power.brpid}}">
                 <div class="item-name flexrow">
                   <div class="item-view font14" title="{{power.brpid}}">{{power.name}}</div>
                 </div>
@@ -152,7 +152,7 @@
         <div>
           {{editor enrichedDescriptionValue engine="prosemirror" class="description-doc" target="system.description" button=true owner=owner editable=editable}}
         </div>
-      </div>  
+      </div>
 
       {{!-- GM Description Tab --}}
       <div class="tab active" data-group="primary" data-tab="gmNotes">
@@ -160,9 +160,7 @@
         <div>
           {{editor enrichedGMDescriptionValue engine="prosemirror" class="description-doc" target="system.gmDescription" button=true owner=owner editable=editable}}
         </div>
-      </div>      
+      </div>
     </section>
   </section>
 </form>
-  
-  

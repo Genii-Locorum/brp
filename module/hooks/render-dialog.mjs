@@ -1,4 +1,4 @@
-export function listen () {
+export function listen() {
   Hooks.on('renderDialog', (dialog, html) => {
     const form = html.find('form')
     if (form.is('#document-create') && form.find('select').length !== 0) {

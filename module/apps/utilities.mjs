@@ -8,35 +8,35 @@ export class BRPUtilities {
     const elem = await el.target ? el.target : el[0];
     const element = await elem?.closest(".item");
     return element.dataset[dataitem];
-  }      
+  }
 
   static async triggerEdit(el, actor, dataitem) {
     const itemId = await this.getDataset(el, dataitem)
-    if (!itemId) {return}
+    if (!itemId) { return }
     const item = actor.items.get(itemId);
     item.sheet.render(true);
-    return 
-  }  
+    return
+  }
 
   static async triggerDelete(el, actor, dataitem) {
     const itemId = await this.getDataset(el, dataitem)
-    if (!itemId) {return}
+    if (!itemId) { return }
     let name = actor.items.get(itemId).name
     let type = actor.items.get(itemId).type
     let confirmation = await this.confirmation(name, type);
     if (confirmation) {
       await BRPCharacterSheet.confirmItemDelete(actor, itemId);
-    }    
+    }
     return confirmation
   }
 
   static async confirmation(name, type) {
     let title = ""
-      if (type === 'chatMsg') {
-        title = game.i18n.localize('BRP.'+name)
-      } else {
-        title = game.i18n.localize('BRP.delete') + ":" + game.i18n.localize('BRP.'+type) + "(" + name +")";
-      }  
+    if (type === 'chatMsg') {
+      title = game.i18n.localize('BRP.' + name)
+    } else {
+      title = game.i18n.localize('BRP.delete') + ":" + game.i18n.localize('BRP.' + type) + "(" + name + ")";
+    }
     let confirmation = await Dialog.confirm({
       title: title,
       content: game.i18n.localize('BRP.proceed'),
@@ -44,7 +44,7 @@ export class BRPUtilities {
     return confirmation;
   }
 
-  static async getDataFromDropEvent (event, entityType = 'Item') {
+  static async getDataFromDropEvent(event, entityType = 'Item') {
     if (event.originalEvent) return []
     try {
       const dataList = JSON.parse(event.dataTransfer.getData('text/plain'))
@@ -65,35 +65,35 @@ export class BRPUtilities {
   }
 
   static async professionDelete(event, actor) {
-    const confirmation = await this.triggerDelete(event,actor, "itemId")
-    if (!confirmation) {return}
-    
+    const confirmation = await this.triggerDelete(event, actor, "itemId")
+    if (!confirmation) { return }
+
   }
 
 
 
 
   //Update attributes
-  static async updateAttribute(actor,token,att,adj) {
-    let partic = await BRPactorDetails._getParticipantPriority(token,actor)
+  static async updateAttribute(actor, token, att, adj) {
+    let partic = await BRPactorDetails._getParticipantPriority(token, actor)
     let checkprop = ""
     let newVal = partic.system[att].value
     let newMax = partic.system[att].max
-    if (adj === 'spend'){
-      checkprop = {[`system.${att}.value`] : newVal-1}
-    } else if (adj === 'recover' && newVal < newMax){
-      checkprop = {[`system.${att}.value`] : newVal+1}      
-    } else if (adj === 'restore'){
-      checkprop = {[`system.${att}.value`] : newMax}      
-    } else {return}
-    partic.update(checkprop)    
+    if (adj === 'spend') {
+      checkprop = { [`system.${att}.value`]: newVal - 1 }
+    } else if (adj === 'recover' && newVal < newMax) {
+      checkprop = { [`system.${att}.value`]: newVal + 1 }
+    } else if (adj === 'restore') {
+      checkprop = { [`system.${att}.value`]: newMax }
+    } else { return }
+    partic.update(checkprop)
   }
 
   //Create Macro
-  static createMacro (bar, data, slot) {
+  static createMacro(bar, data, slot) {
     if (data.type !== 'Item') return
     const item = fromUuidSync(data.uuid, bar)
-    if (!item) return 
+    if (!item) return
     let command = ''
     command = `game.brp.rollItemMacro("${data.uuid}");`
     if (command !== '') {
@@ -107,7 +107,7 @@ export class BRPUtilities {
           type: 'script',
           img: item.img,
           command: command,
-          flags: {"brp.itemMacro": true}
+          flags: { "brp.itemMacro": true }
         })).then(macro => {
           game.user.assignHotbarMacro(macro, slot)
         })
@@ -130,7 +130,7 @@ export class BRPUtilities {
   }
 
   //Convert to Kebab Case
-  static toKebabCase (s) {
+  static toKebabCase(s) {
     if (!s) {
       return ''
     }
@@ -145,7 +145,7 @@ export class BRPUtilities {
 
 
   //Copy to Clipboard
-  static async copyToClipboard (text) {
+  static async copyToClipboard(text) {
     try {
       if (navigator.clipboard && window.isSecureContext) {
         return navigator.clipboard.writeText(text)
@@ -170,10 +170,10 @@ export class BRPUtilities {
     } catch (err) {
       ui.notifications.error(game.i18n.localize('BRP.UnableToCopyToClipboard'))
     }
-  }  
+  }
 
   //Regex expression
-  static quoteRegExp (string) {
+  static quoteRegExp(string) {
     // https://bitbucket.org/cggaertner/js-hacks/raw/master/quote.js
     const len = string.length
     let qString = ''
@@ -223,9 +223,9 @@ export class BRPUtilities {
     }
     return qString
   }
-  
+
   //Sort by Name Key
-  static sortByNameKey (a, b) {
+  static sortByNameKey(a, b) {
     return a.name
       .normalize('NFD')
       .replace(/[\u0300-\u036f]/g, '')
@@ -236,39 +236,39 @@ export class BRPUtilities {
           .replace(/[\u0300-\u036f]/g, '')
           .toLocaleLowerCase()
       )
-  }  
+  }
 
   //Send Item Description to Chat
-  static async sendToChat(el, actor,dataitem) {
+  static async sendToChat(el, actor, dataitem) {
     const itemId = await this.getDataset(el, dataitem)
-    if (!itemId) {return}
+    if (!itemId) { return }
     const item = actor.items.get(itemId);
     let description = item.system.description.replace(/(<([^>]+)>)/g, "");
     let label = item.name
     let chatType = CONST.CHAT_MESSAGE_STYLES.OTHER
-    let chatTemplate =  'systems/brp/templates/chat/itemDescription.html'
+    let chatTemplate = 'systems/brp/templates/chat/itemDescription.html'
 
     let chatMsgData = {
       description,
       label,
       chatType,
       chatTemplate,
-    }  
+    }
     const html = await BRPCheck.startChat(chatMsgData)
 
-    let chatData={}
-      chatData = {
-        author: game.user.id,
-        type: chatMsgData.chatType,
-        content: html,
-        speaker: {
-          actor,
-          alias: actor.name,
-        },
-      }
+    let chatData = {}
+    chatData = {
+      author: game.user.id,
+      type: chatMsgData.chatType,
+      content: html,
+      speaker: {
+        actor,
+        alias: actor.name,
+      },
+    }
     let msg = await ChatMessage.create(chatData)
     return msg._id
 
   }
 
-}    
+}

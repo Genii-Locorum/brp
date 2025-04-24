@@ -48,10 +48,10 @@ const SETTINGS = {
 }
 
 export class BRPCharSettings extends FormApplication {
-  static get defaultOptions () {
+  static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       title: 'BRP.brpSettings',
-      classes: ["brp","rulesmenu"],
+      classes: ["brp", "rulesmenu"],
       id: 'char-settings',
       template: 'systems/brp/templates/settings/char-settings.html',
       width: 550,
@@ -59,8 +59,8 @@ export class BRPCharSettings extends FormApplication {
       closeOnSubmit: true
     })
   }
-  
-  async getData () {
+
+  async getData() {
     const options = {}
     for (const [k, v] of Object.entries(SETTINGS)) {
       options[k] = {
@@ -70,19 +70,19 @@ export class BRPCharSettings extends FormApplication {
     }
     return options
   }
-  
-  static registerSettings () {
+
+  static registerSettings() {
     for (const [k, v] of Object.entries(SETTINGS)) {
       game.settings.register('brp', k, v)
     }
   }
 
-  activateListeners (html) {
+  activateListeners(html) {
     super.activateListeners(html)
     html.find('button[name=reset]').on('click', event => this.onResetDefaults(event))
   }
 
-  async onResetDefaults (event) {
+  async onResetDefaults(event) {
     event.preventDefault()
     for await (const [k, v] of Object.entries(SETTINGS)) {
       await game.settings.set('brp', k, v?.default)
@@ -90,10 +90,10 @@ export class BRPCharSettings extends FormApplication {
     return this.render()
   }
 
-  async _updateObject (event, data) {
+  async _updateObject(event, data) {
     for await (const key of Object.keys(SETTINGS)) {
       game.settings.set('brp', key, data[key])
     }
-  }  
+  }
 
-}    
+}

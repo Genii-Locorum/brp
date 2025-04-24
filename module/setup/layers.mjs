@@ -5,30 +5,30 @@ import { BRPUtilities } from "../apps/utilities.mjs"
 
 class BRPLayer extends PlaceablesLayer {
 
-  constructor () {
+  constructor() {
     super()
     this.objects = {}
   }
 
-  static get layerOptions () {
+  static get layerOptions() {
     return foundry.utils.mergeObject(super.layerOptions, {
       name: 'brpmenu',
       zIndex: 60
     })
   }
 
-  static get documentName () {
+  static get documentName() {
     return 'Token'
   }
 
-  get placeables () {
+  get placeables() {
     return []
   }
 
 }
 
 export class BRPMenu {
-  static getButtons (controls) {
+  static getButtons(controls) {
     canvas.brpgmtools = new BRPLayer()
     const isGM = game.user.isGM
     controls.push({
@@ -59,7 +59,7 @@ export class BRPMenu {
 
   }
 
-  static renderControls (app, html, data) {
+  static renderControls(app, html, data) {
     const isGM = game.user.isGM
     const gmMenu = html.find('.fas-fa-tools').parent()
     gmMenu.addClass('brp-menu')

@@ -1,6 +1,6 @@
 const SETTINGS = {
 
-  useHPL:{
+  useHPL: {
     name: 'BRP.Settings.useHPL',
     hint: 'BRP.Settings.useHPLHint',
     scope: 'world',
@@ -8,7 +8,7 @@ const SETTINGS = {
     type: Boolean,
     default: false,
   },
-  
+
   useEDU: {
     name: 'BRP.Settings.useEDU',
     hint: 'BRP.Settings.useEDUHint',
@@ -17,7 +17,7 @@ const SETTINGS = {
     default: false,
     type: Boolean
   },
-    
+
   useSAN: {
     name: 'BRP.Settings.useSAN',
     hint: 'BRP.Settings.useSANHint',
@@ -26,7 +26,7 @@ const SETTINGS = {
     default: false,
     type: Boolean
   },
-    
+
   useFP: {
     name: 'BRP.Settings.useFP',
     hint: 'BRP.Settings.useFPHint',
@@ -51,7 +51,7 @@ const SETTINGS = {
     scope: 'world',
     config: false,
     default: "",
-    type: String    
+    type: String
   },
 
   hpLabelShort: {
@@ -60,7 +60,7 @@ const SETTINGS = {
     scope: 'world',
     config: false,
     default: "",
-    type: String    
+    type: String
   },
 
   ppLabelLong: {
@@ -69,7 +69,7 @@ const SETTINGS = {
     scope: 'world',
     config: false,
     default: "",
-    type: String    
+    type: String
   },
 
   ppLabelShort: {
@@ -78,7 +78,7 @@ const SETTINGS = {
     scope: 'world',
     config: false,
     default: "",
-    type: String    
+    type: String
   },
 
   fpLabelLong: {
@@ -87,7 +87,7 @@ const SETTINGS = {
     scope: 'world',
     config: false,
     default: "",
-    type: String    
+    type: String
   },
 
   fpLabelShort: {
@@ -96,7 +96,7 @@ const SETTINGS = {
     scope: 'world',
     config: false,
     default: "",
-    type: String    
+    type: String
   },
 
   res5LabelLong: {
@@ -105,7 +105,7 @@ const SETTINGS = {
     scope: 'world',
     config: false,
     default: "",
-    type: String    
+    type: String
   },
 
   res5LabelShort: {
@@ -114,7 +114,7 @@ const SETTINGS = {
     scope: 'world',
     config: false,
     default: "",
-    type: String    
+    type: String
   },
 
   skillBonus: {
@@ -173,10 +173,10 @@ const SETTINGS = {
 }
 
 export class BRPOptionalRuleSettings extends FormApplication {
-  static get defaultOptions () {
+  static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       title: 'BRP.brpSettings',
-      classes: ["brp","rulesmenu"],
+      classes: ["brp", "rulesmenu"],
       id: 'optional-settings',
       template: 'systems/brp/templates/settings/optional-settings.html',
       width: 550,
@@ -184,8 +184,8 @@ export class BRPOptionalRuleSettings extends FormApplication {
       closeOnSubmit: true
     })
   }
-  
-  getData () {
+
+  getData() {
     const options = {}
     for (const [k, v] of Object.entries(SETTINGS)) {
       options[k] = {
@@ -201,26 +201,26 @@ export class BRPOptionalRuleSettings extends FormApplication {
     }
 
     options.useRepList = {
-      "0": game.i18n.localize ('BRP.none'),
-      "1": game.i18n.localize ('BRP.single'),
-      "2": game.i18n.localize ('BRP.multiple'),
+      "0": game.i18n.localize('BRP.none'),
+      "1": game.i18n.localize('BRP.single'),
+      "2": game.i18n.localize('BRP.multiple'),
     }
 
     return options
   }
-  
-  static registerSettings () {
+
+  static registerSettings() {
     for (const [k, v] of Object.entries(SETTINGS)) {
       game.settings.register('brp', k, v)
     }
   }
 
-  activateListeners (html) {
+  activateListeners(html) {
     super.activateListeners(html)
     html.find('button[name=reset]').on('click', event => this.onResetDefaults(event))
   }
 
-  async onResetDefaults (event) {
+  async onResetDefaults(event) {
     event.preventDefault()
     for await (const [k, v] of Object.entries(SETTINGS)) {
       await game.settings.set('brp', k, v?.default)
@@ -228,10 +228,10 @@ export class BRPOptionalRuleSettings extends FormApplication {
     return this.render()
   }
 
-  async _updateObject (event, data) {
+  async _updateObject(event, data) {
     for await (const key of Object.keys(SETTINGS)) {
       game.settings.set('brp', key, data[key])
     }
-  }  
+  }
 
-}    
+}

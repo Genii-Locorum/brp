@@ -1,22 +1,22 @@
 <section>
-    <div class="armour-tab-grid">
-      <div class="diff-label armour-toggle" {{#if useHPL}} title="{{localize 'BRP.armExpandHint'}}" {{/if}}>{{ localize 'BRP.armour'}}</div>
-      <div class="diff-label centre">{{ localize 'BRP.ap'}}</div>
-      <div class="diff-label centre" title="{{ localize 'BRP.armBalHint' }}">{{ localize 'BRP.bap'}}</div>
-      <div class="diff-label centre" style="grid-column: 4 / span 2;" title="{{ localize 'BRP.energyHint' }}">{{ localize 'BRP.energy'}}</div>
-      <div class="diff-label centre" style="grid-column: 6 / span 2;" title="{{ localize 'BRP.ppStoreHint' label=system.power.label}}">{{system.power.labelAbbr}}</div>
-      <div class="diff-label centre">{{ localize 'BRP.enc'}}</div>
-      <div class="diff-label centre" title="{{ localize 'BRP.skillModHint' }}">{{ localize 'BRP.skillMod'}}</div>
-      <div class="diff-label centre">{{ localize 'BRP.hit-location'}}</div>
-      <div class="diff-label centre" title="{{ localize 'BRP.equipStatusHint' }}">{{ localize 'BRP.status'}}</div>
-      <div class="diff-label centre item-create" title="{{ localize 'BRP.addArmour' }}" data-type="armour">
-        <a class="large-icon"><i class="item-control fas fa-plus"></i></a>
-      </div>
-    </div>  
+  <div class="armour-tab-grid">
+    <div class="diff-label armour-toggle" {{#if useHPL}} title="{{localize 'BRP.armExpandHint'}}" {{/if}}>{{ localize 'BRP.armour'}}</div>
+    <div class="diff-label centre">{{ localize 'BRP.ap'}}</div>
+    <div class="diff-label centre" title="{{ localize 'BRP.armBalHint' }}">{{ localize 'BRP.bap'}}</div>
+    <div class="diff-label centre" style="grid-column: 4 / span 2;" title="{{ localize 'BRP.energyHint' }}">{{ localize 'BRP.energy'}}</div>
+    <div class="diff-label centre" style="grid-column: 6 / span 2;" title="{{ localize 'BRP.ppStoreHint' label=system.power.label}}">{{system.power.labelAbbr}}</div>
+    <div class="diff-label centre">{{ localize 'BRP.enc'}}</div>
+    <div class="diff-label centre" title="{{ localize 'BRP.skillModHint' }}">{{ localize 'BRP.skillMod'}}</div>
+    <div class="diff-label centre">{{ localize 'BRP.hit-location'}}</div>
+    <div class="diff-label centre" title="{{ localize 'BRP.equipStatusHint' }}">{{ localize 'BRP.status'}}</div>
+    <div class="diff-label centre item-create" title="{{ localize 'BRP.addArmour' }}" data-type="armour">
+      <a class="large-icon"><i class="item-control fas fa-plus"></i></a>
+    </div>
+  </div>
 
-      {{#each armours as |armour key|}}
-        <li class="item" style="list-style: none;" data-item-id="{{armour._id}}">
-          <div class="armour-tab-grid">
+  {{#each armours as |armour key|}}
+    <li class="item" style="list-style: none;" data-item-id="{{armour._id}}">
+      <div class="armour-tab-grid">
         {{#if (eq armour.system.list 0)}}
           {{#if (gt armour.system.length 0)}}
             {{#if armour.system.hide}}
@@ -28,106 +28,106 @@
               {{else}}
                 {{#isOr (ne armour.system.avr1 "") (ne armour.system.avr2 "")}}
                   <div class="hitloc-name" style="grid-column: 2 / span 2;">{{armour.system.av1}} / {{armour.system.av2}}</div>
-                {{/isOr}}             
+                {{/isOr}}
               {{/if}}
               <div class="hitloc-name centre" style="grid-column: 4 / span 2;">{{armour.system.ppCurr}}</div>
               <div class="hitloc-name centre" style="grid-column: 6 / span 2;">{{armour.system.pSCurr}}</div>
               <div class="hitloc-name centre">{{armour.system.enc}}</div>
               <div class="hitloc-name centre">{{armour.system.mnplmod}}/{{armour.system.percmod}}/{{armour.system.physmod}}/{{armour.system.stealthmod}}</div>
-              <div class="item item-toggle centre" title="{{localize 'BRP.expand'}}" style="grid-column: 12 / span 1;" data-item-id="{{armour.system.hitlocID}}" data-property = "hide"><a class="font16 darkred"><i class="fas fa-solid fa-arrow-down-short-wide"></i></a></div>
-            {{/if}}  
+              <div class="item item-toggle centre" title="{{localize 'BRP.expand'}}" style="grid-column: 12 / span 1;" data-item-id="{{armour.system.hitlocID}}" data-property="hide"><a class="font16 darkred"><i class="fas fa-solid fa-arrow-down-short-wide"></i></a></div>
+            {{/if}}
           {{/if}}
         {{else}}
           {{#unless armour.system.hide}}
-          <div class="new-row item item-edit font14 armour-name contextmenu" data-item-id="{{armour._id}}">{{armour.name}}</div>
-          {{#if ../useAVRand}}
-            <div class="hitloc-name centre">{{armour.system.avr1}} </div>
-            {{#if armour.system.armBal}}
-              <div class="hitloc-name centre">{{armour.system.avr2}}</div>
+            <div class="new-row item item-edit font14 armour-name contextmenu" data-item-id="{{armour._id}}">{{armour.name}}</div>
+            {{#if ../useAVRand}}
+              <div class="hitloc-name centre">{{armour.system.avr1}} </div>
+              {{#if armour.system.armBal}}
+                <div class="hitloc-name centre">{{armour.system.avr2}}</div>
+              {{else}}
+                <div></div>
+              {{/if}}
             {{else}}
-              <div></div>
+              {{#if armour.system.armVar}}
+                <div class="armour-input-small"> <input class="item centre inline-edit" data-field="av1" data-item-id="{{armour._id}}" name="armour.system.av1" type="text" value="{{armour.system.av1}}" data-dtype="Number" /></div>
+              {{else}}
+                <div class="hitloc-name centre">{{armour.system.av1}}</div>
+              {{/if}}
+              {{#if armour.system.armBal}}
+                <div class="hitloc-name centre">{{armour.system.av2}}</div>
+              {{else}}
+                <div></div>
+              {{/if}}
             {{/if}}
-          {{else}}
+
             {{#if armour.system.armVar}}
-              <div class="armour-input-small"> <input class="item centre inline-edit" data-field ="av1" data-item-id="{{armour._id}}" name="armour.system.av1" type="text" value="{{armour.system.av1}}" data-dtype="Number"/></div>
+              <div class="armour-input-small"> <input class="item centre inline-edit" data-field="ppCurr" data-item-id="{{armour._id}}" name="armour.system.ppCurr" type="text" value="{{armour.system.ppCurr}}" data-dtype="Number" /></div>
+              <div class="hitloc-name centre">{{armour.system.ppMax}}</div>
             {{else}}
-              <div class="hitloc-name centre">{{armour.system.av1}}</div>
+              <div>&nbsp</div>
+              <div>&nbsp</div>
             {{/if}}
-            {{#if armour.system.armBal}}
-              <div class="hitloc-name centre">{{armour.system.av2}}</div>
+
+            {{#if (gt armour.system.pSMax 0)}}
+              <div class="combat-input-small"> <input class="item centre inline-edit" data-field="pSCurr" data-item-id="{{armour._id}}" name="armour.system.pSCurr" type="text" value="{{armour.system.pSCurr}}" data-dtype="Number" /></div>
+              <div class="hitloc-name centre">{{armour.system.pSMax}}</div>
             {{else}}
               <div></div>
+              <div></div>
             {{/if}}
-          {{/if}}
 
-        {{#if armour.system.armVar}}
-          <div class="armour-input-small"> <input class="item centre inline-edit" data-field ="ppCurr" data-item-id="{{armour._id}}" name="armour.system.ppCurr" type="text" value="{{armour.system.ppCurr}}" data-dtype="Number"/></div>
-          <div class="hitloc-name centre">{{armour.system.ppMax}}</div>
-        {{else}}
-          <div>&nbsp</div>
-          <div>&nbsp</div>
+            <div class="hitloc-name centre">{{armour.system.actlEnc}}</div>
+            <div class="hitloc-name centre">{{armour.system.mnplmod}}/{{armour.system.percmod}}/{{armour.system.physmod}}/{{armour.system.stealthmod}}</div>
+            <div class="hitloc-name centre">{{armour.system.hitlocName}}</div>
+            <div class="hitloc-name centre item item-toggle" title="{{armour.system.equippedName}}" data-item-id="{{armour._id}}" data-property="equipStatus">
+              {{#if (eq armour.system.equipStatus 'worn')}}<i class="fas fa-shirt"></i>{{/if}}
+              {{#if (eq armour.system.equipStatus 'carried')}}<i class="fas fa-hand-holding"></i>{{/if}}
+              {{#if (eq armour.system.equipStatus 'packed')}}<i class="fas fa-treasure-chest"></i>{{/if}}
+              {{#if (eq armour.system.equipStatus 'stored')}}<i class="fas fa-warehouse"></i>{{/if}}
+            </div>
+            {{#if armour.system.show}}
+              <div class="item item-toggle centre" title="{{localize 'BRP.collapse'}}" style="grid-column: 12 / span 1;" data-item-id="{{armour.system.hitlocID}}" data-property="hide"><a class="font16 darkred"><i class="fas fa-solid fa-arrow-up-wide-short"></i></a></div>
+            {{/if}}
+          {{/unless}}
         {{/if}}
-
-        {{#if (gt armour.system.pSMax 0)}}
-          <div class="combat-input-small"> <input class="item centre inline-edit" data-field ="pSCurr" data-item-id="{{armour._id}}" name="armour.system.pSCurr" type="text" value="{{armour.system.pSCurr}}" data-dtype="Number"/></div>
-          <div class="hitloc-name centre">{{armour.system.pSMax}}</div>
-        {{else}}
-          <div></div>
-          <div></div>
-        {{/if}}          
-
-        <div class="hitloc-name centre">{{armour.system.actlEnc}}</div>
-        <div class="hitloc-name centre">{{armour.system.mnplmod}}/{{armour.system.percmod}}/{{armour.system.physmod}}/{{armour.system.stealthmod}}</div>
-        <div class="hitloc-name centre">{{armour.system.hitlocName}}</div>
-        <div class="hitloc-name centre item item-toggle" title="{{armour.system.equippedName}}" data-item-id="{{armour._id}}" data-property = "equipStatus">
-          {{#if (eq armour.system.equipStatus 'worn')}}<i class="fas fa-shirt"></i>{{/if}}
-          {{#if (eq armour.system.equipStatus 'carried')}}<i class="fas fa-hand-holding"></i>{{/if}}
-          {{#if (eq armour.system.equipStatus 'packed')}}<i class="fas fa-treasure-chest"></i>{{/if}}
-          {{#if (eq armour.system.equipStatus 'stored')}}<i class="fas fa-warehouse"></i>{{/if}}
-        </div>
-        {{#if armour.system.show}}
-        <div class="item item-toggle centre" title="{{localize 'BRP.collapse'}}" style="grid-column: 12 / span 1;" data-item-id="{{armour.system.hitlocID}}" data-property = "hide"><a class="font16 darkred"><i class="fas fa-solid fa-arrow-up-wide-short"></i></a></div>        
-        {{/if}}
-        {{/unless}}
-        {{/if}}
-        </div>
-        </li>
-      {{/each}}          
-    <br>
-
-    <div class="gear-tab-grid">
-      <div class="diff-label ">{{ localize 'BRP.equipment'}}</div>
-      <div class="diff-label centre">{{ localize 'BRP.quantity'}}</div>
-      <div class="diff-label centre">{{ localize 'BRP.enc'}}</div>
-      <div class="diff-label centre" style="grid-column: 4 / span 2;" title="{{ localize 'BRP.ppStoreHint' label=system.power.label}}">{{system.power.labelAbbr}}</div>
-      <div class="diff-label centre" title="{{ localize 'BRP.equipStatusHint' }}">{{ localize 'BRP.status'}}</div>
-      <div class="diff-label centre item-create" title="{{ localize 'BRP.addGear' }}" data-type="gear">
-        <a class="large-icon"><i class="item-control fas fa-plus"></i></a>
       </div>
-    </div>  
-      {{#each gears as |gear key|}}
-      <li class="item" style="list-style: none;" data-item-id="{{gear._id}}">
-        <div class="gear-tab-grid">
-          <div class="item item-edit font14 gear-name contextmenu" data-item-id="{{gear._id}}">{{gear.name}}</div>
-          <div class="combat-input-small"> <input class="item centre inline-edit" data-field ="quantity" data-item-id="{{gear._id}}" name="gear.system.quantity" type="text" value="{{gear.system.quantity}}" data-dtype="Number"/></div>
-          <div class="hitloc-name centre">{{gear.system.actlEnc}}</div>
-          {{#if (gt gear.system.pSMax 0)}}
-            <div class="combat-input-small"> <input class="item centre inline-edit" data-field ="pSCurr" data-item-id="{{gear._id}}" name="gear.system.pSCurr" type="text" value="{{gear.system.pSCurr}}" data-dtype="Number"/></div>
-            <div class="hitloc-name centre">{{gear.system.pSMax}}</div>
-          {{else}}
-            <div></div>
-            <div></div>
-          {{/if}}  
-          <div class="hitloc-name centre item item-toggle" title="{{gear.system.equippedName}}" data-item-id="{{gear._id}}" data-property = "equipStatus">
-            {{#if (eq gear.system.equipStatus 'carried')}}<i class="fas fa-hand-holding"></i>{{/if}}
-            {{#if (eq gear.system.equipStatus 'packed')}}<i class="fas fa-treasure-chest"></i>{{/if}}
-            {{#if (eq gear.system.equipStatus 'stored')}}<i class="fas fa-warehouse"></i>{{/if}}
-          </div>
-          <div class="mediumIcon centre item item-delete" data-item-id="{{gear._id}}" title="{{ localize 'BRP.deleteGear' }}">
-            <a><i class="item-control fas fa-trash"></i></a>
-          </div>
-        </div>
-      </li>  
-      {{/each}}          
+    </li>
+  {{/each}}
+  <br>
 
-  </section>
+  <div class="gear-tab-grid">
+    <div class="diff-label ">{{ localize 'BRP.equipment'}}</div>
+    <div class="diff-label centre">{{ localize 'BRP.quantity'}}</div>
+    <div class="diff-label centre">{{ localize 'BRP.enc'}}</div>
+    <div class="diff-label centre" style="grid-column: 4 / span 2;" title="{{ localize 'BRP.ppStoreHint' label=system.power.label}}">{{system.power.labelAbbr}}</div>
+    <div class="diff-label centre" title="{{ localize 'BRP.equipStatusHint' }}">{{ localize 'BRP.status'}}</div>
+    <div class="diff-label centre item-create" title="{{ localize 'BRP.addGear' }}" data-type="gear">
+      <a class="large-icon"><i class="item-control fas fa-plus"></i></a>
+    </div>
+  </div>
+  {{#each gears as |gear key|}}
+    <li class="item" style="list-style: none;" data-item-id="{{gear._id}}">
+      <div class="gear-tab-grid">
+        <div class="item item-edit font14 gear-name contextmenu" data-item-id="{{gear._id}}">{{gear.name}}</div>
+        <div class="combat-input-small"> <input class="item centre inline-edit" data-field="quantity" data-item-id="{{gear._id}}" name="gear.system.quantity" type="text" value="{{gear.system.quantity}}" data-dtype="Number" /></div>
+        <div class="hitloc-name centre">{{gear.system.actlEnc}}</div>
+        {{#if (gt gear.system.pSMax 0)}}
+          <div class="combat-input-small"> <input class="item centre inline-edit" data-field="pSCurr" data-item-id="{{gear._id}}" name="gear.system.pSCurr" type="text" value="{{gear.system.pSCurr}}" data-dtype="Number" /></div>
+          <div class="hitloc-name centre">{{gear.system.pSMax}}</div>
+        {{else}}
+          <div></div>
+          <div></div>
+        {{/if}}
+        <div class="hitloc-name centre item item-toggle" title="{{gear.system.equippedName}}" data-item-id="{{gear._id}}" data-property="equipStatus">
+          {{#if (eq gear.system.equipStatus 'carried')}}<i class="fas fa-hand-holding"></i>{{/if}}
+          {{#if (eq gear.system.equipStatus 'packed')}}<i class="fas fa-treasure-chest"></i>{{/if}}
+          {{#if (eq gear.system.equipStatus 'stored')}}<i class="fas fa-warehouse"></i>{{/if}}
+        </div>
+        <div class="mediumIcon centre item item-delete" data-item-id="{{gear._id}}" title="{{ localize 'BRP.deleteGear' }}">
+          <a><i class="item-control fas fa-trash"></i></a>
+        </div>
+      </div>
+    </li>
+  {{/each}}
+
+</section>

@@ -1,18 +1,18 @@
 <form class="brp gr-card">
   <div class="">
-    <div class="bold">{{localize 'BRP.card.AR'}}</div>  
+    <div class="bold">{{localize 'BRP.card.AR'}}</div>
     <ol class="gr-list">
       {{#each chatCard as |c key|}}
         <div class="dice-roll">
           <li class='actor-roll'>
-            <img class="open-actor" src="{{c.particImg}}" height="60" width="60" title="{{c.particName}}"/>
+            <img class="open-actor" src="{{c.particImg}}" height="60" width="60" title="{{c.particName}}" />
             <div class="roll-details">
               <div class="header roll-truncate">
                 <div class='name'>
                   <span class="tag">{{c.label}} ({{c.rollFormula}})</span>
                 </div>
               </div>
-                <span class="pending">{{c.rollVal}}</span>
+              <span class="pending">{{c.rollVal}}</span>
             </div>
           </li>
           <div class="actor-roll dice-tooltip" style="display:none">
@@ -20,9 +20,9 @@
               <div class="rollHidden">{{localize 'BRP.armour'}}: {{c.rollFormula}}</div>
               <div class="rollHidden bottom-line">{{localize 'BRP.diceRoll'}}: {{c.diceRolled}}</div>
             </div>
-          </div>  
-        </div>  
+          </div>
+        </div>
       {{/each}}
     </ol>
   </div>
-</form> 
+</form>

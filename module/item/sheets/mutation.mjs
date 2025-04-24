@@ -2,37 +2,37 @@ import { BRPSelectLists } from "../../apps/select-lists.mjs";
 import { addBRPIDSheetHeaderButton } from '../../brpid/brpid-button.mjs'
 
 export class BRPMutationSheet extends ItemSheet {
-  constructor (...args) {
+  constructor(...args) {
     super(...args)
     this._sheetTab = 'items'
   }
-  
+
   //Add BRPID buttons to sheet
-  _getHeaderButtons () {
+  _getHeaderButtons() {
     const headerButtons = super._getHeaderButtons()
     addBRPIDSheetHeaderButton(headerButtons, this)
     return headerButtons
   }
 
-  static get defaultOptions () {
+  static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ['brp', 'sheet', 'item'],
       template: 'systems/brp/templates/item/mutation.html',
       width: 520,
       height: 520,
       scrollY: ['.tab.description'],
-      tabs: [{navSelector: '.sheet-tabs',contentSelector: '.sheet-body',initial: 'details'}]
+      tabs: [{ navSelector: '.sheet-tabs', contentSelector: '.sheet-body', initial: 'details' }]
     })
   }
-  
-  async getData () {
+
+  async getData() {
     const sheetData = super.getData()
     const itemData = sheetData.item
     sheetData.hasOwner = this.item.isEmbedded === true
     sheetData.isGM = game.user.isGM
-    sheetData.powerName = game.settings.get('brp',this.item.type+'Label')
+    sheetData.powerName = game.settings.get('brp', this.item.type + 'Label')
     if (sheetData.powerName === "") {
-      sheetData.powerName = game.i18n.localize("BRP."+this.item.type)
+      sheetData.powerName = game.i18n.localize("BRP." + this.item.type)
     }
     //Get selection lists
     sheetData.catOptions = await BRPSelectLists.getMutationCatOptions();
@@ -43,37 +43,37 @@ export class BRPMutationSheet extends ItemSheet {
         async: true,
         secrets: sheetData.editable
       }
-    )  
-      
+    )
+
     sheetData.enrichedGMDescriptionValue = await TextEditor.enrichHTML(
       sheetData.data.system.gmDescription,
       {
         async: true,
         secrets: sheetData.editable
       }
-    )  
+    )
 
     return sheetData
   }
-  
+
   //Activate event listeners using the prepared sheet HTML
-  activateListeners (html) {
+  activateListeners(html) {
     super.activateListeners(html)
-    if (!this.options.editable) return  
+    if (!this.options.editable) return
     html.find('.item-toggle').click(this.onItemToggle.bind(this));
   }
 
   //Handle toggle states
-  async onItemToggle(event){
+  async onItemToggle(event) {
     event.preventDefault();
-    const prop=event.currentTarget.closest('.item-toggle').dataset.property;
-    let checkProp={};
-    if (prop === 'minorOnly'  || prop === 'minor') {
-      checkProp = {[`system.${prop}`] : !this.object.system[prop]}
-    } else {return}      
-    
+    const prop = event.currentTarget.closest('.item-toggle').dataset.property;
+    let checkProp = {};
+    if (prop === 'minorOnly' || prop === 'minor') {
+      checkProp = { [`system.${prop}`]: !this.object.system[prop] }
+    } else { return }
+
     //If current strength has just been toggled, the mutation is limited to Minor Only and current strength is minor then ignore
-    if(prop === 'minor' && this.object.system.minorOnly && this.object.system.minor) {
+    if (prop === 'minor' && this.object.system.minorOnly && this.object.system.minor) {
       return
     }
 
@@ -81,7 +81,7 @@ export class BRPMutationSheet extends ItemSheet {
     return item;
   }
 
-  _updateObject (event, formData) {
+  _updateObject(event, formData) {
     super._updateObject(event, formData)
   }
 
