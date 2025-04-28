@@ -17,5 +17,6 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/brp/templates/actor/parts/actor-super.html",
     "systems/brp/templates/actor/parts/actor-social.html",
     "systems/brp/templates/actor/parts/actor-pers.html",
+    "systems/brp/templates/global/parts/active-effects.html",
   ]);
 };
