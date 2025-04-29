@@ -1,5 +1,13 @@
 # CHANGE LOG
 
+## 12.1.43
+- Active Effects have been added to Weapons, Armour and Gear
+- There is now an Active Effects tab on these item sheets - GMs can edit effects, Players can only view the current effects.
+- Weapons and Gear must be carried for the effects to apply, Armour must be worn
+- There is a limited list of active effects - these can be added to - please let me have your feedback if there are more to be added
+- There is now an "effects" tab on the character sheet which lists the effects and the item they are attached to.  Click on the Source Item name to open the item sheet.
+- This is the hard work of JamesB, who has taken his code from Call of Cthulhu and kindly implemented it in BRP.  Thank you.
+
 ## 12.1.42
 - Error witn Item "HP and PP" labels showing as undefined fixed.
 - Damage to the chest now triggers the correct statuses

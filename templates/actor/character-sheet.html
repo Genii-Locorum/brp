@@ -259,6 +259,7 @@
         {{/if}}
         <div><a class="item" data-tab="statistics">{{localize 'BRP.characteristicAbbr'}}</a></div>
         <div><a class="item" data-tab="background">{{localize 'BRP.story'}}</a></div>
+        <div><a class="item" data-tab="effects">{{localize 'BRP.effects'}}</a></div>
         <div><a class="lock-icon grid-middle actor-toggle" title="{{ localize 'BRP.lock' }}" data-property="lock"> <i class="{{#if system.lock}}fas fa-lock{{else}}fas fa-lock-open{{/if}}"></i> </a></div>
       </nav>
     </section>
@@ -338,6 +339,11 @@
         {{!-- Background Tab --}}
         <div class="tab background flexcol" data-group="primary" data-tab="background">
           {{> "systems/brp/templates/actor/parts/actor-background.html"}}
+        </div>
+
+        {{!-- Effects Tab --}}
+        <div class="tab effects" data-group="primary" data-tab="effects">
+          {{> "systems/brp/templates/actor/parts/actor-effects.html"}}
         </div>
 
       </section>

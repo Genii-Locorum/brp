@@ -1,3 +1,4 @@
+import { BRPActiveEffectSheet } from "../../sheets/brp-active-effect-sheet.mjs";
 import { BRPSelectLists } from "../../apps/select-lists.mjs";
 import { addBRPIDSheetHeaderButton } from '../../brpid/brpid-button.mjs'
 
@@ -88,6 +89,11 @@ export class BRPWeaponSheet extends ItemSheet {
       }
     )
 
+    sheetData.effects = BRPActiveEffectSheet.getItemEffectsFromSheet(sheetData)
+    const changesActiveEffects = BRPActiveEffectSheet.getEffectChangesFromSheet(this.document)
+    sheetData.effectKeys = changesActiveEffects.effectKeys
+    sheetData.effectChanges = changesActiveEffects.effectChanges
+
     return sheetData
   }
 
@@ -100,6 +106,7 @@ export class BRPWeaponSheet extends ItemSheet {
   activateListeners(html) {
     super.activateListeners(html)
     html.find('.item-toggle').click(this.onItemToggle.bind(this));
+    BRPActiveEffectSheet.activateListeners(this, html)
   }
 
   //Handle toggle states

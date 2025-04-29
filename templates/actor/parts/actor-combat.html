@@ -18,7 +18,7 @@
   <ol class="gr-list">
     {{#each weapons as |weapon key|}}
       <li class="item weapon-tab-grid" data-item-id="{{weapon._id}}">
-        <div class="item item-edit weapon-name contextmenu" data-item-id="{{weapon._id}}" data-skill-id="{{weapon.system.sourceID}}">{{weapon.name}}</div>
+        <div class="item item-edit weapon-name contextmenu {{#if weapon.system.hasEffects}}italics bold{{/if}}" {{#if weapon.system.hasEffects}} title="{{localize 'BRP.activeEffect'}}" {{/if}}  data-item-id="{{weapon._id}}" data-skill-id="{{weapon.system.sourceID}}">{{weapon.name}}</div>
         <div class="item font14 centre rollable weapon-name" title="{{weapon.system.skillName}}" data-item-id="{{weapon._id}}" data-skill-id="{{weapon.system.sourceID}}">{{weapon.system.skillScore}}</div>
         <div class="item font14 {{#unless weapon.system.specialDmg}}rollable damage-name{{/unless}} centre" data-item-id="{{weapon._id}}">{{weapon.system.dmgName}}</div>
         <div class="font14 centre">{{weapon.system.rangeName}}</div>

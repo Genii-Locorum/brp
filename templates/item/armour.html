@@ -15,7 +15,7 @@
     <nav class="sheet-tabs tabs" data-group="primary">
       <a class="item" data-tab="details">{{ localize "BRP.details" }}</a>
       <a class="item" data-tab="description">{{ localize "BRP.description" }}</a>
-      {{#if isGM}}<a class="item" data-tab="activeeffects">{{ localize "DOCUMENT.ActiveEffects" }}</a>{{/if}}
+      <a class="item" data-tab="activeeffects">{{ localize "DOCUMENT.ActiveEffects" }}</a>
       {{#if isGM}}<a class="item" data-tab="gmNotes">{{ localize "BRP.gmNotes" }}</a>{{/if}}
     </nav>
   </section>
@@ -168,12 +168,10 @@
         </div>
       </div>
 
-      {{!-- GM Active Effects --}}
-      {{#if isGM}}
+      {{!-- Active Effects --}}
         <div class="tab active" data-group="primary" data-tab="activeeffects">
           {{~> "systems/brp/templates/global/parts/active-effects.html"}}
         </div>
-      {{/if}}
 
       {{!-- GM Description Tab --}}
       {{#if isGM}}

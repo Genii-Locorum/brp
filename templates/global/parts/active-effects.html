@@ -1,29 +1,44 @@
 <div class="bold"> {{localize 'DOCUMENT.ActiveEffects'}}:</div>
-<div>
-  <div class="base-grid">
-    {{#each effectKeys as |name key|}}
-      <div class="clickable-button" data-action="addItemEffect" data-key="{{key}}">{{localize name}}</div>
+
+{{#if isGM}}
+  <div>
+    <div class="base-grid">
+      {{#each effectKeys as |name key|}}
+        <div class="clickable-button" data-action="addItemEffect" data-key="{{key}}">{{localize name}}</div>
+      {{/each}}
+    </div>
+    <br>
+    {{#each effectChanges as |effect|}}
+      <div class="weapon-input active-effect-change-edit flexrow" style="align-items: center;" data-key="{{effect.key}}">
+        <div>{{localize effect.name}}</div>
+        <select>
+          <option value="+">Add</option>
+          <option value="-" {{#if effect.negative}} selected="selected" {{/if}}>Subtract</option>
+        </select>
+        <input type="text" value="{{effect.value}}" data-dtype="Number">
+        <a class="control-button"><i class="item-control fas fa-trash"></i></a>
+      </div>
     {{/each}}
   </div>
-  <br>
+  {{#if effects}}
+    <hr>
+    <div class="bold">{{localize 'BRP.manuallyEditActiveEffects'}}:</div>
+    <div class="base-grid">
+      {{#each effects as |effect|}}
+        <div class="clickable-button" data-action="openActiveEffect" data-uuid="{{effect.uuid}}">{{effect.name}}</div>
+      {{/each}}
+    </div>
+  {{/if}}
+
+{{else}}
   {{#each effectChanges as |effect|}}
     <div class="weapon-input active-effect-change-edit flexrow" style="align-items: center;" data-key="{{effect.key}}">
       <div>{{localize effect.name}}</div>
-      <select>
-        <option value="+">Add</option>
-        <option value="-" {{#if effect.negative}} selected="selected" {{/if}}>Subtract</option>
-      </select>
-      <input type="text" value="{{effect.value}}" data-dtype="Number">
-      <a class="control-button"><i class="item-control fas fa-trash"></i></a>
+      {{#if effect.negative}}
+        <div>-{{effect.value}}</div>
+      {{else}}
+        <div>{{effect.value}}</div>
+      {{/if}}
     </div>
   {{/each}}
-</div>
-{{#if effects}}
-  <hr>
-  <div class="bold">{{localize 'BRP.manuallyEditActiveEffects'}}:</div>
-  <div class="base-grid">
-    {{#each effects as |effect|}}
-      <div class="clickable-button" data-action="openActiveEffect" data-uuid="{{effect.uuid}}">{{effect.name}}</div>
-    {{/each}}
-  </div>
-{{/if}}
+{{/if}}  

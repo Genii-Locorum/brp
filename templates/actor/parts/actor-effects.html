@@ -1,0 +1,25 @@
+<ol class="magic-list">
+  <div class="effects-grid">
+    <div class="diff-label left">{{localize 'BRP.sourceItem'}}</div>
+    <div class="diff-label centre">{{localize 'BRP.effect'}}</div>
+    <div class="diff-label centre">{{localize 'BRP.amount'}}</div>
+    <div class="diff-label centre">{{localize 'BRP.active'}}</div>
+  </div>
+
+  {{#each effects as |effect|}}
+    <li class="item item-edit effects-grid" data-item-id = "{{effect.id}}">
+      <div class="effect-source left rollable">{{effect.sourceName}}</div>
+      <div class="centre">{{effect.name}}</div>
+      <div class="centre">{{effect.value}}</div>
+      {{#if effect.isActive}}
+      <div class="centre" title="{{localize 'BRP.active'}}">
+        <img class="aura-img" src="systems/brp/assets/icons/inverse-aura.svg" height="18" width="18" />
+      </div>
+      {{else}}
+      <div class="centre" title="{{localize 'BRP.inactive'}}">
+        <img class="aura-img fade" src="systems/brp/assets/icons/inverse-aura.svg" height="18" width="18" />
+      </div>
+      {{/if}}
+    </li>
+  {{/each}}
+</ol>

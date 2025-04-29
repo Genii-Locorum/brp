@@ -1,3 +1,5 @@
+import { BRPActiveEffect } from "../apps/active-effect.mjs"
+
 export class BRPActiveEffectSheet {
   static getItemEffectsFromSheet(sheetData) {
     if (sheetData.hasOwner) {
@@ -48,6 +50,27 @@ export class BRPActiveEffectSheet {
       effectKeys,
       effectChanges
     }
+  }
+
+  static async getActorEffectsFromSheet(sheetData) {
+    const effectKeys = foundry.utils.duplicate(CONFIG.BRP.keysActiveEffects)
+    let aEffects = this.getItemEffectsFromSheet(sheetData)
+    let effects = []
+    for (let eff of aEffects) {
+      let brpAE = await fromUuid(eff.uuid)
+      let item = await fromUuid (brpAE.origin)
+      for (let chng of brpAE.changes) {
+        effects.push({
+          id: item.id,
+          sourceName: item.name,
+          key: chng.key,
+          name: game.i18n.localize ((effectKeys[chng.key] ?? chng.key) ),
+          value: chng.value,
+          isActive: brpAE.active ?? false
+        })
+      }
+    }  
+    return effects
   }
 
   static activateListeners(document, html) {
@@ -126,7 +149,6 @@ export class BRPActiveEffectSheet {
             effect.id,
           ])
         }
-        this.render(true)
       }
     }
   }
@@ -164,4 +186,5 @@ export class BRPActiveEffectSheet {
       (await fromUuid(uuid))?.sheet.render(true)
     }
   }
+
 }

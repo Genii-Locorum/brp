@@ -6,6 +6,7 @@ import { BRPUtilities } from '../../apps/utilities.mjs';
 import { BRPRollType } from '../../apps/rollType.mjs';
 import { addBRPIDSheetHeaderButton } from '../../brpid/brpid-button.mjs'
 import { BRPSelectLists } from '../../apps/select-lists.mjs';
+import { BRPActiveEffectSheet } from '../../sheets/brp-active-effect-sheet.mjs';
 
 export class BRPCharacterSheet extends ActorSheet {
 
@@ -156,6 +157,9 @@ export class BRPCharacterSheet extends ActorSheet {
         context: context.editable
       }
     )
+
+    //Get a List of Active Effects for the Actor
+    context.effects = await BRPActiveEffectSheet.getActorEffectsFromSheet(context)
 
     return context;
   }

@@ -20,7 +20,7 @@
         {{#if (eq armour.system.list 0)}}
           {{#if (gt armour.system.length 0)}}
             {{#if armour.system.hide}}
-              <div class="new-row bold darkred font14">{{armour.name}}</div>
+              <div class="new-row bold {{#if gear.system.hasEffects}}italics bold{{/if}} darkred font14">{{armour.name}}</div>
               {{#if ../useAVRand}}
                 {{#isOr (ne armour.system.avr1 "") (ne armour.system.avr2 "")}}
                   <div class="hitloc-name" style="grid-column: 2 / span 2;">{{armour.system.avr1}} / {{armour.system.avr2}} </div>
@@ -39,7 +39,7 @@
           {{/if}}
         {{else}}
           {{#unless armour.system.hide}}
-            <div class="new-row item item-edit font14 armour-name contextmenu" data-item-id="{{armour._id}}">{{armour.name}}</div>
+            <div class="new-row item item-edit font14 {{#if armour.system.hasEffects}}italics bold{{/if}} armour-name contextmenu" {{#if armour.system.hasEffects}} title="{{localize 'BRP.activeEffect'}}"{{/if}} data-item-id="{{armour._id}}">{{armour.name}}</div>
             {{#if ../useAVRand}}
               <div class="hitloc-name centre">{{armour.system.avr1}} </div>
               {{#if armour.system.armBal}}
@@ -108,7 +108,7 @@
   {{#each gears as |gear key|}}
     <li class="item" style="list-style: none;" data-item-id="{{gear._id}}">
       <div class="gear-tab-grid">
-        <div class="item item-edit font14 gear-name contextmenu" data-item-id="{{gear._id}}">{{gear.name}}</div>
+        <div class="item item-edit font14 {{#if gear.system.hasEffects}}italics bold{{/if}} gear-name contextmenu" data-item-id="{{gear._id}}">{{gear.name}}</div>
         <div class="combat-input-small"> <input class="item centre inline-edit" data-field="quantity" data-item-id="{{gear._id}}" name="gear.system.quantity" type="text" value="{{gear.system.quantity}}" data-dtype="Number" /></div>
         <div class="hitloc-name centre">{{gear.system.actlEnc}}</div>
         {{#if (gt gear.system.pSMax 0)}}
