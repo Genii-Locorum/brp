@@ -54,7 +54,7 @@ export class BRPGearSheet extends ItemSheet {
     )
 
     sheetData.effects = BRPActiveEffectSheet.getItemEffectsFromSheet(sheetData)
-    const changesActiveEffects = BRPActiveEffectSheet.getEffectChangesFromSheet(this.document.effects)
+    const changesActiveEffects = BRPActiveEffectSheet.getEffectChangesFromSheet(this.document)
     sheetData.effectKeys = changesActiveEffects.effectKeys
     sheetData.effectChanges = changesActiveEffects.effectChanges
 

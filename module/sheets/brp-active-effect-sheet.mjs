@@ -20,10 +20,17 @@ export class BRPActiveEffectSheet {
     }, [])
   }
 
-  static getEffectChangesFromSheet(effects) {
+  static getAutoEffect(document) {
+    if (document.parent) {
+      return document.parent.effects.find(e => e.origin === document.uuid && (e.flags.brp?.autoActiveEffect ?? false))
+    }
+    return document.effects.find(e => e.flags.brp?.autoActiveEffect ?? false)
+  }
+
+  static getEffectChangesFromSheet(document) {
     const effectChanges = []
     const effectKeys = foundry.utils.duplicate(CONFIG.BRP.keysActiveEffects)
-    const effect = effects.find(e => e.flags.brp?.autoActiveEffect ?? false)
+    const effect = BRPActiveEffectSheet.getAutoEffect(document)
     if (effect) {
       for (const change of effect.changes) {
         if (change.mode === CONST.ACTIVE_EFFECT_MODES.ADD) {
@@ -55,7 +62,7 @@ export class BRPActiveEffectSheet {
 
   static async _onAddItemEffect(event) {
     if (typeof event.currentTarget.dataset.key === 'string') {
-      const effect = this.document.effects.find(e => e.flags.brp?.autoActiveEffect ?? false)
+      const effect = BRPActiveEffectSheet.getAutoEffect(this.document)
       const newChange = {
         key: event.currentTarget.dataset.key,
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
@@ -64,38 +71,62 @@ export class BRPActiveEffectSheet {
       if (effect) {
         const changes = foundry.utils.duplicate(effect.changes)
         changes.push(newChange)
-        this.document.updateEmbeddedDocuments('ActiveEffect', [{
+        await this.document.updateEmbeddedDocuments('ActiveEffect', [{
           _id: effect.id,
           changes: changes
         }])
       } else {
-        this.document.createEmbeddedDocuments('ActiveEffect', [{
-          'flags.brp.autoActiveEffect': true,
-          name: this.document.name,
-          changes: [
-            newChange
-          ]
-        }])
+        if (this.document.parent) {
+          await this.document.parent.createEmbeddedDocuments('ActiveEffect', [{
+            'flags.brp.autoActiveEffect': true,
+            name: this.document.name,
+            changes: [
+              newChange
+            ],
+            origin: this.document.uuid
+          }])
+        } else {
+          await this.document.createEmbeddedDocuments('ActiveEffect', [{
+            'flags.brp.autoActiveEffect': true,
+            name: this.document.name,
+            changes: [
+              newChange
+            ]
+          }])
+        }
       }
+      this.render(true)
     }
   }
 
   static async _onDeleteItemEffectChange(event) {
     const key = event.currentTarget.closest('div.active-effect-change-edit')?.dataset?.key
     if (typeof key === 'string') {
-      const effect = this.document.effects.find(e => e.flags.brp?.autoActiveEffect ?? false)
+      const effect = BRPActiveEffectSheet.getAutoEffect(this.document)
       if (effect) {
         const changes = foundry.utils.duplicate(effect.changes).filter(c => c.key !== key)
         if (changes.length) {
-          this.document.updateEmbeddedDocuments('ActiveEffect', [{
-            _id: effect.id,
-            changes: changes
-          }])
+          if (this.document.parent) {
+            await this.document.parent.updateEmbeddedDocuments('ActiveEffect', [{
+              _id: effect.id,
+              changes: changes
+            }])
+          } else {
+            await this.document.updateEmbeddedDocuments('ActiveEffect', [{
+              _id: effect.id,
+              changes: changes
+            }])
+          }
+        } else if (this.document.parent) {
+          await this.document.parent.deleteEmbeddedDocuments('ActiveEffect', [
+            effect.id,
+          ])
         } else {
-          this.document.deleteEmbeddedDocuments('ActiveEffect', [
+          await this.document.deleteEmbeddedDocuments('ActiveEffect', [
             effect.id,
           ])
         }
+        this.render(true)
       }
     }
   }
@@ -104,17 +135,24 @@ export class BRPActiveEffectSheet {
     const outer = event.currentTarget.closest('div.active-effect-change-edit')
     const key = outer?.dataset?.key
     if (typeof key === 'string') {
-      const effect = this.document.effects.find(e => e.flags.brp?.autoActiveEffect ?? false)
+      const effect = BRPActiveEffectSheet.getAutoEffect(this.document)
       if (effect) {
         const changes = foundry.utils.duplicate(effect.changes)
         const index = changes.findIndex(c => c.key === key)
         if (index > -1) {
           const value = parseInt(outer.querySelector('select').value + outer.querySelector('input').value, 10)
           changes[index].value = value
-          this.document.updateEmbeddedDocuments('ActiveEffect', [{
-            _id: effect.id,
-            changes: changes
-          }])
+          if (this.document.parent) {
+            await this.document.parent.updateEmbeddedDocuments('ActiveEffect', [{
+              _id: effect.id,
+              changes: changes
+            }])
+          } else {
+            await this.document.updateEmbeddedDocuments('ActiveEffect', [{
+              _id: effect.id,
+              changes: changes
+            }])
+          }
         }
       }
     }
