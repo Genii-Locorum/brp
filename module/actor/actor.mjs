@@ -8,6 +8,21 @@ export class BRPActor extends Actor {
   }
 
   prepareBaseData() {
+    this.system.brpidFlagItems = {}
+    for (const i of this.items) {
+      if (i.flags.brp?.brpidFlag?.id) {
+        const parts = i.flags.brp?.brpidFlag?.id.match(/^([^\.]+)\.([^\.]+)\.([^\.]+)$/)
+        if (parts) {
+          if (typeof this.system.brpidFlagItems[parts[1]] === 'undefined') {
+            this.system.brpidFlagItems[parts[1]] = {}
+          }
+          if (typeof this.system.brpidFlagItems[parts[1]][parts[2]] === 'undefined') {
+            this.system.brpidFlagItems[parts[1]][parts[2]] = {}
+          }
+          this.system.brpidFlagItems[parts[1]][parts[2]][parts[3]] = i
+        }
+      }
+    }
   }
 
   prepareDerivedData() {
@@ -108,7 +123,7 @@ export class BRPActor extends Actor {
     for (let itm of actorData.items) {
 
       //Does the item have transferrable effects
-      if (['gear','armour'].includes(itm.type)) {      
+      if (['gear','armour'].includes(itm.type)) {
         if (itm.transferredEffects.length > 0) {
           itm.system.hasEffects= true;
         } else {
