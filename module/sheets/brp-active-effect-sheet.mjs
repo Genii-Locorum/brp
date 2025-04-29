@@ -71,7 +71,7 @@ export class BRPActiveEffectSheet {
       if (effect) {
         const changes = foundry.utils.duplicate(effect.changes)
         changes.push(newChange)
-        await this.document.updateEmbeddedDocuments('ActiveEffect', [{
+        await this.document.parent.updateEmbeddedDocuments('ActiveEffect', [{
           _id: effect.id,
           changes: changes
         }])
