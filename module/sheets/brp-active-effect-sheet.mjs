@@ -82,9 +82,6 @@ export class BRPActiveEffectSheet {
             isActive: brpAE.active ?? false
           })
         }
-      } else if (brpAE) {
-        // Fix for incorrectly deleted item/effect combos, sorry
-        await brpAE.delete()
       }
     }
     return effects

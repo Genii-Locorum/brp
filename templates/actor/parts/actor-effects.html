@@ -9,7 +9,7 @@
   {{#each effects as |effect|}}
     <li class="item item-edit effects-grid" data-item-id = "{{effect.id}}">
       <div class="effect-source left rollable">{{effect.sourceName}}</div>
-      <div class="centre">{{effect.name}}</div>
+      <div class="centre truncate" title="{{effect.name}}">{{effect.name}}</div>
       <div class="centre">{{effect.value}}</div>
       {{#if effect.isActive}}
       <div class="centre" title="{{localize 'BRP.active'}}">

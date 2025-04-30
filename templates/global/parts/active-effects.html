@@ -10,7 +10,7 @@
     <br>
     {{#each effectChanges as |effect|}}
       <div class="weapon-input active-effect-change-edit flexrow" style="align-items: center;" data-key="{{effect.key}}">
-        <div>{{localize effect.name}}</div>
+        <div style="width:290px;">{{localize effect.name}}</div>
         <select>
           <option value="+">Add</option>
           <option value="-" {{#if effect.negative}} selected="selected" {{/if}}>Subtract</option>
@@ -41,4 +41,4 @@
       {{/if}}
     </div>
   {{/each}}
-{{/if}}  
+{{/if}}
