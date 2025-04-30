@@ -65,15 +65,20 @@ export class BRPActiveEffectSheet {
     for (let eff of aEffects) {
       let brpAE = await fromUuid(eff.uuid)
       let item = await fromUuid(brpAE.origin)
-      for (let chng of brpAE.changes) {
-        effects.push({
-          id: item.id,
-          sourceName: item.name,
-          key: chng.key,
-          name: game.i18n.localize((effectKeys[chng.key] ?? chng.key)),
-          value: chng.value,
-          isActive: brpAE.active ?? false
-        })
+      if (item) {
+        for (let chng of brpAE.changes) {
+          effects.push({
+            id: item.id,
+            sourceName: item.name,
+            key: chng.key,
+            name: game.i18n.localize((effectKeys[chng.key] ?? chng.key)),
+            value: chng.value,
+            isActive: brpAE.active ?? false
+          })
+        }
+      } else if (brpAE) {
+        // Fix for incorrectly deleted item/effect combos, sorry
+        await brpAE.delete()
       }
     }
     return effects
