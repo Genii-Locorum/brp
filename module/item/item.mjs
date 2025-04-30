@@ -179,4 +179,13 @@ export class BRPItem extends Item {
     return created
   }
 
+  _onDelete(options, userId) {
+    super._onDelete(options, userId);
+    if (options.parent) {
+      const ids = options.parent.effects.filter(e => e.origin === this.uuid).map(e => e.id)
+      if (ids.length) {
+        effectData.document.deleteEmbeddedDocuments('ActiveEffect', ids)
+      }
+    }
+  }
 }
