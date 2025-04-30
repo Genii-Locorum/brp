@@ -123,11 +123,11 @@ export class BRPActor extends Actor {
     for (let itm of actorData.items) {
 
       //Does the item have transferrable effects
-      if (['gear','armour','weapon'].includes(itm.type)) {
+      if (['gear', 'armour', 'weapon'].includes(itm.type)) {
         if (itm.transferredEffects.length > 0) {
-          itm.system.hasEffects= true;
+          itm.system.hasEffects = true;
         } else {
-          itm.system.hasEffects= false;
+          itm.system.hasEffects = false;
         }
       }
 
@@ -168,9 +168,9 @@ export class BRPActor extends Actor {
 
         //Does the item have transferrable effects
         if (itm.transferredEffects.length > 0) {
-          itm.system.hasEffects= true;
+          itm.system.hasEffects = true;
         } else {
-          itm.system.hasEffects= false;
+          itm.system.hasEffects = false;
         }
 
         //If armour
@@ -292,7 +292,7 @@ export class BRPActor extends Actor {
 
     //Round ENC to 2 decimals and then adjust fatigue
     systemData.enc = (systemData.enc).toFixed(2)
-    systemData.fatigue.max = Math.ceil(systemData.stats.str.total + systemData.stats.con.total - systemData.enc + systemData.fatigue.mod +  (systemData.fatigue.effects||0));
+    systemData.fatigue.max = Math.ceil(systemData.stats.str.total + systemData.stats.con.total - systemData.enc + systemData.fatigue.mod + (systemData.fatigue.effects ?? 0));
 
     //Derive Health Statuses from total HP
     if (systemData.health.value < 1) {
@@ -319,7 +319,7 @@ export class BRPActor extends Actor {
 
 
     let damage = 0
-    systemData.fatigue.max = Math.ceil(systemData.stats.str.total + systemData.stats.con.total + systemData.fatigue.mod + systemData.fatigue.effects);
+    systemData.fatigue.max = Math.ceil(systemData.stats.str.total + systemData.stats.con.total + systemData.fatigue.mod + (systemData.fatigue.effects ?? 0));
 
     for (let itm of actorData.items) {
       if (['skill', 'psychic', 'magic', 'passion', 'reputation'].includes(itm.type)) {
@@ -404,7 +404,7 @@ export class BRPActor extends Actor {
   _prepDerivedStats(actorData) {
     let systemData = actorData.system
     if (actorData.type === 'character') {
-      systemData.health.max = Math.ceil((systemData.stats.con.total + systemData.stats.siz.total) * game.settings.get('brp', 'hpMod') / 2) + systemData.health.mod + (systemData.health.effects||0);
+      systemData.health.max = Math.ceil((systemData.stats.con.total + systemData.stats.siz.total) * game.settings.get('brp', 'hpMod') / 2) + systemData.health.mod + (systemData.health.effects ?? 0);
     } else {
       let health = 0
       let formula = ""
@@ -432,10 +432,10 @@ export class BRPActor extends Actor {
         formula = formula + " + " + systemData.health.mod
       }
       systemData.hp.formula = formula
-      systemData.health.max = health  + systemData.fatigue.effects + (systemData.health.mod ?? 0) + (systemData.health.effects||0);
+      systemData.health.max = health + (systemData.health.mod ?? 0) + (systemData.health.effects ?? 0);
     }
     systemData.health.mjrwnd = Math.ceil(systemData.health.max / 2);
-    systemData.power.max = systemData.stats.pow.total + systemData.power.mod + (systemData.power.effects||0);
+    systemData.power.max = systemData.stats.pow.total + systemData.power.mod + (systemData.power.effects ?? 0);
     systemData.xpBonus = Math.ceil(systemData.stats.int.total / 2);
     systemData.dmgBonus = this._damageBonus(systemData.stats.str.total + systemData.stats.siz.total)
 
