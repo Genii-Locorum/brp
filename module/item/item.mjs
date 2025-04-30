@@ -179,13 +179,13 @@ export class BRPItem extends Item {
     return created
   }
 
-  async _preDelete(options, user) {
-    if (this.parent) {
-      const ids = this.parent.effects.filter(e => e.origin === this.uuid).map(e => e.id)
+  _onDelete(options, userId) {
+    super._onDelete(options, userId);
+    if (options.parent) {
+      const ids = options.parent.effects.filter(e => e.origin === this.uuid).map(e => e.id)
       if (ids.length) {
-        await this.parent.deleteEmbeddedDocuments('ActiveEffect', ids)
+        effectData.document.deleteEmbeddedDocuments('ActiveEffect', ids)
       }
     }
-    return super._preDelete(options, user);
   }
 }
