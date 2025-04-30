@@ -24,6 +24,12 @@ export class BRPActiveEffectSheet {
 
   static getAutoEffect(document) {
     if (document.parent) {
+      if (document.parent.parent?.actorLink === false && document.parent.parent.actor) {
+        return {
+          effect: document.parent.parent.actor.effects.find(e => e.origin === document.uuid && (e.flags.brp?.autoActiveEffect ?? false)),
+          document: document.parent.parent.actor,
+        }
+      }
       return {
         effect: document.parent.effects.find(e => e.origin === document.uuid && (e.flags.brp?.autoActiveEffect ?? false)),
         document: document.parent,
