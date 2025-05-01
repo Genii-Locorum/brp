@@ -323,7 +323,7 @@ export class BRPActor extends Actor {
 
     for (let itm of actorData.items) {
       if (['skill', 'psychic', 'magic', 'passion', 'reputation'].includes(itm.type)) {
-        itm.system.total = itm.system.base;
+        itm.system.total = itm.system.base + (itm.system.effects ?? 0);
       } else if (['allegiance'].includes(itm.type)) {
         itm.system.total = itm.system.allegPoints;
       } else if (['persTrait'].includes(itm.type)) {

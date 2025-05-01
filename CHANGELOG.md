@@ -1,12 +1,14 @@
 # CHANGE LOG
 
 ## 12.1.43
-- Active Effects have been added to Weapons, Armour and Gear
+- Active Effects have been added to Weapons, Armour and Gear.  You can read more at https://github.com/Genii-Locorum/brp/wiki/Active-Effects
+- Active Effects do work for Unlinked Actors - when Foundry fix the underlying issue we may see duplicate effects until we remove the fix.
 - There is now an Active Effects tab on these item sheets - GMs can edit effects, Players can only view the current effects.
 - Weapons and Gear must be carried for the effects to apply, Armour must be worn
 - There is a limited list of active effects - these can be added to - please let me have your feedback if there are more to be added
+- You can add bomnuses to skills, magic and psychic abilities by manually adding a customised data path -  see the Wiki for more info on this.
 - There is now an "effects" tab on the character sheet which lists the effects and the item they are attached to.  Click on the Source Item name to open the item sheet.
-- This is the hard work of JamesB, who has taken his code from Call of Cthulhu and kindly implemented it in BRP.  Thank you.
+- This is all the hard work of JamesB.  Thank you so much for this.
 
 ## 12.1.42
 - Error witn Item "HP and PP" labels showing as undefined fixed.
@@ -24,7 +26,7 @@
 - The character sheet logo setting has moved to the Display Options
 - The character sheet visual adjustments are a work in progress - please feedback any other changes needed or areas where the expected results aren't working.
 - Instead of selecting to use Magic Points rather than Power Points you can now add a name and abbreviation instead of Power Points/PP - see the Optional Game Rules settings
-- You can also change the name and abbreviations for Hit Points and Fatigue Points. 
+- You can also change the name and abbreviations for Hit Points and Fatigue Points.
 - BRP IDs can be automatically added for Items now - see the BRPID game settings (Actor BRPID has moved here from Char Settings)
 
 ## 12.1.40
@@ -47,11 +49,11 @@
 - When adding a profession to the character you now choose the wealth level.  This can be edited when the character sheet is unlocked.
 - On the "CHAR" tab the Redistribute values are no longer manually entered.  When in "Development Mode" and with the character sheet unlocked use the arrows by the
   stats to redistribute stats.  You can only redistribute 3 points and there are min/maxes in place.  Unless the redistributed points net to nil the column is red
-- Age has been added to the character sheet neer the top left of the Personal Section  
+- Age has been added to the character sheet neer the top left of the Personal Section
 - Clicking on the "Impact" of a Magic Spell or a Psychic Ability on the actor sheet causes an Impact (Damage or Healing) dice roll
 - When adding a skill, profession, personality etc the system will check if you have the Skill Category on the character and if not it will add it automatically
 - There are two game settings for the initiative formula - select a stat (or none) and enter a modifier.  If your formula is invalid you will get an error message when your world starts and the default formula is used
-  
+
 
 ## 12.1.38
 - Context menu for Psychic Abilities now shows XP improvement options when there is an improvement tick and development mode is on
@@ -68,20 +70,20 @@
 
 
 ## 12.1.36
-- The autoXP game setting has changed from a tick box to a drop down selection - None (not auto XP), Any Success (tick XP for success, special success of critical) or On Fail/Fumble.  
+- The autoXP game setting has changed from a tick box to a drop down selection - None (not auto XP), Any Success (tick XP for success, special success of critical) or On Fail/Fumble.
   Please re-check your setting following world migration, as they are likely to have reset to "none".
 
 ## 12.1.35
 - Culture now has the correct title on the item sheet
 - Failings on the character sheet now display the failing name if the short description is blank
-- Where the system can't find a skill category in dice rolls then the Cat Bonus now correctly sets to nil 
+- Where the system can't find a skill category in dice rolls then the Cat Bonus now correctly sets to nil
 - There are now game settings to allow you to change the titles of the "power" tabs on the character sheet.  Leave them blank to use the defaults
 - You can now click on the skill category in the character sheet skill tab to open up the Skill Category item
 - In the skill category, when on a character, you can enter a "manual" modifier that is added to the calculated bonus
 
 ## 12.1.34
 - Layout of Items on characters now fixed to a consistent grid size
-- Culture has been added as an Item.  You can set the characteristic dice rolls and culture bonuses, plus skills with skill modifiers.  
+- Culture has been added as an Item.  You can set the characteristic dice rolls and culture bonuses, plus skills with skill modifiers.
 - Adding a culture to a character adds the characterstic formulae, bonuses, skills with modifiers.
 - When in development mode and with the character sheet unlocked there is a dice icon on the "CHAR" tab that lets you roll the dice - with a chat message showing the results.
 - When you have added a culture the name is shown on the character sheet and there's a context menu to view or delete the culture.
@@ -94,7 +96,7 @@
 ## 12.1.33
 - When dropping a Specialism skill on to the character sheet where the specialism hasn't been chosen you will get asked for the specialism name
 - When the character sheet is unlocked the Skills Tab context menu now includes a "Recalculate skill base scores" which does exactly that.
-- When dropping Personality on to a character - the skills included in the personality are added to the character - with relevant choices presented to the player and base scores calculated. 
+- When dropping Personality on to a character - the skills included in the personality are added to the character - with relevant choices presented to the player and base scores calculated.
 - The same applies for a Profession
 - Skills added via the Personality gain the +20 bonus and are highlighted in the Skill Dev tab (Skill tab when character sheet unlocked), though you can edit the Personality Points on any skill
 - Skills added via the Profession are highlighted in the Skill Dev tab, though the system doesn't restrict you to spending Professional Skill Points on just these skill
@@ -122,7 +124,7 @@
 - Most compendia have been removed from this system but have been placed in to a separate module - the aim is to make customising your world easier (you can use the new module, import the content, remove the module, edit the content and save your own compendia)
 - Instructions have been removed from within the game but have migrated to the Github Wiki - https://github.com/Genii-Locorum/brp/wiki
 - For Personality, you can now manually enter the personality name when the character sheet is unlocked if you don't have a Personality Item on the character sheet - if you later add a Personality item it supercedes (but doesnt erase) the manual entry.  If you right click the "personality" title and there is no context menu this shows you don't have a relevant item.  The same applies to Profession.
-- When skills or powers are shown on Personality, Profession etc either in the main list or optional groups you can now click on the name to open the relevant Item sheet.  These will be the best match based on the BRPID with the highest priority as the actual skill etc is not stored in the Personality, Profession etc.  This means you can ammend a skill etc without having to relink it to the Personality etc 
+- When skills or powers are shown on Personality, Profession etc either in the main list or optional groups you can now click on the name to open the relevant Item sheet.  These will be the best match based on the BRPID with the highest priority as the actual skill etc is not stored in the Personality, Profession etc.  This means you can ammend a skill etc without having to relink it to the Personality etc
 -Hit Locations (the item) now have a Display Name (e.g. Head) and a Creature Type (e.g. Humanoid).  The item name will be a combination of the two with the Creature Type, if populated, appearing in brackets.  The Display Name is what's shown on the Character & NPC sheets.  This is to make finding the right hit location for a creature easier in a big list of hit locations
 -Skill Categories have been added as a new Item.  You can change the name and configure how the category modifiers are calculated.  The BRPID for each modifier in world or the compendium is used to generate the list of possible skill categories.  Skill categories are automatically added to new characters.  It is imperative that you either have a skill category with the BRPID 'i.skillcat.combat' or you flag all the weapon skills as combat skills.  If you don't you won't see a list of weapon skills.
 - Because of the above the game settings for Social and Supernatural have been removed (include or don't include the relevant game items as you see fit.)
@@ -164,16 +166,16 @@
 - Please note that Instructions for new items are being added to the Github wiki (https://github.com/Genii-Locorum/brp/wiki) - overtime more instructions will be added to, and ingame instructions migrated to, the wiki.
 
 ## 12.1.24
-- Removed the superfluous true/false flag on the Character Sheet Allegiance tab (this was for potenital ally status) 
+- Removed the superfluous true/false flag on the Character Sheet Allegiance tab (this was for potenital ally status)
 - Fixed the inline edit for NPC Allegiance points
 - Total Professional Skill Points, Personal Skill Points and XP now shown on the "CHAR" tab (this adds up totals from Skill, Magic and Psychic items)
 - Fixed error with Critical Damage not rolling
 
 ## 12.1.23
 - Skill categories on the actor sheet get to use the full width of the skill list column to prevent wrap around issues
-- Add Supernatural as a skill category and a game setting.  If unticked then any skills with Supernatural won't be shown on the character sheet 
-- Add Social as a skill category and a game setting.  If unticked then any skills with Social won't be shown on the character sheet 
-- Personality Traits have been added.  You can roll on the Personality Trait or the Opposed Trait and do XP improvements as well. 
+- Add Supernatural as a skill category and a game setting.  If unticked then any skills with Supernatural won't be shown on the character sheet
+- Add Social as a skill category and a game setting.  If unticked then any skills with Social won't be shown on the character sheet
+- Personality Traits have been added.  You can roll on the Personality Trait or the Opposed Trait and do XP improvements as well.
 - You can drag Personality Traits to the hotbar for a macro.  Using the ALT key when clicking on it triggers the Opposed roll.
 - Added macro roll functionality for Passions (previously only displayed the item sheet).
 - All item Descriptions and GM Descriptions are now rich text.
@@ -280,7 +282,7 @@
 - Specialised skills, where "specialism chosen" is toggled on will now have the specialism name shown first so it is more visible in the skill list
 
 ## 11.1.5
-- Hits per location autocalculated 
+- Hits per location autocalculated
 - Added Wounds which autoupdate hits (total and HPL)
 - Added healing (treat wounds, natural healing, heal all wounds)
 - Add HP adjustment to hit locations
