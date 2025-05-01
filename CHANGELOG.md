@@ -6,7 +6,7 @@
 - There is now an Active Effects tab on these item sheets - GMs can edit effects, Players can only view the current effects.
 - Weapons and Gear must be carried for the effects to apply, Armour must be worn
 - There is a limited list of active effects - these can be added to - please let me have your feedback if there are more to be added
-- You can add bomnuses to skills, magic and psychic abilities by manually adding a customised data path -  see the Wiki for more info on this.
+- You can add bonuses to skills, magic and psychic abilities by manually adding a customised data path -  see the Wiki for more info on this.
 - There is now an "effects" tab on the character sheet which lists the effects and the item they are attached to.  Click on the Source Item name to open the item sheet.
 - This is all the hard work of JamesB.  Thank you so much for this.
 
