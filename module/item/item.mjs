@@ -191,6 +191,7 @@ export class BRPItem extends Item {
 
   /** @override */
   static async _onCreateOperation(documents, operation, user) {
+    super._onCreateOperation(documents, operation, user)
     /* Copied from FoundryVTT v12 item.js replacing Actor with ActorDelta */
     if ( !(operation.parent instanceof ActorDelta) || !CONFIG.ActiveEffect.legacyTransferral || !user.isSelf ) return;
     const cls = getDocumentClass("ActiveEffect");
