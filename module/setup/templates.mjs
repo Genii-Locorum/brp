@@ -1,5 +1,5 @@
 export const preloadHandlebarsTemplates = async function () {
-  return loadTemplates([
+  return foundry.applications.handlebars.loadTemplates([
 
     // Actor partials.
     "systems/brp/templates/actor/parts/actor-skills.html",

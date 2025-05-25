@@ -51,7 +51,7 @@ export class SkillsSelectDialog extends Dialog {
       picks,
       added: 0
     }
-    const html = await renderTemplate(destination, data);
+    const html = await foundry.applications.handlebars.renderTemplate(destination, data);
 
     return new Promise(resolve => {
       const dlg = new SkillsSelectDialog(

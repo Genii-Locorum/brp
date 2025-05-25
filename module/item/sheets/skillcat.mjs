@@ -1,11 +1,15 @@
 import { BRPSelectLists } from "../../apps/select-lists.mjs";
 import { addBRPIDSheetHeaderButton } from '../../brpid/brpid-button.mjs'
 
-export class BRPSkillCategory extends ItemSheet {
+export class BRPSkillCategory extends foundry.appv1.sheets.ItemSheet {
   constructor(...args) {
     super(...args)
     this._sheetTab = 'items'
   }
+
+  //Turn off App V1 deprecation warnings
+  //TODO - move to V2
+  static _warnedAppV1 = true
 
   //Add BRPID buttons to sheet
   _getHeaderButtons() {
@@ -52,7 +56,7 @@ export class BRPSkillCategory extends ItemSheet {
     sheetData.skillCatNameCha = game.i18n.localize('BRP.advSkillCat.' + this.item.system.attrib.cha)
     sheetData.skillCatNameEdu = game.i18n.localize('BRP.advSkillCat.' + this.item.system.attrib.edu)
 
-    sheetData.enrichedDescriptionValue = await TextEditor.enrichHTML(
+    sheetData.enrichedDescriptionValue = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
       sheetData.data.system.description,
       {
         async: true,
@@ -60,7 +64,7 @@ export class BRPSkillCategory extends ItemSheet {
       }
     )
 
-    sheetData.enrichedGMDescriptionValue = await TextEditor.enrichHTML(
+    sheetData.enrichedGMDescriptionValue = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
       sheetData.data.system.gmDescription,
       {
         async: true,

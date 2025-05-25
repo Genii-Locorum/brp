@@ -2,7 +2,7 @@ import { BRPSelectLists } from "../../apps/select-lists.mjs";
 import { BRPRollType } from '../../apps/rollType.mjs';
 import { addBRPIDSheetHeaderButton } from '../../brpid/brpid-button.mjs'
 
-export class BRPNpcSheet extends ActorSheet {
+export class BRPNpcSheet extends foundry.appv1.sheets.ActorSheet {
 
   //Add BRPID buttons to sheet
   _getHeaderButtons() {
@@ -10,6 +10,10 @@ export class BRPNpcSheet extends ActorSheet {
     addBRPIDSheetHeaderButton(headerButtons, this)
     return headerButtons
   }
+
+  //Turn off App V1 deprecation warnings
+  //TODO - move to V2
+  static _warnedAppV1 = true
 
   /** @override */
   static get defaultOptions() {
@@ -57,7 +61,7 @@ export class BRPNpcSheet extends ActorSheet {
 
     if (!context.useHPL || context.useBeastiary) { context.showArmour = true }
 
-    context.extDescValue = await TextEditor.enrichHTML(
+    context.extDescValue = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
       context.system.extDesc,
       {
         async: true,
@@ -358,7 +362,7 @@ export class BRPNpcSheet extends ActorSheet {
       catOptions,
     }
 
-    const html = await renderTemplate('systems/brp/templates/dialog/selectPower.html', data)
+    const html = await foundry.applications.handlebars.renderTemplate('systems/brp/templates/dialog/selectPower.html', data)
     return new Promise(resolve => {
       let formData = null
       const dlg = new Dialog({

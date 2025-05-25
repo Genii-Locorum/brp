@@ -268,7 +268,7 @@ export class BRPactorItemDrop {
       hitLocOptions,
       label,
     }
-    const html = await renderTemplate('systems/brp/templates/dialog/hitLocChoice.html', data)
+    const html = await foundry.applications.handlebars.renderTemplate('systems/brp/templates/dialog/hitLocChoice.html', data)
     return new Promise(resolve => {
       let formData = null
       const dlg = new Dialog({
@@ -610,7 +610,7 @@ export class BRPactorItemDrop {
         headTitle: title,
         newList,
       }
-      const html = await renderTemplate(destination, data);
+      const html = await foundry.applications.handlebars.renderTemplate(destination, data);
       let usage = await new Promise(resolve => {
         let formData = null
         const dlg = new Dialog({

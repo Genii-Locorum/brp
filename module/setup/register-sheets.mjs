@@ -27,135 +27,135 @@ import { BRPCultureSheet } from '../item/sheets/culture.mjs'
 
 
 export function registerSheets() {
-  Actors.unregisterSheet("core", ActorSheet);
-  Actors.registerSheet('brp', BRPCharacterSheet, {
+  foundry.documents.collections.Actors.unregisterSheet("core", foundry.appv1.sheets.ActorSheet);
+  foundry.documents.collections.Actors.registerSheet('brp', BRPCharacterSheet, {
     types: ['character'],
     makeDefault: true
   })
 
-  Actors.registerSheet('brp', BRPNpcSheet, {
+  foundry.documents.collections.Actors.registerSheet('brp', BRPNpcSheet, {
     types: ['npc'],
     makeDefault: true
   })
 
-  Items.unregisterSheet('core', ItemSheet)
-  Items.registerSheet('brp', BRPGearSheet, {
+  foundry.documents.collections.Items.unregisterSheet('core', foundry.appv1.sheets.ItemSheet)
+  foundry.documents.collections.Items.registerSheet('brp', BRPGearSheet, {
     types: ['gear'],
     makeDefault: true
   })
 
-  Items.registerSheet('brp', BRPSkillSheet, {
+  foundry.documents.collections.Items.registerSheet('brp', BRPSkillSheet, {
     types: ['skill'],
     makeDefault: true
   })
 
-  Items.registerSheet('brp', BRPHitLocSheet, {
+  foundry.documents.collections.Items.registerSheet('brp', BRPHitLocSheet, {
     types: ['hit-location'],
     makeDefault: true
   })
 
-  Items.registerSheet('brp', BRPPersonalitySheet, {
+  foundry.documents.collections.Items.registerSheet('brp', BRPPersonalitySheet, {
     types: ['personality'],
     makeDefault: true
   })
 
-  Items.registerSheet('brp', BRPProfessionSheet, {
+  foundry.documents.collections.Items.registerSheet('brp', BRPProfessionSheet, {
     types: ['profession'],
     makeDefault: true
   })
 
-  Items.registerSheet('brp', BRPPowerSheet, {
+  foundry.documents.collections.Items.registerSheet('brp', BRPPowerSheet, {
     types: ['power'],
     makeDefault: true
   })
 
-  Items.registerSheet('brp', BRPMagicSheet, {
+  foundry.documents.collections.Items.registerSheet('brp', BRPMagicSheet, {
     types: ['magic'],
     makeDefault: true
   })
 
-  Items.registerSheet('brp', BRPMutationSheet, {
+  foundry.documents.collections.Items.registerSheet('brp', BRPMutationSheet, {
     types: ['mutation'],
     makeDefault: true
   })
 
-  Items.registerSheet('brp', BRPPsychicSheet, {
+  foundry.documents.collections.Items.registerSheet('brp', BRPPsychicSheet, {
     types: ['psychic'],
     makeDefault: true
   })
 
-  Items.registerSheet('brp', BRPSorcerySheet, {
+  foundry.documents.collections.Items.registerSheet('brp', BRPSorcerySheet, {
     types: ['sorcery'],
     makeDefault: true
   })
 
-  Items.registerSheet('brp', BRPSuperSheet, {
+  foundry.documents.collections.Items.registerSheet('brp', BRPSuperSheet, {
     types: ['super'],
     makeDefault: true
   })
 
-  Items.registerSheet('brp', BRPFailingSheet, {
+  foundry.documents.collections.Items.registerSheet('brp', BRPFailingSheet, {
     types: ['failing'],
     makeDefault: true
   })
 
-  Items.registerSheet('brp', BRPPowerModSheet, {
+  foundry.documents.collections.Items.registerSheet('brp', BRPPowerModSheet, {
     types: ['powerMod'],
     makeDefault: true
   })
 
-  Items.registerSheet('brp', BRPArmourSheet, {
+  foundry.documents.collections.Items.registerSheet('brp', BRPArmourSheet, {
     types: ['armour'],
     makeDefault: true
   })
 
-  Items.registerSheet('brp', BRPWeaponSheet, {
+  foundry.documents.collections.Items.registerSheet('brp', BRPWeaponSheet, {
     types: ['weapon'],
     makeDefault: true
   })
 
-  Items.registerSheet('brp', BRPWoundSheet, {
+  foundry.documents.collections.Items.registerSheet('brp', BRPWoundSheet, {
     types: ['wound'],
     makeDefault: true
   })
 
-  Items.registerSheet('brp', BRPAllegianceSheet, {
+  foundry.documents.collections.Items.registerSheet('brp', BRPAllegianceSheet, {
     types: ['allegiance'],
     makeDefault: true
   })
 
-  Items.registerSheet('brp', BRPPassionSheet, {
+  foundry.documents.collections.Items.registerSheet('brp', BRPPassionSheet, {
     types: ['passion'],
     makeDefault: true
   })
 
-  Items.registerSheet('brp', BRPPersTraitSheet, {
+  foundry.documents.collections.Items.registerSheet('brp', BRPPersTraitSheet, {
     types: ['persTrait'],
     makeDefault: true
   })
 
-  Items.registerSheet('brp', BRPReputationSheet, {
+  foundry.documents.collections.Items.registerSheet('brp', BRPReputationSheet, {
     types: ['reputation'],
     makeDefault: true
   })
 
-  Items.registerSheet('brp', BRPSkillCategory, {
+  foundry.documents.collections.Items.registerSheet('brp', BRPSkillCategory, {
     types: ['skillcat'],
     makeDefault: true
   })
 
-  Items.registerSheet('brp', BRPCultureSheet, {
+  foundry.documents.collections.Items.registerSheet('brp', BRPCultureSheet, {
     types: ['culture'],
     makeDefault: true
   })
 
-  RollTables.unregisterSheet('core', RollTableConfig)
-  RollTables.registerSheet('brp', BRPRollTableConfig, {
+  foundry.documents.collections.RollTables.unregisterSheet('core', foundry.applications.sheets.RollTableSheet)
+  foundry.documents.collections.RollTables.registerSheet('brp', BRPRollTableConfig, {
     makeDefault: true
   })
 
-  Journal.unregisterSheet('core', JournalSheet)
-  Journal.registerSheet('brp', BRPJournalSheet, {
+  foundry.documents.collections.Journal.unregisterSheet('core', foundry.appv1.sheets.JournalSheet)
+  foundry.documents.collections.Journal.registerSheet('brp', BRPJournalSheet, {
     makeDefault: true
   })
 }

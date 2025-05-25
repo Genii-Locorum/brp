@@ -1,7 +1,7 @@
 import { BRPUtilities } from '../../apps/utilities.mjs'
 import { addBRPIDSheetHeaderButton } from '../../brpid/brpid-button.mjs'
 
-export class BRPCultureSheet extends ItemSheet {
+export class BRPCultureSheet extends foundry.appv1.sheets.ItemSheet {
 
   //Add BRPID buttons to sheet
   _getHeaderButtons() {
@@ -9,6 +9,10 @@ export class BRPCultureSheet extends ItemSheet {
     addBRPIDSheetHeaderButton(headerButtons, this)
     return headerButtons
   }
+
+  //Turn off App V1 deprecation warnings
+  //TODO - move to V2
+  static _warnedAppV1 = true
 
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
@@ -61,7 +65,7 @@ export class BRPCultureSheet extends ItemSheet {
     sheetData.perSkill = perSkill.sort(BRPUtilities.sortByNameKey);
     sheetData.grpSkill = grpSkill.sort(BRPUtilities.sortByNameKey);
 
-    sheetData.enrichedDescriptionValue = await TextEditor.enrichHTML(
+    sheetData.enrichedDescriptionValue = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
       sheetData.data.system.description,
       {
         async: true,
@@ -69,7 +73,7 @@ export class BRPCultureSheet extends ItemSheet {
       }
     )
 
-    sheetData.enrichedGMDescriptionValue = await TextEditor.enrichHTML(
+    sheetData.enrichedGMDescriptionValue = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
       sheetData.data.system.gmDescription,
       {
         async: true,
@@ -88,7 +92,7 @@ export class BRPCultureSheet extends ItemSheet {
     html.find('.item-view').click(this._onItemView.bind(this))
     html.find('.group-item-delete').click(this._onGroupItemDelete.bind(this))
     html.find('.group-control').click(this._onGroupControl.bind(this))
-    const dragDrop = new DragDrop({
+    const dragDrop = new foundry.applications.ux.DragDrop.implementation({
       dropSelector: '.droppable',
       callbacks: { drop: this._onDrop.bind(this) }
     })
@@ -248,7 +252,7 @@ export class BRPCultureSheet extends ItemSheet {
     if (type === 'culture') {
       title = game.i18n.localize('BRP.cultureBonus') + ": " + name;
     }
-    const html = await renderTemplate(
+    const html = await foundry.applications.handlebars.renderTemplate(
       'systems/brp/templates/dialog/getValue.html',
       {
         type,

@@ -3,7 +3,7 @@ import { BRPUtilities } from "../apps/utilities.mjs"
 
 //Add GM tools to Scene
 
-class BRPLayer extends PlaceablesLayer {
+class BRPLayer extends foundry.canvas.layers.PlaceablesLayer {
 
   constructor() {
     super()

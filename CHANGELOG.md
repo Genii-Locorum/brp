@@ -1,5 +1,12 @@
 # CHANGE LOG
 
+## 13.1.44
+- (Hopefully) this is updated for Foundry V13.
+- Please note this version does not support Foundry V12 - please stay on BRP v12.1.43 if you haven't moved to Foundry v13
+- And please do back up your world before migtation in case you need to roll back
+- The system is stil on Application v1 - the move to v2 will happen in due course
+- Please report any issues at https://github.com/Genii-Locorum/brp/issues
+
 ## 12.1.43
 - Active Effects have been added to Weapons, Armour and Gear.  You can read more at https://github.com/Genii-Locorum/brp/wiki/Active-Effects
 - Active Effects do work for Unlinked Actors - when Foundry fix the underlying issue we may see duplicate effects until we remove the fix.

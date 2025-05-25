@@ -8,7 +8,11 @@ import { addBRPIDSheetHeaderButton } from '../../brpid/brpid-button.mjs'
 import { BRPSelectLists } from '../../apps/select-lists.mjs';
 import { BRPActiveEffectSheet } from '../../sheets/brp-active-effect-sheet.mjs';
 
-export class BRPCharacterSheet extends ActorSheet {
+export class BRPCharacterSheet extends foundry.appv1.sheets.ActorSheet {
+
+  //Turn off App V1 deprecation warnings
+  //TODO - move to V2
+  static _warnedAppV1 = true
 
   //Add BRPID buttons to sheet
   _getHeaderButtons() {
@@ -134,7 +138,7 @@ export class BRPCharacterSheet extends ActorSheet {
     // Add roll data for TinyMCE editors.
     context.rollData = context.actor.getRollData();
 
-    context.enrichedBiographyValue = await TextEditor.enrichHTML(
+    context.enrichedBiographyValue = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
       context.system.biography,
       {
         async: true,
@@ -142,7 +146,7 @@ export class BRPCharacterSheet extends ActorSheet {
       }
     )
 
-    context.enrichedBackgroundValue = await TextEditor.enrichHTML(
+    context.enrichedBackgroundValue = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
       context.system.background,
       {
         async: true,
@@ -150,7 +154,7 @@ export class BRPCharacterSheet extends ActorSheet {
       }
     )
 
-    context.enrichedBackstoryValue = await TextEditor.enrichHTML(
+    context.enrichedBackstoryValue = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
       context.system.backstory,
       {
         async: true,
@@ -533,32 +537,215 @@ export class BRPCharacterSheet extends ActorSheet {
     }
 
     //Context Menus
-    new BRPContextMenu(html, ".stat-name.contextmenu", contextMenu.characteristicMenuOptions(this.actor, this.token));
-    new BRPContextMenu(html, ".profession.contextmenu", contextMenu.professionMenuOptions(this.actor, this.token));
-    new BRPContextMenu(html, ".personality.contextmenu", contextMenu.personalityMenuOptions(this.actor, this.token));
-    new BRPContextMenu(html, ".culture.contextmenu", contextMenu.cultureMenuOptions(this.actor, this.token));
-    new BRPContextMenu(html, ".skills-tab.contextmenu", contextMenu.skillstabMenuOptions(this.actor, this.token));
-    new BRPContextMenu(html, ".combat-tab.contextmenu", contextMenu.combatMenuOptions(this.actor, this.token));
-    new BRPContextMenu(html, ".skill-name.contextmenu", contextMenu.skillMenuOptions(this.actor, this.token));
-    new BRPContextMenu(html, ".skill-cell-name.contextmenu", contextMenu.skillMenuOptions(this.actor, this.token));
-    new BRPContextMenu(html, ".category-name.contextmenu", contextMenu.skillCategoryMenuOptions(this.actor, this.token));
-    new BRPContextMenu(html, ".hitloc-name.contextmenu", contextMenu.hitLocMenuOptions(this.actor, this.token));
-    new BRPContextMenu(html, ".power-name.contextmenu", contextMenu.powerMenuOptions(this.actor, this.token));
-    new BRPContextMenu(html, ".magic-name.contextmenu", contextMenu.magicMenuOptions(this.actor, this.token));
-    new BRPContextMenu(html, ".mutation-name.contextmenu", contextMenu.mutationMenuOptions(this.actor, this.token));
-    new BRPContextMenu(html, ".psychic-name.contextmenu", contextMenu.psychicMenuOptions(this.actor, this.token));
-    new BRPContextMenu(html, ".super-name.contextmenu", contextMenu.superMenuOptions(this.actor, this.token));
-    new BRPContextMenu(html, ".failing-name.contextmenu", contextMenu.failingMenuOptions(this.actor, this.token));
-    new BRPContextMenu(html, ".armour-name.contextmenu", contextMenu.armourMenuOptions(this.actor, this.token));
-    new BRPContextMenu(html, ".gear-name.contextmenu", contextMenu.gearMenuOptions(this.actor, this.token));
-    new BRPContextMenu(html, ".weapon-name.contextmenu", contextMenu.weaponMenuOptions(this.actor, this.token));
-    new BRPContextMenu(html, ".wound-name.contextmenu", contextMenu.woundMenuOptions(this.actor, this.token));
-    new BRPContextMenu(html, ".power.contextmenu", contextMenu.powerAttMenuOptions(this.actor, this.token));
-    new BRPContextMenu(html, ".fatigue.contextmenu", contextMenu.fatigueAttMenuOptions(this.actor, this.token));
-    new BRPContextMenu(html, ".allegiance-name.contextmenu", contextMenu.allegianceMenuOptions(this.actor, this.token));
-    new BRPContextMenu(html, ".passion-name.contextmenu", contextMenu.passionMenuOptions(this.actor, this.token));
-    new BRPContextMenu(html, ".persTrait-name.contextmenu", contextMenu.persTraitMenuOptions(this.actor, this.token));
-    new BRPContextMenu(html, ".reputation-name.contextmenu", contextMenu.reputationMenuOptions(this.actor, this.token));
+
+    new BRPContextMenu(
+      html,
+      ".stat-name.contextmenu",
+      contextMenu.characteristicMenuOptions(this.actor, this.token),
+    {
+      parentClassHooks: false,
+      fixed: true,
+    });
+    new BRPContextMenu(
+      html,
+      ".profession.contextmenu",
+      contextMenu.professionMenuOptions(this.actor, this.token),
+    {
+      parentClassHooks: false,
+      fixed: true,
+    });
+    new BRPContextMenu(
+      html,
+      ".personality.contextmenu",
+      contextMenu.personalityMenuOptions(this.actor, this.token),
+    {
+      parentClassHooks: false,
+      fixed: true,
+    });
+    new BRPContextMenu(
+      html,
+      ".culture.contextmenu",
+      contextMenu.cultureMenuOptions(this.actor, this.token),
+    {
+      parentClassHooks: false,
+      fixed: true,
+    });
+    new BRPContextMenu(
+      html,
+      ".skills-tab.contextmenu",
+      contextMenu.skillstabMenuOptions(this.actor, this.token),
+    {
+      parentClassHooks: false,
+      fixed: true,
+    });
+    new BRPContextMenu(
+      html,
+      ".combat-tab.contextmenu",
+      contextMenu.combatMenuOptions(this.actor, this.token),
+    {
+      parentClassHooks: false,
+      fixed: true,
+    });
+    new BRPContextMenu(
+      html,
+      ".skill-name.contextmenu",
+      contextMenu.skillMenuOptions(this.actor, this.token),
+    {
+      parentClassHooks: false,
+      fixed: true,
+    });
+    new BRPContextMenu(
+      html,
+      ".skill-cell-name.contextmenu",
+      contextMenu.skillMenuOptions(this.actor, this.token),
+    {
+      parentClassHooks: false,
+      fixed: true,
+    });
+    new BRPContextMenu(
+      html,
+      ".category-name.contextmenu",
+      contextMenu.skillCategoryMenuOptions(this.actor, this.token),
+    {
+      parentClassHooks: false,
+      fixed: true,
+    });
+    new BRPContextMenu(
+      html,
+      ".hitloc-name.contextmenu",
+      contextMenu.hitLocMenuOptions(this.actor, this.token),
+    {
+      parentClassHooks: false,
+      fixed: true,
+    });
+    new BRPContextMenu(
+      html,
+      ".power-name.contextmenu",
+      contextMenu.powerMenuOptions(this.actor, this.token),
+    {
+      parentClassHooks: false,
+      fixed: true,
+    });
+    new BRPContextMenu(
+      html,
+      ".magic-name.contextmenu",
+      contextMenu.magicMenuOptions(this.actor, this.token),
+    {
+      parentClassHooks: false,
+      fixed: true,
+    });
+    new BRPContextMenu(
+      html,
+      ".mutation-name.contextmenu",
+      contextMenu.mutationMenuOptions(this.actor, this.token),
+    {
+      parentClassHooks: false,
+      fixed: true,
+    });
+    new BRPContextMenu(
+      html,
+      ".psychic-name.contextmenu",
+      contextMenu.psychicMenuOptions(this.actor, this.token),
+    {
+      parentClassHooks: false,
+      fixed: true,
+    });
+    new BRPContextMenu(
+      html,
+      ".super-name.contextmenu",
+      contextMenu.superMenuOptions(this.actor, this.token),
+    {
+      parentClassHooks: false,
+      fixed: true,
+    });
+    new BRPContextMenu(
+      html,
+      ".failing-name.contextmenu",
+      contextMenu.failingMenuOptions(this.actor, this.token),
+    {
+      parentClassHooks: false,
+      fixed: true,
+    });
+    new BRPContextMenu(
+      html,
+      ".armour-name.contextmenu",
+      contextMenu.armourMenuOptions(this.actor, this.token),
+    {
+      parentClassHooks: false,
+      fixed: true,
+    });
+    new BRPContextMenu(
+      html,
+      ".gear-name.contextmenu",
+      contextMenu.gearMenuOptions(this.actor, this.token),
+    {
+      parentClassHooks: false,
+      fixed: true,
+    });
+    new BRPContextMenu(
+      html,
+      ".weapon-name.contextmenu",
+      contextMenu.weaponMenuOptions(this.actor, this.token),
+    {
+      parentClassHooks: false,
+      fixed: true,
+    });
+    new BRPContextMenu(
+      html,
+      ".wound-name.contextmenu",
+      contextMenu.woundMenuOptions(this.actor, this.token),
+    {
+      parentClassHooks: false,
+      fixed: true,
+    });
+    new BRPContextMenu(
+      html,
+      ".power.contextmenu",
+      contextMenu.powerAttMenuOptions(this.actor, this.token),
+    {
+      parentClassHooks: false,
+      fixed: true,
+    });
+    new BRPContextMenu(
+      html,
+      ".fatigue.contextmenu",
+      contextMenu.fatigueAttMenuOptions(this.actor, this.token),
+    {
+      parentClassHooks: false,
+      fixed: true,
+    });
+    new BRPContextMenu(
+      html,
+      ".allegiance-name.contextmenu",
+      contextMenu.allegianceMenuOptions(this.actor, this.token),
+    {
+      parentClassHooks: false,
+      fixed: true,
+    });
+    new BRPContextMenu(
+      html,
+      ".passion-name.contextmenu",
+      contextMenu.passionMenuOptions(this.actor, this.token),
+    {
+      parentClassHooks: false,
+      fixed: true,
+    });
+    new BRPContextMenu(
+      html,
+      ".persTrait-name.contextmenu",
+      contextMenu.persTraitMenuOptions(this.actor, this.token),
+    {
+      parentClassHooks: false,
+      fixed: true,
+    });
+    new BRPContextMenu(
+      html,
+      ".reputation-name.contextmenu",
+      contextMenu.reputationMenuOptions(this.actor, this.token),
+    {
+      parentClassHooks: false,
+      fixed: true,
+    });
   }
 
   // Handle creating a new Owned Item for the actor using initial data defined in the HTML dataset
@@ -798,7 +985,7 @@ export class BRPCharacterSheet extends ActorSheet {
       results: results
     }
     const messageTemplate = 'systems/brp/templates/chat/rollStats.html'
-    let html = await renderTemplate(messageTemplate, messageData);
+    let html = await foundry.applications.handlebars.renderTemplate(messageTemplate, messageData);
 
     let chatData = {};
     let chatType = ""
@@ -976,14 +1163,6 @@ export class BRPCharacterSheet extends ActorSheet {
         fontSize
       )
     }
-
-
-
-
-
-
-
-
   }
 
 }

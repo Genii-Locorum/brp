@@ -298,7 +298,7 @@ export class BRPDamage {
 
   // Form to get amount of damage or healing
   static async healingAmount(title, getType, getWnd, wndList, healTypes) {
-    const html = await renderTemplate(
+    const html = await foundry.applications.handlebars.renderTemplate(
       'systems/brp/templates/dialog/treatWound.html',
       {
         getType,
@@ -339,7 +339,7 @@ export class BRPDamage {
   //Get New Wound Dialog
   static async getWoundForm(getDam, getLoc, name, locs) {
     let title = game.i18n.localize('BRP.addWound') + ": " + name;
-    const html = await renderTemplate(
+    const html = await foundry.applications.handlebars.renderTemplate(
       'systems/brp/templates/dialog/newWound.html',
       {
         getDam,

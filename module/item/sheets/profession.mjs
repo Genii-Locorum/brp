@@ -2,7 +2,11 @@ import { BRPUtilities } from '../../apps/utilities.mjs'
 import { BRPSelectLists } from "../../apps/select-lists.mjs";
 import { addBRPIDSheetHeaderButton } from '../../brpid/brpid-button.mjs'
 
-export class BRPProfessionSheet extends ItemSheet {
+export class BRPProfessionSheet extends foundry.appv1.sheets.ItemSheet {
+
+  //Turn off App V1 deprecation warnings
+  //TODO - move to V2
+  static _warnedAppV1 = true
 
   //Add BRPID buttons to sheet
   _getHeaderButtons() {
@@ -68,7 +72,7 @@ export class BRPProfessionSheet extends ItemSheet {
     sheetData.grpSkill = grpSkill.sort(BRPUtilities.sortByNameKey);
     sheetData.perPower = perPower.sort(BRPUtilities.sortByNameKey);
 
-    sheetData.enrichedDescriptionValue = await TextEditor.enrichHTML(
+    sheetData.enrichedDescriptionValue = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
       sheetData.data.system.description,
       {
         async: true,
@@ -76,7 +80,7 @@ export class BRPProfessionSheet extends ItemSheet {
       }
     )
 
-    sheetData.enrichedGMDescriptionValue = await TextEditor.enrichHTML(
+    sheetData.enrichedGMDescriptionValue = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
       sheetData.data.system.gmDescription,
       {
         async: true,
@@ -96,7 +100,7 @@ export class BRPProfessionSheet extends ItemSheet {
     html.find('.item-power-delete').click(event => this._onItemDelete(event, 'powers'))
     html.find('.group-item-delete').click(this._onGroupItemDelete.bind(this))
     html.find('.group-control').click(this._onGroupControl.bind(this))
-    const dragDrop = new DragDrop({
+    const dragDrop = new foundry.applications.ux.DragDrop.implementation({
       dropSelector: '.droppable',
       callbacks: { drop: this._onDrop.bind(this) }
     })

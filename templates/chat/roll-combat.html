@@ -3,7 +3,7 @@
     <div class="bold">{{localize 'BRP.card.CB'}}</div>
     <ol class="gr-list">
       {{#each chatCard as |c key|}}
-        <div class="dice-roll">
+        <div class="dice-roll" data-action="expandRoll">
           <li class='actor-roll'>
             <img class="open-actor" src="{{c.particImg}}" height="60" width="60" title="{{c.particName}}" />
             <div class="roll-details">
@@ -48,7 +48,7 @@
             </div>
           </li>
           {{#if (eq ../state 'closed')}}
-            <div class="actor-roll dice-tooltip" style="display:none">
+            <div class="actor-roll dice-tooltip">
               <div class="owner-only" data-partic-id="{{c.particId}}" data-partic-type="{{c.particType}}">
                 <div class="rollHidden">{{localize 'BRP.rawScore'}}: {{c.rawScore}}</div>
                 <div class="rollHidden">{{localize 'BRP.difficulty'}}: {{c.diffLabel}}</div>

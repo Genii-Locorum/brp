@@ -121,11 +121,12 @@ export class BRPUtilities {
 
   //Toggle Beastiary Mode
   static async beastiaryMode(toggle) {
-    await game.settings.set('brp', 'beastiary', toggle)
-    ui.notifications.warn(
-      toggle
-        ? game.i18n.localize('BRP.beastiaryOn')
-        : game.i18n.localize('BRP.beastiaryOff')
+    let state = await game.settings.get('brp', 'beastiary')
+    await game.settings.set('brp', 'beastiary', !state)
+    ui.notifications.info(
+      state
+        ? game.i18n.localize('BRP.beastiaryOff')
+        : game.i18n.localize('BRP.beastiaryOn')
     )
   }
 

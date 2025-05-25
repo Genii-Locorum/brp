@@ -55,7 +55,7 @@ export class BRPIDEditor extends FormApplication {
         return {
           priority: d.flags.brp.brpidFlag.priority,
           lang: d.flags.brp.brpidFlag.lang ?? 'en',
-          link: await TextEditor.enrichHTML(d.link, { async: true }),
+          link: await foundry.applications.ux.TextEditor.implementation.enrichHTML(d.link, { async: true }),
           folder: d?.folder?.name
         }
       }))
@@ -75,7 +75,7 @@ export class BRPIDEditor extends FormApplication {
         return {
           priority: d.flags.brp.brpidFlag.priority,
           lang: d.flags.brp.brpidFlag.lang ?? 'en',
-          link: await TextEditor.enrichHTML(d.link, { async: true }),
+          link: await foundry.applications.ux.TextEditor.implementation.enrichHTML(d.link, { async: true }),
           folder: d?.folder?.name ?? ''
         }
       }))

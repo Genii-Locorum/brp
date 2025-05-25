@@ -2,15 +2,16 @@
   "id": "brp",
   "title": "Basic Role Playing",
   "description": "Basic Role Playing system for FoundryVTT!",
-  "version": "12.1.43",
+  "version": "13.1.44",
   "compatibility": {
-    "minimum": 11,
-    "verified": "12.331",
-    "maximum": 12
+    "minimum": "13",
+    "verified": "13.344",
+    "maximum": "13"
   },
   "authors": [
     {
-      "name": "Dangermouse"
+      "name": "Dangermouse",
+      "flags": {}
     }
   ],
   "esmodules": [
@@ -19,42 +20,45 @@
   "styles": [
     "css/brp.css"
   ],
-  "scripts": [],
   "packs": [
     {
       "label": "BRP ID Macros",
       "type": "Macro",
       "name": "brp-id-macros",
-      "path": "packs/brp-id-macros.db",
+      "path": "packs/brp-id-macros",
       "system": "brp",
-      "private": false,
-      "flags": {}
+      "flags": {},
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
     }
   ],
   "languages": [
     {
       "lang": "en",
       "name": "English",
-      "path": "lang/en.json"
+      "path": "lang/en.json",
+      "flags": {}
     }
   ],
   "grid": {
-    "distance": 1,
     "units": "m"
   },
   "media": [
     {
       "type": "setup",
       "url": "systems/brp/assets/brp-logo-powered_by-solid.png",
-      "thumbnail": "systems/brp/assets/brp-logo-powered_by-solid.png"
+      "thumbnail": "systems/brp/assets/brp-logo-powered_by-solid.png",
+      "loop": false,
+      "flags": {}
     }
   ],
   "primaryTokenAttribute": "health",
   "secondaryTokenAttribute": "power",
   "socket": true,
-  "url": "",
   "manifest": "https://github.com/Genii-Locorum/brp/releases/latest/download/system.json",
-  "download": "https://github.com/Genii-Locorum/brp/releases/download/Betav1.43/system.zip",
+  "download": "https://github.com/Genii-Locorum/brp/releases/download/13.1.44/system.zip",
   "license": "LICENSE.txt",
   "changelog": "CHANGELOG.md"
 }

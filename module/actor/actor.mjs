@@ -166,7 +166,7 @@ export class BRPActor extends Actor {
           if (itm.system.pSMax > 0) { systemData.psMax = systemData.psMax + itm.system.pSMax }
         }
 
-        //Does the item have transferrable effects
+        //Does the item have transferrable effects  _TODO is this duplicate of 126-131, if so delete
         if (itm.transferredEffects.length > 0) {
           itm.system.hasEffects = true;
         } else {

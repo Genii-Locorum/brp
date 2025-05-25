@@ -3,15 +3,16 @@ import { BRPactorDetails } from '../apps/actorDetails.mjs';
 
 export function addChatListeners(html) {
   html.on('click', '.cardbutton', BRPCheck.triggerChatButton)
-  return
+  //return
 }
 
 
 export class BRPChat {
   static async renderMessageHook(message, html) {
     ui.chat.scrollBottom()
+    html.querySelectorAll(".cardbutton").forEach(b => b.addEventListener('click', BRPCheck.triggerChatButton));
     if (!game.user.isGM) {
-      const ownerOnly = html.find('.owner-only')
+      const ownerOnly = html.querySelectorAll('.owner-only')
       for (const zone of ownerOnly) {
         let actor = await BRPactorDetails._getParticipant(zone.dataset.particId, zone.dataset.particType)
         if ((actor && !actor.isOwner) || (!actor && !game.user.isGM)) {
@@ -20,7 +21,7 @@ export class BRPChat {
       }
     }
 
-    const gmVisibleOnly = html.find('.gm-visible-only')
+    const gmVisibleOnly = html.querySelectorAll('.gm-visible-only')
     for (const elem of gmVisibleOnly) {
       if (!(game.user.isGM)) elem.style.display = 'none'
     }

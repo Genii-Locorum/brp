@@ -1,7 +1,11 @@
 import { BRPUtilities } from '../../apps/utilities.mjs'
 import { addBRPIDSheetHeaderButton } from '../../brpid/brpid-button.mjs'
 
-export class BRPSuperSheet extends ItemSheet {
+export class BRPSuperSheet extends foundry.appv1.sheets.ItemSheet {
+
+  //Turn off App V1 deprecation warnings
+  //TODO - move to V2
+  static _warnedAppV1 = true
 
   //Add BRPID buttons to sheet
   _getHeaderButtons() {
@@ -44,7 +48,7 @@ export class BRPSuperSheet extends ItemSheet {
       this.object.update({ 'system.mainName': this.item.name });
     }
 
-    sheetData.enrichedDescriptionValue = await TextEditor.enrichHTML(
+    sheetData.enrichedDescriptionValue = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
       sheetData.data.system.description,
       {
         async: true,
@@ -55,7 +59,7 @@ export class BRPSuperSheet extends ItemSheet {
     if (sheetData.powerName === "") {
       sheetData.powerName = game.i18n.localize("BRP." + this.item.type)
     }
-    sheetData.enrichedGMDescriptionValue = await TextEditor.enrichHTML(
+    sheetData.enrichedGMDescriptionValue = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
       sheetData.data.system.gmDescription,
       {
         async: true,
@@ -73,7 +77,7 @@ export class BRPSuperSheet extends ItemSheet {
     html.find('.item-delete').click(event => this._onItemDelete(event, 'powerMod'))
     html.find('.item-view').click(event => this._onItemView(event))
     html.find('.item-toggle').click(this.onItemToggle.bind(this));
-    const dragDrop = new DragDrop({
+    const dragDrop = new foundry.applications.ux.DragDrop.implementation({
       dropSelector: '.droppable',
       callbacks: { drop: this._onDrop.bind(this) }
     })

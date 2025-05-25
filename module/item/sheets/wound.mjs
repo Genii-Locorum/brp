@@ -1,10 +1,14 @@
 import { addBRPIDSheetHeaderButton } from '../../brpid/brpid-button.mjs'
 
-export class BRPWoundSheet extends ItemSheet {
+export class BRPWoundSheet extends foundry.appv1.sheets.ItemSheet {
   constructor(...args) {
     super(...args)
     this._sheetTab = 'items'
   }
+
+  //Turn off App V1 deprecation warnings
+  //TODO - move to V2
+  static _warnedAppV1 = true
 
   //Add BRPID buttons to sheet
   _getHeaderButtons() {

@@ -1,11 +1,15 @@
 import { BRPSelectLists } from "../../apps/select-lists.mjs";
 import { addBRPIDSheetHeaderButton } from '../../brpid/brpid-button.mjs'
 
-export class BRPPsychicSheet extends ItemSheet {
+export class BRPPsychicSheet extends foundry.appv1.sheets.ItemSheet {
   constructor(...args) {
     super(...args)
     this._sheetTab = 'items'
   }
+
+  //Turn off App V1 deprecation warnings
+  //TODO - move to V2
+  static _warnedAppV1 = true
 
   //Add BRPID buttons to sheet
   _getHeaderButtons() {
@@ -52,7 +56,7 @@ export class BRPPsychicSheet extends ItemSheet {
     }
     itemData.system.total = itemData.system.base + itemData.system.xp + itemData.system.effects + itemData.system.personality + itemData.system.profession + itemData.system.personal + itemData.system.culture;
 
-    sheetData.enrichedDescriptionValue = await TextEditor.enrichHTML(
+    sheetData.enrichedDescriptionValue = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
       sheetData.data.system.description,
       {
         async: true,
@@ -60,7 +64,7 @@ export class BRPPsychicSheet extends ItemSheet {
       }
     )
 
-    sheetData.enrichedGMDescriptionValue = await TextEditor.enrichHTML(
+    sheetData.enrichedGMDescriptionValue = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
       sheetData.data.system.gmDescription,
       {
         async: true,

@@ -1,11 +1,15 @@
 import { BRPSelectLists } from "../../apps/select-lists.mjs";
 import { addBRPIDSheetHeaderButton } from '../../brpid/brpid-button.mjs'
 
-export class BRPHitLocSheet extends ItemSheet {
+export class BRPHitLocSheet extends foundry.appv1.sheets.ItemSheet {
   constructor(...args) {
     super(...args)
     this._sheetTab = 'items'
   }
+
+  //Turn off App V1 deprecation warnings
+  //TODO - move to V2
+  static _warnedAppV1 = true
 
   //Add BRPID buttons to sheet
   _getHeaderButtons() {

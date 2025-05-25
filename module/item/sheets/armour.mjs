@@ -2,7 +2,7 @@ import { BRPActiveEffectSheet } from "../../sheets/brp-active-effect-sheet.mjs";
 import { BRPSelectLists } from "../../apps/select-lists.mjs";
 import { addBRPIDSheetHeaderButton } from '../../brpid/brpid-button.mjs'
 
-export class BRPArmourSheet extends ItemSheet {
+export class BRPArmourSheet extends foundry.appv1.sheets.ItemSheet {
   constructor(...args) {
     super(...args)
     this._sheetTab = 'items'
@@ -14,6 +14,10 @@ export class BRPArmourSheet extends ItemSheet {
     addBRPIDSheetHeaderButton(headerButtons, this)
     return headerButtons
   }
+
+  //Turn off App V1 deprecation warnings
+  //TODO - move to V2
+  static _warnedAppV1 = true
 
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
@@ -42,7 +46,7 @@ export class BRPArmourSheet extends ItemSheet {
     sheetData.burdenName = game.i18n.localize("BRP." + this.item.system.burden);
     sheetData.priceName = game.i18n.localize("BRP." + this.item.system.price);
     sheetData.equippedName = game.i18n.localize("BRP." + this.item.system.equipStatus);
-    sheetData.enrichedDescriptionValue = await TextEditor.enrichHTML(
+    sheetData.enrichedDescriptionValue = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
       sheetData.data.system.description,
       {
         async: true,
@@ -50,7 +54,7 @@ export class BRPArmourSheet extends ItemSheet {
       }
     )
 
-    sheetData.enrichedGMDescriptionValue = await TextEditor.enrichHTML(
+    sheetData.enrichedGMDescriptionValue = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
       sheetData.data.system.gmDescription,
       {
         async: true,

@@ -5,11 +5,12 @@ export class BRPCharDev {
 
   //Toggle GM Devevlopment Phase off and on
   static async developmentPhase(toggle) {
-    await game.settings.set('brp', 'development', toggle)
-    ui.notifications.warn(
-      toggle
-        ? game.i18n.localize('BRP.devPhaseOn')
-        : game.i18n.localize('BRP.devPhaseOff')
+    let state = await game.settings.get('brp', 'development')
+    await game.settings.set('brp', 'development', !state)
+    ui.notifications.info(
+      state
+        ? game.i18n.localize('BRP.devPhaseOff')
+        : game.i18n.localize('BRP.devPhaseOn')
     )
 
   }
@@ -138,7 +139,7 @@ export class BRPCharDev {
       success: success
     }
     const messageTemplate = 'systems/brp/templates/chat/XP-result.html'
-    let html = await renderTemplate(messageTemplate, messageData);
+    let html = await foundry.applications.handlebars.renderTemplate(messageTemplate, messageData);
     return html;
   }
 

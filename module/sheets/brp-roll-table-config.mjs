@@ -2,7 +2,7 @@
 import { addBRPIDSheetHeaderButton } from '../brpid/brpid-button.mjs'
 
 
-export class BRPRollTableConfig extends RollTableConfig {
+export class BRPRollTableConfig extends foundry.applications.sheets.RollTableSheet {
   constructor(data, context) {
     data.img = 'icons/svg/d20.svg'
     super(data, context)
