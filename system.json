@@ -2,10 +2,10 @@
   "id": "brp",
   "title": "Basic Role Playing",
   "description": "Basic Role Playing system for FoundryVTT!",
-  "version": "13.1.44",
+  "version": "13.1.45",
   "compatibility": {
     "minimum": "13",
-    "verified": "13.344",
+    "verified": "13.346",
     "maximum": "13"
   },
   "authors": [
@@ -40,6 +40,11 @@
       "name": "English",
       "path": "lang/en.json",
       "flags": {}
+    },
+    {
+      "lang": "es",
+      "name": "Español (Spanish)",
+      "path": "lang/es.json"
     }
   ],
   "grid": {
@@ -58,7 +63,7 @@
   "secondaryTokenAttribute": "power",
   "socket": true,
   "manifest": "https://github.com/Genii-Locorum/brp/releases/latest/download/system.json",
-  "download": "https://github.com/Genii-Locorum/brp/releases/download/13.1.44/system.zip",
+  "download": "https://github.com/Genii-Locorum/brp/releases/download/13.1.45/system.zip",
   "license": "LICENSE.txt",
   "changelog": "CHANGELOG.md"
 }

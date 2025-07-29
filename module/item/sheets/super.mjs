@@ -149,16 +149,5 @@ export class BRPSuperSheet extends foundry.appv1.sheets.ItemSheet {
     item.sheet.render(true);
   }
 
-  //Update object - change power name to be made up on Main and Specialization name
-  async _updateObject(event, formData) {
-    const powerName = formData['system.mainName'] || this.item.system.mainName
-    if (this.item.system.specialism) {
-      let specialization = formData['system.specName'] || this.item.system.specName
-      if (specialization === "") {specialization = "select"}
-      formData.name = powerName + ' (' + specialization + ')'
-    } else {
-      formData.name = powerName
-    }
-    super._updateObject(event, formData)
-  }
+
 }

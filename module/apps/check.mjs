@@ -233,35 +233,19 @@ export class BRPCheck {
         break
       case 'GR':
         config.wait = true
-        if (!foundry.utils.isNewerVersion(game.version, '11')) {
-          config.chatType = CONST.CHAT_MESSAGE_STYLES.OTHER
-        } else {
-          config.chatType = CONST.CHAT_MESSAGE_OTHER
-        }
+        config.chatType = CONST.CHAT_MESSAGE_STYLES.OTHER
         config.chatTemplate = 'systems/brp/templates/chat/roll-combined.html'
         break
       case 'OP':
-        if (!foundry.utils.isNewerVersion(game.version, '11')) {
-          config.chatType = CONST.CHAT_MESSAGE_STYLES.OTHER
-        } else {
-          config.chatType = CONST.CHAT_MESSAGE_OTHER
-        }
+        config.chatType = CONST.CHAT_MESSAGE_STYLES.OTHER
         config.chatTemplate = 'systems/brp/templates/chat/roll-opposed.html'
         break
       case 'CO':
-        if (!foundry.utils.isNewerVersion(game.version, '11')) {
-          config.chatType = CONST.CHAT_MESSAGE_STYLES.OTHER
-        } else {
-          config.chatType = CONST.CHAT_MESSAGE_OTHER
-        }
+        config.chatType = CONST.CHAT_MESSAGE_STYLES.OTHER
         config.chatTemplate = 'systems/brp/templates/chat/roll-cooperative.html'
         break
       case 'CB':
-        if (!foundry.utils.isNewerVersion(game.version, '11')) {
-          config.chatType = CONST.CHAT_MESSAGE_STYLES.OTHER
-        } else {
-          config.chatType = CONST.CHAT_MESSAGE_OTHER
-        }
+        config.chatType = CONST.CHAT_MESSAGE_STYLES.OTHER
         config.chatTemplate = 'systems/brp/templates/chat/roll-combat.html'
         break
       default:

@@ -1,5 +1,8 @@
 # CHANGE LOG
 
+## 13.1.45
+-  Spanish Language pack added courtesy of Adrian_Martin(bakali77)
+
 ## 13.1.44
 - (Hopefully) this is updated for Foundry V13.
 - Please note this version does not support Foundry V12 - please stay on BRP v12.1.43 if you haven't moved to Foundry v13
