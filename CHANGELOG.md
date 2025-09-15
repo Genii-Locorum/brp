@@ -1,5 +1,10 @@
 # CHANGE LOG
 
+## 13.1.46
+- Fixed character sheet so the box doesn't cut through CHA when not using EDU
+- Added a game option under "Character Options" to opt to use wealth ratings (default) or use a cash value along with a label for it
+- There is now a "+" icon on the Character Sheet Sorcery and Magic tabs that will let you add a spell directly to the character sheet
+
 ## 13.1.45
 -  Spanish Language pack added courtesy of Adrian_Martin(bakali77)
 

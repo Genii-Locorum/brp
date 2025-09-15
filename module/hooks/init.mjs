@@ -9,13 +9,15 @@ import { preloadHandlebarsTemplates } from "../setup/templates.mjs";
 import { BRPCombat } from "../combat/combat.mjs";
 import { BRPCombatTracker } from "../combat/combat-tracker.mjs";
 import { BRPActiveEffect } from "../apps/active-effect.mjs";
+import { BRPCheck } from '../apps/check.mjs';
 
 export default function Init() {
   //Add classes to global game object
   game.brp = {
     BRPActor,
     BRPItem,
-    rollItemMacro
+    rollItemMacro,
+    rollCharMacro
   };
   //Add Custom Configuration
   CONFIG.BRP = BRP;
@@ -64,4 +66,16 @@ function rollItemMacro(itemUuid) {
     // Trigger the item roll
     item.roll();
   });
+}
+
+//Roll a Characteristic Roll for an actor from the hotbar - work in progress
+function rollCharMacro(actor,characteristic) {
+    BRPCheck._trigger({
+      rollType: 'CH',
+      cardType: 'NO',
+      characteristic,
+      shiftKey: 'false',
+      actor: actor,
+      token: ""
+    })
 }

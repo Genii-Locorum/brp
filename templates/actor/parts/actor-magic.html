@@ -8,6 +8,9 @@
     <div class="diff-label centre" title="{{ localize 'BRP.ppplHint' label=system.power.labelAbbr }}">{{system.power.labelAbbr}}</div>
     <div class="diff-label centre" title="{{ localize 'BRP.impactHint' }}">{{ localize 'BRP.impact'}}</div>
     <div class="diff-label centre" title="{{ localize 'BRP.memHint' }}">{{ localize 'BRP.mem'}}</div>
+    <div class="diff-label centre item-create" title="{{ localize 'BRP.addSpell' }}" data-type="magic">
+      <a class="large-icon"><i class="item-control fas fa-plus"></i></a>
+    </div>
   </div>
   {{#each magics as |magic id|}}
     <li class="item magic-listitem" data-item-id="{{magic._id}}">

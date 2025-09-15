@@ -100,19 +100,25 @@
         </div>
 
         <div class="personal-grid">
-          <label class="charname">{{ localize 'BRP.wealth' }}:</label>
-          {{#if isLocked}}
-            <div class="personal-display">{{wealthName}}</div>
+          {{#if useWealth}}
+            <label class="charname">{{ localize 'BRP.wealth' }}:</label>
+            {{#if isLocked}}
+              <div class="personal-display">{{wealthName}}</div>
+            {{else}}
+              <div class="wealth-input-small">
+                <select data-handle-change name="system.wealth">
+                  {{selectOptions wealthOptions selected=actor.system.wealth}}
+                </select>
+              </div>
+            {{/if}}
+            <label class="charname">{{ localize 'BRP.move' }}:</label>
+            <input class="personal-inp centre" name="system.move" type="text" value="{{actor.system.move}}" />
           {{else}}
-            <div class="wealth-input-small">
-              <select data-handle-change name="system.wealth">
-                {{selectOptions wealthOptions selected=actor.system.wealth}}
-              </select>
-            </div>
+            <label class="charname">{{wealthLabel}}:</label>
+            <input class="personal-inp" name="system.wealthValue" type="number" value="{{actor.system.wealthValue}}" />
           {{/if}}
-          <label class="charname">{{ localize 'BRP.move' }}:</label>
-          <input class="personal-inp centre" name="system.move" type="text" value="{{actor.system.move}}" />
         </div>
+
       </section>
 
       {{!-- Stats Section --}}

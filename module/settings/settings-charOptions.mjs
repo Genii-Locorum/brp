@@ -43,7 +43,26 @@ const SETTINGS = {
     config: false,
     type: String,
     default: "Backstory"
-  }
+  },
+
+  useWealth: {
+    name: 'BRP.Settings.useWealth',
+    hint: 'BRP.Settings.useWealth',
+    scope: 'world',
+    config: false,
+    default: true,
+    type: Boolean
+  },
+
+  wealthLabel: {
+    name: "BRP.Settings.wealthLabel",
+    hint: "BRP.Settings.wealthLabelHint",
+    scope: "world",
+    config: false,
+    type: String,
+    default: "Gold"
+  },
+
 
 }
 

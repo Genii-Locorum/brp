@@ -50,6 +50,8 @@ export class BRPCharacterSheet extends foundry.appv1.sheets.ActorSheet {
     context.system = actorData.system;
     context.flags = actorData.flags;
     context.logo = game.settings.get('brp', 'charSheetLogo');
+    context.useWealth = game.settings.get('brp', 'useWealth');
+    context.wealthLabel = game.settings.get('brp', 'wealthLabel');
     context.useEDU = game.settings.get('brp', 'useEDU');
     context.useFP = game.settings.get('brp', 'useFP');
     context.useSAN = game.settings.get('brp', 'useSAN');
@@ -788,7 +790,7 @@ export class BRPCharacterSheet extends foundry.appv1.sheets.ActorSheet {
     })
 
     //And in certain circumstances render the new item sheet
-    if (['gear', 'armour', 'weapon'].includes(itemData.type)) {
+    if (['gear', 'armour', 'weapon','sorcery','magic'].includes(itemData.type)) {
       newItem.sheet.render(true);
     }
 

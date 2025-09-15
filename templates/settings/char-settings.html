@@ -41,6 +41,21 @@
     <p class="settingNote">{{localize 'BRP.Settings.backgroundHint'}}</p>
   </div>
 
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.useWealth'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <input type="checkbox" {{checked useWealth.value}} name="useWealth">
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.useWealthHint'}}</p>
+  </div>
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.wealthLabel'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <input class="centre" name="wealthLabel" type="text" value="{{wealthLabel.value}}" />
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.wealthLabelHint'}}</p>
+  </div>
 
 
   <br>
