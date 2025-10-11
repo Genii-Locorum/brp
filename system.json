@@ -59,6 +59,15 @@
       "flags": {}
     }
   ],
+  "documentTypes": {
+    "RegionBehavior": {
+      "ChaosiumCanvasInterfaceDrawingToggle": {},
+      "ChaosiumCanvasInterfaceMapPinToggle": {},
+      "ChaosiumCanvasInterfaceOpenDocument": {},
+      "ChaosiumCanvasInterfaceToScene": {},
+      "ChaosiumCanvasInterfaceTileToggle": {}
+    }
+  },
   "primaryTokenAttribute": "health",
   "secondaryTokenAttribute": "power",
   "socket": true,

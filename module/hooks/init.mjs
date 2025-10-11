@@ -3,6 +3,7 @@ import { BRPID } from '../brpid/brpid.mjs'
 import { BRPActor } from '../actor/actor.mjs'
 import { BRPItem } from '../item/item.mjs'
 import { BRP } from "../setup/config.mjs";
+import ChaosiumCanvasInterfaceInit from '../apps/chaosium-canvas-interface-init.mjs'
 import { registerSettings } from '../settings/register-settings.mjs'
 import { handlebarsHelper } from '../setup/handlebar-helper.mjs';
 import { preloadHandlebarsTemplates } from "../setup/templates.mjs";
@@ -17,7 +18,9 @@ export default function Init() {
     BRPActor,
     BRPItem,
     rollItemMacro,
-    rollCharMacro
+    rollCharMacro,
+    ClickRegionLeftUuid: ChaosiumCanvasInterfaceInit.ClickRegionLeftUuid,
+    ClickRegionRightUuid: ChaosiumCanvasInterfaceInit.ClickRegionRightUuid
   };
   //Add Custom Configuration
   CONFIG.BRP = BRP;
@@ -36,10 +39,9 @@ export default function Init() {
   CONFIG.ActiveEffect.documentClass = BRPActiveEffect;
 
 
-
-
-    BRPID.init()
-    registerSheets()
+  ChaosiumCanvasInterfaceInit.initSelf()
+  BRPID.init()
+  registerSheets()
 
   // Active Effects are never copied to the Actor,
   // but will still apply to the Actor from within the Item
@@ -69,13 +71,13 @@ function rollItemMacro(itemUuid) {
 }
 
 //Roll a Characteristic Roll for an actor from the hotbar - work in progress
-function rollCharMacro(actor,characteristic) {
-    BRPCheck._trigger({
-      rollType: 'CH',
-      cardType: 'NO',
-      characteristic,
-      shiftKey: 'false',
-      actor: actor,
-      token: ""
-    })
+function rollCharMacro(actor, characteristic) {
+  BRPCheck._trigger({
+    rollType: 'CH',
+    cardType: 'NO',
+    characteristic,
+    shiftKey: 'false',
+    actor: actor,
+    token: ""
+  })
 }

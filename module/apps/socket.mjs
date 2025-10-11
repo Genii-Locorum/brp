@@ -23,6 +23,10 @@ export class BRPSystemSocket {
           BRPDamage.firstAidFumble(data.value.actorId, data.value.actorType, data.value.locationId);
         }
         break;
+
+      case 'toggleMapNotes':
+        game.settings.set('core', NotesLayer.TOGGLE_SETTING, data.toggle === true);
+        break;
     }
   }
 }
