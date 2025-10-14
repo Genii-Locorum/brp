@@ -332,6 +332,7 @@
     "malfunction": "Malfunction",
     "manual": "Manual",
     "manuallyEditActiveEffects": "Manually edit the active effects",
+    "mapNoteNoBackground": "Hide background",
     "maxLvl": "Max Level",
     "medical": "Medical",
     "melee": "Melee",
@@ -806,6 +807,141 @@
       "priority": "System ID Priority",
       "summary": "Set a group identifier that can be used to find the the most up to date version of this {type}. The System ID should use the English translation of the {type} to support localization across all languages.",
       "title": "Edit System ID (BRPID)"
+    },
+    "ChaosiumCanvasInterface": {
+      "DrawingToggle": {
+        "Toggle": {
+          "Title": "Show",
+          "Hint": "Should this show or hide the the drawing and documents"
+        },
+        "Drawing": {
+          "Title": "Select Drawing",
+          "Hint": "Set visibility of these drawings"
+        },
+        "JournalEntry": {
+          "Title": "Select Journal Entries",
+          "Hint": ""
+        },
+        "JournalEntryPage": {
+          "Title": "Select Journal Entry Pages",
+          "Hint": ""
+        },
+        "RegionBehavior": {
+          "Title": "Select Region Behaviors",
+          "Hint": "Enable/Disable these Region Behaviors"
+        },
+        "PermissionDocument": {
+          "Title": "Permission for Journal Entries",
+          "Hint": "When set to show set Document ownership to this level"
+        },
+        "PermissionPage": {
+          "Title": "Permission for Journal Entry Pages",
+          "Hint": "When set to show set Journal Entry Page ownership to this level"
+        },
+        "RegionUuids": {
+          "Title": "Then trigger these CCI Regions on Right Click",
+          "Hint": ""
+        }
+      },
+      "MapPinToggle": {
+        "Toggle": {
+          "Title": "Show",
+          "Hint": "Should this show or hide the the map note and documents"
+        },
+        "Document": {
+          "Title": "Select Documents",
+          "Hint": ""
+        },
+        "Note": {
+          "Title": "Map Notes",
+          "Hint": ""
+        },
+        "PermissionShow": {
+          "Title": "Show Permission",
+          "Hint": ""
+        },
+        "PermissionHide": {
+          "Title": "Hide Permission",
+          "Hint": ""
+        }
+      },
+      "OpenDocument": {
+        "Permission": {
+          "Title": "Can click if",
+          "Hint": ""
+        },
+        "Document": {
+          "Title": "Select Document",
+          "Hint": ""
+        },
+        "Anchor": {
+          "Title": "Optional Anchor",
+          "Hint": "If loading a JournalEntryPage jump to anchor"
+        }
+      },
+      "Permission": {
+        "Always": "Always",
+        "Document": "See Document",
+        "GM": "GM",
+        "SeeTile": "See Tile"
+      },
+      "ToScene": {
+        "Permission": {
+          "Title": "Can click if",
+          "Hint": ""
+        },
+        "Scene": {
+          "Title": "Select Scene",
+          "Hint": ""
+        },
+        "Tile": {
+          "Title": "Select Tile",
+          "Hint": "Select Tile that must be visible"
+        }
+      },
+      "TileToggle": {
+        "Toggle": {
+          "Title": "Show",
+          "Hint": "Should this show or hide the the tile and documents"
+        },
+        "Tile": {
+          "Title": "Select Tile",
+          "Hint": "Set visibility of these tiles"
+        },
+        "JournalEntry": {
+          "Title": "Select Journal Entries",
+          "Hint": ""
+        },
+        "JournalEntryPage": {
+          "Title": "Select Journal Entry Pages",
+          "Hint": ""
+        },
+        "RegionBehavior": {
+          "Title": "Select Region Behaviors",
+          "Hint": "Enable/Disable these Region Behaviors"
+        },
+        "PermissionDocument": {
+          "Title": "Permission for Journal Entries",
+          "Hint": "When set to show set Document ownership to this level"
+        },
+        "PermissionPage": {
+          "Title": "Permission for Journal Entry Pages",
+          "Hint": "When set to show set Journal Entry Page ownership to this level"
+        },
+        "RegionUuids": {
+          "Title": "Then trigger these CCI Regions on Right Click",
+          "Hint": ""
+        }
+      }
+    }
+  },
+  "TYPES": {
+    "RegionBehavior": {
+      "ChaosiumCanvasInterfaceDrawingToggle": "CCI: Drawing Toggle",
+      "ChaosiumCanvasInterfaceMapPinToggle": "CCI: Map Pin Toggle",
+      "ChaosiumCanvasInterfaceOpenDocument": "CCI: Open Document",
+      "ChaosiumCanvasInterfaceToScene": "CCI: To Scene",
+      "ChaosiumCanvasInterfaceTileToggle": "CCI: Tile Toggle"
     }
   }
 }
