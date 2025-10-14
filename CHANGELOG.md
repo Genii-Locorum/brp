@@ -1,5 +1,8 @@
 # CHANGE LOG
 
+## 13.1.47
+- Chaosium Canvas Interface Added thanks to James B
+
 ## 13.1.46
 - Fixed character sheet so the box doesn't cut through CHA when not using EDU
 - Added a game option under "Character Options" to opt to use wealth ratings (default) or use a cash value along with a label for it

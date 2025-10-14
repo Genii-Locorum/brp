@@ -806,6 +806,141 @@
       "priority": "Prioridad de ID del sistema",
       "summary": "Establece un identificador de grupo que permita encontrar la versión más reciente de este {type}. El ID del sistema debe usar la traducción al inglés de {type} para facilitar la localización en todos los idiomas.",
       "title": "Editar ID del sistema (BRPID)"
+    },
+"ChaosiumCanvasInterface": {
+      "DrawingToggle": {
+        "Toggle": {
+          "Title": "Espectáculo",
+          "Hint": "¿Esto debería mostrar u ocultar el dibujo y los documentos?"
+        },
+        "Drawing": {
+          "Title": "Seleccionar dibujo",
+          "Hint": "Establecer la visibilidad de estos dibujos"
+        },
+        "JournalEntry": {
+          "Title": "Seleccionar Asientos de Diario",
+          "Hint": ""
+        },
+        "JournalEntryPage": {
+          "Title": "Seleccionar páginas de asiento contable",
+          "Hint": ""
+        },
+        "RegionBehavior": {
+          "Title": "Seleccionar comportamientos de región",
+          "Hint": "Activar/Desactivar estos Comportamientos de Región"
+        },
+        "PermissionDocument": {
+          "Title": "Permiso para asientos contables",
+          "Hint": "Cuando se configura para mostrar, establecer la propiedad del documento a este nivel"
+        },
+        "PermissionPage": {
+          "Title": "Permiso para páginas de diario",
+          "Hint": "Cuando se establece para mostrar la propiedad de la página de entrada del diario a este nivel"
+        },
+        "RegionUuids": {
+          "Title": "Luego activa estas Regiones CCI con clic derecho",
+          "Hint": ""
+        }
+      },
+      "MapPinToggle": {
+        "Toggle": {
+          "Title": "Espectáculo",
+          "Hint": "¿Debería esto mostrar u ocultar la nota del mapa y los documentos?"
+        },
+        "Document": {
+          "Title": "Seleccionar documentos",
+          "Hint": ""
+        },
+        "Note": {
+          "Title": "Notas del mapa",
+          "Hint": ""
+        },
+        "PermissionShow": {
+          "Title": "Mostrar permisos",
+          "Hint": ""
+        },
+        "PermissionHide": {
+          "Title": "Ocultar permiso",
+          "Hint": ""
+        }
+      },
+      "OpenDocument": {
+        "Permission": {
+          "Title": "Puede hacer clic si",
+          "Hint": ""
+        },
+        "Document": {
+          "Title": "Seleccionar documento",
+          "Hint": ""
+        },
+        "Anchor": {
+          "Title": "Optional Anchor",
+          "Hint": "Si se carga una página de entrada de diario, saltar al ancla"
+        }
+      },
+      "Permission": {
+        "Always": "Siempre",
+        "Document": "Ver documento",
+        "GM": "GM",
+        "SeeTile": "Ver azulejo"
+      },
+      "ToScene": {
+        "Permission": {
+          "Title": "Puede hacer clic si",
+          "Hint": ""
+        },
+        "Scene": {
+          "Title": "Seleccionar escena",
+          "Hint": ""
+        },
+        "Tile": {
+          "Title": "Seleccionar ficha",
+          "Hint": "Selecciona la ficha que debe ser visible"
+        }
+      },
+      "TileToggle": {
+        "Toggle": {
+          "Title": "Espectáculo",
+          "Hint": "¿Debería esto mostrar u ocultar la baldosa y los documentos?"
+        },
+        "Tile": {
+          "Title": "Seleccionar Baldosa",
+          "Hint": "Establecer la visibilidad de estas teselas"
+        },
+        "JournalEntry": {
+          "Title": "Seleccionar Asientos de Diario",
+          "Hint": ""
+        },
+        "JournalEntryPage": {
+          "Title": "Seleccionar páginas de asiento contable",
+          "Hint": ""
+        },
+        "RegionBehavior": {
+          "Title": "Seleccionar comportamientos de la región",
+          "Hint": "Activar/Desactivar estos Comportamientos de Región"
+        },
+        "PermissionDocument": {
+          "Title": "Permiso para asientos contables",
+          "Hint": "Cuando se configura para mostrar, establecer la propiedad del documento a este nivel"
+        },
+        "PermissionPage": {
+          "Title": "Permiso para páginas de diario",
+          "Hint": "Cuando se establece para mostrar la propiedad de la página de entrada del diario a este nivel"
+        },
+        "RegionUuids": {
+          "Title": "Luego activa estas Regiones CCI con clic derecho",
+          "Hint": ""
+        }
+      }
+    }
+  },
+  "TYPES": {
+    "RegionBehavior": {
+      "ChaosiumCanvasInterfaceDrawingToggle": "CCI: Alternar dibujo",
+      "ChaosiumCanvasInterfaceMapPinToggle": "CCI: Alternar marcador del mapa",
+      "ChaosiumCanvasInterfaceOpenDocument": "CCI: Abrir documento",
+      "ChaosiumCanvasInterfaceToScene": "CCI: A la escena",
+      "ChaosiumCanvasInterfaceTileToggle": "CCI: Alternar Baldosa"
     }
   }
 }
