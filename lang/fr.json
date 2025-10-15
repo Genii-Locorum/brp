@@ -933,14 +933,15 @@
                 "Hint": ""
             }
         }
-    },
-    "TYPES": {
-        "RegionBehavior": {
-            "ChaosiumCanvasInterfaceDrawingToggle": "CCI : Basculer le dessin",
-            "ChaosiumCanvasInterfaceMapPinToggle": "CCI : Basculer l'épingle de carte",
-            "ChaosiumCanvasInterfaceOpenDocument": "CCI : Ouvrir le document",
-            "ChaosiumCanvasInterfaceToScene": "CCI : Vers la scène",
-            "ChaosiumCanvasInterfaceTileToggle": "CCI : Basculer la tuile"
-        }
     }
+  },
+  "TYPES": {
+    "RegionBehavior": {
+        "ChaosiumCanvasInterfaceDrawingToggle": "CCI : Basculer le dessin",
+        "ChaosiumCanvasInterfaceMapPinToggle": "CCI : Basculer l'épingle de carte",
+        "ChaosiumCanvasInterfaceOpenDocument": "CCI : Ouvrir le document",
+        "ChaosiumCanvasInterfaceToScene": "CCI : Vers la scène",
+        "ChaosiumCanvasInterfaceTileToggle": "CCI : Basculer la tuile"
+    }
+  }
 }
