@@ -49,6 +49,11 @@
       "lang": "es",
       "name": "Español (Spanish)",
       "path": "lang/es.json"
+    },
+    {
+      "lang": "fr",
+      "name": "Français",
+      "path": "lang/fr.json"
     }
   ],
   "grid": {
