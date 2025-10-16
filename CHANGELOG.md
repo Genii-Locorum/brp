@@ -1,5 +1,10 @@
 # CHANGE LOG
 
+## 13.1.48
+- French language pack added thanks to Vonv
+- A default scene will be created for new worlds (to help with using GM tools) - thanks to James B
+- A Dark/Light mode macro has been added (to help with testing) - thanks to James B
+
 ## 13.1.47
 - Chaosium Canvas Interface Added thanks to James B
 
