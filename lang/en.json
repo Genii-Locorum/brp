@@ -809,7 +809,16 @@
       "title": "Edit System ID (BRPID)"
     },
     "ChaosiumCanvasInterface": {
+      "Buttons": {
+        "Both": "Both Mouse Buttons",
+        "Left": "Left Mouse Button",
+        "Right": "Right Mouse Button"
+      },
       "DrawingToggle": {
+        "Button": {
+          "Title": "Mouse Button",
+          "Hint": "Which button should trigger this behavior"
+        },
         "Toggle": {
           "Title": "Show",
           "Hint": "Should this show or hide the the drawing and documents"
@@ -834,16 +843,36 @@
           "Title": "Permission for Journal Entries",
           "Hint": "When set to show set Document ownership to this level"
         },
+        "PermissionDocumentHide": {
+          "Title": "Hide Permission for Journal Entries",
+          "Hint": "When set to hide set Document ownership to this level"
+        },
         "PermissionPage": {
           "Title": "Permission for Journal Entry Pages",
           "Hint": "When set to show set Journal Entry Page ownership to this level"
         },
-        "RegionUuids": {
-          "Title": "Then trigger these CCI Regions on Right Click",
+        "PermissionPageHide": {
+          "Title": "Hide Permission for Journal Entry Pages",
+          "Hint": "When set to hide set Journal Entry Page ownership to this level"
+        },
+        "TriggerButton": {
+          "Title": "Trigger Region Button",
+          "Hint": "If Mouse Button is Both, and this button is used trigger the following region"
+        },
+        "TriggerRegionUuids": {
+          "Title": "Trigger This Region",
+          "Hint": ""
+        },
+        "TriggerAsButton": {
+          "Title": "With A Button Click",
           "Hint": ""
         }
       },
       "MapPinToggle": {
+        "Button": {
+          "Title": "Mouse Button",
+          "Hint": "Which button should trigger this behavior"
+        },
         "Toggle": {
           "Title": "Show",
           "Hint": "Should this show or hide the the map note and documents"
@@ -866,6 +895,10 @@
         }
       },
       "OpenDocument": {
+        "Button": {
+          "Title": "Mouse Button",
+          "Hint": "Which button should trigger this behavior"
+        },
         "Permission": {
           "Title": "Can click if",
           "Hint": ""
@@ -885,7 +918,29 @@
         "GM": "GM",
         "SeeTile": "See Tile"
       },
+      "PlaySound": {
+        "Button": {
+          "Title": "Mouse Button",
+          "Hint": "Which button should trigger this behavior"
+        },
+        "Playlist": {
+          "Title": "Select Playlist",
+          "Hint": ""
+        },
+        "Sound": {
+          "Title": "Select Playlist Sound",
+          "Hint": ""
+        },
+        "Toggle": {
+          "Title": "Play",
+          "Hint": "Should this play or stop playback"
+        }
+      },
       "ToScene": {
+        "Button": {
+          "Title": "Mouse Button",
+          "Hint": "Which button should trigger this behavior"
+        },
         "Permission": {
           "Title": "Can click if",
           "Hint": ""
@@ -900,6 +955,10 @@
         }
       },
       "TileToggle": {
+        "Button": {
+          "Title": "Mouse Button",
+          "Hint": "Which button should trigger this behavior"
+        },
         "Toggle": {
           "Title": "Show",
           "Hint": "Should this show or hide the the tile and documents"
@@ -924,12 +983,28 @@
           "Title": "Permission for Journal Entries",
           "Hint": "When set to show set Document ownership to this level"
         },
+        "PermissionDocumentHide": {
+          "Title": "Hide Permission for Journal Entries",
+          "Hint": "When set to hide set Document ownership to this level"
+        },
         "PermissionPage": {
           "Title": "Permission for Journal Entry Pages",
           "Hint": "When set to show set Journal Entry Page ownership to this level"
         },
-        "RegionUuids": {
-          "Title": "Then trigger these CCI Regions on Right Click",
+        "PermissionPageHide": {
+          "Title": "Hide Permission for Journal Entry Pages",
+          "Hint": "When set to hide set Journal Entry Page ownership to this level"
+        },
+        "TriggerButton": {
+          "Title": "Trigger Region Button",
+          "Hint": "If Mouse Button is Both, and this button is used trigger the following region"
+        },
+        "TriggerRegionUuids": {
+          "Title": "Trigger This Region",
+          "Hint": ""
+        },
+        "TriggerAsButton": {
+          "Title": "With A Button Click",
           "Hint": ""
         }
       }
@@ -940,6 +1015,7 @@
       "ChaosiumCanvasInterfaceDrawingToggle": "CCI: Drawing Toggle",
       "ChaosiumCanvasInterfaceMapPinToggle": "CCI: Map Pin Toggle",
       "ChaosiumCanvasInterfaceOpenDocument": "CCI: Open Document",
+      "ChaosiumCanvasInterfacePlaySound": "CCI: Play Sound",
       "ChaosiumCanvasInterfaceToScene": "CCI: To Scene",
       "ChaosiumCanvasInterfaceTileToggle": "CCI: Tile Toggle"
     }

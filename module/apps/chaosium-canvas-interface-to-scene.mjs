@@ -16,6 +16,12 @@ export default class ChaosiumCanvasInterfaceToScene extends ChaosiumCanvasInterf
   static defineSchema () {
     const fields = foundry.data.fields
     return {
+      triggerButton: new fields.NumberField({
+        choices: ChaosiumCanvasInterface.triggerButtons,
+        initial: ChaosiumCanvasInterface.triggerButton.Left,
+        label: 'BRP.ChaosiumCanvasInterface.ToScene.Button.Title',
+        hint: 'BRP.ChaosiumCanvasInterface.ToScene.Button.Hint'
+      }),
       permission: new fields.StringField({
         blank: false,
         choices: Object.keys(ChaosiumCanvasInterfaceToScene.PERMISSIONS).reduce((c, k) => { c[k] = game.i18n.localize(ChaosiumCanvasInterfaceToScene.PERMISSIONS[k]); return c }, {}),
@@ -54,16 +60,26 @@ export default class ChaosiumCanvasInterfaceToScene extends ChaosiumCanvasInterf
     return false
   }
 
-  async _handleLeftClickEvent () {
-    if (this.sceneUuid) {
-      const doc = await fromUuid(this.sceneUuid)
-      if (doc) {
-        setTimeout(() => {
-          doc.view()
-        }, 100)
-      } else {
-        console.error('Scene ' + this.sceneUuid + ' not loaded')
-      }
+  async #handleClickEvent () {
+    const doc = await fromUuid(this.sceneUuid)
+    if (doc) {
+      setTimeout(() => {
+        doc.view()
+      }, 100)
+    } else {
+      console.error('Scene ' + this.sceneUuid + ' not loaded')
+    }
+  }
+
+  async _handleLeftClickEvent() {
+    if (this.sceneUuid && this.triggerButton === ChaosiumCanvasInterface.triggerButton.Left) {
+      this.#handleClickEvent()
+    }
+  }
+
+  async _handleRightClickEvent() {
+    if (this.sceneUuid && this.triggerButton === ChaosiumCanvasInterface.triggerButton.Right) {
+      this.#handleClickEvent()
     }
   }
 }
