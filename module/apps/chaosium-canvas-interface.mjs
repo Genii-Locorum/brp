@@ -1,4 +1,18 @@
 export default class ChaosiumCanvasInterface extends foundry.data.regionBehaviors.RegionBehaviorType {
+  static get triggerButtons () {
+    return {
+      [ChaosiumCanvasInterface.triggerButton.Left]: 'BRP.ChaosiumCanvasInterface.Buttons.Left',
+      [ChaosiumCanvasInterface.triggerButton.Right]: 'BRP.ChaosiumCanvasInterface.Buttons.Right'
+    }
+  }
+
+  static get triggerButton () {
+    return {
+      Left: 0,
+      Right: 2
+    }
+  }
+
   static initSelf () {
     const oldOnClickLeft = foundry.canvas.layers.TokenLayer.prototype._onClickLeft
     foundry.canvas.layers.TokenLayer.prototype._onClickLeft = function (event) {

@@ -6,9 +6,8 @@ import { BRPUtilities } from "./apps/utilities.mjs"
 import { BRPMenu } from "./setup/menu.mjs"
 import * as Chat from "./apps/chat.mjs";
 import Init from './hooks/init.mjs';
-import renderSceneControls from "./hooks/render-scene-controls.mjs";
-
-
+import renderSceneControls from "./hooks/render-scene-controls.mjs"
+import RenderRegionConfig from './hooks/render-region-config.mjs'
 
 Hooks.once('init', Init);
 
@@ -55,5 +54,4 @@ BRPHooks.listen()
 Hooks.on('getSceneControlButtons', BRPMenu.getButtons)
 Hooks.on('renderSceneControls', renderSceneControls)
 Hooks.on('renderActorSheet', BRPCharacterSheet.renderSheet)
-
-
+Hooks.on('renderRegionConfig', RenderRegionConfig)
