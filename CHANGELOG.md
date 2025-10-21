@@ -1,5 +1,8 @@
 # CHANGE LOG
 
+## 13.1.49
+- Additional Chaosium Canvas Interface options added
+
 ## 13.1.48
 - French language pack added thanks to Vonv
 - A default scene will be created for new worlds (to help with using GM tools) - thanks to James B
