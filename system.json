@@ -71,6 +71,7 @@
   ],
   "documentTypes": {
     "RegionBehavior": {
+      "ChaosiumCanvasInterfaceAmbientLightToggle": {},
       "ChaosiumCanvasInterfaceDrawingToggle": {},
       "ChaosiumCanvasInterfaceMapPinToggle": {},
       "ChaosiumCanvasInterfaceOpenDocument": {},
