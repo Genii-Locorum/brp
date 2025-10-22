@@ -3,8 +3,8 @@ import ChaosiumCanvasInterface from "./chaosium-canvas-interface.mjs";
 export default class ChaosiumCanvasInterfacePlaySound extends ChaosiumCanvasInterface {
   static get actionToggles () {
     const buttons = super.actionToggles
-    buttons[ChaosiumCanvasInterface.actionToggle.On] = 'AOV.ChaosiumCanvasInterface.PlaySound.Action.Play'
-    buttons[ChaosiumCanvasInterface.actionToggle.Off] = 'AOV.ChaosiumCanvasInterface.PlaySound.Action.Stop'
+    buttons[ChaosiumCanvasInterface.actionToggle.On] = 'BRP.ChaosiumCanvasInterface.PlaySound.Action.Play'
+    buttons[ChaosiumCanvasInterface.actionToggle.Off] = 'BRP.ChaosiumCanvasInterface.PlaySound.Action.Stop'
     return buttons
   }
 
@@ -24,8 +24,8 @@ export default class ChaosiumCanvasInterfacePlaySound extends ChaosiumCanvasInte
       action: new fields.NumberField({
         choices: ChaosiumCanvasInterfacePlaySound.actionToggles,
         initial: ChaosiumCanvasInterface.actionToggle.Off,
-        label: 'AOV.ChaosiumCanvasInterface.PlaySound.Action.Title',
-        hint: 'AOV.ChaosiumCanvasInterface.PlaySound.Action.Hint',
+        label: 'BRP.ChaosiumCanvasInterface.PlaySound.Action.Title',
+        hint: 'BRP.ChaosiumCanvasInterface.PlaySound.Action.Hint',
         required: true
       }),
       playlistUuid: new fields.DocumentUUIDField({

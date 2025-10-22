@@ -27,8 +27,8 @@ export default class ChaosiumCanvasInterfaceMapPinToggle extends ChaosiumCanvasI
       action: new fields.NumberField({
         choices: ChaosiumCanvasInterface.actionToggles,
         initial: ChaosiumCanvasInterface.actionToggle.Off,
-        label: 'AOV.ChaosiumCanvasInterface.MapPinToggle.Action.Title',
-        hint: 'AOV.ChaosiumCanvasInterface.MapPinToggle.Action.Hint',
+        label: 'BRP.ChaosiumCanvasInterface.MapPinToggle.Action.Title',
+        hint: 'BRP.ChaosiumCanvasInterface.MapPinToggle.Action.Hint',
         required: true
       }),
       noteUuids: new fields.SetField(

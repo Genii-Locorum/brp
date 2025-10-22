@@ -39,8 +39,8 @@ export default class ChaosiumCanvasInterfaceDrawingToggle extends ChaosiumCanvas
       action: new fields.NumberField({
         choices: ChaosiumCanvasInterface.actionToggles,
         initial: ChaosiumCanvasInterface.actionToggle.Off,
-        label: 'AOV.ChaosiumCanvasInterface.DrawingToggle.Action.Title',
-        hint: 'AOV.ChaosiumCanvasInterface.DrawingToggle.Action.Hint',
+        label: 'BRP.ChaosiumCanvasInterface.DrawingToggle.Action.Title',
+        hint: 'BRP.ChaosiumCanvasInterface.DrawingToggle.Action.Hint',
         required: true
       }),
       drawingUuids: new fields.SetField(

@@ -4,8 +4,8 @@ import ChaosiumCanvasInterface from './chaosium-canvas-interface.mjs'
 export default class ChaosiumCanvasInterfaceAmbientLightToggle extends ChaosiumCanvasInterface {
   static get actionToggles () {
     const buttons = super.actionToggles
-    buttons[ChaosiumCanvasInterface.actionToggle.On] = 'AOV.ChaosiumCanvasInterface.AmbientLightToggle.Action.On'
-    buttons[ChaosiumCanvasInterface.actionToggle.Off] = 'AOV.ChaosiumCanvasInterface.AmbientLightToggle.Action.Off'
+    buttons[ChaosiumCanvasInterface.actionToggle.On] = 'BRP.ChaosiumCanvasInterface.AmbientLightToggle.Action.On'
+    buttons[ChaosiumCanvasInterface.actionToggle.Off] = 'BRP.ChaosiumCanvasInterface.AmbientLightToggle.Action.Off'
     return buttons
   }
 
@@ -19,14 +19,14 @@ export default class ChaosiumCanvasInterfaceAmbientLightToggle extends ChaosiumC
       triggerButton: new fields.NumberField({
         choices: ChaosiumCanvasInterface.triggerButtons,
         initial: ChaosiumCanvasInterface.triggerButton.Left,
-        label: 'AOV.ChaosiumCanvasInterface.AmbientLightToggle.Button.Title',
-        hint: 'AOV.ChaosiumCanvasInterface.AmbientLightToggle.Button.Hint'
+        label: 'BRP.ChaosiumCanvasInterface.AmbientLightToggle.Button.Title',
+        hint: 'BRP.ChaosiumCanvasInterface.AmbientLightToggle.Button.Hint'
       }),
       action: new fields.NumberField({
         choices: ChaosiumCanvasInterfaceAmbientLightToggle.actionToggles,
         initial: ChaosiumCanvasInterface.actionToggle.Off,
-        label: 'AOV.ChaosiumCanvasInterface.AmbientLightToggle.Action.Title',
-        hint: 'AOV.ChaosiumCanvasInterface.AmbientLightToggle.Action.Hint',
+        label: 'BRP.ChaosiumCanvasInterface.AmbientLightToggle.Action.Title',
+        hint: 'BRP.ChaosiumCanvasInterface.AmbientLightToggle.Action.Hint',
         required: true
       }),
       lightUuids: new fields.SetField(
@@ -34,8 +34,8 @@ export default class ChaosiumCanvasInterfaceAmbientLightToggle extends ChaosiumC
           type: 'AmbientLight'
         }),
         {
-          label: 'AOV.ChaosiumCanvasInterface.AmbientLightToggle.Light.Title',
-          hint: 'AOV.ChaosiumCanvasInterface.AmbientLightToggle.Light.Hint'
+          label: 'BRP.ChaosiumCanvasInterface.AmbientLightToggle.Light.Title',
+          hint: 'BRP.ChaosiumCanvasInterface.AmbientLightToggle.Light.Hint'
         }
       )
     }

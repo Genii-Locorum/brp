@@ -1,9 +1,9 @@
 export default class ChaosiumCanvasInterface extends foundry.data.regionBehaviors.RegionBehaviorType {
   static get actionToggles () {
     return {
-      [ChaosiumCanvasInterface.actionToggle.On]: 'AOV.ChaosiumCanvasInterface.Actions.Show',
-      [ChaosiumCanvasInterface.actionToggle.Off]: 'AOV.ChaosiumCanvasInterface.Actions.Hide',
-      [ChaosiumCanvasInterface.actionToggle.Toggle]: 'AOV.ChaosiumCanvasInterface.Actions.Toggle'
+      [ChaosiumCanvasInterface.actionToggle.On]: 'BRP.ChaosiumCanvasInterface.Actions.Show',
+      [ChaosiumCanvasInterface.actionToggle.Off]: 'BRP.ChaosiumCanvasInterface.Actions.Hide',
+      [ChaosiumCanvasInterface.actionToggle.Toggle]: 'BRP.ChaosiumCanvasInterface.Actions.Toggle'
     }
   }
 
