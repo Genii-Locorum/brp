@@ -931,6 +931,12 @@
           "Title": "Luego activa estas Regiones CCI con clic derecho",
           "Hint": ""
         }
+      },
+      "AmbientLightToggle": {
+        "Light": {
+          "Title": "Luz ambiental",
+          "Hint": ""
+        }
       }
     }
   },

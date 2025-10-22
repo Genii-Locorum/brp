@@ -932,8 +932,14 @@
                 "Title": "Déclencher ces régions CCI lors du clic droit",
                 "Hint": ""
             }
+        },
+        "AmbientLightToggle": {
+          "Light": {
+            "Title": "Lumière ambiante",
+            "Hint": ""
+          }
         }
-    }
+      }
   },
   "TYPES": {
     "RegionBehavior": {
