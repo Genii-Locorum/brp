@@ -940,7 +940,8 @@
       "ChaosiumCanvasInterfaceMapPinToggle": "CCI: Alternar marcador del mapa",
       "ChaosiumCanvasInterfaceOpenDocument": "CCI: Abrir documento",
       "ChaosiumCanvasInterfaceToScene": "CCI: A la escena",
-      "ChaosiumCanvasInterfaceTileToggle": "CCI: Alternar Baldosa"
+      "ChaosiumCanvasInterfaceTileToggle": "CCI: Alternar Baldosa",
+      "ChaosiumCanvasInterfaceAmbientLightToggle": "CCI: Alternar Luz"
     }
   }
 }

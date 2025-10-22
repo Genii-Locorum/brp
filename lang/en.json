@@ -1007,6 +1007,12 @@
           "Title": "With A Button Click",
           "Hint": ""
         }
+      },
+      "AmbientLightToggle": {
+        "Light": {
+          "Title": "Ambient Light",
+          "Hint": ""
+        }
       }
     }
   },
@@ -1017,7 +1023,8 @@
       "ChaosiumCanvasInterfaceOpenDocument": "CCI: Open Document",
       "ChaosiumCanvasInterfacePlaySound": "CCI: Play Sound",
       "ChaosiumCanvasInterfaceToScene": "CCI: To Scene",
-      "ChaosiumCanvasInterfaceTileToggle": "CCI: Tile Toggle"
+      "ChaosiumCanvasInterfaceTileToggle": "CCI: Tile Toggle",
+      "ChaosiumCanvasInterfaceAmbientLightToggle": "CCI: Light Toggle"
     }
   }
 }

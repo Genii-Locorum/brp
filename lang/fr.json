@@ -941,7 +941,8 @@
         "ChaosiumCanvasInterfaceMapPinToggle": "CCI : Basculer l'épingle de carte",
         "ChaosiumCanvasInterfaceOpenDocument": "CCI : Ouvrir le document",
         "ChaosiumCanvasInterfaceToScene": "CCI : Vers la scène",
-        "ChaosiumCanvasInterfaceTileToggle": "CCI : Basculer la tuile"
+        "ChaosiumCanvasInterfaceTileToggle": "CCI : Basculer la tuile",
+        "ChaosiumCanvasInterfaceAmbientLightToggle": "CCI: Basculer la lumière"
     }
   }
 }

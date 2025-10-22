@@ -76,7 +76,8 @@
       "ChaosiumCanvasInterfaceOpenDocument": {},
       "ChaosiumCanvasInterfacePlaySound": {},
       "ChaosiumCanvasInterfaceToScene": {},
-      "ChaosiumCanvasInterfaceTileToggle": {}
+      "ChaosiumCanvasInterfaceTileToggle": {},
+      "ChaosiumCanvasInterfaceAmbientLightToggle": {}
     }
   },
   "primaryTokenAttribute": "health",

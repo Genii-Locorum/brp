@@ -5,6 +5,7 @@ import ChaosiumCanvasInterfacePlaySound from "./chaosium-canvas-interface-play-s
 import ChaosiumCanvasInterfaceToScene from "./chaosium-canvas-interface-to-scene.mjs";
 import ChaosiumCanvasInterfaceTileToggle from "./chaosium-canvas-interface-tile-toggle.mjs";
 import ChaosiumCanvasInterface from "./chaosium-canvas-interface.mjs";
+import ChaosiumCanvasInterfaceAmbientLightToggle from "./chaosium-canvas-interface-ambient-light-toggle.mjs";
 
 export default class ChaosiumCanvasInterfaceInit extends ChaosiumCanvasInterface {
   static initSelf () {
@@ -14,7 +15,8 @@ export default class ChaosiumCanvasInterfaceInit extends ChaosiumCanvasInterface
       ChaosiumCanvasInterfaceOpenDocument,
       ChaosiumCanvasInterfacePlaySound,
       ChaosiumCanvasInterfaceToScene,
-      ChaosiumCanvasInterfaceTileToggle
+      ChaosiumCanvasInterfaceTileToggle,
+      ChaosiumCanvasInterfaceAmbientLightToggle
     ]
 
     super.initSelf()
