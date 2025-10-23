@@ -809,6 +809,27 @@
       "title": "Edit System ID (BRPID)"
     },
     "ChaosiumCanvasInterface": {
+      "Actions": {
+        "Hide": "Hide",
+        "Show": "Show",
+        "Toggle": "Toggle"
+      },
+      "AmbientLightToggle": {
+        "Button": {
+          "Title": "Mouse Button",
+          "Hint": "Which button should trigger this behavior"
+        },
+        "Action": {
+          "Title": "Action",
+          "Hint": "Should this turn on/off or toggle the lights",
+          "Off": "Off",
+          "On": "On"
+        },
+        "Light": {
+          "Title": "Select Light Sources",
+          "Hint": ""
+        }
+      },
       "Buttons": {
         "Both": "Both Mouse Buttons",
         "Left": "Left Mouse Button",
@@ -819,9 +840,9 @@
           "Title": "Mouse Button",
           "Hint": "Which button should trigger this behavior"
         },
-        "Toggle": {
-          "Title": "Show",
-          "Hint": "Should this show or hide the the drawing and documents"
+        "Action": {
+          "Title": "Action",
+          "Hint": "Should this show, hide, or toggle the drawing and documents"
         },
         "Drawing": {
           "Title": "Select Drawing",
@@ -873,9 +894,9 @@
           "Title": "Mouse Button",
           "Hint": "Which button should trigger this behavior"
         },
-        "Toggle": {
-          "Title": "Show",
-          "Hint": "Should this show or hide the the map note and documents"
+        "Action": {
+          "Title": "Action",
+          "Hint": "Should this show, hide, or toggle the map pin and documents"
         },
         "Document": {
           "Title": "Select Documents",
@@ -931,9 +952,11 @@
           "Title": "Select Playlist Sound",
           "Hint": ""
         },
-        "Toggle": {
-          "Title": "Play",
-          "Hint": "Should this play or stop playback"
+        "Action": {
+          "Title": "Action",
+          "Hint": "Should this play, stop, or toggle playback",
+          "Play": "Play",
+          "Stop": "Stop"
         }
       },
       "ToScene": {
@@ -959,9 +982,9 @@
           "Title": "Mouse Button",
           "Hint": "Which button should trigger this behavior"
         },
-        "Toggle": {
-          "Title": "Show",
-          "Hint": "Should this show or hide the the tile and documents"
+        "Action": {
+          "Title": "Action",
+          "Hint": "Should this show, hide, or toggle the tile and documents"
         },
         "Tile": {
           "Title": "Select Tile",
@@ -1012,6 +1035,7 @@
   },
   "TYPES": {
     "RegionBehavior": {
+      "ChaosiumCanvasInterfaceAmbientLightToggle": "CCI: Light Toggle",
       "ChaosiumCanvasInterfaceDrawingToggle": "CCI: Drawing Toggle",
       "ChaosiumCanvasInterfaceMapPinToggle": "CCI: Map Pin Toggle",
       "ChaosiumCanvasInterfaceOpenDocument": "CCI: Open Document",
