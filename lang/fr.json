@@ -542,12 +542,12 @@
     "time": "Temps",
     "title": "Titre",
     "tokenCreationRoll": {
-        "averaged": "Caractéristiques de {name} moyennées",
-        "buttonAverage": "Moyenne",
-        "buttonRoll": "Lancer",
-        "prompt": "Ce jeton a des caractéristiques à lancer.<br>Que souhaitez-vous faire ?",
-        "rolled": "Caractéristiques de {name} lancées",
-        "title": "Lancers détectés"
+      "averaged": "Caractéristiques de {name} moyennées",
+      "buttonAverage": "Moyenne",
+      "buttonRoll": "Lancer",
+      "prompt": "Ce jeton a des caractéristiques à lancer.<br>Que souhaitez-vous faire ?",
+      "rolled": "Caractéristiques de {name} lancées",
+      "title": "Lancers détectés"
     },
     "total": "Total",
     "totalENC": "ENC total",
@@ -571,11 +571,11 @@
     "vsPOW": "vs valeur de POU",
     "wealth": "Richesse",
     "wealthLevel": {
-        "0": "Démuni",
-        "1": "Pauvre",
-        "2": "Moyen",
-        "3": "Aisé",
-        "4": "Riche"
+      "0": "Démuni",
+      "1": "Pauvre",
+      "2": "Moyen",
+      "3": "Aisé",
+      "4": "Riche"
     },
     "weapon": "Arme",
     "weaponNeedsSkill": "Veuillez attribuer une compétence de combat à cette arme avant de l'ajouter à un personnage",
@@ -594,354 +594,455 @@
     "xpRoll": "Jets d'amélioration",
     "zcmbtmod": "Combat",
     "resultLevel": {
-        "0": "Fumble",
-        "1": "Échec",
-        "2": "Réussite",
-        "3": "Spécial",
-        "4": "Critique"
+      "0": "Fumble",
+      "1": "Échec",
+      "2": "Réussite",
+      "3": "Spécial",
+      "4": "Critique"
     },
     "card": {
-        "NO": "Jet normal",
-        "PP": "POU vs POU",
-        "RE": "Jet de résistance",
-        "GR": "Jet combiné",
-        "OP": "Jet opposé",
-        "CO": "Jet coopératif",
-        "DM": "Jet de dégâts",
-        "CM": "Jet d'attaque",
-        "AR": "Jet d'armure",
-        "CB": "Jet de combat",
-        "IM": "Impact du sort de magie",
-        "QC": "Combat rapide"
+      "NO": "Jet normal",
+      "PP": "POU vs POU",
+      "RE": "Jet de résistance",
+      "GR": "Jet combiné",
+      "OP": "Jet opposé",
+      "CO": "Jet coopératif",
+      "DM": "Jet de dégâts",
+      "CM": "Jet d'attaque",
+      "AR": "Jet d'armure",
+      "CB": "Jet de combat",
+      "IM": "Impact du sort de magie",
+      "QC": "Combat rapide"
     },
     "ErrorRollNotFound": "Type de jet non trouvé !",
     "Settings": {
-        "actorBackColour": "Couleur de fond de la fiche de personnage",
-        "actorBackColourHint": "Couleur principale de fond de la fiche de personnage",
-        "actorBRPID": "Ajouter un BRPID à l'acteur",
-        "actorBRPIDHint": "Ajouter automatiquement un BRPID aux acteurs (personnages et PNJ) lors de leur création",
-        "actorFontColour": "Couleur de police de la fiche de personnage",
-        "actorFontColourHint": "Couleur de la plupart des textes, etc., sur la fiche de personnage",
-        "actorRollableColour": "Couleur de police des éléments cliquables de la fiche de personnage",
-        "actorRollableColourHint": "Couleur du texte cliquable ou d'autres éléments surlignables sur la fiche de personnage",
-        "actorRollableShadowColour": "Couleur de l'ombre des éléments cliquables de la fiche de personnage",
-        "actorRollableShadowColourHint": "Couleur de l'ombre du texte cliquable ou d'autres éléments surlignables sur la fiche de personnage",
-        "actorSheetBackground": "Image de fond de la fiche de personnage",
-        "actorSheetBackgroundHint": "Ajouter une image de fond à la fiche de personnage",
-        "actorTabActiveShadowColour": "Couleur de l'ombre de l'onglet actif",
-        "actorTabActiveShadowColourHint": "Couleur de l'ombre de l'onglet actif sur la fiche de personnage",
-        "actorTabNameActiveColour": "Couleur de police de l'onglet actif",
-        "actorTabNameActiveColourHint": "Couleur du nom de l'onglet actif sur la fiche de personnage",
-        "actorTabNameColour": "Couleur de police de la barre d'onglets",
-        "actorTabNameColourHint": "Couleur de la police sur la barre d'onglets de la fiche de personnage",
-        "actorTabNameHoverColour": "Couleur de survol de la barre d'onglets",
-        "actorTabNameHoverColourHint": "Couleur de la police lors du survol de la barre d'onglets de la fiche de personnage",
-        "actorTabNameShadowColour": "Couleur de l'ombre de survol de la barre d'onglets",
-        "actorTabNameShadowColourHint": "Couleur de l'ombre lors du survol de la barre d'onglets de la fiche de personnage",
-        "actorTitleColour": "Couleur du titre de la fiche de personnage",
-        "actorTitleColourHint": "Couleur des titres (ex. Personnel, Points de vie, Catégories de compétences) sur la fiche de personnage",
-        "allowImp": "Autoriser les jets impossibles",
-        "allowImpHint": "Autoriser les jets impossibles, qui ne réussissent que sur un 01",
-        "autoXP": "Cocher automatiquement le jet d'XP",
-        "autoXPHint": "Définir quand cocher automatiquement le jet d'XP",
-        "background1": "Origine #1",
-        "background2": "Origine #2",
-        "background3": "Origine #3",
-        "backgroundHint": "Titre de cette section d'origine du personnage",
-        "brpidOptions": "Options de BRPID",
-        "brpidOptionsHint": "Modifier les paramètres de BRPID",
-        "charOptions": "Options de personnage",
-        "charOptionsHint": "Configurer les paramètres du personnage",
-        "charSheetLogo": "Logo de la fiche de personnage",
-        "charSheetLogoHint": "Sélectionner le logo à placer en haut au centre de la fiche de personnage",
-        "charSheetMainFont": "Police principale de la fiche de personnage",
-        "charSheetMainFontHint": "Changer la police principale de la fiche de personnage",
-        "charSheetMainFontSize": "Taille de la police principale de la fiche de personnage",
-        "charSheetMainFontSizeHint": "Changer la taille en pixels de la police principale de la fiche de personnage",
-        "charSheetTitleFont": "Police des titres de la fiche de personnage",
-        "charSheetTitleFontHint": "Changer la police des titres de la fiche de personnage",
-        "charSheetTitleFontSize": "Taille de la police des titres de la fiche de personnage",
-        "charSheetTitleFontSizeHint": "Changer la taille en pixels de la police des titres de la fiche de personnage",
-        "combatOptions": "Paramètres de combat",
-        "combatOptionsHint": "Définir les options de combat et d'initiative",
-        "diceOptions": "Paramètres optionnels des lancers de dés",
-        "diceOptionsHint": "Personnaliser les options des lancers de dés",
-        "diffValue": "Entrez la valeur de difficulté",
-        "diffValueHint": "Entrez le multiplicateur de difficulté des jets plutôt que de sélectionner un niveau",
-        "displayOptions": "Options d'affichage",
-        "displayOptionsHint": "Changer les couleurs, polices, etc.",
-        "displayNONE": "Aucun",
-        "displayALWAYS": "Toujours",
-        "displayCONTROL": "Lorsqu'il est contrôlé",
-        "displayOWNER": "MJ et propriétaire",
-        "displayHOVER": "Tout utilisateur au survol",
-        "displayOWNER_HOVER": "MJ et propriétaire, au survol",
-        "firstAidBRPID": "BRPID des premiers secours",
-        "firstAidBRPIDHint": "Entrez le BRPID pour la compétence Premiers secours",
-        "fpLabelLong": "Libellé des points de fatigue",
-        "fpLabelLongHint": "Entrez un libellé alternatif pour les points de fatigue",
-        "fpLabelShort": "Abréviation du libellé des points de fatigue",
-        "fpLabelShortHint": "Entrez une abréviation pour le libellé alternatif des points de fatigue",
-        "gameMods": "Modificateurs de jeu",
-        "gameModsHint": "Modificateurs divers du jeu",
-        "hpLabelLong": "Libellé des points de vie",
-        "hpLabelLongHint": "Entrez un libellé alternatif pour les points de vie",
-        "hpLabelShort": "Abréviation du libellé des points de vie",
-        "hpLabelShortHint": "Entrez une abréviation pour le libellé alternatif des points de vie",
-        "hpMod": "Modificateur de points de vie",
-        "hpModHint": "Pour les personnages : 1 = par défaut, 1.5 augmente les PV de 50 %, 2 = double",
-        "initMod": "Modificateur d'initiative",
-        "initModHint": "Entrez le modificateur d'initiative (ex. +3, +1D3, *2)",
-        "initRound": "Relancer l'initiative",
-        "initRoundHint": "Relancer l'initiative à chaque round de combat — non, manuellement ou automatiquement",
-        "initStat": "Statistique d'initiative",
-        "initStatHint": "Choisissez la statistique sur laquelle est basée l'initiative (utilisez Fixe pour aucune statistique)",
-        "itemBRPID": "Ajouter un BRPID à l'objet",
-        "itemBRPIDHint": "Ajouter automatiquement un BRPID aux objets lors de leur création",
-        "magicLabel": "Titre de l'onglet Magie",
-        "magicLabelHint": "Titre pour remplacer le nom de l'onglet magie sur la fiche de personnage",
-        "mutationLabel": "Titre de l'onglet Mutation",
-        "mutationLabelHint": "Titre pour remplacer le nom de l'onglet mutation sur la fiche de personnage",
-        "npcOptions": "Paramètres des PNJ",
-        "npcOptionsHint": "Configurer les paramètres des PNJ",
-        "optionalRules": "Règles optionnelles",
-        "optionalRulesHint": "Configurer les règles optionnelles de BRP",
-        "powerRules": "Règles des pouvoirs",
-        "powerRulesHint": "Configurer les règles pour les pouvoirs utilisés",
-        "ppLabelLong": "Libellé des points de pouvoir",
-        "ppLabelLongHint": "Entrez un libellé alternatif pour les points de pouvoir",
-        "ppLabelShort": "Abréviation du libellé des points de pouvoir",
-        "ppLabelShortHint": "Entrez une abréviation pour le libellé alternatif des points de pouvoir",
-        "psychicLabel": "Titre de l'onglet Psychique",
-        "psychicLabelHint": "Titre pour remplacer le nom de l'onglet psychique sur la fiche de personnage",
-        "quickCombat": "Lancer de combat rapide",
-        "quickCombatHint": "Autoriser les lancers de combat rapides lorsque la touche Maj est enfoncée",
-        "res5LabelLong": "Libellé de la ressource personnalisée",
-        "res5LabelLongHint": "Entrez un libellé pour la ressource personnalisée",
-        "res5LabelShort": "Abréviation du libellé de la ressource personnalisée",
-        "res5LabelShortHint": "Entrez une abréviation pour le libellé de la ressource personnalisée",
-        "resistLevels": "Résultats détaillés de résistance",
-        "resistLevelsHint": "Lorsqu'il est actif, les jets de résistance peuvent être critiques, spéciaux et des échecs critiques",
-        "resistRoll": "Toujours des jets de résistance",
-        "resistRollHint": "Lorsqu'il est actif, il y a toujours 1 % de chance de réussite ou d'échec",
-        "secBackColour": "Couleur de fond secondaire",
-        "secBackColourHint": "Couleur de l'en-tête et de la barre d'onglets de la fiche de personnage",
-        "skillBonus": "Bonus de compétence",
-        "skillBonusHint": "Sélectionnez aucun bonus, le calcul simple (caractéristique principale) ou la méthode avancée",
-        "sorceryLabel": "Titre de l'onglet Sorcellerie",
-        "sorceryLabelHint": "Titre pour remplacer le nom de l'onglet sorcellerie sur la fiche de personnage",
-        "starterSkills": "Compétences de départ",
-        "starterSkillsHint": "Ajouter des compétences de départ aux nouveaux personnages lors de leur création",
-        "starterTraits": "Traits de départ",
-        "starterTraitsHint": "Ajouter des traits de départ aux nouveaux personnages lors de leur création",
-        "superLabel": "Titre de l'onglet Super pouvoir",
-        "superLabelHint": "Titre pour remplacer le nom de l'onglet super pouvoir sur la fiche de personnage",
-        "switchShift": "Basculer le clic Maj",
-        "switchShiftHint": "Lorsqu'il est activé, cela supprime la boîte de dialogue par défaut pour les jets de vérification.",
-        "tokenDropMode": "Lors de la création de PNJ :",
-        "tokenDropModeHint": "Définir le comportement par défaut lorsqu'un PNJ a des caractéristiques à lancer.",
-        "tokenDropModeAsk": "Demander quoi faire",
-        "tokenDropModeRoll": "Lancers aléatoires",
-        "tokenDropModeAverage": "Moyenne des lancers",
-        "tokenDropModeIgnore": "Ne rien faire",
-        "tokenDropName": "Afficher le nom du PNJ",
-        "tokenDropNameHint": "Définir si le nom du PNJ est affiché sur le jeton",
-        "tokenDropBars": "Afficher les barres de ressources du PNJ",
-        "tokenDropBarsHint": "Définir si les barres de ressources du PNJ sont affichées sur le jeton",
-        "useAlleg": "Inclure les allégeances",
-        "useAllegHint": "Permet aux personnages d'avoir des allégeances",
-        "useAVRand": "Utiliser des valeurs d'armure aléatoires",
-        "useAVRandHint": "Utilise des valeurs d'armure aléatoires (ex. 1D6 au lieu d'une valeur fixe)",
-        "useEDU": "Inclure l'éducation",
-        "useEDUHint": "Les personnages auront une caractéristique Éducation",
-        "useFP": "Inclure la fatigue",
-        "useFPHint": "Les personnages auront un score de points de fatigue",
-        "useHPL": "Points de dégâts par zone",
-        "useHPLHint": "Cochez cette case pour utiliser les points de dégâts par zone",
-        "useMagic": "Inclure la magie",
-        "useMagicHint": "Cochez cette case pour permettre aux personnages d'avoir des sorts magiques",
-        "useMutation": "Inclure les mutations",
-        "useMutationHint": "Cochez cette case pour permettre aux personnages d'avoir des mutations",
-        "usePassion": "Inclure les passions",
-        "usePassionHint": "Cochez cette case pour permettre aux personnages d'avoir des passions",
-        "usePersTrait": "Inclure les traits de personnalité",
-        "usePersTraitHint": "Cochez cette case pour permettre aux personnages d'avoir des traits de personnalité",
-        "usePsychic": "Inclure les capacités psychiques",
-        "usePsychicHint": "Cochez cette case pour permettre aux personnages d'avoir des pouvoirs psychiques",
-        "useReputation": "Scores de réputation",
-        "useReputationHint": "Sélectionnez aucune réputation, une réputation unique ou plusieurs scores de réputation",
-        "useRes5": "Inclure une ressource personnalisée",
-        "useRes5Hint": "Les personnages auront une ressource personnalisée",
-        "useSAN": "Inclure la santé mentale",
-        "useSANHint": "Les personnages auront un score de santé mentale",
-        "useSorcery": "Inclure la sorcellerie",
-        "useSorceryHint": "Cochez cette case pour permettre aux personnages d'avoir des sorts de sorcellerie",
-        "useSuper": "Inclure les super pouvoirs",
-        "useSuperHint": "Cochez cette case pour permettre aux personnages d'avoir des super pouvoirs",
-        "useWealth": "Utiliser la richesse",
-        "useWealthHint": "Utiliser des niveaux de richesse plutôt qu'une valeur monétaire",
-        "wealthLabel": "Nom de la monnaie",
-        "wealthLabelHint": "Nom de la monnaie utilisée dans le jeu",
-        "xpFixed": "Augmentation fixe d'XP",
-        "xpFixedHint": "Augmentation fixe lorsqu'un jet d'amélioration d'XP réussit",
-        "xpFormula": "Dés de jet d'amélioration d'XP",
-        "xpFormulaHint": "Dés à lancer lorsqu'un jet d'amélioration d'XP réussit",
-        "xpOptions": "Options d'XP",
-        "xpOptionsHint": "Configurer les options d'XP",
-        "xpRollDice": "Afficher les jets de dés d'amélioration",
-        "xpRollDiceHint": "Afficher les jets de dés d'amélioration d'XP et de POU si vous avez Dice So Nice"
+      "actorBackColour": "Couleur de fond de la fiche de personnage",
+      "actorBackColourHint": "Couleur principale de fond de la fiche de personnage",
+      "actorBRPID": "Ajouter un BRPID à l'acteur",
+      "actorBRPIDHint": "Ajouter automatiquement un BRPID aux acteurs (personnages et PNJ) lors de leur création",
+      "actorFontColour": "Couleur de police de la fiche de personnage",
+      "actorFontColourHint": "Couleur de la plupart des textes, etc., sur la fiche de personnage",
+      "actorRollableColour": "Couleur de police des éléments cliquables de la fiche de personnage",
+      "actorRollableColourHint": "Couleur du texte cliquable ou d'autres éléments surlignables sur la fiche de personnage",
+      "actorRollableShadowColour": "Couleur de l'ombre des éléments cliquables de la fiche de personnage",
+      "actorRollableShadowColourHint": "Couleur de l'ombre du texte cliquable ou d'autres éléments surlignables sur la fiche de personnage",
+      "actorSheetBackground": "Image de fond de la fiche de personnage",
+      "actorSheetBackgroundHint": "Ajouter une image de fond à la fiche de personnage",
+      "actorTabActiveShadowColour": "Couleur de l'ombre de l'onglet actif",
+      "actorTabActiveShadowColourHint": "Couleur de l'ombre de l'onglet actif sur la fiche de personnage",
+      "actorTabNameActiveColour": "Couleur de police de l'onglet actif",
+      "actorTabNameActiveColourHint": "Couleur du nom de l'onglet actif sur la fiche de personnage",
+      "actorTabNameColour": "Couleur de police de la barre d'onglets",
+      "actorTabNameColourHint": "Couleur de la police sur la barre d'onglets de la fiche de personnage",
+      "actorTabNameHoverColour": "Couleur de survol de la barre d'onglets",
+      "actorTabNameHoverColourHint": "Couleur de la police lors du survol de la barre d'onglets de la fiche de personnage",
+      "actorTabNameShadowColour": "Couleur de l'ombre de survol de la barre d'onglets",
+      "actorTabNameShadowColourHint": "Couleur de l'ombre lors du survol de la barre d'onglets de la fiche de personnage",
+      "actorTitleColour": "Couleur du titre de la fiche de personnage",
+      "actorTitleColourHint": "Couleur des titres (ex. Personnel, Points de vie, Catégories de compétences) sur la fiche de personnage",
+      "allowImp": "Autoriser les jets impossibles",
+      "allowImpHint": "Autoriser les jets impossibles, qui ne réussissent que sur un 01",
+      "autoXP": "Cocher automatiquement le jet d'XP",
+      "autoXPHint": "Définir quand cocher automatiquement le jet d'XP",
+      "background1": "Origine #1",
+      "background2": "Origine #2",
+      "background3": "Origine #3",
+      "backgroundHint": "Titre de cette section d'origine du personnage",
+      "brpidOptions": "Options de BRPID",
+      "brpidOptionsHint": "Modifier les paramètres de BRPID",
+      "charOptions": "Options de personnage",
+      "charOptionsHint": "Configurer les paramètres du personnage",
+      "charSheetLogo": "Logo de la fiche de personnage",
+      "charSheetLogoHint": "Sélectionner le logo à placer en haut au centre de la fiche de personnage",
+      "charSheetMainFont": "Police principale de la fiche de personnage",
+      "charSheetMainFontHint": "Changer la police principale de la fiche de personnage",
+      "charSheetMainFontSize": "Taille de la police principale de la fiche de personnage",
+      "charSheetMainFontSizeHint": "Changer la taille en pixels de la police principale de la fiche de personnage",
+      "charSheetTitleFont": "Police des titres de la fiche de personnage",
+      "charSheetTitleFontHint": "Changer la police des titres de la fiche de personnage",
+      "charSheetTitleFontSize": "Taille de la police des titres de la fiche de personnage",
+      "charSheetTitleFontSizeHint": "Changer la taille en pixels de la police des titres de la fiche de personnage",
+      "combatOptions": "Paramètres de combat",
+      "combatOptionsHint": "Définir les options de combat et d'initiative",
+      "diceOptions": "Paramètres optionnels des lancers de dés",
+      "diceOptionsHint": "Personnaliser les options des lancers de dés",
+      "diffValue": "Entrez la valeur de difficulté",
+      "diffValueHint": "Entrez le multiplicateur de difficulté des jets plutôt que de sélectionner un niveau",
+      "displayOptions": "Options d'affichage",
+      "displayOptionsHint": "Changer les couleurs, polices, etc.",
+      "displayNONE": "Aucun",
+      "displayALWAYS": "Toujours",
+      "displayCONTROL": "Lorsqu'il est contrôlé",
+      "displayOWNER": "MJ et propriétaire",
+      "displayHOVER": "Tout utilisateur au survol",
+      "displayOWNER_HOVER": "MJ et propriétaire, au survol",
+      "firstAidBRPID": "BRPID des premiers secours",
+      "firstAidBRPIDHint": "Entrez le BRPID pour la compétence Premiers secours",
+      "fpLabelLong": "Libellé des points de fatigue",
+      "fpLabelLongHint": "Entrez un libellé alternatif pour les points de fatigue",
+      "fpLabelShort": "Abréviation du libellé des points de fatigue",
+      "fpLabelShortHint": "Entrez une abréviation pour le libellé alternatif des points de fatigue",
+      "gameMods": "Modificateurs de jeu",
+      "gameModsHint": "Modificateurs divers du jeu",
+      "hpLabelLong": "Libellé des points de vie",
+      "hpLabelLongHint": "Entrez un libellé alternatif pour les points de vie",
+      "hpLabelShort": "Abréviation du libellé des points de vie",
+      "hpLabelShortHint": "Entrez une abréviation pour le libellé alternatif des points de vie",
+      "hpMod": "Modificateur de points de vie",
+      "hpModHint": "Pour les personnages : 1 = par défaut, 1.5 augmente les PV de 50 %, 2 = double",
+      "initMod": "Modificateur d'initiative",
+      "initModHint": "Entrez le modificateur d'initiative (ex. +3, +1D3, *2)",
+      "initRound": "Relancer l'initiative",
+      "initRoundHint": "Relancer l'initiative à chaque round de combat — non, manuellement ou automatiquement",
+      "initStat": "Statistique d'initiative",
+      "initStatHint": "Choisissez la statistique sur laquelle est basée l'initiative (utilisez Fixe pour aucune statistique)",
+      "itemBRPID": "Ajouter un BRPID à l'objet",
+      "itemBRPIDHint": "Ajouter automatiquement un BRPID aux objets lors de leur création",
+      "magicLabel": "Titre de l'onglet Magie",
+      "magicLabelHint": "Titre pour remplacer le nom de l'onglet magie sur la fiche de personnage",
+      "mutationLabel": "Titre de l'onglet Mutation",
+      "mutationLabelHint": "Titre pour remplacer le nom de l'onglet mutation sur la fiche de personnage",
+      "npcOptions": "Paramètres des PNJ",
+      "npcOptionsHint": "Configurer les paramètres des PNJ",
+      "optionalRules": "Règles optionnelles",
+      "optionalRulesHint": "Configurer les règles optionnelles de BRP",
+      "powerRules": "Règles des pouvoirs",
+      "powerRulesHint": "Configurer les règles pour les pouvoirs utilisés",
+      "ppLabelLong": "Libellé des points de pouvoir",
+      "ppLabelLongHint": "Entrez un libellé alternatif pour les points de pouvoir",
+      "ppLabelShort": "Abréviation du libellé des points de pouvoir",
+      "ppLabelShortHint": "Entrez une abréviation pour le libellé alternatif des points de pouvoir",
+      "psychicLabel": "Titre de l'onglet Psychique",
+      "psychicLabelHint": "Titre pour remplacer le nom de l'onglet psychique sur la fiche de personnage",
+      "quickCombat": "Lancer de combat rapide",
+      "quickCombatHint": "Autoriser les lancers de combat rapides lorsque la touche Maj est enfoncée",
+      "res5LabelLong": "Libellé de la ressource personnalisée",
+      "res5LabelLongHint": "Entrez un libellé pour la ressource personnalisée",
+      "res5LabelShort": "Abréviation du libellé de la ressource personnalisée",
+      "res5LabelShortHint": "Entrez une abréviation pour le libellé de la ressource personnalisée",
+      "resistLevels": "Résultats détaillés de résistance",
+      "resistLevelsHint": "Lorsqu'il est actif, les jets de résistance peuvent être critiques, spéciaux et des échecs critiques",
+      "resistRoll": "Toujours des jets de résistance",
+      "resistRollHint": "Lorsqu'il est actif, il y a toujours 1 % de chance de réussite ou d'échec",
+      "secBackColour": "Couleur de fond secondaire",
+      "secBackColourHint": "Couleur de l'en-tête et de la barre d'onglets de la fiche de personnage",
+      "skillBonus": "Bonus de compétence",
+      "skillBonusHint": "Sélectionnez aucun bonus, le calcul simple (caractéristique principale) ou la méthode avancée",
+      "sorceryLabel": "Titre de l'onglet Sorcellerie",
+      "sorceryLabelHint": "Titre pour remplacer le nom de l'onglet sorcellerie sur la fiche de personnage",
+      "starterSkills": "Compétences de départ",
+      "starterSkillsHint": "Ajouter des compétences de départ aux nouveaux personnages lors de leur création",
+      "starterTraits": "Traits de départ",
+      "starterTraitsHint": "Ajouter des traits de départ aux nouveaux personnages lors de leur création",
+      "superLabel": "Titre de l'onglet Super pouvoir",
+      "superLabelHint": "Titre pour remplacer le nom de l'onglet super pouvoir sur la fiche de personnage",
+      "switchShift": "Basculer le clic Maj",
+      "switchShiftHint": "Lorsqu'il est activé, cela supprime la boîte de dialogue par défaut pour les jets de vérification.",
+      "tokenDropMode": "Lors de la création de PNJ :",
+      "tokenDropModeHint": "Définir le comportement par défaut lorsqu'un PNJ a des caractéristiques à lancer.",
+      "tokenDropModeAsk": "Demander quoi faire",
+      "tokenDropModeRoll": "Lancers aléatoires",
+      "tokenDropModeAverage": "Moyenne des lancers",
+      "tokenDropModeIgnore": "Ne rien faire",
+      "tokenDropName": "Afficher le nom du PNJ",
+      "tokenDropNameHint": "Définir si le nom du PNJ est affiché sur le jeton",
+      "tokenDropBars": "Afficher les barres de ressources du PNJ",
+      "tokenDropBarsHint": "Définir si les barres de ressources du PNJ sont affichées sur le jeton",
+      "useAlleg": "Inclure les allégeances",
+      "useAllegHint": "Permet aux personnages d'avoir des allégeances",
+      "useAVRand": "Utiliser des valeurs d'armure aléatoires",
+      "useAVRandHint": "Utilise des valeurs d'armure aléatoires (ex. 1D6 au lieu d'une valeur fixe)",
+      "useEDU": "Inclure l'éducation",
+      "useEDUHint": "Les personnages auront une caractéristique Éducation",
+      "useFP": "Inclure la fatigue",
+      "useFPHint": "Les personnages auront un score de points de fatigue",
+      "useHPL": "Points de dégâts par zone",
+      "useHPLHint": "Cochez cette case pour utiliser les points de dégâts par zone",
+      "useMagic": "Inclure la magie",
+      "useMagicHint": "Cochez cette case pour permettre aux personnages d'avoir des sorts magiques",
+      "useMutation": "Inclure les mutations",
+      "useMutationHint": "Cochez cette case pour permettre aux personnages d'avoir des mutations",
+      "usePassion": "Inclure les passions",
+      "usePassionHint": "Cochez cette case pour permettre aux personnages d'avoir des passions",
+      "usePersTrait": "Inclure les traits de personnalité",
+      "usePersTraitHint": "Cochez cette case pour permettre aux personnages d'avoir des traits de personnalité",
+      "usePsychic": "Inclure les capacités psychiques",
+      "usePsychicHint": "Cochez cette case pour permettre aux personnages d'avoir des pouvoirs psychiques",
+      "useReputation": "Scores de réputation",
+      "useReputationHint": "Sélectionnez aucune réputation, une réputation unique ou plusieurs scores de réputation",
+      "useRes5": "Inclure une ressource personnalisée",
+      "useRes5Hint": "Les personnages auront une ressource personnalisée",
+      "useSAN": "Inclure la santé mentale",
+      "useSANHint": "Les personnages auront un score de santé mentale",
+      "useSorcery": "Inclure la sorcellerie",
+      "useSorceryHint": "Cochez cette case pour permettre aux personnages d'avoir des sorts de sorcellerie",
+      "useSuper": "Inclure les super pouvoirs",
+      "useSuperHint": "Cochez cette case pour permettre aux personnages d'avoir des super pouvoirs",
+      "useWealth": "Utiliser la richesse",
+      "useWealthHint": "Utiliser des niveaux de richesse plutôt qu'une valeur monétaire",
+      "wealthLabel": "Nom de la monnaie",
+      "wealthLabelHint": "Nom de la monnaie utilisée dans le jeu",
+      "xpFixed": "Augmentation fixe d'XP",
+      "xpFixedHint": "Augmentation fixe lorsqu'un jet d'amélioration d'XP réussit",
+      "xpFormula": "Dés de jet d'amélioration d'XP",
+      "xpFormulaHint": "Dés à lancer lorsqu'un jet d'amélioration d'XP réussit",
+      "xpOptions": "Options d'XP",
+      "xpOptionsHint": "Configurer les options d'XP",
+      "xpRollDice": "Afficher les jets de dés d'amélioration",
+      "xpRollDiceHint": "Afficher les jets de dés d'amélioration d'XP et de POU si vous avez Dice So Nice"
     },
     "BRPIDFlag": {
-        "documents-in-world": "{count} documents dans le monde",
-        "documents-in-compendiums": "{count} documents dans les compendiums",
-        "error.incorrect.type": "Tentative de conversion de BRPID avec un type de document inexistant.",
-        "error.duplicate": "Attention : Plusieurs ID système avec la même priorité !",
-        "foundry-id": "ID Foundry",
-        "foundry-uuid": "UUID Foundry",
-        "get-document-like-this": "Obtenir un document similaire",
-        "get-this-document": "Obtenir ce document",
-        "id": "BRPID",
-        "info": "Info",
-        "key": "ID système (BRPID)",
-        "others": "Autres documents avec ce BRPID et cette langue (à l'exclusion des documents dans d'autres acteurs et objets)",
-        "priority": "Priorité de l'ID système",
-        "summary": "Définir un identifiant de groupe qui peut être utilisé pour trouver la version la plus à jour de ce {type}. L'ID système doit utiliser la traduction anglaise du {type} pour supporter la localisation dans toutes les langues.",
-        "title": "Modifier l'ID système (BRPID)"
+      "documents-in-world": "{count} documents dans le monde",
+      "documents-in-compendiums": "{count} documents dans les compendiums",
+      "error.incorrect.type": "Tentative de conversion de BRPID avec un type de document inexistant.",
+      "error.duplicate": "Attention : Plusieurs ID système avec la même priorité !",
+      "foundry-id": "ID Foundry",
+      "foundry-uuid": "UUID Foundry",
+      "get-document-like-this": "Obtenir un document similaire",
+      "get-this-document": "Obtenir ce document",
+      "id": "BRPID",
+      "info": "Info",
+      "key": "ID système (BRPID)",
+      "others": "Autres documents avec ce BRPID et cette langue (à l'exclusion des documents dans d'autres acteurs et objets)",
+      "priority": "Priorité de l'ID système",
+      "summary": "Définir un identifiant de groupe qui peut être utilisé pour trouver la version la plus à jour de ce {type}. L'ID système doit utiliser la traduction anglaise du {type} pour supporter la localisation dans toutes les langues.",
+      "title": "Modifier l'ID système (BRPID)"
     },
+
     "ChaosiumCanvasInterface": {
-        "DrawingToggle": {
-            "Toggle": {
-                "Title": "Afficher",
-                "Hint": "Faut-il afficher ou masquer le dessin et les documents"
-            },
-            "Drawing": {
-                "Title": "Sélectionner le dessin",
-                "Hint": "Définir la visibilité de ces dessins"
-            },
-            "JournalEntry": {
-                "Title": "Sélectionner les entrées de journal",
-                "Hint": ""
-            },
-            "JournalEntryPage": {
-                "Title": "Sélectionner les pages d'entrée de journal",
-                "Hint": ""
-            },
-            "RegionBehavior": {
-                "Title": "Sélectionner les comportements de région",
-                "Hint": "Activer/Désactiver ces comportements de région"
-            },
-            "PermissionDocument": {
-                "Title": "Permission pour les entrées de journal",
-                "Hint": "Lorsqu'il est défini sur afficher, définir la propriété du document à ce niveau"
-            },
-            "PermissionPage": {
-                "Title": "Permission pour les pages d'entrée de journal",
-                "Hint": "Lorsqu'il est défini sur afficher, définir la propriété de la page d'entrée de journal à ce niveau"
-            },
-            "RegionUuids": {
-                "Title": "Déclencher ces régions CCI lors du clic droit",
-                "Hint": ""
-            }
+      "Actions": {
+        "Hide": "Cacher",
+        "Show": "Montrer",
+        "Toggle": "Basculer"
+      },
+      "AmbientLightToggle": {
+        "Button": {
+          "Title": "Bouton de la souris",
+          "Hint": "Quel bouton devrait déclencher ce comportement"
         },
-        "MapPinToggle": {
-            "Toggle": {
-                "Title": "Afficher",
-                "Hint": "Faut-il afficher ou masquer la note de carte et les documents"
-            },
-            "Document": {
-                "Title": "Sélectionner les documents",
-                "Hint": ""
-            },
-            "Note": {
-                "Title": "Notes de carte",
-                "Hint": ""
-            },
-            "PermissionShow": {
-                "Title": "Permission d'affichage",
-                "Hint": ""
-            },
-            "PermissionHide": {
-                "Title": "Permission de masquage",
-                "Hint": ""
-            }
+        "Action": {
+          "Title": "Action",
+          "Hint": "Cela devrait-il allumer/éteindre ou basculer les lumières",
+          "Off": "Éteint",
+          "On": "Allumé"
         },
-        "OpenDocument": {
-            "Permission": {
-                "Title": "Peut cliquer si",
-                "Hint": ""
-            },
-            "Document": {
-                "Title": "Sélectionner le document",
-                "Hint": ""
-            },
-            "Anchor": {
-                "Title": "Ancre optionnelle",
-                "Hint": "Si une page de journal est chargée, sauter à l'ancre"
-            }
+        "Light": {
+          "Title": "Sélectionner les sources lumineuses",
+          "Hint": ""
+        }
+      },
+      "Buttons": {
+        "Both": "Les deux boutons de la souris",
+        "Left": "Bouton gauche de la souris",
+        "Right": "Bouton droit de la souris"
+      },
+      "DrawingToggle": {
+        "Button": {
+          "Title": "Bouton de la souris",
+          "Hint": "Quel bouton devrait déclencher ce comportement"
+        },
+        "Action": {
+          "Title": "Action",
+          "Hint": "Cela doit-il afficher, masquer ou basculer le dessin et les documents"
+        },
+        "Drawing": {
+          "Title": "Sélectionner le dessin",
+          "Hint": "Définir la visibilité de ces dessins"
+        },
+        "JournalEntry": {
+          "Title": "Sélectionner les entrées de journal",
+          "Hint": ""
+        },
+        "JournalEntryPage": {
+          "Title": "Sélectionner les pages d'entrée de journal",
+          "Hint": ""
+        },
+        "RegionBehavior": {
+          "Title": "Sélectionner les comportements de région",
+          "Hint": "Activer/Désactiver ces comportements de région"
+        },
+        "PermissionDocument": {
+          "Title": "Permission pour les écritures comptables",
+          "Hint": "Lorsqu'il est défini pour afficher, définissez la propriété du document à ce niveau"
+        },
+        "PermissionDocumentHide": {
+          "Title": "Masquer l'autorisation pour les écritures de journal",
+          "Hint": "Lorsque réglé sur masquer, définir la propriété du document à ce niveau"
+        },
+        "PermissionPage": {
+          "Title": "Permission pour les pages d'entrée de journal",
+          "Hint": "Lorsqu'il est réglé pour afficher, définir la propriété de la page d'écriture du journal à ce niveau"
+        },
+        "PermissionPageHide": {
+          "Title": "Masquer l'autorisation pour les pages de saisie de journal",
+          "Hint": "Lorsqu'il est réglé sur masquer, définir la propriété de la page de saisie du journal à ce niveau"
+        },
+        "TriggerButton": {
+          "Title": "Bouton de région de déclenchement",
+          "Hint": "Si le bouton de la souris est les deux, et que ce bouton est utilisé pour déclencher la région suivante"
+        },
+        "TriggerRegionUuids": {
+          "Title": "Déclencher cette région",
+          "Hint": ""
+        },
+        "TriggerAsButton": {
+          "Title": "Avec un clic de bouton",
+          "Hint": ""
+        }
+      },
+      "MapPinToggle": {
+        "Button": {
+          "Title": "Bouton de la souris",
+          "Hint": "Quel bouton devrait déclencher ce comportement"
+        },
+        "Action": {
+          "Title": "Action",
+          "Hint": "Cela doit-il afficher, masquer ou basculer l'icône de la carte et les documents"
+        },
+        "Document": {
+          "Title": "Sélectionner les documents",
+          "Hint": ""
+        },
+        "Note": {
+          "Title": "Notes de carte",
+          "Hint": ""
+        },
+        "PermissionShow": {
+          "Title": "Permission d'affichage",
+          "Hint": ""
+        },
+        "PermissionHide": {
+          "Title": "Permission de masquage",
+          "Hint": ""
+        }
+      },
+      "OpenDocument": {
+        "Button": {
+          "Title": "Bouton de la souris",
+          "Hint": "Quel bouton devrait déclencher ce comportement"
         },
         "Permission": {
-            "Always": "Toujours",
-            "Document": "Voir le document",
-            "GM": "MJ",
-            "SeeTile": "Voir la tuile"
+          "Title": "Peut cliquer si",
+          "Hint": ""
         },
-        "ToScene": {
-            "Permission": {
-                "Title": "Peut cliquer si",
-                "Hint": ""
-            },
-            "Scene": {
-                "Title": "Sélectionner la scène",
-                "Hint": ""
-            },
-            "Tile": {
-                "Title": "Sélectionner la tuile",
-                "Hint": "Sélectionner la tuile qui doit être visible"
-            }
+        "Document": {
+          "Title": "Sélectionner le document",
+          "Hint": ""
         },
-        "TileToggle": {
-            "Toggle": {
-                "Title": "Afficher",
-                "Hint": "Faut-il afficher ou masquer la tuile et les documents"
-            },
-            "Tile": {
-                "Title": "Sélectionner la tuile",
-                "Hint": "Définir la visibilité de ces tuiles"
-            },
-            "JournalEntry": {
-                "Title": "Sélectionner les entrées de journal",
-                "Hint": ""
-            },
-            "JournalEntryPage": {
-                "Title": "Sélectionner les pages d'entrée de journal",
-                "Hint": ""
-            },
-            "RegionBehavior": {
-                "Title": "Sélectionner les comportements de région",
-                "Hint": "Activer/Désactiver ces comportements de région"
-            },
-            "PermissionDocument": {
-                "Title": "Permission pour les entrées de journal",
-                "Hint": "Lorsqu'il est défini sur afficher, définir la propriété du document à ce niveau"
-            },
-            "PermissionPage": {
-                "Title": "Permission pour les pages d'entrée de journal",
-                "Hint": "Lorsqu'il est défini sur afficher, définir la propriété de la page d'entrée de journal à ce niveau"
-            },
-            "RegionUuids": {
-                "Title": "Déclencher ces régions CCI lors du clic droit",
-                "Hint": ""
-            }
+        "Anchor": {
+          "Title": "Ancre optionnelle",
+          "Hint": "Si une page de journal est chargée, sauter à l'ancre"
         }
+      },
+      "Permission": {
+        "Always": "Toujours",
+        "Document": "Voir le document",
+        "GM": "MJ",
+        "SeeTile": "Voir la tuile"
+      },
+      "PlaySound": {
+        "Button": {
+          "Title": "Bouton de la souris",
+          "Hint": "Quel bouton devrait déclencher ce comportement"
+        },
+        "Playlist": {
+          "Title": "Sélectionner la liste de lecture",
+          "Hint": ""
+        },
+        "Sound": {
+          "Title": "Sélectionner le son de la playlist",
+          "Hint": ""
+        },
+        "Action": {
+          "Title": "Action",
+          "Hint": "Cela devrait-il jouer, s'arrêter ou basculer la lecture",
+          "Play": "Jouer",
+          "Stop": "Arrête"
+        }
+      },
+      "ToScene": {
+        "Button": {
+          "Title": "Bouton de la souris",
+          "Hint": "Quel bouton devrait déclencher ce comportement"
+        },
+        "Permission": {
+          "Title": "Peut cliquer si",
+          "Hint": ""
+        },
+        "Scene": {
+          "Title": "Sélectionner la scène",
+          "Hint": ""
+        },
+        "Tile": {
+          "Title": "Sélectionner la tuile",
+          "Hint": "Sélectionner la tuile qui doit être visible"
+        }
+      },
+      "TileToggle": {
+        "Button": {
+          "Title": "Bouton de la souris",
+          "Hint": "Quel bouton devrait déclencher ce comportement"
+        },
+        "Action": {
+          "Title": "Action",
+          "Hint": "Cela doit-il afficher, masquer ou basculer la tuile et les documents"
+        },
+        "Tile": {
+          "Title": "Sélectionner la tuile",
+          "Hint": "Définir la visibilité de ces tuiles"
+        },
+        "JournalEntry": {
+          "Title": "Sélectionner les entrées de journal",
+          "Hint": ""
+        },
+        "JournalEntryPage": {
+          "Title": "Sélectionner les pages d'entrée de journal",
+          "Hint": ""
+        },
+        "RegionBehavior": {
+          "Title": "Sélectionner les comportements de région",
+          "Hint": "Activer/Désactiver ces comportements de région"
+        },
+        "PermissionDocument": {
+          "Title": "Permission pour les entrées de journal",
+          "Hint": "Lorsqu'il est défini pour afficher, définissez la propriété du document à ce niveau"
+        },
+        "PermissionDocumentHide": {
+          "Title": "Masquer permission pour les entrées de journal",
+          "Hint": "When set to hide set Document ownership to this level"
+        },
+        "PermissionPage": {
+          "Title": "Permission for Journal Entry Pages",
+          "Hint": "When set to show set Journal Entry Page ownership to this level"
+        },
+        "PermissionPageHide": {
+          "Title": "Hide Permission for Journal Entry Pages",
+          "Hint": "Lorsque défini sur masquer, attribuez la propriété du document à ce niveau"
+        },
+        "TriggerButton": {
+          "Title": "Bouton de la région de déclenchement",
+          "Hint": "Si le bouton de la souris est les deux, et que ce bouton est utilisé pour déclencher la région suivante"
+        },
+        "TriggerRegionUuids": {
+          "Title": "Déclencher cette région",
+          "Hint": ""
+        },
+        "TriggerAsButton": {
+          "Title": "Avec un clic de bouton",
+          "Hint": ""
+        }
+      }
     }
   },
   "TYPES": {
     "RegionBehavior": {
-        "ChaosiumCanvasInterfaceDrawingToggle": "CCI : Basculer le dessin",
-        "ChaosiumCanvasInterfaceMapPinToggle": "CCI : Basculer l'épingle de carte",
-        "ChaosiumCanvasInterfaceOpenDocument": "CCI : Ouvrir le document",
-        "ChaosiumCanvasInterfaceToScene": "CCI : Vers la scène",
-        "ChaosiumCanvasInterfaceTileToggle": "CCI : Basculer la tuile"
+      "ChaosiumCanvasInterfaceAmbientLightToggle": "CCI: Basculer le lumière",
+      "ChaosiumCanvasInterfaceDrawingToggle": "CCI : Basculer le dessin",
+      "ChaosiumCanvasInterfaceMapPinToggle": "CCI : Basculer l'épingle de carte",
+      "ChaosiumCanvasInterfaceOpenDocument": "CCI : Ouvrir le document",
+      "ChaosiumCanvasInterfacePlaySound": "CCI: Jouer le son",
+      "ChaosiumCanvasInterfaceToScene": "CCI : Vers la scène",
+      "ChaosiumCanvasInterfaceTileToggle": "CCI : Basculer la tuile"
     }
   }
 }

@@ -807,11 +807,41 @@
       "summary": "Establece un identificador de grupo que permita encontrar la versión más reciente de este {type}. El ID del sistema debe usar la traducción al inglés de {type} para facilitar la localización en todos los idiomas.",
       "title": "Editar ID del sistema (BRPID)"
     },
-"ChaosiumCanvasInterface": {
+    "ChaosiumCanvasInterface": {
+      "Actions": {
+        "Hide": "Espectáculo",
+        "Show": "Espectáculo",
+        "Toggle": "Alternar"
+      },
+      "AmbientLightToggle": {
+        "Button": {
+          "Title": "Botón del ratón",
+          "Hint": "Qué botón debería activar este comportamiento"
+        },
+        "Action": {
+          "Title": "Acción",
+          "Hint": "¿Esto debería encender/apagar o alternar las luces?",
+          "Off": "Apagado",
+          "On": "Apagado"
+        },
+        "Light": {
+          "Title": "Seleccionar fuentes de luz",
+          "Hint": ""
+        }
+      },
+      "Buttons": {
+        "Both": "Ambos botones del ratón",
+        "Left": "Botón izquierdo del ratón",
+        "Right": "Botón derecho del ratón"
+      },
       "DrawingToggle": {
-        "Toggle": {
-          "Title": "Espectáculo",
-          "Hint": "¿Esto debería mostrar u ocultar el dibujo y los documentos?"
+        "Button": {
+          "Title": "Botón del ratón",
+          "Hint": "Qué botón debería activar este comportamiento"
+        },
+        "Action": {
+          "Title": "Acción",
+          "Hint": "¿Debería este mostrar, ocultar o alternar el dibujo y los documentos?"
         },
         "Drawing": {
           "Title": "Seleccionar dibujo",
@@ -833,19 +863,39 @@
           "Title": "Permiso para asientos contables",
           "Hint": "Cuando se configura para mostrar, establecer la propiedad del documento a este nivel"
         },
+        "PermissionDocumentHide": {
+          "Title": "Ocultar permiso para entradas de diario",
+          "Hint": "Cuando se establezca en ocultar, establecer la propiedad del documento a este nivel"
+        },
         "PermissionPage": {
           "Title": "Permiso para páginas de diario",
           "Hint": "Cuando se establece para mostrar la propiedad de la página de entrada del diario a este nivel"
         },
-        "RegionUuids": {
-          "Title": "Luego activa estas Regiones CCI con clic derecho",
+        "PermissionPageHide": {
+          "Title": "Ocultar permiso para páginas de registro",
+          "Hint": "Cuando se establece para ocultar, configurar la propiedad de la página de entrada del diario a este nivel"
+        },
+        "TriggerButton": {
+          "Title": "Botón de Región de Activación",
+          "Hint": "Si el Botón del Ratón es Ambos, y este botón se usa para activar la siguiente región"
+        },
+        "TriggerRegionUuids": {
+          "Title": "Activar esta región",
+          "Hint": ""
+        },
+        "TriggerAsButton": {
+          "Title": "Con un clic de botón",
           "Hint": ""
         }
       },
       "MapPinToggle": {
-        "Toggle": {
-          "Title": "Espectáculo",
-          "Hint": "¿Debería esto mostrar u ocultar la nota del mapa y los documentos?"
+        "Button": {
+          "Title": "Botón del ratón",
+          "Hint": "Qué botón debería activar este comportamiento"
+        },
+        "Action": {
+          "Title": "Acción",
+          "Hint": "Should this show, hide, or toggle the map pin and documents"
         },
         "Document": {
           "Title": "Seleccionar documentos",
@@ -865,6 +915,10 @@
         }
       },
       "OpenDocument": {
+        "Button": {
+          "Title": "Botón del ratón",
+          "Hint": "Qué botón debería activar este comportamiento"
+        },
         "Permission": {
           "Title": "Puede hacer clic si",
           "Hint": ""
@@ -874,7 +928,7 @@
           "Hint": ""
         },
         "Anchor": {
-          "Title": "Optional Anchor",
+          "Title": "Ancla Opcional",
           "Hint": "Si se carga una página de entrada de diario, saltar al ancla"
         }
       },
@@ -884,7 +938,31 @@
         "GM": "GM",
         "SeeTile": "Ver azulejo"
       },
+      "PlaySound": {
+        "Button": {
+          "Title": "Botón del ratón",
+          "Hint": "Qué botón debería activar este comportamiento"
+        },
+        "Playlist": {
+          "Title": "Seleccionar lista de reproducción",
+          "Hint": ""
+        },
+        "Sound": {
+          "Title": "Seleccionar sonido de la lista de reproducción",
+          "Hint": ""
+        },
+        "Action": {
+          "Title": "Acción",
+          "Hint": "¿Debería esta reproducción detenerse, pausar o alternar la reproducción?",
+          "Play": "Jugar",
+          "Stop": "Para"
+        }
+      },
       "ToScene": {
+        "Button": {
+          "Title": "Botón del ratón",
+          "Hint": "Qué botón debería activar este comportamiento"
+        },
         "Permission": {
           "Title": "Puede hacer clic si",
           "Hint": ""
@@ -899,9 +977,13 @@
         }
       },
       "TileToggle": {
-        "Toggle": {
-          "Title": "Espectáculo",
-          "Hint": "¿Debería esto mostrar u ocultar la baldosa y los documentos?"
+        "Button": {
+          "Title": "Botón del ratón",
+          "Hint": "Qué botón debería activar este comportamiento"
+        },
+        "Action": {
+          "Title": "Acción",
+          "Hint": "¿Debería este mostrar, ocultar o alternar el mosaico y los documentos?"
         },
         "Tile": {
           "Title": "Seleccionar Baldosa",
@@ -921,24 +1003,43 @@
         },
         "PermissionDocument": {
           "Title": "Permiso para asientos contables",
-          "Hint": "Cuando se configura para mostrar, establecer la propiedad del documento a este nivel"
+          "Hint": "Cuando se configura para mostrar, establecer la propiedad del documento a este nivell"
+        },
+        "PermissionDocumentHide": {
+          "Title": "Ocultar permiso para entradas de diario",
+          "Hint": "Cuando se configura para ocultar, establezca la propiedad del documento a este nivel"
         },
         "PermissionPage": {
-          "Title": "Permiso para páginas de diario",
+          "Title": "Mostrar permiso para páginas de registro",
           "Hint": "Cuando se establece para mostrar la propiedad de la página de entrada del diario a este nivel"
         },
-        "RegionUuids": {
-          "Title": "Luego activa estas Regiones CCI con clic derecho",
+        "PermissionPageHide": {
+          "Title": "Ocultar permiso para páginas de registro de diario",
+          "Hint": "Cuando se establece en ocultar, configurar la propiedad de la página de entrada del diario a este nivel"
+        },
+        "TriggerButton": {
+          "Title": "Botón de Región de Activación",
+          "Hint": "Si el Botón del Ratón es Ambos, y se usa este botón para activar la siguiente región"
+        },
+        "TriggerRegionUuids": {
+          "Title": "Activar esta región",
+          "Hint": ""
+        },
+        "TriggerAsButton": {
+          "Title": "Con un clic de botón",
           "Hint": ""
         }
       }
     }
+
   },
   "TYPES": {
     "RegionBehavior": {
+      "ChaosiumCanvasInterfaceAmbientLightToggle": "CCI: Alternar Luz",
       "ChaosiumCanvasInterfaceDrawingToggle": "CCI: Alternar dibujo",
       "ChaosiumCanvasInterfaceMapPinToggle": "CCI: Alternar marcador del mapa",
       "ChaosiumCanvasInterfaceOpenDocument": "CCI: Abrir documento",
+      "ChaosiumCanvasInterfacePlaySound": "CCI: Reproducir sonido",
       "ChaosiumCanvasInterfaceToScene": "CCI: A la escena",
       "ChaosiumCanvasInterfaceTileToggle": "CCI: Alternar Baldosa"
     }
