@@ -1,4 +1,5 @@
 import { addBRPIDSheetHeaderButton } from '../../brpid/brpid-button.mjs'
+import { BRPActiveEffectSheet } from "../../sheets/brp-active-effect-sheet.mjs";
 
 export class BRPWoundSheet extends foundry.appv1.sheets.ItemSheet {
   constructor(...args) {
@@ -24,7 +25,7 @@ export class BRPWoundSheet extends foundry.appv1.sheets.ItemSheet {
       width: 520,
       height: 480,
       scrollY: ['.tab.description'],
-      tabs: [{ navSelector: '.sheet-tabs', contentSelector: '.sheet-body', initial: 'description' }]
+      tabs: [{ navSelector: '.sheet-tabs', contentSelector: '.sheet-body', initial: 'details' }]
     })
   }
 
@@ -33,6 +34,12 @@ export class BRPWoundSheet extends foundry.appv1.sheets.ItemSheet {
     const itemData = sheetData.item
     sheetData.hasOwner = this.item.isEmbedded === true
     sheetData.isGM = game.user.isGM
+
+    sheetData.effects = BRPActiveEffectSheet.getItemEffectsFromSheet(sheetData)
+    const changesActiveEffects = BRPActiveEffectSheet.getEffectChangesFromSheet(this.document)
+    sheetData.effectKeys = changesActiveEffects.effectKeys
+    sheetData.effectChanges = changesActiveEffects.effectChanges
+
     return sheetData
   }
 
@@ -45,6 +52,7 @@ export class BRPWoundSheet extends foundry.appv1.sheets.ItemSheet {
   activateListeners(html) {
     super.activateListeners(html)
     html.find('.item-toggle').click(this.onItemToggle.bind(this));
+        BRPActiveEffectSheet.activateListeners(this, html)
   }
 
   //Handle toggle states

@@ -123,7 +123,7 @@ export class BRPActor extends Actor {
     for (let itm of actorData.items) {
 
       //Does the item have transferrable effects
-      if (['gear', 'armour', 'weapon'].includes(itm.type)) {
+      if (['gear', 'armour', 'weapon','wound'].includes(itm.type)) {
         if (itm.transferredEffects.length > 0) {
           itm.system.hasEffects = true;
         } else {
@@ -548,7 +548,7 @@ export class BRPActor extends Actor {
   static async create(data, options = {}) {
     //If dropping from compendium check to see if the actor already exists in game.actors and if it does then get the game.actors details rather than create a copy
     if (options.fromCompendium) {
-      let tempActor = await (game.actors.filter(actr => actr.flags.brp.brpidFlag.id === data.flags.brp.brpidFlag.id && actr.flags.brp.brpidFlag.priority === data.flags.brp.brpidFlag.priority))[0]
+      let tempActor = await (game.actors.filter(actr => actr.flags?.brp?.brpidFlag?.id === data.flags.brp.brpidFlag.id && actr.flags?.brp?.brpidFlag?.priority === data.flags.brp.brpidFlag.priority))[0]
       if (tempActor) { return tempActor }
     }
 

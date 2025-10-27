@@ -11,6 +11,9 @@ export class BRPActiveEffect extends ActiveEffect {
         item = fromUuidSync(this.origin)
       }
       if (item instanceof Item) {
+        if (item.type === 'wound') {
+          return super.active
+        }
         if (item.type === 'armour' ? item.system.equipStatus !== 'worn' : item.system.equipStatus !== 'carried') {
           return false;
         }

@@ -1,4 +1,10 @@
 # CHANGE LOG
+
+## 13.1.51
+-  Missing BRPIDs on actors in world shouldn't stop NPCs being imported
+-  Active Effects added to wounds
+-  Minor change to tlayout of skills tab on character sheet when unlocked - Cat Bonus is now included in total
+
 ## 13.1.50
 - Additional CCI option, Ambient Light toggle added
 - All CCI show/hide options have become show/hide/toggle

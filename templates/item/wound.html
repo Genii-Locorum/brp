@@ -9,22 +9,42 @@
 
   </header>
 
+  {{!-- Item Sheet Navigation --}}
+  <section class="nav-panel">
+    <nav class="sheet-tabs tabs" data-group="primary">
+      <a class="item" data-tab="details">{{ localize "BRP.details" }}</a>
+      <a class="item" data-tab="activeeffects">{{ localize "DOCUMENT.ActiveEffects" }}</a>
+    </nav>
+  </section>
+
+
   {{!-- Sheet Body --}}
-  <section class="power-sheet-body">
-    <br>
-    <div class="hitloc-scores">
-      <div class="skill-display">{{localize 'BRP.damage'}}</div>
-      <div class="stat-input dam-value"><input name="system.value" type="text" value="{{item.system.value}}" data-dtype="Number" /></div>
+  <section class="item-bottom-panel">
+    <section class="sheet-body">
       <br>
-      <div class="skill-display new-row">{{localize 'BRP.status'}}</div>
-      <div class="skill-cat item-toggle centre" data-property="treated">
-        {{#if item.system.treated}}
-          {{localize 'BRP.treated'}}
-        {{else}}
-          {{localize 'BRP.untreated'}}
-        {{/if}}
+
+      {{!-- Details Tab --}}
+      <div class="tab active" data-group="primary" data-tab="details">
+        <div class="hitloc-scores">
+          <div class="skill-display">{{localize 'BRP.damage'}}</div>
+          <div class="stat-input dam-value"><input name="system.value" type="text" value="{{item.system.value}}" data-dtype="Number" /></div>
+          <br>
+          <div class="skill-display new-row">{{localize 'BRP.status'}}</div>
+          <div class="skill-cat item-toggle centre" data-property="treated">
+            {{#if item.system.treated}}
+              {{localize 'BRP.treated'}}
+            {{else}}
+              {{localize 'BRP.untreated'}}
+            {{/if}}
+          </div>
+        </div>
+        <br>
       </div>
-    </div>
-    <br>
+
+      {{!-- Active Effects --}}
+      <div class="tab active" data-group="primary" data-tab="activeeffects">
+        {{~> "systems/brp/templates/global/parts/active-effects.html"}}
+      </div>
+    </section>
   </section>
 </form>
