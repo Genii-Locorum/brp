@@ -931,6 +931,10 @@
         "Anchor": {
           "Title": "Optional Anchor",
           "Hint": "If loading a JournalEntryPage jump to anchor"
+        },
+        "Tile": {
+          "Title": "Select Tile",
+          "Hint": "Select Tile that must be visible"
         }
       },
       "Permission": {
