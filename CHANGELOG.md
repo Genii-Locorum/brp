@@ -1,5 +1,9 @@
 # CHANGE LOG
 
+## 13.1.52
+- Changes to CCI: Open Document (James B)
+- Wound sheet no longer auto closes when making edits
+
 ## 13.1.51
 -  Missing BRPIDs on actors in world shouldn't stop NPCs being imported
 -  Active Effects added to wounds

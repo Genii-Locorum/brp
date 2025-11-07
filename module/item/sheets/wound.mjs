@@ -75,7 +75,6 @@ export class BRPWoundSheet extends foundry.appv1.sheets.ItemSheet {
       formData['system.value'] = 0
     }
     super._updateObject(event, formData)
-    this.close()
   }
 
 }
