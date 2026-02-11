@@ -13,6 +13,20 @@ export class BRPID {
 
 
   /**
+   * Returns the flattened BRPIDFlag.keys object, falling back
+   * to game.i18n._fallback when the current language is not
+   * supported by the system.
+   * @returns object
+   */
+  static getBRPIDKeys() {
+    const keys =
+      game.i18n.translations?.BRP?.BRPIDFlag?.keys ??
+      game.i18n._fallback?.BRP?.BRPIDFlag?.keys ??
+      {}
+    return foundry.utils.flattenObject(keys)
+  }
+
+  /**
    * Returns RegExp for valid type and format
    * @returns RegExp
    */
@@ -111,7 +125,7 @@ export class BRPID {
    */
   static findBRPIdInList(brpid, list) {
     let itemName = ''
-    const BRPIDKeys = foundry.utils.flattenObject(game.i18n.translations.BRP.BRPIDFlag.keys)
+    const BRPIDKeys = BRPID.getBRPIDKeys()
     if (typeof BRPIDKeys[brpid] !== 'undefined') {
       itemName = BRPIDKeys[brpid]
     }

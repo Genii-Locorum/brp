@@ -30,7 +30,7 @@ export class BRPIDEditor extends FormApplication {
     sheetData.lang = sheetData.brpidFlag?.lang || game.i18n.lang
     sheetData.priority = sheetData.brpidFlag?.priority || 0
 
-    const BRPIDKeys = foundry.utils.flattenObject(game.i18n.translations.BRP.BRPIDFlag.keys ?? {})
+    const BRPIDKeys = game.system.api.brpid.getBRPIDKeys()
     const prefix = new RegExp('^' + BRPUtilities.quoteRegExp(sheetData.idPrefix))
     sheetData.existingKeys = Object.keys(BRPIDKeys).reduce((obj, k) => {
       if (k.match(prefix)) {
