@@ -1,0 +1,22 @@
+<section class="item tab wealth {{tab.cssClass}}" data-group="primary" data-tab="wealth">
+  <div class="hitlocgrid">
+    <div class="wealth-display">{{localize 'BRP.minWealth'}}</div>
+    {{#if isGM}}
+      <select class="centre" data-handle-change name="system.minWealth">
+        {{selectOptions minWealthOptions selected=item.system.minWealth}}
+      </select>
+    {{else}}
+      <div class="title-name boxed centre">{{minWealth}}</div>
+    {{/if}}
+    <br>
+
+    <div class="new-row wealth-display">{{localize 'BRP.maxWealth'}}</div>
+    {{#if isGM}}
+      <select class="centre" data-handle-change name="system.maxWealth">
+        {{selectOptions maxWealthOptions selected=item.system.maxWealth}}
+      </select>
+    {{else}}
+      <div class="title-name boxed centre">{{maxWealth}}</div>
+    {{/if}}
+  </div>
+</section>

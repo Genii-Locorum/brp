@@ -66,29 +66,61 @@ const SETTINGS = {
 
 }
 
-export class BRPCharSettings extends FormApplication {
-  static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
-      title: 'BRP.brpSettings',
-      classes: ["brp", "rulesmenu"],
-      id: 'char-settings',
-      template: 'systems/brp/templates/settings/char-settings.html',
+const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api
+export class BRPCharSettings extends HandlebarsApplicationMixin(ApplicationV2) {
+  static DEFAULT_OPTIONS = {
+    classes: ['brp', 'rulesmenu'],
+    id: 'char-settings',
+    actions: {
+      reset: BRPCharSettings.onResetDefaults,
+    },
+    form: {
+      handler: BRPCharSettings.formHandler,
+      closeOnSubmit: true,
+      submitOnChange: false
+    },
+    position: {
       width: 550,
       height: 'auto',
-      closeOnSubmit: true
-    })
+    },
+    tag: 'form',
+    window: {
+      resizable: true,
+      title: 'BRP.brpSettings',
+      contentClasses: ["standard-form"]
+    }
   }
 
-  async getData() {
-    const options = {}
+  get title() {
+    return `${game.i18n.localize(this.options.window.title)}`;
+  }
+
+  static PARTS = {
+    form: { template: 'systems/brp/templates/settings/char-settings.hbs',
+            scrollable: ['']
+     },
+    footer: { template: 'templates/generic/form-footer.hbs' }
+  }
+
+  async _prepareContext(options) {
+    const isGM = game.user.isGM;
+    const optSet = {}
     for (const [k, v] of Object.entries(SETTINGS)) {
-      options[k] = {
+      optSet[k] = {
         value: game.settings.get('brp', k),
         setting: v
       }
     }
-    return options
+    return {
+      isGM,
+      optSet,
+      buttons: [
+        { type: "submit", icon: "fa-solid fa-save", label: "SETTINGS.Save" },
+        { type: "reset", action: "reset", icon: "fa-solid fa-undo", label: "SETTINGS.Reset" },
+      ]
+    }
   }
+
 
   static registerSettings() {
     for (const [k, v] of Object.entries(SETTINGS)) {
@@ -96,12 +128,7 @@ export class BRPCharSettings extends FormApplication {
     }
   }
 
-  activateListeners(html) {
-    super.activateListeners(html)
-    html.find('button[name=reset]').on('click', event => this.onResetDefaults(event))
-  }
-
-  async onResetDefaults(event) {
+  static async onResetDefaults(event) {
     event.preventDefault()
     for await (const [k, v] of Object.entries(SETTINGS)) {
       await game.settings.set('brp', k, v?.default)
@@ -109,10 +136,12 @@ export class BRPCharSettings extends FormApplication {
     return this.render()
   }
 
-  async _updateObject(event, data) {
-    for await (const key of Object.keys(SETTINGS)) {
-      game.settings.set('brp', key, data[key])
-    }
+  static async formHandler(event, form, formData) {
+    const settings = foundry.utils.expandObject(formData.object)
+    await Promise.all(
+      Object.entries(settings)
+        .map(([key, value]) => game.settings.set("brp", key, value))
+    )
   }
 
 }

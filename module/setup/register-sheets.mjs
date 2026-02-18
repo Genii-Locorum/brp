@@ -1,5 +1,5 @@
 import { BRPCharacterSheet } from '../actor/sheets/character.mjs';
-import { BRPNpcSheet } from '../actor/sheets/npc.mjs';
+import { BRPNPCSheetV2 } from '../actor/sheets/npcV2.mjs';
 import { BRPGearSheet } from '../item/sheets/gear.mjs';
 import { BRPSkillSheet } from '../item/sheets/skill.mjs';
 import { BRPHitLocSheet } from '../item/sheets/hit-location.mjs';
@@ -27,18 +27,24 @@ import { BRPCultureSheet } from '../item/sheets/culture.mjs'
 
 
 export function registerSheets() {
+
+  const { sheets } = foundry.applications;
+  let { collections } = foundry.documents;
+
+
   foundry.documents.collections.Actors.unregisterSheet("core", foundry.appv1.sheets.ActorSheet);
   foundry.documents.collections.Actors.registerSheet('brp', BRPCharacterSheet, {
     types: ['character'],
     makeDefault: true
   })
 
-  foundry.documents.collections.Actors.registerSheet('brp', BRPNpcSheet, {
+  foundry.documents.collections.Actors.registerSheet('brp', BRPNPCSheetV2, {
     types: ['npc'],
     makeDefault: true
   })
 
   foundry.documents.collections.Items.unregisterSheet('core', foundry.appv1.sheets.ItemSheet)
+  collections.Items.unregisterSheet("core", sheets.ItemSheetV2);
   foundry.documents.collections.Items.registerSheet('brp', BRPGearSheet, {
     types: ['gear'],
     makeDefault: true

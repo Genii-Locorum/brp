@@ -1,0 +1,21 @@
+<section class='item tab details {{tab.cssClass}}' data-group='primary' data-tab='details'>
+  <div class="powermod-scores">
+    {{#if isGM}}
+      <div class="skill-display" data-tooltip="{{localize 'BRP.cpcModHint'}}">{{localize 'BRP.cpcMod'}}</div>
+      <div class="stat-input"><input name="system.cpcMod" type="text" value="{{item.system.cpcMod}}"
+          data-dtype="Number" /></div>
+      <div></div>
+      <div class="skill-cat {{#if item.system.perLvl}} toggle-active  {{/if}}"
+        data-tooltip="{{localize 'BRP.perLvlHint'}}" data-action="itemToggle" data-property="perLvl">{{localize 'BRP.perLvl'}}</div>
+    {{else}}
+      <div class="skill-display" data-tooltip="{{localize 'BRP.cpcModHint'}}">{{localize 'BRP.cpcMod'}}</div>
+      <div class="hitloc-display centre boxed">{{item.system.cpcMod}}</div>
+      <div></div>
+      <div>{{localize 'BRP.perLvl'}}</div>
+    {{/if}}
+  </div>
+  <br>
+  <div class="bold font14"> {{localize 'BRP.description'}}:</div>
+  <div class="font14 stat-input"><input name="system.shortDesc" type="text" value="{{item.system.shortDesc}}" /></div>
+  <br>
+</section>

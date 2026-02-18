@@ -1,96 +1,143 @@
 import { BRPSelectLists } from "../../apps/select-lists.mjs";
 import { addBRPIDSheetHeaderButton } from '../../brpid/brpid-button.mjs'
+import { BRPItemSheetV2 } from "./base-item-sheet.mjs";
 
-export class BRPMagicSheet extends foundry.appv1.sheets.ItemSheet {
-  constructor(...args) {
-    super(...args)
-    this._sheetTab = 'items'
+export class BRPMagicSheet extends BRPItemSheetV2 {
+  constructor(options = {}) {
+    super(options)
   }
 
-  //Turn off App V1 deprecation warnings
-  //TODO - move to V2
-  static _warnedAppV1 = true
-
-  //Add BRPID buttons to sheet
-  _getHeaderButtons() {
-    const headerButtons = super._getHeaderButtons()
-    addBRPIDSheetHeaderButton(headerButtons, this)
-    return headerButtons
-  }
-
-  static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
-      classes: ['brp', 'sheet', 'item'],
-      template: 'systems/brp/templates/item/magic.html',
+  static DEFAULT_OPTIONS = {
+    classes: ['magic'],
+    position: {
       width: 520,
-      height: 580,
-      scrollY: ['.tab.description'],
-      tabs: [{ navSelector: '.sheet-tabs', contentSelector: '.sheet-body', initial: 'details' }]
-    })
+      height: 610
+    },
   }
 
-  async getData() {
-    const sheetData = super.getData()
-    const itemData = sheetData.item
-    sheetData.hasOwner = this.item.isEmbedded === true
-    sheetData.isGM = game.user.isGM
-    sheetData.powerName = game.settings.get('brp', this.item.type + 'Label')
-    if (sheetData.powerName === "") {
-      sheetData.powerName = game.i18n.localize("BRP." + this.item.type)
+  static PARTS = {
+    header: { template: 'systems/brp/templates/item/item.header.hbs' },
+    tabs: { template: 'systems/brp/templates/global/parts/tab-navigation.hbs' },
+    details: {
+      template: 'systems/brp/templates/item/magic.detail.hbs',
+      scrollable: ['']
+    },
+    description: { template: 'systems/brp/templates/item/item.description.hbs' },
+    gmNotes: { template: 'systems/brp/templates/item/item.gmnotes.hbs' }
+  }
+
+  async _prepareContext(options) {
+    let context = await super._prepareContext(options)
+    //If power label game setting  change item type label
+    if (game.settings.get('brp', this.item.type + 'Label') != "") {
+      context.itemType = game.settings.get('brp', this.item.type + 'Label')
     }
     //Get drop down options from select-lists.mjs
-    sheetData.catOptions = await BRPSelectLists.getSpellCatOptions();
-    sheetData.catName = game.i18n.localize("BRP." + this.item.system.impact);
-    sheetData.skillCatOptions = await BRPSelectLists.getCategoryOptions();
+    context.catOptions = await BRPSelectLists.getSpellCatOptions();
+    context.catName = game.i18n.localize("BRP." + this.item.system.impact);
+    context.skillCatOptions = await BRPSelectLists.getCategoryOptions();
+    const itemData = context.item
     let skillCat = (await game.system.api.brpid.fromBRPIDBest({ brpid: this.item.system.category }))[0]
     if (skillCat) {
-      sheetData.skillCatName = skillCat.name
+      context.skillCatName = skillCat.name
     } else {
-      sheetData.skillCatName = ""
+      context.skillCatName = ""
     }
     itemData.system.total = itemData.system.base + itemData.system.xp + itemData.system.effects + itemData.system.personality + itemData.system.profession + itemData.system.personal + + itemData.system.culture;
 
-    sheetData.enrichedDescriptionValue = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
-      sheetData.data.system.description,
-      {
-        async: true,
-        secrets: sheetData.editable
-      }
-    )
 
-    sheetData.enrichedGMDescriptionValue = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
-      sheetData.data.system.gmDescription,
-      {
-        async: true,
-        secrets: sheetData.editable
-      }
-    )
+    context.tabs = this._getTabs(options.parts);
+    return context
+  }
 
-    return sheetData
+  /** @override */
+  async _preparePartContext(partId, context) {
+    switch (partId) {
+      case 'details':
+        context.tab = context.tabs[partId];
+        break;
+      case 'description':
+        context.tab = context.tabs[partId];
+        context.enrichedDescription = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+          this.item.system.description,
+          {
+            secrets: this.document.isOwner,
+            rollData: this.document.getRollData(),
+            relativeTo: this.document,
+          }
+        );
+        break;
+      case 'gmNotes':
+        context.tab = context.tabs[partId];
+        context.enrichedGMDescription = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+          this.item.system.gmDescription,
+          {
+            secrets: this.document.isOwner,
+            rollData: this.document.getRollData(),
+            relativeTo: this.document,
+          }
+        );
+        break;
+    }
+    return context;
+  }
+
+  _getTabs(parts) {
+    const tabGroup = 'primary';
+    //Default tab
+    if (!this.tabGroups[tabGroup]) {
+      if (game.settings.get('brp','defaultTab')) {
+        this.tabGroups[tabGroup] = 'description';
+      }  else {
+        this.tabGroups[tabGroup] = 'details';
+      }
+    }
+    return parts.reduce((tabs, partId) => {
+      const tab = {
+        cssClass: '',
+        group: tabGroup,
+        id: '',
+        icon: '',
+        label: 'BRP.',
+      };
+      switch (partId) {
+        case 'header':
+        case 'tabs':
+          return tabs;
+        case 'details':
+          tab.id = 'details';
+          tab.label += 'details';
+          break;
+        case 'description':
+          tab.id = 'description';
+          tab.label += 'description';
+          break;
+        case 'gmNotes':
+          tab.id = 'gmNotes';
+          tab.label += 'gmNotes';
+          break;
+      }
+      if (this.tabGroups[tabGroup] === tab.id) tab.cssClass = 'active';
+      tabs[partId] = tab;
+      return tabs;
+    }, {});
+  }
+
+  _configureRenderOptions(options) {
+    super._configureRenderOptions(options);
+    //Only show GM tab if you are GM
+    options.parts = ['header', 'tabs', 'details', 'description'];
+    if (game.user.isGM) {
+      options.parts.push('gmNotes');
+    }
   }
 
   //Activate event listeners using the prepared sheet HTML
-  activateListeners(html) {
-    super.activateListeners(html)
-    if (!this.options.editable) return
-    html.find('.item-toggle').click(this.onItemToggle.bind(this));
+  _onRender(context, _options) {
   }
 
-  //Handle toggle states
-  async onItemToggle(event) {
-    event.preventDefault();
-    const prop = event.currentTarget.closest('.item-toggle').dataset.property;
-    let checkProp = {};
-    if (['mem', 'improve'].includes(prop)) {
-      checkProp = { [`system.${prop}`]: !this.object.system[prop] }
-    } else { return }
-
-    const item = await this.object.update(checkProp);
-    return item;
-  }
-
-  _updateObject(event, formData) {
-    super._updateObject(event, formData)
-  }
+  //-----------------------ACTIONS-----------------------------------
 
 }
+
+

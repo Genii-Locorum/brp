@@ -1,0 +1,41 @@
+<section class='item tab details {{tab.cssClass}}' data-group='primary' data-tab='details'>
+  <div class="armour-scores">
+    <div class="skill-display">{{localize 'BRP.opposedTrait'}}</div>
+    <div class="stat-input"><input name="system.oppName" type="text" value="{{item.system.oppName}}" /></div>
+  </div>
+  <br>
+  <div class="item-title"> {{localize 'BRP.options'}}:</div>
+  <div class="options-grid">
+    <div class="skill-cat {{#if item.system.basic}} toggle-active  {{/if}}"
+      data-tooltip="{{localize 'BRP.basicTraitHint'}}"  data-action="itemToggle" data-property="basic">{{localize 'BRP.basicTrait'}}</div>
+  </div>
+  <br>
+
+  {{#if hasOwner}}
+    <div class="item-title"> {{localize 'BRP.scores'}}:</div>
+    <div class="armour-scores">
+      <div class="skill-display new-row indent">{{localize 'BRP.base'}}</div>
+      <div class="weapon-input centre"><input name="system.base" type="text" value="{{item.system.base}}"
+          data-dtype="Number" /></div>
+      <div class="skill-display indent">{{localize 'BRP.xp'}}</div>
+      <div class="weapon-input centre"><input name="system.xp" type="text" value="{{item.system.xp}}"
+          data-dtype="Number" /></div>
+      <div class="skill-display indent">{{localize 'BRP.total'}}</div>
+      <div class="weapon-input centre bold tertiary">{{item.system.total}}</div>
+      <div class="new-row skill-display indent">{{localize 'BRP.opposedTotal'}}</div>
+      <div class="weapon-input centre bold tertiary">{{item.system.opptotal}}</div>
+      <br>
+      <div class="new-row"></div>
+
+      <div class="new-row skill-display new-row">{{localize 'BRP.improve'}}</div>
+      <div class="centre itemIcon"><a class="nopad" data-action="itemToggle" data-property="improve"><i
+            class="{{#if item.system.improve}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a>
+      </div>
+      <br>
+      <div class="new-row skill-display new-row">{{localize 'BRP.oppImprove'}}</div>
+      <div class="centre itemIcon"><a class="nopad"  data-action="itemToggle" data-property="oppimprove"><i
+            class="{{#if item.system.oppimprove}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a>
+      </div>
+    </div>
+  {{/if}}
+</section>

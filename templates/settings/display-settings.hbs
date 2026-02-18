@@ -1,0 +1,126 @@
+<div class="brp settingsForm flexcol" autocomplete="off">
+  <h2 class="bold">{{localize 'BRP.Settings.displayOptions'}}</h2>
+
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.actorFontColour'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <input class="centre" name="actorFontColour" type="text" value="{{optSet.actorFontColour.value}}" />
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.actorFontColourHint'}}</p>
+  </div>
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.actorTitleColour'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <input class="centre" name="actorTitleColour" type="text" value="{{optSet.actorTitleColour.value}}" />
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.actorTitleColourHint'}}</p>
+  </div>
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.actorTertiaryColour'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <input class="centre" name="actorTertiaryColour" type="text" value="{{optSet.actorTertiaryColour.value}}" />
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.actorTertiaryColourHint'}}</p>
+  </div>
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.brpIconPrimary'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <input class="centre" name="brpIconPrimary" type="text" value="{{optSet.brpIconPrimary.value}}" />
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.brpIconPrimaryHint'}}</p>
+  </div>
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.actorTabNameColour'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <input class="centre" name="actorTabNameColour" type="text" value="{{optSet.actorTabNameColour.value}}" />
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.actorTabNameColourHint'}}</p>
+  </div>
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.actorRollableColour'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <input class="centre" name="actorRollableColour" type="text" value="{{optSet.actorRollableColour.value}}" />
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.actorRollableColourHint'}}</p>
+  </div>
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.actorRollableShadowColour'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <input class="centre" name="actorRollableShadowColour" type="text" value="{{optSet.actorRollableShadowColour.value}}" />
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.actorRollableShadowColourHint'}}</p>
+  </div>
+
+  <div class="file-form-group">
+    <label class="bold">{{localize 'BRP.Settings.actorSheetBackground'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <file-picker name="actorSheetBackground" type="pictures" value="{{optSet.actorSheetBackground.value}}"></file-picker>
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.actorSheetBackgroundHint'}}</p>
+  </div>
+
+  <div class="file-form-group">
+    <label class="bold">{{localize 'BRP.Settings.charSheetLogo'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <file-picker name="charSheetLogo" type="pictures" value="{{optSet.charSheetLogo.value}}"></file-picker>
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.charSheetLogoHint'}}</p>
+  </div>
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.actorBackColour'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <input class="centre" name="actorBackColour" type="text" value="{{optSet.actorBackColour.value}}" />
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.actorBackColourHint'}}</p>
+  </div>
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.secBackColour'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <input class="centre" name="secBackColour" type="text" value="{{optSet.secBackColour.value}}" />
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.secBackColourHint'}}</p>
+  </div>
+
+  <div class="file-form-group">
+    <label class="bold">{{localize 'BRP.Settings.charSheetMainFont'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <file-picker name="charSheetMainFont" type="font" value="{{optSet.charSheetMainFont.value}}"></file-picker>
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.charSheetMainFontHint'}}</p>
+  </div>
+
+  <div class="file-form-group">
+    <label class="bold">{{localize 'BRP.Settings.charSheetTitleFont'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <file-picker name="charSheetTitleFont" type="font" value="{{optSet.charSheetTitleFont.value}}"></file-picker>
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.charSheetTitleFontHint'}}</p>
+  </div>
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.charSheetMainFontSize'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <input class="centre" name="charSheetMainFontSize" type="text" value="{{optSet.charSheetMainFontSize.value}}" data-dtype="Number" />
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.charSheetMainFontSizeHint'}}</p>
+  </div>
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.charSheetTitleFontSize'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <input class="centre" name="charSheetTitleFontSize" type="text" value="{{optSet.charSheetTitleFontSize.value}}" data-dtype="Number" />
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.charSheetTitleFontSizeHint'}}</p>
+  </div>
+
+  <br>
+</div>

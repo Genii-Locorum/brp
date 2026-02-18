@@ -1,16 +1,17 @@
 import { BRPUtilities } from '../apps/utilities.mjs';
 import { BRPactorDetails } from "../apps/actorDetails.mjs";
+import BRPDialog from '../setup/brp-dialog.mjs';
 
 export class BRPDamage {
 
   // Add Damage
-  static async addDamage(event, actor, token, damage) {
+  static async addDamage(target, actor, token, damage) {
     let partic = await BRPactorDetails._getParticipantPriority(token, actor)
     let getLoc = false
     let getDam = false
     let locs = {}
     let listLocs = {}
-    let locationId = event.currentTarget.dataset.itemId;
+    let locationId = target.dataset.itemId;
     if (!locationId && game.settings.get('brp', 'useHPL')) {
       locs = await actor.items.filter(itm => itm.type === 'hit-location')
       if (locs.length === 1) {
@@ -38,8 +39,8 @@ export class BRPDamage {
     }
     if (getDam || getLoc) {
       let usage = await this.getWoundForm(getDam, getLoc, partic.name, listLocs)
-      if (getDam) { damage = Number(usage.get('damage')) };
-      if (getLoc) { locationId = usage.get('woundLoc') };
+      if (getDam) { damage = Number(usage.damage) };
+      if (getLoc) { locationId = usage.woundLoc};
     }
     if (damage < 1) { return }
 
@@ -93,7 +94,7 @@ export class BRPDamage {
         })
       }
       if (!partic.system.minorWnd && !partic.system.majorWnd)
-        partic.update({ 'system.health.daily': partic.system.health.daily + damage })
+        await partic.update({ 'system.health.daily': partic.system.health.daily + damage })
     }
     if (game.settings.get('brp', 'useHPL')) { await location.update(checkprop) }
 
@@ -138,7 +139,7 @@ export class BRPDamage {
   //Treat a Wound - First Aid or Magic
   static async treatWound(event, actor, dataitem, type) {
     let itemID = ""
-    if (dataitem === "itemId") {
+    if (dataitem === "itemId" || dataitem === "woundId") {
       itemID = await BRPUtilities.getDataset(event, dataitem)
     }
 
@@ -188,10 +189,10 @@ export class BRPDamage {
     let healing = 0
     let usage = await BRPDamage.healingAmount(game.i18n.localize('BRP.treatWound'), getType, getWnd, wndList, healTypes)
     if (usage) {
-      healing = Number(usage.get('treat-wound'));
-      if (getType) { type = usage.get('healType') };
-      if (getWnd) { itemID = usage.get('woundId') };
-    }
+      healing = Number(usage.treatWound);
+      if (getType) { type = usage.healType };
+      if (getWnd) { itemID = usage.woundId };
+    } else if (!usage) return
 
     const item = actor.items.get(itemID);
     let hitLoc = actor.items.get(item.system.locId)
@@ -237,7 +238,7 @@ export class BRPDamage {
     let updates = [];
     let deletes = [];
     if (usage) {
-      healing = Number(usage.get('treat-wound'));
+      healing = Number(usage.treatWound);
     }
     //If amout of healing is zero then simply ignore and stop
     if (healing === 0) { return }
@@ -299,7 +300,7 @@ export class BRPDamage {
   // Form to get amount of damage or healing
   static async healingAmount(title, getType, getWnd, wndList, healTypes) {
     const html = await foundry.applications.handlebars.renderTemplate(
-      'systems/brp/templates/dialog/treatWound.html',
+      'systems/brp/templates/dialog/treatWound.hbs',
       {
         getType,
         getWnd,
@@ -307,69 +308,41 @@ export class BRPDamage {
         healTypes
       }
     )
-    return new Promise(resolve => {
-      let formData = null
-      const dlg = new Dialog({
-        title: title,
-        content: html,
-        buttons: {
-          validate: {
-            label: game.i18n.localize('BRP.confirm'),
-            callback: html => {
-              formData = new FormData(
-                html[0].querySelector('#treat-wound-form')
-              )
-              return resolve(formData)
-            }
-          }
-        },
-        default: 'validate',
-        close: () => {
-          return resolve(false)
-        }
-      }, { classes: ["brp", "sheet"] })
-      dlg.render(true)
+    const dlg = await BRPDialog.input({
+      window: {title: title},
+      content: html,
+      ok: {
+        label: game.i18n.localize('BRP.confirm')
+      }
     })
+    return dlg
   }
 
   static async resetDaily(event, actor) {
     actor.update({ 'system.health.daily': 0 })
+    ui.notifications.warn(game.i18n.localize('BRP.resetDaily')+": "+actor.name)
   }
 
   //Get New Wound Dialog
   static async getWoundForm(getDam, getLoc, name, locs) {
     let title = game.i18n.localize('BRP.addWound') + ": " + name;
     const html = await foundry.applications.handlebars.renderTemplate(
-      'systems/brp/templates/dialog/newWound.html',
+      'systems/brp/templates/dialog/newWound.hbs',
       {
         getDam,
         getLoc,
         locs
       }
     )
-    return new Promise(resolve => {
-      let formData = null
-      const dlg = new Dialog({
-        title: title,
-        content: html,
-        buttons: {
-          validate: {
-            label: game.i18n.localize('BRP.confirm'),
-            callback: html => {
-              formData = new FormData(
-                html[0].querySelector('#new-wound-form')
-              )
-              return resolve(formData)
-            }
-          }
-        },
-        default: 'validate',
-        close: () => {
-          return resolve(false)
-        }
-      }, { classes: ["brp", "sheet"] })
-      dlg.render(true)
+
+    const dlg = await BRPDialog.input({
+      window: {title: title},
+      content: html,
+      ok: {
+        label: game.i18n.localize('BRP.confirm')
+      }
     })
+    return dlg
   }
 
   //Treat Wound by UUID
@@ -458,7 +431,6 @@ export class BRPDamage {
       'flags.brp.brpidFlag.lang': game.i18n.lang,
       'flags.brp.brpidFlag.priority': 0
     })
-    console.log(newItem)
   }
 
 }

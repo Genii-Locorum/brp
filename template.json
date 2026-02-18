@@ -126,6 +126,7 @@
       "biography": "",
       "background": "",
       "backstory": "",
+      "stories":[],
       "gender": "",
       "culture": "",
       "religion": "",
@@ -153,9 +154,13 @@
       "extDesc": "",
       "majorWnd": false,
       "minorWnd": false,
+      "moveTitle": "Move",
       "move": 0,
+      "altMoveTitle":"Alt Move",
+      "altMove": 0,
       "lock": false,
       "viewTab": "2",
+      "showNotes": false,
       "sanLoss": "",
       "sanDesc": "",
       "movDesc": "",
@@ -242,6 +247,7 @@
       "quantity": 1,
       "enc": 0,
       "price": "",
+      "cost": 0,
       "equipStatus": "carried",
       "pSCurr": 0,
       "pSMax": 0
@@ -303,8 +309,8 @@
       "maxHP": 0,
       "wounds": [],
       "adj": 0,
-      "apRnd": "",
-      "bapRnd": ""
+      "apRnd": "0",
+      "bapRnd": "0"
     },
     "personality": {
       "templates": [
@@ -450,6 +456,7 @@
       "ppMax": 0,
       "ppCurr": 0,
       "price": "",
+      "cost": 0,
       "hitlocID": "",
       "equipStatus": "carried",
       "HPL": false,
@@ -498,6 +505,7 @@
       "dex": 0,
       "enc": 0,
       "price": "",
+      "cost": 0,
       "equipStatus": "carried",
       "coverage": "",
       "quantity": 1,

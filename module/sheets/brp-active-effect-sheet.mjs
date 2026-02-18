@@ -1,10 +1,11 @@
 import { BRPActiveEffect } from "../apps/active-effect.mjs"
 
 export class BRPActiveEffectSheet {
-  static getItemEffectsFromSheet(sheetData) {
-    if (sheetData.hasOwner) {
-      return sheetData.document.parent.effects.reduce((c, i) => {
-        if (i.origin === sheetData.document.uuid) {
+  static getItemEffectsFromSheet(document) {
+    //Changed from hasOwner to isOwned in V13
+    if (document.isOwned) {
+      return document.parent.effects.reduce((c, i) => {
+        if (i.origin === document.uuid) {
           c.push({
             uuid: i.uuid,
             name: i.name
@@ -13,7 +14,7 @@ export class BRPActiveEffectSheet {
         return c
       }, [])
     }
-    return sheetData.document.effects.reduce((c, i) => {
+    return document.effects.reduce((c, i) => {
       c.push({
         uuid: i.uuid,
         name: i.name
@@ -64,9 +65,9 @@ export class BRPActiveEffectSheet {
     }
   }
 
-  static async getActorEffectsFromSheet(sheetData) {
+  static async getActorEffectsFromSheet(document) {
     const effectKeys = foundry.utils.duplicate(CONFIG.BRP.keysActiveEffects)
-    let aEffects = this.getItemEffectsFromSheet(sheetData)
+    let aEffects = this.getItemEffectsFromSheet(document)
     let effects = []
     for (let eff of aEffects) {
       let brpAE = await fromUuid(eff.uuid)
@@ -87,13 +88,13 @@ export class BRPActiveEffectSheet {
     return effects
   }
 
-  static activateListeners(document, html) {
+  static activateListeners(document) {
     if (game.user.isGM) {
-      html.find('div[data-action="openActiveEffect"]').click(BRPActiveEffectSheet._onOpenActiveEffect.bind(document))
-      html.find('div[data-action="addItemEffect"]').click(BRPActiveEffectSheet._onAddItemEffect.bind(document))
-      html.find('div.active-effect-change-edit .fa-trash').click(BRPActiveEffectSheet._onDeleteItemEffectChange.bind(document))
-      html.find('div.active-effect-change-edit select').click(BRPActiveEffectSheet._onChangeItemEffectChange.bind(document))
-      html.find('div.active-effect-change-edit input').blur(BRPActiveEffectSheet._onChangeItemEffectChange.bind(document))
+      document.element.querySelectorAll('div[data-action="openActiveEffect"]').forEach(n => n.addEventListener("click", BRPActiveEffectSheet._onOpenActiveEffect.bind(document)))
+      document.element.querySelectorAll('div[data-action="addItemEffect"]').forEach(n => n.addEventListener("click", BRPActiveEffectSheet._onAddItemEffect.bind(document)))
+      document.element.querySelectorAll('div.active-effect-change-edit .fa-trash').forEach(n => n.addEventListener("click", BRPActiveEffectSheet._onDeleteItemEffectChange.bind(document)))
+      document.element.querySelectorAll('div.active-effect-change-edit select').forEach(n => n.addEventListener("click", BRPActiveEffectSheet._onChangeItemEffectChange.bind(document)))
+      document.element.querySelectorAll('div.active-effect-change-edit input').forEach(n => n.addEventListener("blur", BRPActiveEffectSheet._onChangeItemEffectChange.bind(document)))
     }
   }
 

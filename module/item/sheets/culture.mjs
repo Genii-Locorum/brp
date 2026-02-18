@@ -1,35 +1,42 @@
 import { BRPUtilities } from '../../apps/utilities.mjs'
 import { addBRPIDSheetHeaderButton } from '../../brpid/brpid-button.mjs'
+import { BRPItemSheetV2 } from "./base-item-sheet.mjs";
+import BRPDialog from '../../setup/brp-dialog.mjs';
 
-export class BRPCultureSheet extends foundry.appv1.sheets.ItemSheet {
 
-  //Add BRPID buttons to sheet
-  _getHeaderButtons() {
-    const headerButtons = super._getHeaderButtons()
-    addBRPIDSheetHeaderButton(headerButtons, this)
-    return headerButtons
+export class BRPCultureSheet extends BRPItemSheetV2 {
+  constructor(options = {}) {
+    super(options)
+    this.#dragDrop = this.#createDragDropHandlers()
   }
 
-  //Turn off App V1 deprecation warnings
-  //TODO - move to V2
-  static _warnedAppV1 = true
-
-  static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
-      classes: ['brp', 'sheet', 'culture'],
-      template: 'systems/brp/templates/item/culture.html',
-      width: 525,
-      height: 550,
-      dragDrop: [{ dragSelector: '.item' }],
-      scrollY: ['.tab.description'],
-      tabs: [{ navSelector: '.sheet-tabs', contentSelector: '.sheet-body', initial: 'details' }]
-    })
+  static DEFAULT_OPTIONS = {
+    classes: ['culture'],
+    dragDrop: [{ dragSelector: '[data-drag]', dropSelector: '.droppable' }],
+    position: {
+      width: 520,
+      height: 550
+    },
+    form: {
+      handler: BRPCultureSheet.myCultureHandler
+    }
   }
 
-  async getData() {
-    const sheetData = super.getData()
-    sheetData.isGM = game.user.isGM
-    const itemData = sheetData.item
+  static PARTS = {
+    header: { template: 'systems/brp/templates/item/item.header.hbs' },
+    tabs: { template: 'systems/brp/templates/global/parts/tab-navigation.hbs' },
+    details: {
+      template: 'systems/brp/templates/item/culture.detail.hbs',
+      scrollable: ['']
+    },
+    description: { template: 'systems/brp/templates/item/item.description.hbs' },
+    gmNotes: { template: 'systems/brp/templates/item/item.gmnotes.hbs' }
+  }
+
+  async _prepareContext(options) {
+    let context = await super._prepareContext(options)
+    const actor = this.item.parent
+    const itemData = context.item
     const perSkill = [];
     const grpSkill = [];
     for (let skill of itemData.system.skills) {
@@ -40,7 +47,6 @@ export class BRPCultureSheet extends foundry.appv1.sheets.ItemSheet {
         perSkill.push({ uuid: skill.uuid, brpid: skill.brpid, name: game.i18n.localize("BRP.invalid"), category: "", variable: "", base: "", group: "", bonus: 0 })
       }
     }
-
     for (let index = 0; index < this.item.system.groups.length; index++) {
       for (let skill of this.item.system.groups[index].skills) {
         let tempSkill = (await game.system.api.brpid.fromBRPIDBest({ brpid: skill.brpid }))[0]
@@ -51,7 +57,6 @@ export class BRPCultureSheet extends foundry.appv1.sheets.ItemSheet {
         }
       }
     }
-
     for (let [key, stat] of Object.entries(this.item.system.stats)) {
       stat.label = game.i18n.localize(CONFIG.BRP.statsAbbreviations[key]) ?? key;
       if (['str', 'int', 'pow', 'cha'].includes(key)) {
@@ -60,46 +65,125 @@ export class BRPCultureSheet extends foundry.appv1.sheets.ItemSheet {
         stat.newrow = false
       }
     }
-
-
-    sheetData.perSkill = perSkill.sort(BRPUtilities.sortByNameKey);
-    sheetData.grpSkill = grpSkill.sort(BRPUtilities.sortByNameKey);
-
-    sheetData.enrichedDescriptionValue = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
-      sheetData.data.system.description,
-      {
-        async: true,
-        secrets: sheetData.editable
-      }
-    )
-
-    sheetData.enrichedGMDescriptionValue = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
-      sheetData.data.system.gmDescription,
-      {
-        async: true,
-        secrets: sheetData.editable
-      }
-    )
-
-    return sheetData
+    context.perSkill = perSkill.sort(BRPUtilities.sortByNameKey);
+    context.grpSkill = grpSkill.sort(BRPUtilities.sortByNameKey);
+    context.tabs = this._getTabs(options.parts);
+    return context
   }
 
-  activateListeners(html) {
-    super.activateListeners(html)
-    // Everything below here is only needed if the sheet is editable
-    if (!this.options.editable) return
-    html.find('.item-delete').click(event => this._onItemDelete(event, 'skills'))
-    html.find('.item-view').click(this._onItemView.bind(this))
-    html.find('.group-item-delete').click(this._onGroupItemDelete.bind(this))
-    html.find('.group-control').click(this._onGroupControl.bind(this))
-    const dragDrop = new foundry.applications.ux.DragDrop.implementation({
-      dropSelector: '.droppable',
-      callbacks: { drop: this._onDrop.bind(this) }
-    })
-    dragDrop.bind(html[0])
+  /** @override */
+  async _preparePartContext(partId, context) {
+    switch (partId) {
+      case 'details':
+      case 'description':
+        context.tab = context.tabs[partId];
+        context.enrichedDescription = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+          this.item.system.description,
+          {
+            secrets: this.document.isOwner,
+            rollData: this.document.getRollData(),
+            relativeTo: this.document,
+          }
+        );
+        break;
+      case 'gmNotes':
+        context.tab = context.tabs[partId];
+        context.enrichedGMDescription = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+          this.item.system.gmDescription,
+          {
+            secrets: this.document.isOwner,
+            rollData: this.document.getRollData(),
+            relativeTo: this.document,
+          }
+        );
+        break;
+    }
+    return context;
   }
 
-  //Allow for a skill being dragged and dropped on to the peronality sheet either in the main skill list or an Optional Group
+  _getTabs(parts) {
+    const tabGroup = 'primary';
+    //Default tab
+    if (!this.tabGroups[tabGroup]) {
+      if (game.settings.get('brp','defaultTab')) {
+        this.tabGroups[tabGroup] = 'description';
+      }  else {
+        this.tabGroups[tabGroup] = 'details';
+      }
+    }
+    return parts.reduce((tabs, partId) => {
+      const tab = {
+        cssClass: '',
+        group: tabGroup,
+        id: '',
+        icon: '',
+        label: 'BRP.',
+      };
+      switch (partId) {
+        case 'header':
+        case 'tabs':
+          return tabs;
+        case 'details':
+          tab.id = 'details';
+          tab.label += 'details';
+          break;
+        case 'description':
+          tab.id = 'description';
+          tab.label += 'description';
+          break;
+        case 'gmNotes':
+          tab.id = 'gmNotes';
+          tab.label += 'gmNotes';
+          break;
+       }
+      if (this.tabGroups[tabGroup] === tab.id) tab.cssClass = 'active';
+      tabs[partId] = tab;
+      return tabs;
+    }, {});
+  }
+
+  _configureRenderOptions(options) {
+    super._configureRenderOptions(options);
+    //Only show GM tab if you are GM
+    options.parts = ['header', 'tabs', 'details','description'];
+    if (game.user.isGM) {
+        options.parts.push('gmNotes');
+    }
+  }
+
+  //Activate event listeners using the prepared sheet HTML
+  _onRender(context, options) {
+    this.#dragDrop.forEach((d) => d.bind(this.element))
+    this.element.querySelectorAll('.item-delete').forEach(n => n.addEventListener("click", this._onItemDelete.bind(this)));
+    this.element.querySelectorAll('.item-view').forEach(n => n.addEventListener("click", this._onItemView.bind(this)));
+    this.element.querySelectorAll('.group-item-delete').forEach(n => n.addEventListener("click", this._onGroupItemDelete.bind(this)));
+    this.element.querySelectorAll('.group-control').forEach(n => n.addEventListener("click", this._onGroupControl.bind(this)));
+  }
+
+
+  //--------------------HANDLER----------------------------------
+  static async myCultureHandler(event, form, formData) {
+    const system = foundry.utils.expandObject(formData.object)?.system
+    if (typeof system != 'undefined') {
+      if (system.groups) {
+        formData.object['system.groups'] = Object.values(
+          system.groups || []
+        )
+        for (let index = 0; index < this.item.system.groups.length; index++) {
+          formData.object[`system.groups.${index}.skills`] = foundry.utils.duplicate(
+            this.item.system.groups[index].skills
+          )
+        }
+      }
+    }
+    await this.document.update(formData.object)
+  }
+
+
+  //-----------------------ACTIONS-----------------------------------
+
+
+ //Allow for a skill being dragged and dropped on to the peronality sheet either in the main skill list or an Optional Group
   async _onDrop(event, type = 'skill', collectionName = 'skills') {
     event.preventDefault()
     event.stopPropagation()
@@ -133,7 +217,7 @@ export class BRPCultureSheet extends foundry.appv1.sheets.ItemSheet {
         }
         let usage = await this.enterValue('culture', 'test')
         if (usage) {
-          cultureBonus = Number(usage.get('myValue'));
+          cultureBonus = Number(usage);
         }
         //If culture bonus = 0 then don't drop the item
         if (cultureBonus === 0) { continue }
@@ -159,7 +243,7 @@ export class BRPCultureSheet extends foundry.appv1.sheets.ItemSheet {
         }
         let usage = await this.enterValue('culture', 'test')
         if (usage) {
-          cultureBonus = Number(usage.get('myValue'));
+          cultureBonus = Number(usage);
         }
         //If culture bonus = 0 then don't drop the item
         if (cultureBonus === 0) { continue }
@@ -177,17 +261,18 @@ export class BRPCultureSheet extends foundry.appv1.sheets.ItemSheet {
 
     // Add a new Optional Skill Group
     if (a.classList.contains('add-group')) {
-      await this._onSubmit(event) // Submit any unsaved changes
-      const groups = this.item.system.groups
+      //await this._onSubmit(event) // Submit any unsaved changes
+      const groups = this.item.system.groups ? foundry.utils.duplicate(this.item.system.groups) : []
+      let newGroups = groups.concat([{ options: 1, skills: [] }])
       await this.item.update({
-        'system.groups': groups.concat([{ options: 1, skills: [] }])
+        'system.groups': newGroups
       })
     }
 
     //Delete an Optional Skill Group
     if (a.classList.contains('remove-group')) {
-      await this._onSubmit(event) // Submit any unsaved changes
-      const groups = foundry.utils.duplicate(this.item.system.groups)
+      //await this._onSubmit(event) // Submit any unsaved changes
+      const groups = this.item.system.groups ? foundry.utils.duplicate(this.item.system.groups) : []
       const ol = a.closest('.item-list.group')
       groups.splice(Number(ol.dataset.group), 1)
       await this.item.update({ 'system.groups': groups })
@@ -195,7 +280,9 @@ export class BRPCultureSheet extends foundry.appv1.sheets.ItemSheet {
   }
 
   //Delete's a skill in the main skill list
-  async _onItemDelete(event, collectionName = 'items') {
+  async _onItemDelete(event, collectionName = 'skills') {
+    event.preventDefault();
+    event.stopImmediatePropagation();
     const item = $(event.currentTarget).closest('.item')
     const itemId = item.data('item-id')
     const itemIndex = this.item.system[collectionName].findIndex(i => (itemId && i.uuid === itemId))
@@ -221,23 +308,6 @@ export class BRPCultureSheet extends foundry.appv1.sheets.ItemSheet {
     }
   }
 
-  _updateObject(event, formData) {
-    const system = foundry.utils.expandObject(formData)?.system
-    if (typeof system != 'undefined') {
-      if (system.groups) {
-        formData['system.groups'] = Object.values(
-          system.groups || []
-        )
-        for (let index = 0; index < this.item.system.groups.length; index++) {
-          formData[`system.groups.${index}.skills`] = foundry.utils.duplicate(
-            this.item.system.groups[index].skills
-          )
-        }
-      }
-    }
-    super._updateObject(event, formData)
-  }
-
   async _onItemView(event) {
     const item = $(event.currentTarget).closest('.item')
     const brpid = item.data('brpid')
@@ -253,33 +323,92 @@ export class BRPCultureSheet extends foundry.appv1.sheets.ItemSheet {
       title = game.i18n.localize('BRP.cultureBonus') + ": " + name;
     }
     const html = await foundry.applications.handlebars.renderTemplate(
-      'systems/brp/templates/dialog/getValue.html',
+      'systems/brp/templates/dialog/getValue.hbs',
       {
         type,
       }
     )
-    return new Promise(resolve => {
-      let formData = null
-      const dlg = new Dialog({
-        title: title,
-        content: html,
-        buttons: {
-          validate: {
-            label: game.i18n.localize('BRP.confirm'),
-            callback: html => {
-              formData = new FormData(
-                html[0].querySelector('#get-value-form')
-              )
-              return resolve(formData)
-            }
-          }
-        },
-        default: 'validate',
-        close: () => {
-          return resolve(false)
-        }
-      }, { classes: ["brp", "sheet"] })
-      dlg.render(true)
-    })
+
+    const data = await BRPDialog.input({
+      window: { title: title },
+      content: html,
+      ok: {label: game.i18n.localize('BRP.confirm')}
+    });
+    return data.myValue
   }
+
+
+
+
+  // DragDrop
+  //
+  //
+
+  _canDragStart(selector) {
+    // game.user fetches the current user
+    return this.isEditable;
+  }
+
+  _canDragDrop(selector) {
+    // game.user fetches the current user
+    return this.isEditable;
+  }
+
+
+  _onDragStart(event) {
+    const li = event.currentTarget;
+    if ('link' in event.target.dataset) return;
+
+    let dragData = null;
+
+    // Active Effect
+    if (li.dataset.effectId) {
+      const effect = this.item.effects.get(li.dataset.effectId);
+      dragData = effect.toDragData();
+    }
+
+    if (!dragData) return;
+
+    // Set data transfer
+    event.dataTransfer.setData('text/plain', JSON.stringify(dragData));
+  }
+
+  _onDragOver(event) { }
+
+  async _onDropItem(event, data) {
+    if (!this.item.isOwner) return false;
+  }
+
+  async _onDropFolder(event, data) {
+    if (!this.item.isOwner) return [];
+  }
+
+  get dragDrop() {
+    return this.#dragDrop;
+  }
+
+  // This is marked as private because there's no real need
+  // for subclasses or external hooks to mess with it directly
+  #dragDrop;
+
+  #createDragDropHandlers() {
+    return this.options.dragDrop.map((d) => {
+      d.permissions = {
+        dragstart: this._canDragStart.bind(this),
+        drop: this._canDragDrop.bind(this),
+      };
+      d.callbacks = {
+        dragstart: this._onDragStart.bind(this),
+        dragover: this._onDragOver.bind(this),
+        drop: this._onDrop.bind(this),
+      };
+      return new foundry.applications.ux.DragDrop.implementation(d);
+    });
+  }
+
 }
+
+
+
+
+

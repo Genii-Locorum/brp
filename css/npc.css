@@ -1,0 +1,282 @@
+.brp.npcv2 {
+    overflow: visible;
+
+    .window-content {
+      padding: 10px;
+    }
+
+    .npc-main-sheet {
+      overflow-y: auto;
+      scrollbar-width: thin;
+      height: inherit;
+      border-left: 2px solid var(--brp-border-color);
+      border-right: 2px solid var(--brp-border-color);
+      font-size: var(--actor-main-font-size);
+    }
+
+   .npc-header-sheet {
+      height: inherit;
+      border-left: 2px solid var(--brp-border-color);
+      border-right: 2px solid var(--brp-border-color);
+      border-top: 2px solid var(--brp-border-color);
+      font-size: var(--actor-main-font-size);
+    }
+
+    .npcpersonal-inp {
+      height: 18px;
+      line-height: 18px;
+
+      border-top: 1px solid transparent;
+      border-left: 1px solid transparent;
+      border-right: 1px solid transparent;
+      border-bottom: 1px solid rgb(87, 86, 86);
+      border-radius: 0px;
+      padding: 0px;
+      background-color: transparent;
+      box-shadow: none;
+    }
+
+    .npc-name-grid {
+      display: grid;
+      margin: 0px;
+      padding: 2px 5px 0px 5px;
+      row-gap: 0px;
+      column-gap: 5px;
+
+      grid-template-columns: 60px 270px 30px 30px 30px 30px 30px 30px;
+      border-bottom: 2px solid var(--brp-border-color);
+    }
+
+    .npc-main-grid {
+      display: grid;
+      height: 110px;
+      grid-template-columns: 180px 140px 145px 100px;
+      gap: 0px;
+      margin-top: 0px;
+      margin-bottom: 0px;
+      border-bottom: 2px solid var(--brp-border-color);
+    }
+
+    .npc-stats-grid {
+      display: grid;
+      margin: 0px;
+      padding: 5px 0px 0px 5px;
+      gap: 0px;
+
+      border-right: 2px solid var(--brp-border-color);
+      grid-template-columns: 35px 50px 35px 50px;
+    }
+
+    .npc-baseStats-grid {
+      display: grid;
+      margin: 0px;
+      padding: 5px;
+      gap: 0px;
+
+      grid-template-columns: 35px 100px 100px;
+    }
+
+    .npc-points-grid {
+      display: grid;
+      margin: 0px;
+      padding: 5px 0px 0px 5px;
+      gap: 0px;
+
+      border-right: 2px solid var(--brp-border-color);
+      grid-template-columns: 25px 40px 25px 40px;
+    }
+
+    .npc-inp {
+      height: 18px;
+
+      border: 0px solid rgb(87, 86, 86);
+      border-radius: 0px;
+      padding-top: 0px;
+      padding-bottom: 0px;
+      background-color: transparent;
+      vertical-align: middle;
+      box-shadow:none;
+    }
+
+    .npc-stat select {
+      height: 16px;
+      font-size: 14px;
+    }
+
+    .npc-img {
+      flex: 0 0 100px;
+      height: 90px;
+      border: none;
+      padding: 5px;
+    }
+
+    .npc-secondary {
+      display: grid;
+      margin: 0px;
+      padding: 5px 0px 0px 5px;
+      gap: 0px;
+
+      grid-template-columns: 75px 65px;
+      border-right: 2px solid var(--brp-border-color);
+    }
+
+    .npc-skills-grid {
+      display: grid;
+      margin: 0px;
+      padding: 5px 0px 5px 5px;
+      column-gap: 9px;
+
+      grid-template-columns: 175px 175px 175px;
+      border-bottom: 2px solid var(--brp-border-color);
+    }
+
+    .npc-skill-cell {
+      display: grid;
+      margin: 0px;
+      grid-template-columns: 125px 50px;
+      max-height: 18px;
+      line-height: 18px;
+    }
+
+    .npc-skill-cell-unlock {
+      display: grid;
+      margin: 0px;
+      grid-template-columns: 15px 110px;
+      max-height: 18px;
+      line-height: 18px;
+    }
+
+    .npc-weapons-grid {
+      margin: 0px;
+      padding: 5px 0px 5px 5px;
+
+      border-bottom: 2px solid var(--brp-border-color);
+    }
+
+    .npc-weapons-row {
+      display: grid;
+      grid-template-columns: 140px 40px 110px 25px 80px 60px 30px 40px;
+    }
+
+    .npc-weapons-cell {
+      display: grid;
+      margin: 0px;
+      grid-template-columns: 150px 40px 110px 25px 80px 60px 30px 40px;
+    }
+
+    .npc-weapon-title {
+      display: grid;
+      margin: 0px;
+      grid-template-columns: 100px 50px;
+    }
+
+    .npc-weapon-cell-unlock {
+      display: grid;
+      margin: 0px;
+      grid-template-columns: 15px 135px;
+    }
+
+    .npc-armour-grid {
+      display: grid;
+      margin: 0px;
+      padding: 5px 0px 5px 5px;
+      grid-template-columns: 130px 40px 170px 40px 170px;
+      border-bottom: 2px solid var(--brp-border-color);
+    }
+
+    .npc-hitloc-grid {
+      display: grid;
+      margin: 0px;
+      padding: 5px 0px 5px 5px;
+      grid-template-columns: 560px;
+      border-bottom: 2px solid var(--brp-border-color);
+    }
+
+    .npc-hitloc-cell {
+      display: grid;
+      margin: 0px;
+
+      grid-template-columns: 100px 80px 40px 10px 40px 130px 130px 20px;
+    }
+
+    .npc-hitloc-cell-unlock {
+      display: grid;
+      margin: 0px;
+      grid-template-columns: 15px 85px 40px 40px 40px 10px 40px 135px 135px;
+    }
+
+    .npc-hitloc-title {
+      display: grid;
+      margin: 0px;
+      grid-template-columns: 85px 15px;
+    }
+
+    .npc-persTrait-cell {
+      display: grid;
+      margin: 0px;
+      grid-template-columns: 175px 80px 10px 175px 80px;
+    }
+
+    .npc-persTrait-cell-unlock {
+      display: grid;
+      margin: 0px;
+      grid-template-columns: 15px 160px 80px 10px 175px 80px;
+    }
+
+    .npc-notes {
+      margin: 0px;
+      padding: 5px 0px 5px 5px;
+      border-bottom: 2px solid var(--brp-border-color);
+    }
+
+    .npc-description-doc {
+      font-size: var(--actor-main-font-size);
+      height: 600px;
+      width: 375px;
+
+      code-mirror.source-editor {
+        height: 540px;
+      }
+    }
+
+    .npc-powers-cell {
+      display: grid;
+      margin: 0px;
+
+      grid-template-columns: 120px 40px 100px 100px 100px 80px;
+    }
+
+    .npc-powers-cell-unlock {
+      display: grid;
+      margin: 0px;
+
+      grid-template-columns: 15px 105px;
+    }
+
+    .npc-notes-section {
+      position: absolute;
+      min-width: 355px;
+      min-height: 603px;
+      border: 1px solid var(--brp-colour-primary);
+      top: 35px;
+      padding: 10px;
+      right: -408px;
+      background-color: var(--actor-sheet-back);
+      overflow-y: auto;
+      scrollbar-width: thin;
+    }
+
+    .hide-npc-notes {
+      display: none;
+    }
+
+  .hpnpcgrid {
+    display: grid;
+    margin: 0px;
+    margin-right: 10px;
+    padding: 0px 0px 5px 5px;
+    row-gap: 0px;
+    column-gap: 5px;
+    grid-template-columns: 120px 75px 275px;
+  }
+}

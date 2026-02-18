@@ -1,0 +1,18 @@
+<header class='sheet-header'>
+  <div class="skillgrid">
+    <div class="item-title"> {{itemType}}:</div>
+    {{#if item.system.specialism}}
+      <div class="stat-input bold"><input name="system.mainName" type="text" value="{{item.system.mainName}}"
+          placeholder="Name" /></div>
+      <div class="skillgap-name"> / </div>
+      <div class="stat-input bold"><input name="system.specName" type="text" value="{{item.system.specName}}"
+          placeholder="specify" /></div>
+    {{else}}
+      <div class="stat-input bold"><input name="system.mainName" type="text" value="{{item.system.mainName}}"
+          placeholder="Name" /></div>
+      <div></div>
+      <div></div>
+    {{/if}}
+    <img class="item-image" src="{{item.img}}" data-edit="img" data-tooltip="{{item.name}}" height="50" width="50" />
+  </div>
+</header>

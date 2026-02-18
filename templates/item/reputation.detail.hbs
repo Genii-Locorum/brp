@@ -1,0 +1,11 @@
+<section class="item tab details {{tab.cssClass}}" data-group="primary" data-tab="details">
+
+  {{#if hasOwner}}
+  <div class="item-title"> {{localize 'BRP.scores'}}:</div>
+  <div class="armour-scores">
+    <div class="skill-display new-row indent">{{localize 'BRP.base'}}</div>
+    <div class="weapon-input centre"><input name="system.base" type="text" value="{{item.system.base}}"
+        data-dtype="Number" /></div>
+  </div>
+  {{/if}}
+</section>

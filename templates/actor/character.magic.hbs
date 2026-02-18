@@ -1,0 +1,95 @@
+<section class="actor tab magic {{tab.cssClass}}" data-group="primary" data-tab="magic">
+  {{#if system.lock}}
+    {{! Normal Magic Layout}}
+      <div class="magic-listitem">
+        <div class="diff-label">{{magicLabel}}</div>
+        <div></div>
+        <div class="diff-label centre">{{ localize 'BRP.total'}}</div>
+        <div class="diff-label centre">{{ localize 'BRP.range'}}</div>
+        <div class="diff-label centre">{{ localize 'BRP.duration'}}</div>
+        <div class="diff-label centre" data-tooltip="{{ localize 'BRP.ppplHint' label=system.power.labelAbbr }}">{{system.power.labelAbbr}}</div>
+        <div class="diff-label centre" data-tooltip="{{ localize 'BRP.impactHint' }}">{{ localize 'BRP.impact'}}</div>
+        <div class="diff-label centre" data-tooltip="{{ localize 'BRP.memHint' }}">{{ localize 'BRP.mem'}}</div>
+        <div class="diff-label centre" data-tooltip="{{ localize 'BRP.addSpell' }}"  data-action="createDoc" data-document-class="Item" data-type="magic">
+          <a class="largeIcon"><i class="item-control fas fa-plus"></i></a>
+        </div>
+      </div>
+      <ol class="gr-list">
+      {{#each magics as |magic id|}}
+        <li class="item magic-listitem" data-item-id="{{magic._id}}" data-document-class="Item" data-drag='true'>
+          <div class="rollable" data-action="viewDoc" data-tooltip="{{localize 'BRP.viewSpell' type=../magicLabel }}">{{magic.name}}</div>
+          <div data-tooltip="{{ localize 'BRP.improve' }}"><a class="" data-action="itemToggle" data-property="improve"><i class="{{#if magic.system.improve}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>
+          <div class="centre rollable" data-action="skillRoll" data-tooltip="{{localize 'BRP.skillHint'}}">{{magic.system.grandTotal}}%</div>
+          <div class="centre">{{magic.system.range}}</div>
+          <div class="centre">{{magic.system.duration}}</div>
+          <div class="centre">{{magic.system.pppl}}</div>
+          {{#if (eq magic.system.damage '')}}
+            <div class="centre">{{magic.system.damage}}</div>
+          {{else}}
+            <div class="centre rollable impact" data-action="impactRoll">{{magic.system.damage}}</div>
+          {{/if}}
+          <div class="centre"><a class="mediumIcon" data-action="itemToggle" data-property="mem"><i class="{{#if magic.system.mem}}fa-solid fa-book-open-cover{{else}}fa-light fa-book-open-cover{{/if}}"></i></a></div>
+        </li>
+      {{/each}}
+      </ol>
+
+  {{else}}
+    {{! Magic Development Layout}}
+    <ol class="stats-list">
+      <div class="skills-tab-grid">
+        <div class="skill-cell-name diff-label">{{ localize 'BRP.spell'}}</div>
+        <div class="skill-cell diff-label truncate centre">{{ localize 'BRP.base'}}</div>
+        <div class="skill-cell diff-label truncate centre" data-tooltip="{{localize 'BRP.personality'}}">{{ localize 'BRP.personalityShort'}}</div>
+        <div class="skill-cell diff-label truncate centre" data-tooltip="{{localize 'BRP.profession'}}">{{ localize 'BRP.profShort'}}</div>
+        <div class="skill-cell diff-label truncate centre" data-tooltip="{{localize 'BRP.culture'}}">{{ localize 'BRP.culture'}}</div>
+        <div class="skill-cell diff-label truncate centre" data-tooltip="{{localize 'BRP.psp'}}">{{ localize 'BRP.personalShort'}}</div>
+        <div class="skill-cell diff-label truncate centre" data-tooltip="{{localize 'BRP.experience'}}">{{ localize 'BRP.xp'}}</div>
+        <div class="skill-cell diff-label truncate centre" data-tooltip="{{localize 'BRP.effects'}}">{{ localize 'BRP.effectsShort'}}</div>
+        <div class="skill-cell diff-label truncate centre" data-tooltip="{{localize 'BRP.category'}}">{{ localize 'BRP.categoryShort'}}</div>
+        <div class="skill-cell diff-label truncate centre">{{ localize 'BRP.total'}}</div>
+      </div>
+      {{#each magics as |magic id|}}
+        <li class="item skills-tab-grid" style="list-style:none;" data-item-id="{{magic._id}}" data-document-class='Item'>
+          <div class="skill-cell-name rollable bold" data-action="viewDoc"
+            data-tooltip="{{localize 'BRP.viewSpell' type=../magicLabel }}">{{magic.name}}</div>
+          <input class="skill-cell-input centre inline-edit"
+            data-field="base" name="magic.system.base" type="number"
+            value="{{magic.system.base}}"/>
+          <input class="skill-cell-input centre inline-edit {{#if magic.system.prsnlty}} skill-prsnlty {{/if}}"
+            data-field="personality"  name="magic.system.personality" type="number"
+            value="{{magic.system.personality}}"/>
+          <input class="skill-cell-input centre inline-edit {{#if magic.system.occupation}} skill-occ {{/if}}"
+            data-field="profession"  name="magic.system.profession" type="number"
+            value="{{magic.system.profession}}"/>
+          <input class="skill-cell-input centre inline-edit {{#if magic.system.cultural}} skill-prsnlty {{/if}}"
+            data-field="culture"  name="magic.system.culture" type="number"
+            value="{{magic.system.culture}}"/>
+          <input class="skill-cell-input skill-pers centre inline-edit"
+            data-field="personal"  name="magic.system.personal" type="number"
+            value="{{magic.system.personal}}"/>
+          <input class="skill-cell-input centre inline-edit"
+            data-field="xp" name="magic.system.xp" type="number"
+            value="{{magic.system.xp}}"/>
+          <input class="skill-cell-input centre inline-edit"
+            data-field="effects" name="magic.system.effects" type="number"
+            value="{{magic.system.effects}}"/>
+          <div class="skill-cell centre">{{magic.system.catBonus}}</div>
+          <div class="skill-cell centre lightgrey skill-name rollable" data-action="skillRoll"
+            data-tooltip="{{localize 'BRP.skillHint'}}">{{magic.system.grandTotal}}</div>
+        </li>
+      {{/each}}
+      <div class="skills-tab-grid">
+        <div class="skill-cell-nametotal grey bold">{{ localize 'BRP.total'}}</div>
+        <div class="skill-cell centre grey"></div>
+        <div class="skill-cell centre grey"></div>
+        <div class="skill-cell centre grey">{{this.actor.system.totalProf}}</div>
+        <div class="skill-cell centre grey">{{this.actor.system.totalPers}}</div>
+        <div class="skill-cell centre grey"></div>
+        <div class="skill-cell centre grey"></div>
+        <div class="skill-cell centre grey"></div>
+        <div class="skill-cell centre grey"></div>
+        <div class="skill-cell centre grey"></div>
+      </div>
+    </ol>
+  {{/if}}
+</section>

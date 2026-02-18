@@ -1,0 +1,166 @@
+<section class="actor tab skills {{tab.cssClass}}" data-group="primary" data-tab="skills">
+  {{#if system.lock}}
+  {{! Normal Skill Layout}}
+  <ol class="skill-list">
+    <div class="skill-listitem">
+      <div class="left">
+        <a class="mediumIcon" data-action="actorToggle" data-property="skillOrder" data-tooltip="{{localize 'BRP.skillOrder'}}">
+          <i class="{{#if actor.system.skillOrder}}fas fa-arrow-down-a-z{{else}}fas fa-arrow-down-short-wide{{/if}}"></i>
+        </a>
+      </div>
+      <div></div>
+      <div class="right">
+        <a class="mediumIcon" data-action="skillCalc" data-tooltip="{{localize 'BRP.calcBase'}}">
+          <i class="fas fa-calculator"></i>
+        </a>
+      </div>
+    </div>
+    <br>
+    {{! Skill List by Category}}
+    {{#if system.skillOrder}}
+      {{#each skills as |skill id|}}
+        <li class="item skill-listitem" data-item-id="{{skill._id}}" data-document-class='Item' data-drag='true'>
+          {{#if isType}}
+            {{#unless (eq skill.count 0)}}
+            <br>
+            {{/unless}}
+              <div class="item-edit item-name" style="grid-column: 1 / 4">
+                <div class="title-name category-name rollable"
+                  data-tooltip="{{localize 'BRP.viewDoc' type=(localize 'TYPES.Item.skillcat')}}" data-action="viewDoc">
+                  {{skill.name}} ({{skill.system.total}}%)</div>
+              </div>
+          {{else}}
+            {{#if isSpecialisation}}
+              <div class="item-edit skill-name">{{skill.system.mainName}}</div>
+              <div></div>
+              <div></div>
+            {{/if}}
+              <div class="item-name">
+                {{#if skill.system.specialism}}
+                  <div class="item-edit skill-name rollable truncate {{#if skill.system.specialism}}specialismSkill{{/if}}"
+                    data-action="viewDoc" data-tooltip="{{skill.name}}"> - {{skill.system.specName}}</div>
+                {{else}}
+                  <div class="item-edit skill-name rollable truncate {{#if skill.system.specialism}}specialismSkill{{/if}}"
+                    data-action="viewDoc" data-tooltip="{{skill.name}}">{{skill.name}}</div>
+                {{/if}}
+              </div>
+              {{#unless skill.system.noXP}}
+                <div class="" data-tooltip="{{ localize 'BRP.improve' }}"><a data-action="itemToggle" data-property="improve"><i
+                      class="{{#if skill.system.improve}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a>
+                </div>
+              {{else}}
+                <div></div>
+              {{/unless}}
+              <div class="right skill-name rollable" data-action="skillRoll" data-tooltip="{{localize 'BRP.skillHint'}}">{{skill.system.grandTotal}}%
+              </div>
+          {{/if}}
+        </li>
+      {{/each}}
+    {{else}}
+      {{! Alphabetical List}}
+      {{#each skillsAlpha as |aSkill id|}}
+        <li class="item skill-listitem" data-item-id="{{aSkill._id}}" data-document-class='Item' data-drag='true'>
+          {{#if isType}}
+            {{#unless (eq aSkill.count 0)}}
+             <br>
+            {{/unless}}
+            <div class="item-edit item-name" style="grid-column: 1 / 4">
+              <div class="title-name category-name rollable" data-tooltip="{{localize 'BRP.viewDoc' type=(localize 'TYPES.Item.skillcat')}}"
+                data-action="viewDoc">{{aSkill.name}} ({{aSkill.system.total}}%)</div>
+              </div>
+          {{else}}
+            {{#if isAlphaSpecialisation}}
+              <div class="item-edit skill-name">{{aSkill.system.mainName}}</div>
+              <div></div>
+              <div></div>
+            {{/if}}
+            <div class="item-name">
+              {{#if aSkill.system.specialism}}
+                <div class="item-edit skill-name rollable truncate {{#if aSkill.system.specialism}}specialismSkill{{/if}}"
+                  data-action="viewDoc"  data-tooltip="{{aSkill.name}}"> - {{aSkill.system.specName}}</div>
+              {{else}}
+                <div class="item-edit skill-name rollable truncate {{#if aSkill.system.specialism}}specialismSkill{{/if}}"
+                  data-action="viewDoc"  data-tooltip="{{aSkill.name}}">{{aSkill.name}}</div>
+              {{/if}}
+            </div>
+            {{#unless aSkill.system.noXP}}
+              <div class="" data-tooltip="{{ localize 'BRP.improve' }}"><a data-action="itemToggle" data-property="improve"><i
+                    class="{{#if aSkill.system.improve}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a>
+              </div>
+            {{else}}
+              <div></div>
+            {{/unless}}
+            <div class="right skill-name rollable" data-action="skillRoll" data-tooltip="{{localize 'BRP.skillHint'}}">{{aSkill.system.grandTotal}}%
+            </div>
+          {{/if}}
+        </li>
+      {{/each}}
+    {{/if}}
+  </ol>
+
+  {{else}}
+  {{! Skill Development Layout}}
+  <ol class="skillsDev-list">
+    <div class="skills-tab-grid">
+      <div class="skill-cell-name diff-label">{{ localize 'BRP.skill'}}</div>
+      <div class="skill-cell diff-label truncate centre">{{ localize 'BRP.base'}}</div>
+      <div class="skill-cell diff-label truncate centre" data-tooltip="{{localize 'BRP.personality'}}">{{ localize
+        'BRP.personalityShort'}}</div>
+      <div class="skill-cell diff-label truncate centre" data-tooltip="{{localize 'BRP.profession'}}">{{ localize
+        'BRP.profShort'}}</div>
+      <div class="skill-cell diff-label truncate centre" data-tooltip="{{localize 'BRP.culture'}}">{{ localize 'BRP.cultureAbbr'}}
+      </div>
+      <div class="skill-cell diff-label truncate centre" data-tooltip="{{localize 'BRP.psp'}}">{{ localize 'BRP.personalShort'}}
+      </div>
+      <div class="skill-cell diff-label truncate centre" data-tooltip="{{localize 'BRP.experience'}}">{{ localize 'BRP.xp'}}
+      </div>
+      <div class="skill-cell diff-label truncate centre" data-tooltip="{{localize 'BRP.effects'}}">{{ localize
+        'BRP.effectsShort'}}</div>
+      <div class="skill-cell diff-label truncate centre" data-tooltip="{{localize 'BRP.category'}}">{{ localize
+        'BRP.categoryShort'}}</div>
+      <div class="skill-cell diff-label truncate centre">{{ localize 'BRP.total'}}</div>
+    </div>
+    {{#each skillsDev as |skill id|}}
+      <li class="item skills-tab-grid" style="list-style:none;" data-item-id="{{skill._id}}" data-document-class='Item'>
+        <div class="skill-cell-name rollable bold truncate {{#if skill.system.improve}} skillExp {{/if}}"
+          {{#if skill.system.improve}} data-tooltip="{{localize 'BRP.improve'}}" {{/if}}
+          data-action="viewDoc">{{skill.name}}</div>
+        <input class="skill-cell-input centre inline-edit"
+          data-field="base" name="skill.system.base" type="number"
+          value="{{skill.system.base}}"/>
+        <input class="skill-cell-input centre inline-edit {{#if skill.system.prsnlty}} skill-prsnlty {{/if}}"
+          data-field="personality" name="skill.system.personality" type="number"
+          value="{{skill.system.personality}}"/>
+        <input class="skill-cell-input centre inline-edit {{#if skill.system.occupation}} skill-occ {{/if}}"
+          data-field="profession" name="skill.system.profession" type="number"
+          value="{{skill.system.profession}}"/>
+        <input class="skill-cell-input centre inline-edit {{#if skill.system.cultural}} skill-prsnlty {{/if}}"
+          data-field="culture" name="skill.system.culture" type="number"
+          value="{{skill.system.culture}}"/>
+        <input class="skill-cell-input skill-pers centre inline-edit"
+          data-field="personal" name="skill.system.personal" type="number"
+          value="{{skill.system.personal}}"/>
+        <input class="skill-cell-input centre inline-edit"
+          data-field="xp" name="skill.system.xp" type="number"
+          value="{{skill.system.xp}}"/>
+        <div class="skill-cell centre">{{skill.system.effects}}</div>
+        <div class="skill-cell centre">{{skill.system.catBonus}}</div>
+        <div class="skill-cell centre lightgrey skill-name rollable"
+          data-action="skillRoll" data-tooltip="{{localize 'BRP.skillHint'}}">{{skill.system.grandTotal}}</div>
+      </li>
+    {{/each}}
+    <div class="skills-tab-grid">
+      <div class="skill-cell-nametotal grey bold">{{ localize 'BRP.total'}}</div>
+      <div class="skill-cell centre grey"></div>
+      <div class="skill-cell centre grey"></div>
+      <div class="skill-cell centre grey" data-tooltip="{{localize 'BRP.pfsp'}}">{{this.actor.system.totalProf}}</div>
+      <div class="skill-cell centre grey"></div>
+      <div class="skill-cell centre grey" data-tooltip="{{localize 'BRP.psp'}}">{{this.actor.system.totalPers}}</div>
+      <div class="skill-cell centre grey"></div>
+      <div class="skill-cell centre grey"></div>
+      <div class="skill-cell centre grey"></div>
+      <div class="skill-cell centre grey"></div>
+    </div>
+  </ol>
+  {{/if}}
+</section>

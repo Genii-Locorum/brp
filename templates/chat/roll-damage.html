@@ -9,7 +9,7 @@
       {{#each chatCard as |c key|}}
         <div class="dice-roll" data-action="expandRoll">
           <li class='actor-roll'>
-            <img class="open-actor" src="{{c.particImg}}" height="60" width="60" title="{{c.particName}}" />
+            <img class="open-actor" src="{{c.particImg}}" height="60" width="60" data-tooltip="{{c.particName}}" />
             <div class="roll-details">
               <div class="header roll-truncate">
                 <div class='name'>

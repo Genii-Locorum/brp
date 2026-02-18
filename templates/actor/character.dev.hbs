@@ -1,0 +1,42 @@
+<section class="actor tab dev {{tab.cssClass}}" data-group="primary" data-tab="dev">
+    <div class="dev-header">
+      <div class="diff-label centre" data-tooltip="{{xpFixed}}">{{localize 'BRP.fixedAll'}}</div>
+      <div class="diff-label centre" data-tooltip="{{xpFormula}}">{{localize 'BRP.formulaAll'}}</div>
+      {{#if actor.system.stats.pow.improve}}
+        <div class="diff-label centre" data-tooltip="+1">{{localize 'BRP.powImproveFixed'}}</div>
+        <div class="diff-label centre" data-tooltip="+1D3-1">{{localize 'BRP.powImproveFormula'}}</div>
+      {{else}}
+        <div></div>
+        <div></div>
+      {{/if}}
+      <div class="centre"><a class="" data-action="xpRolls" data-prop="all" data-roll="fixed"><i class="fas fa-feather-pointed"></i></a></div>
+      <div class="centre"><a class="" data-action="xpRolls" data-prop="all" data-roll="formula"><i class="fas fa-dice"></i></a></div>
+      {{#if actor.system.stats.pow.improve}}
+        <div class="centre"><a class="" data-action="powImprove" data-roll="fixed"><i class="fas fa-bolt-lightning"></i></a></div>
+        <div class="centre"><a class="" data-action="powImprove" data-roll="formula"><i class="fas fa-cloud-bolt"></i></a></div>
+      {{/if}}
+    </div>
+    <br>
+
+    <div class="dev-listitem">
+      <div class="diff-label left">{{localize 'BRP.improve'}}</div>
+      <div class="diff-label centre">{{localize 'BRP.type'}}</div>
+      <div class="diff-label centre">%</div>
+      <div class="diff-label centre" data-tooltip="{{xpFixed}}">{{localize 'BRP.fixed'}}</div>
+      <div class="diff-label centre" data-tooltip="{{xpFormula}}">{{localize 'BRP.random'}}</div>
+    </div>
+
+    <ol class="dev-list">
+    {{#each improve as |impItem id|}}
+      <li class="item dev-listitem" data-item-id="{{impItem._id}}" data-opp="{{impItem.opp}}" data-document-class="Item">
+        <div class="item-edit rollable improvtab" data-action="viewDoc"
+          data-tooltip="{{localize 'BRP.viewItem' type=impItem.type }}">{{impItem.name}}</div>
+        <div class="centre">{{impItem.typeLabel}}</div>
+        <div class="centre">{{impItem.score}}</div>
+        <div class="centre"><a class="" data-action="xpRolls" data-prop="single" data-roll="fixed"><i class="fas fa-feather-pointed"></i></a></div>
+        <div class="centre"><a class="" data-action="xpRolls" data-prop="single" data-roll="formula"><i class="fas fa-dice"></i></a></div>
+      </li>
+    {{/each}}
+    </ol>
+
+</section>

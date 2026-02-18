@@ -1,0 +1,21 @@
+<section class="item tab powers {{tab.cssClass}}" data-group="primary" data-tab="powers">
+  <div class="horizontalboxed {{#if isGM}} droppable {{/if}} main-powers">
+    <div class="item-title">{{ localize "BRP.powers"}}</div>
+    <ol class="item-list">
+      {{#each perPower as |power|}}
+        <li class="item flexrow" data-item-id="{{power.uuid}}" data-brpid="{{power.brpid}}">
+          <div class="item-name flexrow">
+            <div class="item-view font14" data-tooltip="{{power.brpid}}">{{power.name}}</div>
+          </div>
+          <div class="item-controls">
+            {{#if ../isGM}}
+              <a class="item-control item-power-delete" data-tooltip="{{localize 'BRP.deleteItem'}}"><i
+                  class="fas fa-trash"></i></a>
+            {{/if}}
+          </div>
+        </li>
+      {{/each}}
+    </ol>
+  </div>
+  <br>
+</section>

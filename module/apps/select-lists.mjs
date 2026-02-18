@@ -342,4 +342,25 @@ export class BRPSelectLists {
     };
     return options;
   }
+
+  static async preLoadCategoriesCategories() {
+    //Preload best Weapon Categories, Passions, Skills and Weapons - used in Character Creation
+    return new Promise(async (resolve, reject) => {
+      resolve(await game.system.api.brpid.fromBRPIDRegexBest({ brpidRegExp: new RegExp('^i\.(skillcat|skill|weapon)\.'), type: 'i', showLoading: false }))
+    })
+  }
+
+  //Weapon Skills List
+  static async getWeaponSkills() {
+    const weaponSkillsList = (await game.brp.categories).filter(d => d.type === 'skill').filter(e => e.system.combat)
+    weaponSkillsList.sort(function (a, b) {
+      return a.name.localeCompare(b.name)
+    });
+    let options = weaponSkillsList.reduce((c, i) => {
+      c[i.flags.brp.brpidFlag.id] = i.name
+      return c
+    }, {})
+    return options
+  }
+
 }

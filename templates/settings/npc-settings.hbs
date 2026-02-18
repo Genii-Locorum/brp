@@ -1,0 +1,35 @@
+<div class="brp settingsForm flexcol" autocomplete="off">
+  <h2 class="bold">{{localize 'BRP.Settings.npcOptions'}}</h2>
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.tokenDropMode'}}</label>
+    <div class="form-fields">
+      <select class="centre" name="tokenDropMode" data-dtype="String">
+        {{selectOptions optSet.tokenDropModeOptions selected=optSet.tokenDropMode.value}}
+      </select>
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.tokenDropModeHint'}}</p>
+  </div>
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.tokenDropName'}}</label>
+    <div class="form-fields">
+      <select class="centre" name="npcName" data-dtype="String">
+        {{selectOptions optSet.NPCNameOptions selected=optSet.npcName.value}}
+      </select>
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.tokenDropNameHint'}}</p>
+  </div>
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.tokenDropBars'}}</label>
+    <div class="form-fields">
+      <select class="centre" name="npcBars" data-dtype="String">
+        {{selectOptions optSet.NPCBarsOptions selected=optSet.npcBars.value}}
+      </select>
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.tokenDropBarsHint'}}</p>
+  </div>
+  <br>
+
+</div>

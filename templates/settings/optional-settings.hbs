@@ -1,0 +1,185 @@
+<brp class="brp settingsForm flexcol" autocomplete="off">
+  <h2 class="bold">{{localize 'BRP.Settings.optionalRules'}}</h2>
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.useHPL'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <input type="checkbox" {{checked optSet.useHPL.value}} name="useHPL">
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.useHPLHint'}}</p>
+  </div>
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.useEDU'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <input type="checkbox" {{checked optSet.useEDU.value}} name="useEDU">
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.useEDUHint'}}</p>
+  </div>
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.useSAN'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <input type="checkbox" {{checked optSet.useSAN.value}} name="useSAN">
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.useSANHint'}}</p>
+  </div>
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.useFP'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <input type="checkbox" {{checked optSet.useFP.value}} name="useFP">
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.useFPHint'}}</p>
+  </div>
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.useRes5'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <input type="checkbox" {{checked optSet.useRes5.value}} name="useRes5">
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.useRes5Hint'}}</p>
+  </div>
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.hpLabelLong'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <input class="centre" name="hpLabelLong" type="text" value="{{optSet.hpLabelLong.value}}" />
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.hpLabelLongHint'}}</p>
+  </div>
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.hpLabelShort'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <input class="centre" name="hpLabelShort" type="text" value="{{optSet.hpLabelShort.value}}" />
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.hpLabelShortHint'}}</p>
+  </div>
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.ppLabelLong'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <input class="centre" name="ppLabelLong" type="text" value="{{optSet.ppLabelLong.value}}" />
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.ppLabelLongHint'}}</p>
+  </div>
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.ppLabelShort'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <input class="centre" name="ppLabelShort" type="text" value="{{optSet.ppLabelShort.value}}" />
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.ppLabelShortHint'}}</p>
+  </div>
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.fpLabelLong'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <input class="centre" name="fpLabelLong" type="text" value="{{optSet.fpLabelLong.value}}" />
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.fpLabelLongHint'}}</p>
+  </div>
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.fpLabelShort'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <input class="centre" name="fpLabelShort" type="text" value="{{optSet.fpLabelShort.value}}" />
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.fpLabelShortHint'}}</p>
+  </div>
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.sanLabelLong'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <input class="centre" name="sanLabelLong" type="text" value="{{optSet.sanLabelLong.value}}" />
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.sanLabelLongHint'}}</p>
+  </div>
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.sanLabelShort'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <input class="centre" name="sanLabelShort" type="text" value="{{optSet.sanLabelShort.value}}" />
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.sanLabelShortHint'}}</p>
+  </div>
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.sanLabelLoss'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <input class="centre" name="sanLabelLoss" type="text" value="{{optSet.sanLabelLoss.value}}" />
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.sanLabelLossHint'}}</p>
+  </div>
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.res5LabelLong'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <input class="centre" name="res5LabelLong" type="text" value="{{optSet.res5LabelLong.value}}" />
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.res5LabelLongHint'}}</p>
+  </div>
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.res5LabelShort'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <input class="centre" name="res5LabelShort" type="text" value="{{optSet.res5LabelShort.value}}" />
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.res5LabelShortHint'}}</p>
+  </div>
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.skillBonus'}}</label>
+    <div class="form-fields">
+      <select class="centre" name="skillBonus" data-dtype="String">
+        {{selectOptions optSet.skillBonusList selected=optSet.skillBonus.value}}
+      </select>
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.skillBonusHint'}}</p>
+  </div>
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.useAVRand'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <input type="checkbox" {{checked optSet.useAVRand.value}} name="useAVRand">
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.useAVRandHint'}}</p>
+  </div>
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.useAlleg'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <input type="checkbox" {{checked optSet.useAlleg.value}} name="useAlleg">
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.useAllegHint'}}</p>
+  </div>
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.usePassion'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <input type="checkbox" {{checked optSet.usePassion.value}} name="usePassion">
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.usePassionHint'}}</p>
+  </div>
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.useReputation'}}</label>
+    <div class="form-fields">
+      <select class="centre" name="useReputation" data-dtype="String">
+        {{selectOptions optSet.useRepList selected=optSet.useReputation.value}}
+      </select>
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.useReputationHint'}}</p>
+  </div>
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.usePersTrait'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <input type="checkbox" {{checked optSet.usePersTrait.value}} name="usePersTrait">
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.usePersTraitHint'}}</p>
+  </div>
+
+  <br>
+</brp>

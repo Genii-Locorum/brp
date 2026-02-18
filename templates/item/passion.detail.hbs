@@ -1,0 +1,21 @@
+<section class='item tab details {{tab.cssClass}}' data-group='primary' data-tab='details'>
+  {{#if hasOwner}}
+    <div class="item-title"> {{localize 'BRP.scores'}}:</div>
+    <div class="armour-scores">
+      <div class="skill-display new-row indent">{{localize 'BRP.base'}}</div>
+      <div class="weapon-input centre"><input name="system.base" type="text" value="{{item.system.base}}"
+          data-dtype="Number" /></div>
+      <div class="skill-display indent">{{localize 'BRP.xp'}}</div>
+      <div class="weapon-input centre"><input name="system.xp" type="text" value="{{item.system.xp}}"
+          data-dtype="Number" /></div>
+      <div class="skill-display indent">{{localize 'BRP.total'}}</div>
+      <div class="weapon-input centre bold tertiary">{{item.system.total}}</div>
+      <br>
+      <div class="skill-display new-row">{{localize 'BRP.improve'}}</div>
+      <div class="centre itemIcon"><a class="nopad" data-action="itemToggle" data-property="improve"><i
+            class="{{#if item.system.improve}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a>
+      </div>
+  </div>
+  {{/if}}
+  </div>
+</section>

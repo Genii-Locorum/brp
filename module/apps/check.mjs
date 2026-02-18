@@ -6,6 +6,7 @@ import { GRCard } from "../cards/combined-card.mjs"
 import { OPCard } from "../cards/opposed-card.mjs"
 import { COCard } from "../cards/cooperative-card.mjs"
 import { CBCard } from "../cards/combat-card.mjs"
+import BRPDialog from '../setup/brp-dialog.mjs';
 
 export class BRPCheck {
 
@@ -53,7 +54,7 @@ export class BRPCheck {
     let config = {
       rollType: options.rollType,
       cardType: options.cardType,
-      dialogTemplate: 'systems/brp/templates/dialog/difficulty.html',
+      dialogTemplate: 'systems/brp/templates/dialog/difficulty.hbs',
       chatTemplate: 'systems/brp/templates/chat/roll-result.html',
       state: options.state ?? "open",
       wait: options.wait ?? false,
@@ -252,10 +253,7 @@ export class BRPCheck {
         ui.notifications.error(options.cardType + ": " + game.i18n.format('BRP.errorCardInvalid'))
         return false
     }
-
-
     return config
-
   }
 
 
@@ -267,19 +265,19 @@ export class BRPCheck {
     } else {
       let usage = await BRPCheck.RollDialog(config)
       if (usage) {
-        config.diff = usage.get('difficulty')
-        config.addStat = usage.get('addStat')
-        config.resistance = Number(usage.get('resistance'))
-        config.flatMod = Number(usage.get('flatMod'))
-        config.diffVal = Number(usage.get('diffVal'))
+        config.diff = usage.difficulty
+        config.addStat = usage.addStat
+        config.resistance = Number(usage.resistance)
+        config.flatMod = Number(usage.flatMod)
+        config.diffVal = Number(usage.diffVal)
         if (config.askHands) {
-          config.handsUsed = usage.get('hands')
+          config.handsUsed = usage.hands
         }
         if (config.askRange) {
-          config.rangeUsed = usage.get('range')
+          config.rangeUsed = usage.range
         }
         if (config.firstAid) {
-          config.woundTreated = usage.get('wound')
+          config.woundTreated = usage.wound
         }
 
       }
@@ -568,25 +566,14 @@ export class BRPCheck {
         break
     }
     const html = await foundry.applications.handlebars.renderTemplate(options.dialogTemplate, data)
-    return new Promise(resolve => {
-      let formData = null
-      const dlg = new Dialog({
-        title: "",
-        content: html,
-        buttons: {
-          roll: {
-            label: game.i18n.localize("BRP.proceed"),
-            callback: html => {
-              formData = new FormData(html[0].querySelector('#difficulty-roll-form'))
-              return resolve(formData)
-            }
-          }
-        },
-        default: 'roll',
-        close: () => { }
-      })
-      dlg.render(true)
+    const dlg = await BRPDialog.input({
+      window: {title: game.i18n.localize('BRP.diceRoll')},
+      content: html,
+      ok: {
+        label: game.i18n.localize('BRP.proceed')
+      }
     })
+    return dlg
   }
 
   // Calculate Success Level

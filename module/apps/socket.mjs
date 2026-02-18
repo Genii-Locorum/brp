@@ -1,6 +1,7 @@
 import { BRPCheck } from './check.mjs';
 import { GRCard } from '../cards/combined-card.mjs';
 import { BRPDamage } from '../combat/damage.mjs';
+import { BRPUtilities } from './utilities.mjs';
 
 export class BRPSystemSocket {
 
@@ -26,6 +27,10 @@ export class BRPSystemSocket {
 
       case 'toggleMapNotes':
         game.settings.set('core', NotesLayer.TOGGLE_SETTING, data.toggle === true);
+        break;
+
+      case 'updateChar':
+        BRPUtilities.updateCharSheets();
         break;
     }
   }

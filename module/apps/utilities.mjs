@@ -1,6 +1,7 @@
 import { BRPCharacterSheet } from '../actor/sheets/character.mjs';
 import { BRPactorDetails } from './actorDetails.mjs';
 import { BRPCheck } from './check.mjs';
+import BRPDialog from '../setup/brp-dialog.mjs';
 
 export class BRPUtilities {
 
@@ -37,8 +38,8 @@ export class BRPUtilities {
     } else {
       title = game.i18n.localize('BRP.delete') + ":" + game.i18n.localize('BRP.' + type) + "(" + name + ")";
     }
-    let confirmation = await Dialog.confirm({
-      title: title,
+    let confirmation = await BRPDialog.confirm({
+      window: {title: title},
       content: game.i18n.localize('BRP.proceed'),
     });
     return confirmation;
@@ -270,6 +271,22 @@ export class BRPUtilities {
     let msg = await ChatMessage.create(chatData)
     return msg._id
 
+  }
+
+  static updateCharSheets () {
+    if (game.user.isGM) {
+      for (const a of game.actors.contents) {
+        if (a?.type === 'character' && a?.sheet && a?.sheet?.rendered) {
+          a.render(false)
+        }
+      }
+    } else {
+      for (const a of game.actors.contents) {
+        if (a.isOwner) {
+          a.render(false)
+        }
+      }
+    }
   }
 
 }

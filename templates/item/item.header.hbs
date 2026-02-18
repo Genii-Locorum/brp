@@ -1,0 +1,13 @@
+<header class='sheet-header'>
+  <div class="item-header">
+    <div class="item-title"> {{itemType}}:</div>
+    {{#if headerDisplay}}
+      <div class="stat-input-display">{{item.name}}</div>
+    {{else}}
+      <div class="stat-input"><input name="name" type="text" value="{{item.name}}" placeholder="Name" /></div>
+    {{/if}}
+    <img class="item-image" src="{{item.img}}" data-edit="img" data-tooltip="{{item.name}}" height="50" width="50" />
+  </div>
+</header>
+
+

@@ -1,0 +1,26 @@
+<section class='item tab details {{tab.cssClass}}' data-group='primary' data-tab='details'>
+  <div class="base-grid">
+    <div class="item-title"> {{localize 'BRP.category'}}:</div>
+    {{#if isGM}}
+      <div class="stat-input centre">
+        <select class="centre" data-handle-change name="system.category">
+          {{selectOptions catOptions selected=item.system.category}}
+        </select>
+      </div>
+    {{else}}
+      <div class="stat-display boxed">{{catName}}</div>
+    {{/if}}
+  </div>
+  <br>
+  {{#if hasOwner}}
+    <div class="base-grid">
+      <div class="item-title"> {{localize 'BRP.level'}}:</div>
+      <div class="stat-input centre">
+        <select class="centre" data-handle-change name="system.level">
+          {{selectOptions lvlOptions selected=item.system.level}}
+        </select>
+      </div>
+    </div>
+  {{/if}}
+  </div>
+</section>

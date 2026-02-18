@@ -14,8 +14,12 @@ export class BRPActiveEffect extends ActiveEffect {
         if (item.type === 'wound') {
           return super.active
         }
-        if (item.type === 'armour' ? item.system.equipStatus !== 'worn' : item.system.equipStatus !== 'carried') {
-          return false;
+        if (['armour','weapon','gear'].includes(item.type)) {
+            if (['worn','carried'].includes(item.system.equipStatus)) {
+              return super.active
+            } else {
+              return false;
+            }
         }
       }
     }

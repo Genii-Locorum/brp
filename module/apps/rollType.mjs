@@ -3,179 +3,210 @@ import { isCtrlKey } from './helper.mjs'
 
 export class BRPRollType {
 
+  //Roll Types
+  //CH = Characteristic
+  //SK = Skill
+  //DM = Damage
+  //CM = Combat
+  //AR = Armour (Random)
+  //AL = Allegiance Roll
+  //PA - Passion Roll
+  //PT - Personality Trait Roll
+  //RP - Reputation Roll
+  //IM - Spell Impact Roll
+  //QC - Quick Combat
+
+  //Card Types
+  //NO = Normnal Roll
+  //RE = Resistance Roll (CH only)
+  //PP = POW v POW (CH only)
+  //GR = Combined (Group) Roll
+  //CO = Cooperative Roll
+  //OP = Opposed Roll
+  //CB = Combat Roll
+
+
   //Start Characteristic Roll
-  static async _onStatRoll(event) {
+  static async _onStatRoll(event, detail, actor) {
     let altKey = event.altKey;
     let ctrlKey = isCtrlKey(event ?? false);
+    let shiftKey = event.shiftKey
     let cardType = 'NO';
-    let characteristic = event.currentTarget.dataset.characteristic;
+    let characteristic = detail.characteristic;
     if (ctrlKey) { cardType = 'RE' }
     if (altKey) {
       cardType = 'PP';
       characteristic = 'pow'
     }
     if (game.settings.get('brp', 'switchShift')) {
-      event.shiftKey = !event.shiftKey
+      shiftKey = !shiftKey
     }
     BRPCheck._trigger({
       rollType: 'CH',
       cardType,
       characteristic,
-      shiftKey: event.shiftKey,
-      actor: this.actor,
-      token: this.token
+      shiftKey: shiftKey,
+      actor: actor,
+      token: actor.token
     })
   }
 
   //Start Skill Roll
-  static async _onSkillRoll(event) {
+  static async _onSkillRoll(event, detail, actor) {
     let altKey = event.altKey;
     let ctrlKey = isCtrlKey(event ?? false);
+    let shiftKey = event.shiftKey
     let cardType = 'NO';
-    let skillId = event.currentTarget.closest('.item').dataset.itemId;
+    let skillId = event.target.closest('.item').dataset.itemId;
     if (ctrlKey) { cardType = 'OP' }
     if (altKey) { cardType = 'GR' }
+    if (altKey && ctrlKey) { cardType = 'CO' }
     if (game.settings.get('brp', 'switchShift')) {
-      event.shiftKey = !event.shiftKey
+      shiftKey = !shiftKey
     }
     BRPCheck._trigger({
       rollType: 'SK',
       cardType,
       skillId,
-      shiftKey: event.shiftKey,
-      actor: this.actor,
-      token: this.token
+      shiftKey: shiftKey,
+      actor: actor,
+      token: actor.token
     })
   }
 
   //Start Allegiance Roll
-  static async _onAllegianceRoll(event) {
+  static async _onAllegianceRoll(event, detail, actor) {
     let cardType = 'NO';
-    let skillId = event.currentTarget.closest('.item').dataset.itemId;
+    let skillId = event.target.closest('.item').dataset.itemId;
+    let shiftKey = event.shiftKey
     if (game.settings.get('brp', 'switchShift')) {
-      event.shiftKey = !event.shiftKey
+      shiftKey = !shiftKey
     }
     BRPCheck._trigger({
       rollType: 'AL',
       cardType,
       skillId,
-      shiftKey: event.shiftKey,
-      actor: this.actor,
-      token: this.token
+      shiftKey: shiftKey,
+      actor: actor,
+      token: actor.token
     })
   }
 
   //Start Passion Roll
-  static async _onPassionRoll(event) {
+  static async _onPassionRoll(event, detail, actor) {
     let ctrlKey = isCtrlKey(event ?? false);
+    let shiftKey = event.shiftKey
     let cardType = 'NO';
-    let skillId = event.currentTarget.closest('.item').dataset.itemId;
+    let skillId = event.target.closest('.item').dataset.itemId;
     if (ctrlKey) { cardType = 'OP' }
     if (game.settings.get('brp', 'switchShift')) {
-      event.shiftKey = !event.shiftKey
+      shiftKey = !shiftKey
     }
     BRPCheck._trigger({
       rollType: 'PA',
       cardType,
       skillId,
-      shiftKey: event.shiftKey,
-      actor: this.actor,
-      token: this.token
+      shiftKey: shiftKey,
+      actor: actor,
+      token: actor.token
     })
   }
 
   //Start Reputation Roll
-  static async _onReputationRoll(event) {
+  static async _onReputationRoll(event, detail, actor) {
     let ctrlKey = isCtrlKey(event ?? false);
     let altKey = event.altKey;
+    let shiftKey = event.shiftKey
     let cardType = 'NO';
-    let skillId = event.currentTarget.closest('.item').dataset.itemId;
+    let skillId = event.target.closest('.item').dataset.itemId;
     if (ctrlKey) { cardType = 'OP' }
     if (altKey) { cardType = 'GR' }
     if (game.settings.get('brp', 'switchShift')) {
-      event.shiftKey = !event.shiftKey
+      shiftKey = !shiftKey
     }
     BRPCheck._trigger({
       rollType: 'PA',
       cardType,
       skillId,
-      shiftKey: event.shiftKey,
-      actor: this.actor,
-      token: this.token
+      shiftKey: shiftKey,
+      actor: actor,
+      token: actor.token
     })
   }
 
   //Start Personality Trait Roll
-  static async _onPersTraitRoll(event) {
+  static async _onPersTraitRoll(event, detail, actor) {
     let ctrlKey = isCtrlKey(event ?? false);
+    let shiftKey = event.shiftKey
     let cardType = 'NO';
-    let skillId = event.currentTarget.closest('.item').dataset.itemId;
-    let opp = event.currentTarget.dataset.opp;
+    let skillId = event.target.closest('.item').dataset.itemId;
+    let opp = detail.opp;
     if (ctrlKey) { cardType = 'OP' }
     if (game.settings.get('brp', 'switchShift')) {
-      event.shiftKey = !event.shiftKey
+      shiftKey = !shiftKey
     }
     BRPCheck._trigger({
       rollType: 'PT',
       cardType,
       skillId,
-      shiftKey: event.shiftKey,
-      actor: this.actor,
-      token: this.token,
+      shiftKey: shiftKey,
+      actor: actor,
+      token: actor.token,
       opp
     })
   }
 
 
   //Start Damage Roll
-  static async _onDamageRoll(event) {
-    let itemId = event.currentTarget.closest('.item').dataset.itemId;
+  static async _onDamageRoll(event, detail, actor) {
+    let itemId = event.target.closest('.item').dataset.itemId;
     let cardType = 'NO'
     BRPCheck._trigger({
       rollType: 'DM',
       cardType,
       itemId,
-      actor: this.actor,
-      token: this.token
+      actor: actor,
+      token: actor.token
     })
   }
 
   //Magic Spell Impact Roll
-  static async _onImpactRoll(event) {
-    let itemId = event.currentTarget.closest('.item').dataset.itemId;
+  static async _onImpactRoll(event, detail, actor) {
+    let itemId = event.target.closest('.item').dataset.itemId;
     let cardType = 'NO'
     BRPCheck._trigger({
       rollType: 'IM',
       cardType,
       itemId,
-      actor: this.actor,
-      token: this.token
+      actor: actor,
+      token: actor.token
     })
   }
 
 
 
   //Start Weapon Skill Roll
-  static async _onWeaponRoll(event) {
-    let itemId = event.currentTarget.closest('.item').dataset.itemId;
-    let skillId = event.currentTarget.closest('.item').dataset.skillId;
+  static async _onWeaponRoll(event, detail, actor) {
+    let itemId = event.target.closest('.item').dataset.itemId;
+    let skillId = event.target.closest('.item').dataset.skillId;
+    let shiftKey = event.shiftKey
     let rollType = 'CM'
     let cardType = 'CB'
-    if (game.settings.get('brp', 'quickCombat') && event.shiftKey) {
+    if (game.settings.get('brp', 'quickCombat') && shiftKey) {
       rollType = 'QC'
       cardType = "NO"
-      event.shiftKey = false
+      shiftKey = false
     } else if (game.settings.get('brp', 'switchShift')) {
-      event.shiftKey = !event.shiftKey
+      shiftKey = !shiftKey
     }
     BRPCheck._trigger({
       rollType,
       cardType,
       itemId,
       skillId,
-      shiftKey: event.shiftKey,
-      actor: this.actor,
-      token: this.token
+      shiftKey: shiftKey,
+      actor: actor,
+      token: actor.token
     })
   }
 
@@ -184,21 +215,21 @@ export class BRPRollType {
 
 
   //Armour Rolling when using variable armour
-  static async _onArmour(event) {
-    let prop = event.currentTarget.closest('.ap-name').dataset.property
+  static async _onArmour(event, detail, actor) {
+    let prop = detail.property
     let AVform = ""
     let label = ""
     switch (prop) {
       case "cap":
-        AVform = this.actor.system.avr1
+        AVform = actor.system.avr1
         label = game.i18n.localize('BRP.armour')
         break
       case "cbap":
-        AVform = this.actor.system.avr2
+        AVform = actor.system.avr2
         label = game.i18n.localize('BRP.ballistic')
         break
       case "ap":
-        let item = this.actor.items.get(event.currentTarget.closest('.ap-name').dataset.itemId)
+        let item = actor.items.get(detail.itemId)
         if (event.shiftKey) {
           AVform = item.system.avr2
           label = item.name + ": " + game.i18n.localize('BRP.ballistic')
@@ -209,7 +240,7 @@ export class BRPRollType {
         break
       case "nap":
       case "nbap":
-        let hitLoc = this.actor.items.get(event.currentTarget.closest('.item').dataset.itemId)
+        let hitLoc = actor.items.get(event.target.closest('.item').dataset.itemId)
         if (prop === 'nap') {
           AVform = hitLoc.system.apRnd
           label = hitLoc.name + ": " + game.i18n.localize('BRP.armour')
@@ -219,11 +250,11 @@ export class BRPRollType {
         }
         break
       case "ncap":
-        AVform = this.actor.system.apRnd
+        AVform = actor.system.apRnd
         label = game.i18n.localize('BRP.armour')
         break
       case "ncbap":
-        AVform = this.actor.system.bapRnd
+        AVform = actor.system.bapRnd
         label = game.i18n.localize('BRP.ballistic')
         break
       default:
@@ -237,8 +268,8 @@ export class BRPRollType {
       cardType: 'NO',
       label,
       AVform,
-      actor: this.actor,
-      token: this.token
+      actor: actor,
+      token: actor.token
     })
   }
 

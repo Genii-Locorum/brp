@@ -1,38 +1,45 @@
 import { BRPUtilities } from '../../apps/utilities.mjs'
 import { addBRPIDSheetHeaderButton } from '../../brpid/brpid-button.mjs'
+import { BRPItemSheetV2 } from "./base-item-sheet.mjs";
 
-export class BRPSuperSheet extends foundry.appv1.sheets.ItemSheet {
-
-  //Turn off App V1 deprecation warnings
-  //TODO - move to V2
-  static _warnedAppV1 = true
-
-  //Add BRPID buttons to sheet
-  _getHeaderButtons() {
-    const headerButtons = super._getHeaderButtons()
-    addBRPIDSheetHeaderButton(headerButtons, this)
-    return headerButtons
+export class BRPSuperSheet extends BRPItemSheetV2 {
+  constructor(options = {}) {
+    super(options)
+    this.#dragDrop = this.#createDragDropHandlers()
   }
 
-  static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
-      classes: ['brp', 'sheet', 'super'],
-      template: 'systems/brp/templates/item/super.html',
-      width: 525,
-      height: 550,
-      dragDrop: [{ dragSelector: '.item' }],
-      scrollY: ['.tab.description'],
-      tabs: [{ navSelector: '.sheet-tabs', contentSelector: '.sheet-body', initial: 'details' }]
-    })
+  static DEFAULT_OPTIONS = {
+    classes: ['super'],
+    dragDrop: [{ dragSelector: '[data-drag]', dropSelector: '.droppable' }],
+    position: {
+      width: 535,
+      height: 550
+    },
+    form: {
+      handler: BRPSuperSheet.mySuperHandler
+    }
   }
 
-  async getData() {
-    const sheetData = super.getData()
-    sheetData.isGM = game.user.isGM
-    sheetData.hasOwner = this.item.isEmbedded === true
-    const itemData = sheetData.item
-    sheetData.hasOwner = this.item.isEmbedded === true
+  static PARTS = {
+    header: { template: 'systems/brp/templates/item/skill.header.hbs' },
+    tabs: { template: 'systems/brp/templates/global/parts/tab-navigation.hbs' },
+    details: {
+      template: 'systems/brp/templates/item/super.detail.hbs',
+      scrollable: ['']
+    },
+    description: { template: 'systems/brp/templates/item/item.description.hbs' },
+    gmNotes: { template: 'systems/brp/templates/item/item.gmnotes.hbs' }
+  }
+
+  async _prepareContext(options) {
+    let context = await super._prepareContext(options)
     const actor = this.item.parent
+    const itemData = context.item
+    //If power label game setting  change item type label
+    if (game.settings.get('brp', this.item.type + 'Label') != "") {
+      context.itemType = game.settings.get('brp', this.item.type + 'Label')
+    }
+
     const powerMods = [];
     if (actor) {
       for (let itm of itemData.system.powerMod) {
@@ -40,49 +47,119 @@ export class BRPSuperSheet extends foundry.appv1.sheets.ItemSheet {
         powerMods.push(tempItm);
       }
     }
-
-    sheetData.powerMods = powerMods.sort(BRPUtilities.sortByNameKey);
+    context.powerMods = powerMods.sort(BRPUtilities.sortByNameKey);
 
     //Ensure mainName is populated
     if (this.item.system.mainName === "") {
-      this.object.update({ 'system.mainName': this.item.name });
+      this.item.update({ 'system.mainName': this.item.name });
     }
-
-    sheetData.enrichedDescriptionValue = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
-      sheetData.data.system.description,
-      {
-        async: true,
-        secrets: sheetData.editable
-      }
-    )
-    sheetData.powerName = game.settings.get('brp', this.item.type + 'Label')
-    if (sheetData.powerName === "") {
-      sheetData.powerName = game.i18n.localize("BRP." + this.item.type)
-    }
-    sheetData.enrichedGMDescriptionValue = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
-      sheetData.data.system.gmDescription,
-      {
-        async: true,
-        secrets: sheetData.editable
-      }
-    )
-
-    return sheetData
+    context.tabs = this._getTabs(options.parts);
+    return context
   }
 
-  activateListeners(html) {
-    super.activateListeners(html)
-    // Everything below here is only needed if the sheet is editable
-    if (!this.options.editable) return
-    html.find('.item-delete').click(event => this._onItemDelete(event, 'powerMod'))
-    html.find('.item-view').click(event => this._onItemView(event))
-    html.find('.item-toggle').click(this.onItemToggle.bind(this));
-    const dragDrop = new foundry.applications.ux.DragDrop.implementation({
-      dropSelector: '.droppable',
-      callbacks: { drop: this._onDrop.bind(this) }
-    })
-    dragDrop.bind(html[0])
+
+  /** @override */
+  async _preparePartContext(partId, context) {
+    switch (partId) {
+      case 'details':
+      case 'description':
+        context.tab = context.tabs[partId];
+        context.enrichedDescription = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+          this.item.system.description,
+          {
+            secrets: this.document.isOwner,
+            rollData: this.document.getRollData(),
+            relativeTo: this.document,
+          }
+        );
+        break;
+      case 'gmNotes':
+        context.tab = context.tabs[partId];
+        context.enrichedGMDescription = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+          this.item.system.gmDescription,
+          {
+            secrets: this.document.isOwner,
+            rollData: this.document.getRollData(),
+            relativeTo: this.document,
+          }
+        );
+        break;
+    }
+    return context;
   }
+
+  _getTabs(parts) {
+    const tabGroup = 'primary';
+    //Default tab
+    if (!this.tabGroups[tabGroup]) {
+      if (game.settings.get('brp', 'defaultTab')) {
+        this.tabGroups[tabGroup] = 'description';
+      } else {
+        this.tabGroups[tabGroup] = 'details';
+      }
+    }
+    return parts.reduce((tabs, partId) => {
+      const tab = {
+        cssClass: '',
+        group: tabGroup,
+        id: '',
+        icon: '',
+        label: 'BRP.',
+      };
+      switch (partId) {
+        case 'header':
+        case 'tabs':
+          return tabs;
+        case 'details':
+          tab.id = 'details';
+          tab.label += 'details';
+          break;
+        case 'description':
+          tab.id = 'description';
+          tab.label += 'description';
+          break;
+        case 'gmNotes':
+          tab.id = 'gmNotes';
+          tab.label += 'gmNotes';
+          break;
+      }
+      if (this.tabGroups[tabGroup] === tab.id) tab.cssClass = 'active';
+      tabs[partId] = tab;
+      return tabs;
+    }, {});
+  }
+
+  _configureRenderOptions(options) {
+    super._configureRenderOptions(options);
+    //Only show GM tab if you are GM
+    options.parts = ['header', 'tabs', 'details', 'description'];
+    if (game.user.isGM) {
+      options.parts.push('gmNotes');
+    }
+  }
+
+  //Activate event listeners using the prepared sheet HTML
+  _onRender(context, options) {
+    this.#dragDrop.forEach((d) => d.bind(this.element))
+    this.element.querySelectorAll('.item-delete').forEach(n => n.addEventListener("click", this._onItemDelete.bind(this)));
+    this.element.querySelectorAll('.item-view').forEach(n => n.addEventListener("click", this._onItemView.bind(this)));
+  }
+
+
+  //--------------------HANDLER----------------------------------
+  static async mySuperHandler(event, form, formData) {
+    const skillName = formData.object['system.mainName'] || this.item.system.mainName
+    if (this.item.system.specialism) {
+      const specialization = formData.object['system.specName'] || this.item.system.specName
+      formData.object.name = skillName + ' (' + specialization + ')'
+    } else {
+      formData.object.name = skillName
+    }
+    await this.document.update(formData.object)
+  }
+
+
+  //-----------------------ACTIONS-----------------------------------
 
   //Allow for a skill being dragged and dropped on to the peronality sheet either in the main skill list or an Optional Group
   async _onDrop(event, type = 'powerMod', collectionName = 'powerMod') {
@@ -114,21 +191,10 @@ export class BRPSuperSheet extends foundry.appv1.sheets.ItemSheet {
     await this.item.update({ [`system.${collectionName}`]: collection })
   }
 
-  //Handle toggle states
-  async onItemToggle(event) {
+  //Delete's a skill in the main skill list
+  async _onItemDelete(event, collectionName = 'powerMod') {
     event.preventDefault();
-    const prop = event.currentTarget.closest('.item-toggle').dataset.property;
-    let checkProp = {};
-    if (prop === 'specialism' || prop === 'chosen') {
-      checkProp = { [`system.${prop}`]: !this.object.system[prop] }
-    } else { return }
-
-    const item = await this.object.update(checkProp);
-    return item;
-  }
-
-  //Delete's an item in the main list
-  async _onItemDelete(event, collectionName = 'items') {
+    event.stopImmediatePropagation();
     const item = $(event.currentTarget).closest('.item')
     const itemId = item.data('item-id')
     const itemIndex = this.item.system[collectionName].findIndex(i => (itemId && i.uuid === itemId))
@@ -149,5 +215,70 @@ export class BRPSuperSheet extends foundry.appv1.sheets.ItemSheet {
     item.sheet.render(true);
   }
 
+  // DragDrop
+  //
+  //
+
+  _canDragStart(selector) {
+    // game.user fetches the current user
+    return this.isEditable;
+  }
+
+  _canDragDrop(selector) {
+    // game.user fetches the current user
+    return this.isEditable;
+  }
+
+
+  _onDragStart(event) {
+    const li = event.currentTarget;
+    if ('link' in event.target.dataset) return;
+
+    let dragData = null;
+
+    // Active Effect
+    if (li.dataset.effectId) {
+      const effect = this.item.effects.get(li.dataset.effectId);
+      dragData = effect.toDragData();
+    }
+
+    if (!dragData) return;
+
+    // Set data transfer
+    event.dataTransfer.setData('text/plain', JSON.stringify(dragData));
+  }
+
+  _onDragOver(event) { }
+
+  async _onDropItem(event, data) {
+    if (!this.item.isOwner) return false;
+  }
+
+  async _onDropFolder(event, data) {
+    if (!this.item.isOwner) return [];
+  }
+
+  get dragDrop() {
+    return this.#dragDrop;
+  }
+
+  // This is marked as private because there's no real need
+  // for subclasses or external hooks to mess with it directly
+  #dragDrop;
+
+  #createDragDropHandlers() {
+    return this.options.dragDrop.map((d) => {
+      d.permissions = {
+        dragstart: this._canDragStart.bind(this),
+        drop: this._canDragDrop.bind(this),
+      };
+      d.callbacks = {
+        dragstart: this._onDragStart.bind(this),
+        dragover: this._onDragOver.bind(this),
+        drop: this._onDrop.bind(this),
+      };
+      return new foundry.applications.ux.DragDrop.implementation(d);
+    });
+  }
 
 }

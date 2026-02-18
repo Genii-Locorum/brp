@@ -1,5 +1,6 @@
 import { BRPactorDetails } from './actorDetails.mjs'
 import { OPCard } from "../cards/opposed-card.mjs"
+import { BRPUtilities } from './utilities.mjs'
 
 export class BRPCharDev {
 
@@ -12,7 +13,10 @@ export class BRPCharDev {
         ? game.i18n.localize('BRP.devPhaseOff')
         : game.i18n.localize('BRP.devPhaseOn')
     )
-
+    game.socket.emit('system.brp', {
+      type: 'updateChar'
+    })
+    BRPUtilities.updateCharSheets(true)
   }
 
   //Do XP improve for all items in actor
@@ -22,12 +26,12 @@ export class BRPCharDev {
     let partic = await BRPactorDetails._getParticipantPriority(token, actor);
     for (let i of partic.items) {
       if (i.system.improve) {
-        results = await BRPCharDev.xpCheck(actor, token, i._id, rollType, 'false');
+        results = await BRPCharDev.xpCheck(actor, token, i._id, rollType, false);
         success.push(results)
       }
       if (i.type === "persTrait") {
         if (i.system.oppimprove) {
-          results = await BRPCharDev.xpCheck(actor, token, i._id, rollType, 'true');
+          results = await BRPCharDev.xpCheck(actor, token, i._id, rollType, true);
           success.push(results)
         }
       }
@@ -62,13 +66,13 @@ export class BRPCharDev {
       score = score - item.system.effects
     }
 
-    if (opp === 'true') {
+    if (opp) {
       score = item.system.opptotal
       name = item.system.oppName
     }
 
-    if (opp === 'false' && !item.system.improve) { return }
-    if (opp === 'true' && !item.system.oppimprove) { return }
+    if (!opp && !item.system.improve) { return }
+    if (opp && !item.system.oppimprove) { return }
     let result = await BRPCharDev.xpRoll(score, actor.system.xpBonus)
     if (result.level === 1) {
       if (type === 'fixed') {
@@ -77,9 +81,13 @@ export class BRPCharDev {
         let roll = new Roll(game.settings.get('brp', 'xpFormula'))
         await roll.evaluate();
         improvVal = roll.total
+        if (game.settings.get('brp', 'xpRollDice') && game.modules.get('dice-so-nice')?.active) {
+          game.dice3d.showForRoll(roll, game.user, true, null, false)  //Roll,user,sync,whispher,blind
+        }
       }
     }
-    if (opp === 'false') {
+
+    if (!opp) {
       await item.update({
         'system.improve': false,
         'system.xp': item.system.xp + improvVal

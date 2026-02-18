@@ -1,0 +1,32 @@
+<form class="brp" id="treat-wound-form">
+  <div class="flexcol">
+    <div class="stat-name darkred centre">{{localize 'BRP.healPrompt'}}</div>
+    <div class="flexrow">
+      <input class="stat-name centre" name="treatWound" type="number"/>
+    </div>
+  </div>
+
+  {{#if getType}}
+    <div class="flexcol">
+      <div class="stat-name darkred centre">{{localize 'BRP.healType'}}</div>
+      <div class="flexrow">
+        <select class="stat-name centre" data-handle-change name="healType">
+          {{selectOptions healTypes}}
+        </select>
+      </div>
+    </div>
+  {{/if}}
+
+  {{#if getWnd}}
+    <div class="flexcol">
+      <div class="stat-name darkred centre">{{localize 'BRP.selectWound'}}</div>
+      <div class="flexrow">
+        <select class="stat-name centre" data-handle-change name="woundId">
+          {{selectOptions wndList}}
+        </select>
+      </div>
+    </div>
+  {{/if}}
+
+
+</form>

@@ -18,6 +18,15 @@ const SETTINGS = {
     default: ""
   },
 
+  actorTertiaryColour: {
+    name: "BRP.Settings.actorTertiaryColour",
+    hint: "BRP.Settings.actorTertiaryColourHint",
+    scope: "world",
+    config: false,
+    type: String,
+    default: ""
+  },
+
   actorBackColour: {
     name: "BRP.Settings.actorBackColour",
     hint: "BRP.Settings.actorBackColourHint",
@@ -39,42 +48,6 @@ const SETTINGS = {
   actorTabNameColour: {
     name: "BRP.Settings.actorTabNameColour",
     hint: "BRP.Settings.actorTabNameColourHint",
-    scope: "world",
-    config: false,
-    type: String,
-    default: ""
-  },
-
-  actorTabNameActiveColour: {
-    name: "BRP.Settings.actorTabNameActiveColour",
-    hint: "BRP.Settings.actorTabNameActiveColourHint",
-    scope: "world",
-    config: false,
-    type: String,
-    default: ""
-  },
-
-  actorTabNameHoverColour: {
-    name: "BRP.Settings.actorTabNameHoverColour",
-    hint: "BRP.Settings.actorTabNameHoverColourHint",
-    scope: "world",
-    config: false,
-    type: String,
-    default: ""
-  },
-
-  actorTabNameShadowColour: {
-    name: "BRP.Settings.actorTabNameShadowColour",
-    hint: "BRP.Settings.actorTabNameShadowColourHint",
-    scope: "world",
-    config: false,
-    type: String,
-    default: ""
-  },
-
-  actorTabActiveShadowColour: {
-    name: "BRP.Settings.actorTabActiveShadowColour",
-    hint: "BRP.Settings.actorTabActiveShadowColourHint",
     scope: "world",
     config: false,
     type: String,
@@ -155,30 +128,73 @@ const SETTINGS = {
     default: 20
   },
 
+  brpIconPrimary: {
+    name: "BRP.Settings.brpIconPrimary",
+    hint: "BRP.Settings.brpIconPrimaryHint",
+    scope: "world",
+    config: false,
+    type: String,
+    default: ""
+  },
+
+
+
+
 }
 
-export class BRPDisplaySettings extends FormApplication {
-  static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
-      title: 'BRP.brpSettings',
-      classes: ["brp", "rulesmenu"],
-      id: 'display-settings',
-      template: 'systems/brp/templates/settings/display-settings.html',
+const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api
+export class BRPDisplaySettings extends HandlebarsApplicationMixin(ApplicationV2) {
+  static DEFAULT_OPTIONS = {
+    classes: ['brp', 'rulesmenu'],
+    id: 'char-settings',
+    actions: {
+      reset: BRPDisplaySettings.onResetDefaults,
+    },
+    form: {
+      handler: BRPDisplaySettings.formHandler,
+      closeOnSubmit: true,
+      submitOnChange: false
+    },
+    position: {
       width: 550,
       height: 'auto',
-      closeOnSubmit: true
-    })
+    },
+    tag: 'form',
+    window: {
+      resizable: true,
+      title: 'BRP.brpSettings',
+      contentClasses: ["standard-form"]
+    }
   }
 
-  async getData() {
-    const options = {}
+  get title() {
+    return `${game.i18n.localize(this.options.window.title)}`;
+  }
+
+  static PARTS = {
+    form: { template: 'systems/brp/templates/settings/display-settings.hbs',
+      scrollable: ['']
+     },
+    footer: { template: 'templates/generic/form-footer.hbs' }
+  }
+
+  async _prepareContext(options) {
+    const isGM = game.user.isGM;
+    const optSet = {}
     for (const [k, v] of Object.entries(SETTINGS)) {
-      options[k] = {
+      optSet[k] = {
         value: game.settings.get('brp', k),
         setting: v
       }
     }
-    return options
+    return {
+      isGM,
+      optSet,
+      buttons: [
+        { type: "submit", icon: "fa-solid fa-save", label: "SETTINGS.Save" },
+        { type: "reset", action: "reset", icon: "fa-solid fa-undo", label: "SETTINGS.Reset" },
+      ]
+    }
   }
 
   static registerSettings() {
@@ -187,12 +203,7 @@ export class BRPDisplaySettings extends FormApplication {
     }
   }
 
-  activateListeners(html) {
-    super.activateListeners(html)
-    html.find('button[name=reset]').on('click', event => this.onResetDefaults(event))
-  }
-
-  async onResetDefaults(event) {
+  static async onResetDefaults(event) {
     event.preventDefault()
     for await (const [k, v] of Object.entries(SETTINGS)) {
       await game.settings.set('brp', k, v?.default)
@@ -200,10 +211,13 @@ export class BRPDisplaySettings extends FormApplication {
     return this.render()
   }
 
-  async _updateObject(event, data) {
-    for await (const key of Object.keys(SETTINGS)) {
-      game.settings.set('brp', key, data[key])
-    }
+  static async formHandler(event, form, formData) {
+    const settings = foundry.utils.expandObject(formData.object)
+    await Promise.all(
+      Object.entries(settings)
+        .map(([key, value]) => game.settings.set("brp", key, value))
+    )
   }
+
 
 }

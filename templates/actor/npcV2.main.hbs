@@ -1,0 +1,627 @@
+  <section class="npc-main-sheet">
+    {{#if (eq system.viewTab "1")}}
+
+    <setion class="npc-main-grid">
+      {{!-- Stats Section --}}
+      <section class="npc-stats-grid">
+        {{#each system.stats as |stat key|}}
+          {{#if stat.visible}}
+          <div class="charname left">{{stat.labelShort}}</div>
+            {{#if ../system.lock}}
+              <div class="rollable centre" data-action="statRoll" data-tooltip="{{localize 'BRP.charHint'}}" data-characteristic="{{key}}">
+                {{stat.total}}</div>
+            {{else}}
+              <div><input class="centre npcpersonal-inp" name="system.stats.{{key}}.base" type="text" value="{{stat.base}}"
+                  data-dtype="Number" /></div>
+            {{/if}}
+          {{/if}}
+        {{/each}}
+      </section>
+
+      {{!-- Secondary Stats Section --}}
+      <section class="npc-points-grid">
+        <div class="charname" data-tooltip="{{system.health.label}}">{{system.health.labelAbbr}}</div>
+        {{#if useHPL}}
+        <div class="centre">{{system.health.value}}</div>
+        {{else}}
+        <div class="centre"><input class="centre npcpersonal-inp" name="system.health.value" type="text"
+            value="{{system.health.value}}" data-dtype="Number" /></div>
+        {{/if}}
+        <div class="charname centre"> / </div>
+        <div class="centre">{{system.health.max}}</div>
+        <div class="charname" data-tooltip="{{system.power.label}}">{{system.power.labelAbbr}}</div>
+        <div class="centre"><input class="centre npcpersonal-inp" name="system.power.value" type="text"
+            value="{{system.power.value}}" data-dtype="Number" /></div>
+        <div class="charname centre"> / </div>
+        <div class="centre">{{system.power.max}}</div>
+
+        {{#isOr useFP useBeastiary}}
+        <div class="charname" data-tooltip="{{system.fatigue.label}}">{{system.fatigue.labelAbbr}}</div>
+        <div class=" centre"><input class="centre npcpersonal-inp" name="system.fatigue.value" type="text"
+            value="{{system.fatigue.value}}" data-dtype="Number" /></div>
+        <div class="charname centre"> / </div>
+        <div class=" centre">{{system.fatigue.max}}</div>
+        {{/isOr}}
+
+        {{#isOr useSAN useBeastiary}}
+        <div class="charname" data-tooltip="{{system.sanity.label}}">{{system.sanity.labelAbbr}}</div>
+        <div class=" centre"><input class="centre npcpersonal-inp" name="system.sanity.value" type="text"
+            value="{{system.sanity.value}}" data-dtype="Number" /></div>
+        <div class=" centre"> / </div>
+        <div class="centre"><input class="centre npcpersonal-inp" name="system.sanity.max" type="text"
+            value="{{system.sanity.max}}" data-dtype="Number" /></div>
+        {{/isOr}}
+
+        {{#isOr useRes5 useBeastiary}}
+        <div class="charname" data-tooltip="{{system.res5.label}}">{{system.res5.labelAbbr}}</div>
+        <div class=" centre"><input class="centre npcpersonal-inp" name="system.res5.value" type="text"
+            value="{{system.res5.value}}" data-dtype="Number" /></div>
+        <div class=" centre"> / </div>
+        <div class="centre"><input class="centre npcpersonal-inp" name="system.res5.max" type="text"
+            value="{{system.res5.max}}" data-dtype="Number" /></div>
+        {{/isOr}}
+      </section>
+
+      {{!-- Secondary Stats --}}
+      <section class="npc-secondary">
+        <div class="charname">{{localize 'BRP.dmgBonusAbbr'}}</div>
+        <div class="centre">{{system.dmgBonus.full}}</div>
+        {{#unless system.lock}}
+        <div><input class="npcpersonal-inp" name="system.moveTitle" type="text"
+            value="{{actor.system.moveTitle}}" /></div>
+        <div><input class="npcpersonal-inp centre" name="system.move" type="text"
+            value="{{actor.system.move}}" /></div>
+        <div><input class="npcpersonal-inp" name="system.altMoveTitle" type="text"
+            value="{{actor.system.altMoveTitle}}" /></div>
+        <div><input class="npcpersonal-inp centre" name="system.altMove" type="text"
+            value="{{actor.system.altMove}}" /></div>
+        {{else}}
+        <div class="charname">{{system.moveTitle}}</div>
+        <div class="centre">{{system.move}}</div>
+        <div class="charname">{{system.altMoveTitle}}</div>
+        <div class="centre">{{system.altMove}}</div>
+        {{/unless}}
+        {{#unless useHPL}}
+        <div class="charname">{{ localize 'BRP.majorWoundAbbr'}}</div>
+        <div class="centre">{{system.health.mjrwnd}}</div>
+        {{/unless}}
+        {{#isOr useSAN useBeastiary}}
+        <div class="new-row charname">{{system.sanity.labelLoss}}</div>
+        {{#unless system.lock}}
+        <div data-tooltip="{{actor.system.sanDesc}}"><input class="npcpersonal-inp centre" name="system.sanLoss" type="text"
+            value="{{actor.system.sanLoss}}" /></div>
+        {{else}}
+        <div class="centre" data-tooltip="{{actor.system.sanDesc}}">{{system.sanLoss}}</div>
+        {{/unless}}
+        {{/isOr}}
+      </section>
+
+
+      {{!-- NPC Portrait --}}
+      <section>
+        <img class="npc-img" data-action="onEditImage" src="{{actor.img}}" data-edit="img" data-tooltip="{{actor.name}}" height="90" width="90" />
+      </section>
+    </setion>
+
+    {{!-- Skills Section --}}
+    <section class="npc-skills-grid">
+      <div class="npc-skill-cell item">
+        <div class="charname">{{ localize 'BRP.skills' }}</div>
+        {{#unless system.lock}}
+        <div class="charname centre" data-action="createDoc" data-document-class='Item' data-type='skill' data-tooltip="{{ localize 'BRP.addSkill' }}"><a
+            class="mediumIcon"><i class="item-control fas fa-plus"></i></a></div>
+        {{/unless}}
+      </div>
+      {{#each skills as |skill key|}}
+      <li class="item" style="list-style:none;" data-item-id="{{skill._id}}" data-document-class='Item' data-drag='true'>
+        <div class="npc-skill-cell">
+          {{#if ../system.lock}}
+          <div class="truncate" data-action="viewDoc" style="border: 1px solid transparent;">{{skill.name}}</div>
+          <div class="centre rollable" data-action="skillRoll" style="border-bottom: 1px solid transparent;">{{skill.system.total}}%</div>
+          {{else}}
+          <div class="npc-skill-cell-unlock">
+            <span><a class=""><i class="mediumIcon fas fa-trash" data-action="deleteDoc" ></i></a></span>
+            <span class="truncate"><input class="npcpersonal-inp inline-edit" data-field="name" name="skill.name"
+                type="text" value="{{skill.name}}" /></span>
+          </div>
+          <div class="right"><input class="npcpersonal-inp centre inline-edit" data-field="base"
+              name="skill.system.base" type="text" value="{{skill.system.base}}" data-dtype="Number" /></div>
+          {{/if}}
+        </div>
+      </li>
+      {{/each}}
+    </section>
+
+    {{!-- Weapons Section --}}
+    <section class="npc-weapons-grid">
+      <div class="npc-weapons-row">
+        <div class="npc-weapons-cell">
+          {{#if system.lock}}
+          <div class="charname">{{ localize 'BRP.weapons' }}</div>
+          {{else}}
+          <div class="npc-weapon-title">
+            <div class="charname">{{ localize 'BRP.weapons' }}</div>
+            <div class="charname centre" data-action="createDoc" data-document-class='Item' data-type='weapon' data-tooltip="{{ localize 'BRP.addWeapon'}}"><a
+                class="mediumIcon"><i class="item-control fas fa-plus"></i></a></div>
+          </div>
+          {{/if}}
+          <div class="charname centre">%</div>
+          <div class="charname centre">{{ localize 'BRP.damage' }}</div>
+          <div class="charname centre" data-tooltip="{{ localize 'BRP.dmgBonus' }}">{{ localize 'BRP.dmgBonusInitials' }}</div>
+          <div class="charname centre">{{ localize 'BRP.range' }}</div>
+          <div class="charname centre">{{ localize 'BRP.att' }}</div>
+          <div class="charname centre">{{system.health.labelAbbr}}</div>
+          <div class="charname centre" data-tooltip="{{ localize 'BRP.ammo' }}">{{ localize 'BRP.ammoAbbr' }}</div>
+        </div>
+      </div>
+      {{#each weapons as |weapon key|}}
+      <li class="item" style="list-style:none;" data-item-id="{{weapon._id}}" data-document-class='Item' data-drag='true'>
+          <div class="npc-weapons-cell new-row">
+            {{#if ../system.lock}}
+            <div data-action="viewDoc">{{weapon.name}}</div>
+            <div class="centre rollable weapon-name" data-action="weaponRoll"> {{weapon.system.npcVal}}</div>
+            <div class="centre rollable damage-name" data-action="damageRoll" data-tooltip="{{weapon.system.damageHint}}">{{weapon.system.dmgName}}</div>
+            <div class="centre" data-tooltip="{{weapon.system.dbNameHint}}">{{weapon.system.dbName}}</div>
+            <div class="centre">{{weapon.system.rangeName}}</div>
+            <div class="centre">{{weapon.system.att}}</div>
+            <div class="centre"> <input class="npcpersonal-inp centre inline-edit" data-field="hpCurr"
+                name="weapon.system.hpCurr" type="text" value="{{weapon.system.hpCurr}}" data-dtype="Number" /></div>
+            <div class="centre"> <input class="npcpersonal-inp centre inline-edit" data-field="ammoCurr"
+                name="weapon.system.ammoCurr" type="text" value="{{weapon.system.ammoCurr}}" data-dtype="Number" />
+            </div>
+            {{else}}
+            <div class="npc-weapon-cell-unlock">
+              <span><a class="mediumIcon" data-action="deleteDoc"><i class="fas fa-trash"></i></a></span>
+              <span class="truncate"><input class="npcpersonal-inp inline-edit" data-field="name" name="weapon.name"
+                  type="text" value="{{weapon.name}}" /></span>
+            </div>
+            <div class="right"><input class="npcpersonal-inp centre inline-edit" data-field="npcVal"
+                name="weapon.system.npcVal" type="text" value="{{weapon.system.npcVal}}" data-dtype="Number" /></div>
+            <div class="right"><input class="npcpersonal-inp centre inline-edit" data-field="dmg1"
+                name="weapon.system.dmg1" type="text" value="{{weapon.system.dmg1}}"/></div>
+            <div class="centre" data-tooltip="{{weapon.system.dbNameHint}}">{{weapon.system.dbName}}</div>
+            <div class="centre item-edit">{{weapon.system.rangeName}}</div>
+            <div class="centre"> <input class="npcpersonal-inp centre inline-edit" data-field="att"
+                name="weapon.system.att" type="text" value="{{weapon.system.att}}" /></div>
+            <div class="centre"> <input class="npcpersonal-inp centre inline-edit" data-field="hpCurr"
+                name="weapon.system.hpCurr" type="text" value="{{weapon.system.hpCurr}}" data-dtype="Number" /></div>
+            <div class="centre"> <input class="npcpersonal-inp centre inline-edit" data-field="ammoCurr"
+                name="weapon.system.ammoCurr" type="text" value="{{weapon.system.ammoCurr}}" data-dtype="Number" />
+            </div>
+            {{/if}}
+          </div>
+      </li>
+      {{/each}}
+    </section>
+
+    {{!-- Hit Locations --}}
+    {{#isOr useHPL useBeastiary}}
+    {{! if using Hits Per Location}}
+    <section class="npc-hitloc-grid">
+      <div class="npc-hitloc-cell">
+        {{#if system.lock}}
+        <div class="charname">{{ localize 'BRP.hitLocAbbr'}}</div>
+        {{else}}
+        <div class="npc-hitloc-title">
+          <div class="charname truncate">{{ localize 'BRP.hitLocAbbr'}}</div>
+          <div class="charname centre" data-action="createDoc" data-document-class='Item' data-type='hit-location' data-tooltip="{{ localize 'BRP.addHitLoc'}}"><a
+              class="mediumIcon"><i class="item-control fas fa-plus"></i></a></div>
+        </div>
+        {{/if}}
+        <div class="charname centre">{{ localize 'BRP.d20'}}</div>
+        <div class="charname centre" style="grid-column: 3 / 6">{{system.health.labelAbbr}}</div>
+        <div class="charname centre" data-tooltip="{{localize 'BRP.armourPoints'}}">{{ localize 'BRP.ap'}}</div>
+        <div class="charname centre" data-tooltip="{{ localize 'BRP.bapHint'}}">{{ localize 'BRP.bap'}}</div>
+        {{#unless system.lock}}
+        <div class="charname centre" data-action="hplHeal" data-tooltip="{{ localize 'BRP.resetHitLoc'}}"><a class="mediumIcon"><i
+              class="fas fa-heart"></i></a></div>
+        {{/unless}}
+      </div>
+      {{#each hitlocs as |hitloc key|}}
+      <li class="item" style="list-style:none;" data-item-id="{{hitloc._id}}" data-document-class='Item' data-drag='true'>
+        {{#if ../system.lock}}
+        <div class="npc-hitloc-cell">
+          <div class="" {{#if (eq hitloc.system.locType 'general'
+            )}} data-tooltip="{{localize 'BRP.generalHPHint'}}" {{/if}} data-action="viewDoc" >{{hitloc.system.displayName}}</div>
+          {{#if (eq hitloc.system.locType 'general')}}
+          <div></div>
+          {{else}}
+          {{#if (eq hitloc.system.lowRoll hitloc.system.highRoll)}}
+          <div class="centre">{{hitloc.system.lowRoll}}</div>
+          {{else}}
+          <div class="centre">{{hitloc.system.lowRoll}}-{{hitloc.system.highRoll}}</div>
+          {{/if}}
+          {{/if}}
+          {{#if (eq hitloc.system.locType 'general')}}
+          <div class="centre">
+            <input class="npcpersonal-inp centre inline-edit" data-field="currHP" name="hitloc.system.currHP"
+              type="number" min="0"
+              oninput="this.value = !!this.value && Math.abs(this.value) >= 0 ? -Math.abs(this.value) : null"
+              value="{{hitloc.system.currHP}}" data-dtype="Number" />
+          </div>
+          <div></div>
+          <div></div>
+          {{else}}
+          <div class="centre"><input class="npcpersonal-inp centre inline-edit" data-field="currHP"
+              name="hitloc.system.currHP" type="text" value="{{hitloc.system.currHP}}" data-dtype="Number" /></div>
+          <div class="centre">/</div>
+          <div class="centre">{{hitloc.system.maxHP}}</div>
+          {{/if}}
+          {{#if ../useAVRand}}
+          <div class="centre rollable" data-action="armourRoll" data-property="nap">{{hitloc.system.apRnd}}</div>
+          <div class="centre rollable" data-action="armourRoll" data-property="nbap">{{hitloc.system.bapRnd}}</div>
+          {{else}}
+          <div class="centre">{{hitloc.system.ap}}</div>
+          <div class="centre">{{hitloc.system.bap}}</div>
+          {{/if}}
+        </div>
+        {{else}}
+        <div class="npc-hitloc-cell-unlock item" data-item-id="{{hitloc._id}}">
+          <div><a class="mediumIcon" data-action="deleteDoc"><i class="fas fa-trash"></i></a></div>
+          <div class="centre"><input class="npcpersonal-inp centre inline-edit" data-field="displayName"
+              name="hitloc.system.displayName" type="text" value="{{hitloc.system.displayName}}" /></div>
+          <div class="centre"><input class="npcpersonal-inp centre inline-edit" data-field="lowRoll"
+              name="hitloc.system.lowRoll" type="text" value="{{hitloc.system.lowRoll}}" data-dtype="Number" /></div>
+          <div class="centre"><input class="npcpersonal-inp centre inline-edit" data-field="highRoll"
+              name="hitloc.system.highRoll" type="text" value="{{hitloc.system.highRoll}}" data-dtype="Number" /></div>
+          <div class="centre"><input class="npcpersonal-inp centre inline-edit" data-field="currHP"
+              name="hitloc.system.currHP" type="text" value="{{hitloc.system.currHP}}" data-dtype="Number" /></div>
+          <div class="centre">/</div>
+          <div class="centre">{{hitloc.system.maxHP}}</div>
+          {{#if ../useAVRand}}
+          <div class="centre"><input class="npcpersonal-inp centre inline-edit" data-field="apRnd"
+              name="hitloc.system.apRnd" type="text" value="{{hitloc.system.apRnd}}" /></div>
+          <div class="centre"><input class="npcpersonal-inp centre inline-edit" data-field="bapRnd"
+              name="hitloc.system.bapRnd" type="text" value="{{hitloc.system.bapRnd}}" /></div>
+          {{else}}
+          <div class="centre"><input class="npcpersonal-inp centre inline-edit" data-field="ap"
+              name="hitloc.system.ap" type="text" value="{{hitloc.system.ap}}" data-dtype="Number" /></div>
+          <div class="centre"><input class="npcpersonal-inp centre inline-edit" data-field="bap"
+              name="hitloc.system.bap" type="text" value="{{hitloc.system.bap}}" data-dtype="Number" /></div>
+          {{/if}}
+        </div>
+        {{/if}}
+      </li>
+      {{/each}}
+    </section>
+    {{/isOr}}
+
+    {{#if showArmour }}
+    {{! if not using Hits Per Location or sheet is in edit mode}}
+    <section class="npc-armour-grid">
+      <div class="charname">{{ localize 'BRP.armour'}}</div>
+      <div class="" data-tooltip="{{localize 'BRP.armourPoints'}}">{{ localize 'BRP.ap'}}:</div>
+      {{#if system.lock}}
+        {{#if useAVRand}}
+          <div class=" rollable" data-action="armourRoll" data-property="ncap">{{system.apRnd}}</div>
+        {{else}}
+          <div class="">{{system.ap}}</div>
+        {{/if}}
+      {{else}}
+        {{#if useAVRand}}
+          <div class=""><input class="npcpersonal-inp" name="system.apRnd" type="text" value="{{system.apRnd}}" />
+          </div>
+        {{else}}
+          <div class=""><input class="npcpersonal-inp" name="system.ap" type="text" value="{{system.ap}}"
+              data-dtype="Number" /></div>
+        {{/if}}
+      {{/if}}
+      <div class="" data-tooltip="{{ localize 'BRP.bapHint'}}">{{ localize 'BRP.bap'}}:</div>
+      {{#if system.lock}}
+        {{#if useAVRand}}
+          <div class=" rollable" data-action="armourRoll" data-property="ncbap">{{system.bapRnd}}</div>
+        {{else}}
+          <div class="">{{system.bap}}</div>
+        {{/if}}
+      {{else}}
+        {{#if useAVRand}}
+          <div class=""><input class="npcpersonal-inp" name="system.bapRnd" type="text" value="{{system.bapRnd}}" />
+          </div>
+        {{else}}
+          <div class=""><input class="npcpersonal-inp" name="system.bap" type="text" value="{{system.bap}}"
+              data-dtype="Number" /></div>
+        {{/if}}
+      {{/if}}
+    </section>
+    {{/if}}
+
+
+    {{!-- Equipment Section --}}
+    {{#if useGear}}
+    <section class="npc-skills-grid">
+      <div class="npc-skill-cell item">
+        <div class="charname">{{ localize 'BRP.equipment' }}</div>
+        {{#unless system.lock}}
+        <div class="charname centre" data-action="createDoc" data-document-class='Item' data-type="gear" data-tooltip="{{ localize 'BRP.addGear' }}"><a
+            class="mediumIcon"><i class="item-control fas fa-plus"></i></a></div>
+        {{/unless}}
+      </div>
+      {{#each gears as |gear key|}}
+      <li class="item" style="list-style:none;" data-item-id="{{gear._id}}" data-document-class='Item' data-drag='true'>
+        <div class="npc-skill-cell">
+          {{#if ../system.lock}}
+          <div class="truncate" data-action="viewDoc">{{gear.name}}</div>
+          <div class="centre">{{gear.system.quantity}}</div>
+          {{else}}
+          <div class="npc-skill-cell-unlock">
+            <span><a class="" data-action="deleteDoc"><i class="mediumIcon fas fa-trash"></i></a></span>
+            <span class="truncate"><input class="npcpersonal-inp inline-edit" data-field="name" name="gear.name"
+                type="text" value="{{gear.name}}" /></span>
+          </div>
+          <div class="right"><input class="npcpersonal-inp centre inline-edit" data-field="quantity"
+              name="gear.system.quantity" type="text" value="{{gear.system.quantity}}" data-dtype="Number" /></div>
+          {{/if}}
+        </div>
+      </li>
+      {{/each}}
+    </section>
+    {{/if}}
+
+    {{!-- Powers Section --}}
+    {{#if usePowers}}
+    <section class="npc-hitloc-grid">
+      <div class="npc-powers-cell">
+        {{#if system.lock}}
+        <div class="charname truncate">{{ localize 'BRP.powers'}}</div>
+        {{else}}
+        <div class="npc-hitloc-title">
+          <div class="charname truncate">{{ localize 'BRP.powers'}}</div>
+          <div class="charname centre addPower" data-tooltip="{{ localize 'BRP.addPower'}}"><a class="mediumIcon"><i
+                class="item-control fas fa-plus"></i></a></div>
+        </div>
+        {{/if}}
+        <div class="charname centre">%</div>
+        <div class="charname centre truncate">{{ localize 'BRP.duration' }}</div>
+        <div class="charname centre truncate">{{ localize 'BRP.range' }}</div>
+        <div class="charname centre truncate">{{ localize 'BRP.impact' }}</div>
+        <div class="charname centre truncate" data-tooltip="{{ localize 'BRP.costNPCHint'}}">{{ localize 'BRP.cost' }}</div>
+      </div>
+
+      {{#each powers as |power key|}}
+      <li class="item" style="list-style:none;" data-item-id="{{power._id}}" data-document-class='Item' data-drag='true'>
+        <div class="npc-powers-cell">
+          {{#if ../system.lock}}
+          <div class="new-row truncate" data-tooltip="{{power.name}}" data-action="viewDoc">{{power.name}}</div>
+          {{else}}
+          <div class="npc-powers-cell-unlock">
+            <span><a class="" data-action="deleteDoc"><i class="mediumIcon fas fa-trash"></i></a></span>
+            <span class="truncate"><input class="npcpersonal-inp inline-edit" data-field="name" name="power.name"
+                type="text" value="{{power.name}}" /></span>
+          </div>
+          {{/if}}
+          {{#isOr (eq power.type "psychic") (eq power.type "magic")}}
+          {{#if ../system.lock}}
+          <div class="centre rollable" data-action="skillRoll">{{power.system.total}}</div>
+          {{else}}
+          <div class="centre"><input class="npcpersonal-inp centre inline-edit" data-field="base"
+              name="power.system.base" type="text" value="{{power.system.base}}" data-dtype="Number" /></div>
+          {{/if}}
+          {{else}}
+          <div></div>
+          {{/isOr}}
+
+          {{#isOr (eq power.type "mutation") (eq power.type "sorcery")}}
+          <div></div>
+          {{else}}
+          <div class="centre truncate">{{power.system.duration}}</div>
+          {{/isOr}}
+
+          {{#unless (eq power.type "mutation")}}
+          <div class="centre truncate">{{power.system.range}}</div>
+          {{else}}
+          <div></div>
+          {{/unless}}
+
+          <div class="centre truncate {{#if power.system.impactDice}} rollable impact {{/if}}"
+            data-tooltip="{{power.system.impactHint}}">{{power.system.impactName}}</div>
+
+          {{#if (eq power.type "mutation")}}
+          <div></div>
+          {{else}}
+          {{#if (eq power.type "sorcery")}}
+          <div class=" centre truncate">{{power.system.pppl}}({{power.system.powCost}})</div>
+          {{else}}
+          <div class=" centre truncate">{{power.system.pppl}}</div>
+          {{/if}}
+          {{/if}}
+        </div>
+      </li>
+      {{/each}}
+    </section>
+    {{/if}}
+
+    {{!-- Passion Section --}}
+    {{#if usePassions}}
+    <section class="npc-skills-grid">
+      <div class="npc-skill-cell item">
+        <div class="charname">{{ localize 'BRP.passion' }}</div>
+        {{#unless system.lock}}
+        <div class="charname centre" data-action="createDoc" data-document-class='Item' data-type='passion' data-tooltip="{{ localize 'BRP.addPassion' }}"><a
+            class="mediumIcon"><i class="item-control fas fa-plus"></i></a></div>
+        {{/unless}}
+      </div>
+      {{#each passions as |passion key|}}
+      <li class="item" style="list-style:none;" data-item-id="{{passion._id}}" data-document-class='Item' data-drag='true'>
+        <div class="npc-skill-cell">
+          {{#if ../system.lock}}
+          <div class="truncate" data-action="viewDoc">{{passion.name}}</div>
+          <div class="centre rollable" data-action="passionRoll">{{passion.system.total}}%</div>
+          {{else}}
+          <div class="npc-skill-cell-unlock">
+            <span><a class="" data-action="deleteDoc"><i class="mediumIcon fas fa-trash"></i></a></span>
+            <span class="truncate"><input class="npcpersonal-inp inline-edit" data-field="name" name="passion.name"
+                type="text" value="{{passion.name}}" /></span>
+          </div>
+          <div class="right"><input class="npcpersonal-inp centre inline-edit" data-field="base"
+              name="passion.system.base" type="text" value="{{passion.system.base}}" data-dtype="Number" /></div>
+          {{/if}}
+        </div>
+      </li>
+      {{/each}}
+    </section>
+    {{/if}}
+
+    {{!-- Allegiance Section --}}
+    {{#if useAllegiances}}
+    <section class="npc-skills-grid">
+      <div class="npc-skill-cell item">
+        <div class="charname">{{ localize 'BRP.allegiance' }}</div>
+        {{#unless system.lock}}
+        <div class="charname centre" data-action="createDoc" data-document-class='Item' data-type='allegiance' data-tooltip="{{ localize 'BRP.addAllegiance' }}"><a
+            class="mediumIcon"><i class="item-control fas fa-plus"></i></a></div>
+        {{/unless}}
+      </div>
+      {{#each allegiances as |allegiance key|}}
+      <li class="item" style="list-style:none;" data-item-id="{{allegiance._id}}" data-document-class='Item' data-drag='true'>
+        <div class="npc-skill-cell">
+          {{#if ../system.lock}}
+          <div class="truncate" data-action="viewDoc">{{allegiance.name}}</div>
+          <div class="centre rollable" data-action="allegianceRoll">{{allegiance.system.total}}%</div>
+          {{else}}
+          <div class="npc-skill-cell-unlock">
+            <span data-action="deleteDoc"><a class=""><i class="mediumIcon fas fa-trash"></i></a></span>
+            <span class="truncate"><input class="npcpersonal-inp inline-edit" data-field="name" name="allegiance.name"
+                type="text" value="{{allegiance.name}}" /></span>
+          </div>
+          <div class="right"><input class="npcpersonal-inp centre inline-edit" data-field="allegPoints"
+              name="allegiance.system.allegPoints" type="text" value="{{allegiance.system.allegPoints}}"
+              data-dtype="Number" /></div>
+          {{/if}}
+        </div>
+      </li>
+      {{/each}}
+    </section>
+    {{/if}}
+
+    {{!-- Personal Traits Section --}}
+    {{#if usePerTraits}}
+    <section class="npc-hitloc-grid">
+      <div class="npc-persTrait-cell item">
+        <div class="charname">{{ localize 'BRP.persTrait' }}</div>
+        {{#unless system.lock}}
+        <div class="charname centre" data-action="createDoc" data-document-class='Item' data-type="persTrait" data-tooltip="{{ localize 'BRP.addPersTrait' }}"><a
+            class="mediumIcon"><i class="item-control fas fa-plus"></i></a></div>
+        {{/unless}}
+      </div>
+      {{#each persTraits as |persTrait key|}}
+      <li class="item" style="list-style:none;" data-item-id="{{persTrait._id}}" data-document-class='Item' data-drag='true'>
+        <div class="npc-persTrait-cell">
+          {{#if ../system.lock}}
+          <div class="new-row truncate" data-action="viewDoc">{{persTrait.name}}</div>
+          <div class="centre rollable" data-action="personalityRoll" data-opp="false">{{persTrait.system.total}}%</div>
+          <div></div>
+          <div class="truncate">{{persTrait.system.oppName}}</div>
+          <div class="centre rollable" data-action="personalityRoll" data-opp="true">{{persTrait.system.opptotal}}%</div>
+          {{else}}
+          <div class="new-row npc-persTrait-cell-unlock">
+            <span class="new-row" data-action="deleteDoc"><a class=""><i class="mediumIcon fas fa-trash"></i></a></span>
+            <span class="truncate"><input class="npcpersonal-inp inline-edit" data-field="name" name="persTrait.name"
+                type="text" value="{{persTrait.name}}" /></span>
+          </div>
+          <div class="right"><input class="npcpersonal-inp centre inline-edit" data-field="base"
+              name="persTrait.system.base" type="text" value="{{persTrait.system.base}}" data-dtype="Number" /></div>
+          {{/if}}
+        </div>
+      </li>
+      {{/each}}
+    </section>
+    {{/if}}
+
+    {{!-- Reputation Section --}}
+    {{#if useReputations}}
+    <section class="npc-skills-grid">
+      <div class="npc-skill-cell item">
+        <div class="charname">{{ localize 'BRP.reputation' }}</div>
+        {{#unless system.lock}}
+        <div class="charname centre" data-action="createDoc" data-document-class='Item' data-type="reputation" data-tooltip="{{ localize 'BRP.addReputation' }}"><a
+            class="mediumIcon"><i class="item-control fas fa-plus"></i></a></div>
+        {{/unless}}
+      </div>
+      {{#each reputations as |reputation key|}}
+      <li class="item" style="list-style:none;" data-item-id="{{reputation._id}}" data-document-class='Item' data-drag='true'>
+        <div class="npc-skill-cell">
+          {{#if ../system.lock}}
+          <div class="truncate" data-action="viewDoc">{{reputation.name}}</div>
+          <div class="centre rollable" data-action="reputationRoll">{{reputation.system.total}}%</div>
+          {{else}}
+          <div class="npc-skill-cell-unlock">
+            <span><a data-action="deleteDoc"><i class="mediumIcon fas fa-trash"></i></a></span>
+            <span class="truncate"><input class="npcpersonal-inp inline-edit" data-field="name" name="reputation.name"
+                type="text" value="{{reputation.name}}" /></span>
+          </div>
+          <div class="right"><input class="npcpersonal-inp centre inline-edit" data-field="base"
+              name="reputation.system.base" type="text" value="{{reputation.system.base}}" data-dtype="Number" /></div>
+          {{/if}}
+        </div>
+      </li>
+      {{/each}}
+    </section>
+    {{/if}}
+
+    {{!-- Notes Section --}}
+    {{#unless (eq actor.system.description "")}}
+      <section class="npc-notes">
+        <div class="charname">{{ localize 'BRP.notes' }}</div>
+        <div class="notes-doc">{{{actor.system.description}}}</div>
+      </section>
+    {{/unless}}
+
+    {{else}}
+
+    {{!-- Base Stats Section --}}
+    <section class="npc-baseStats-grid">
+      <div class="charname left">{{ localize 'BRP.characteristicAbbr'}}</div>
+      <div class="charname centre">{{ localize 'BRP.rolled' }}</div>
+      <div class="charname centre">{{ localize 'BRP.average' }}</div>
+      {{#each system.baseStats as |stat key|}}
+      <div class="left">{{stat.labelShort}}</div>
+      {{#if ../system.lock}}
+      <div class="centre" data-characteristic="{{key}}">{{stat.random}}</div>
+      <div class="centre" data-characteristic="{{key}}">{{stat.average}}</div>
+      {{else}}
+      <div><input class="centre npcpersonal-inp" name="system.baseStats.{{key}}.random" type="text"
+          value="{{stat.random}}" /></div>
+      <div><input class="centre npcpersonal-inp" name="system.baseStats.{{key}}.average" type="text"
+          value="{{stat.average}}" /></div>
+      {{/if}}
+      {{/each}}
+    </section>
+    <br>
+    <div class="hpnpcgrid">
+      <div class="charname left">{{system.health.label}}</div>
+      <div class="new-row">{{localize 'BRP.characteristic'}}</div>
+      <div class="npc-stat centre">
+        <select data-handle-change name="system.hp.stat1">
+          {{selectOptions statOptions selected=actor.system.hp.stat1}}
+        </select>
+      </div>
+      <div class="new-row">{{localize 'BRP.characteristic'}}</div>
+      <div class="npc-stat centre">
+        <select data-handle-change name="system.hp.stat2">
+          {{selectOptions statOptions selected=actor.system.hp.stat2}}
+        </select>
+      </div>
+      <div class="new-row">{{localize 'BRP.multiplier'}}</div>
+      <div><input class="centre npcpersonal-inp" name="system.hp.multi" type="text" value="{{actor.system.hp.multi}}"
+          data-dtype="Number" /></div>
+      <div class="new-row">{{localize 'BRP.hpBonus' label=system.health.labelAbbr}}</div>
+      <div><input class="centre npcpersonal-inp" name="system.health.mod" type="text"
+          value="{{actor.system.health.mod}}" data-dtype="Number" /></div>
+      <div class="new-row">{{localize 'BRP.ppBonus' label=system.power.labelAbbr}}</div>
+      <div><input class="centre npcpersonal-inp" name="system.power.mod" type="text" value="{{actor.system.power.mod}}"
+          data-dtype="Number" /></div>
+      <div class="new-row">{{localize 'BRP.fpBonus' label=system.fatigue.labelAbbr}}</div>
+      <div><input class="centre npcpersonal-inp" name="system.fatigue.mod" type="text"
+          value="{{actor.system.fatigue.mod}}" data-dtype="Number" /></div>
+      <div class="new-row">&NonBreakingSpace;</div>
+      <div class="new-row">{{localize 'BRP.calculation' label=system.health.labelAbbr}}</div>
+      <div style="grid-column: 2 / span 2;">{{actor.system.hp.formula}}</div>
+      <div class="new-row">&NonBreakingSpace;</div>
+      <div class="new-row">{{localize 'BRP.movDesc'}}</div>
+      <div style="grid-column: 2 / span 2;"><input class="npcpersonal-inp" name="system.movDesc" type="text"
+          value="{{actor.system.movDesc}}" /></div>
+      <div class="new-row">{{localize 'BRP.sanDesc'}}</div>
+      <div style="grid-column: 2 / span 2;"><input class="npcpersonal-inp" name="system.sanDesc" type="text"
+          value="{{actor.system.sanDesc}}" /></div>
+      {{/if}}
+  </section>

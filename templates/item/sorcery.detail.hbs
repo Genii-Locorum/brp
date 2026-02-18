@@ -1,0 +1,47 @@
+<section class="item tab details {{tab.cssClass}}" data-group="primary" data-tab="details">
+  <div class="magic-grid">
+    {{#if isGM}}
+      <div class="skill-display">{{ localize "BRP.range" }}</div>
+      <div class="stat-input"><input name="system.range" type="text" value="{{item.system.range}}" /></div>
+      <div class="skill-display" data-tooltip="{{localize 'BRP.ppplHint' label=item.system.powerLabel}}">{{localize "BRP.ppCost"
+        label=item.system.powerLabelAbbr}}</div>
+      <div class="stat-input"><input name="system.pppl" type="text" value="{{item.system.pppl}}" data-dtype="Number" />
+      </div>
+      <div class="skill-display" data-tooltip="{{localize 'BRP.costLvlHint'}}">{{ localize "BRP.powCost" }}</div>
+      <div class="stat-input"><input name="system.powCost" type="text" value="{{item.system.powCost}}" /></div>
+      <div class="skill-display" data-tooltip="{{localize 'BRP.levelHint'}}">{{ localize "BRP.level" }}</div>
+      <div class="stat-input"><input name="system.maxLvl" type="text" value="{{item.system.maxLvl}}"
+          data-dtype="Number" /></div>
+    {{else}}
+      <div class="skill-display">{{ localize "BRP.range" }}</div>
+      <div class="weapon-display centre boxed">{{item.system.range}}</div>
+      <div class="skill-display" data-tooltip="{{localize 'BRP.costLvlHint'}}">{{ localize "BRP.ppCost" }}</div>
+      <div class="weapon-display centre boxed">{{item.system.pppl}}</div>
+      <div class="skill-display" data-tooltip="{{localize 'BRP.costLvlHint'}}">{{ localize "BRP.powCost" }}</div>
+      <div class="weapon-display centre boxed">{{item.system.powCost}}</div>
+      <div class="skill-display">{{ localize "BRP.maxLvl" }}</div>
+      <div class="weapon-display centre boxed">{{item.system.maxLvl}}</div>
+    {{/if}}
+    {{#isAnd hasOwner item.system.var}}
+      <div></div><br>
+      <div class="skill-display">{{ localize "BRP.currLvl" }}</div>
+      <div class="stat-input"><input name="system.currLvl" type="text" value="{{item.system.currLvl}}"
+          data-dtype="Number" /></div>
+      <div class="skill-display">{{ localize "BRP.memLvl" }}</div>
+      <div class="stat-input"><input name="system.memLvl" type="text" value="{{item.system.memLvl}}"
+          data-dtype="Number" /></div>
+    {{/isAnd}}
+
+  </div>
+  <br>
+  <div class="item-title"> {{localize 'BRP.options'}}:</div>
+  <div class="base-grid">
+    <div class="skill-cat {{#if item.system.var}} toggle-active  {{/if}}"
+      data-action="itemToggle" data-property="var">{{localize 'BRP.spellVar'}}</div>
+    {{#if hasOwner}}
+      <div class="skill-cat {{#if item.system.mem}} toggle-active  {{/if}}" data-action="itemToggle" data-property="mem">{{localize
+        'BRP.memorised'}}</div>
+    {{/if}}
+  </div>
+  <br>
+</section>

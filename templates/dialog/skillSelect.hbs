@@ -1,0 +1,17 @@
+<section class="brp skill-select" id="skill-select-form">
+  <div class='bold'>
+    <label class="skill-opt-label">{{ localize 'BRP.selectionsMade' }}:</label>
+    <span class="centre count">0</span>
+    <span class="centre">/</span>
+    <span class="centre">{{picks}}</span>
+  </div>
+  <br>
+
+  {{#each selectOptions as |option key|}}
+    <div class="selectList">
+      <div class="new-row centre item-{{key}} mediumIcon select rollable" data-set="{{key}}"><a><i class="fa-regular fa-square"></i></a></div>
+      <div class="bold charname">{{option.name}}</div>
+    </div>
+  {{/each}}
+
+</section>

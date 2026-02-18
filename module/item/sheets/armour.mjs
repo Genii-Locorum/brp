@@ -1,103 +1,152 @@
 import { BRPActiveEffectSheet } from "../../sheets/brp-active-effect-sheet.mjs";
 import { BRPSelectLists } from "../../apps/select-lists.mjs";
 import { addBRPIDSheetHeaderButton } from '../../brpid/brpid-button.mjs'
+import { BRPItemSheetV2 } from "./base-item-sheet.mjs";
 
-export class BRPArmourSheet extends foundry.appv1.sheets.ItemSheet {
-  constructor(...args) {
-    super(...args)
-    this._sheetTab = 'items'
+
+export class BRPArmourSheet extends BRPItemSheetV2 {
+  constructor(options = {}) {
+    super(options)
   }
 
-  //Add BRPID buttons to sheet
-  _getHeaderButtons() {
-    const headerButtons = super._getHeaderButtons()
-    addBRPIDSheetHeaderButton(headerButtons, this)
-    return headerButtons
-  }
-
-  //Turn off App V1 deprecation warnings
-  //TODO - move to V2
-  static _warnedAppV1 = true
-
-  static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
-      classes: ['brp', 'sheet', 'item'],
-      template: 'systems/brp/templates/item/armour.html',
+  static DEFAULT_OPTIONS = {
+    classes: ['armour'],
+    position: {
       width: 520,
-      height: 625,
-      scrollY: ['.tab.description'],
-      tabs: [{ navSelector: '.sheet-tabs', contentSelector: '.sheet-body', initial: 'details' }]
-    })
+      height: 620
+    },
   }
 
-  async getData() {
-    const sheetData = super.getData()
-    const itemData = sheetData.item
-    sheetData.hasOwner = this.item.isEmbedded === true
+  static PARTS = {
+    header: { template: 'systems/brp/templates/item/item.header.hbs' },
+    tabs: { template: 'systems/brp/templates/global/parts/tab-navigation.hbs' },
+    details: {
+      template: 'systems/brp/templates/item/armour.detail.hbs',
+      scrollable: ['']
+    },
+    effects: {template: 'systems/brp/templates/item/item.active-effects.hbs'},
+    description: { template: 'systems/brp/templates/item/item.description.hbs' },
+    gmNotes: { template: 'systems/brp/templates/item/item.gmnotes.hbs' }
+  }
+
+  async _prepareContext(options) {
+    let context = await super._prepareContext(options)
     const actor = this.item.parent
-    sheetData.isGM = game.user.isGM
-    //Get drop down options from select-lists.mjs
-    sheetData.burdenOptions = await BRPSelectLists.getArmourBurdenOptions();
-    sheetData.priceOptions = await BRPSelectLists.getPriceOptions();
+    context.burdenOptions = await BRPSelectLists.getArmourBurdenOptions();
+    context.priceOptions = await BRPSelectLists.getPriceOptions();
     if (actor) {
-      sheetData.hitLocOptions = await BRPSelectLists.getHitLocOptions(actor);
+      context.hitLocOptions = await BRPSelectLists.getHitLocOptions(actor);
     };
-    sheetData.equippedOptions = await BRPSelectLists.getEquippedOptions(this.item.type);
-    sheetData.burdenName = game.i18n.localize("BRP." + this.item.system.burden);
-    sheetData.priceName = game.i18n.localize("BRP." + this.item.system.price);
-    sheetData.equippedName = game.i18n.localize("BRP." + this.item.system.equipStatus);
-    sheetData.enrichedDescriptionValue = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
-      sheetData.data.system.description,
-      {
-        async: true,
-        secrets: sheetData.editable
-      }
-    )
-
-    sheetData.enrichedGMDescriptionValue = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
-      sheetData.data.system.gmDescription,
-      {
-        async: true,
-        secrets: sheetData.editable
-      }
-    )
-
-    sheetData.effects = BRPActiveEffectSheet.getItemEffectsFromSheet(sheetData)
+    context.equippedOptions = await BRPSelectLists.getEquippedOptions(this.document.type);
+    context.burdenName = game.i18n.localize("BRP." + this.item.system.burden);
+    context.priceName = game.i18n.localize("BRP." + this.item.system.price);
+    context.equippedName = game.i18n.localize("BRP." + this.item.system.equipStatus);
+    context.effects = BRPActiveEffectSheet.getItemEffectsFromSheet(this.document)
     const changesActiveEffects = BRPActiveEffectSheet.getEffectChangesFromSheet(this.document)
-    sheetData.effectKeys = changesActiveEffects.effectKeys
-    sheetData.effectChanges = changesActiveEffects.effectChanges
-
-    return sheetData
+    context.effectKeys = changesActiveEffects.effectKeys
+    context.effectChanges = changesActiveEffects.effectChanges
+    context.tabs = this._getTabs(options.parts);
+    return context
   }
 
-  /* -------------------------------------------- */
-
-  /**
-   * Activate event listeners using the prepared sheet HTML
-   * @param html {HTML}   The prepared HTML object ready to be rendered into the DOM
-   */
-  activateListeners(html) {
-    super.activateListeners(html)
-    html.find('.item-toggle').click(this.onItemToggle.bind(this));
-
-    BRPActiveEffectSheet.activateListeners(this, html)
+  /** @override */
+  async _preparePartContext(partId, context) {
+    switch (partId) {
+      case 'details':
+      case 'effects':
+        context.tab = context.tabs[partId];
+        break;
+      case 'description':
+        context.tab = context.tabs[partId];
+        context.enrichedDescription = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+          this.item.system.description,
+          {
+            secrets: this.document.isOwner,
+            rollData: this.document.getRollData(),
+            relativeTo: this.document,
+          }
+        );
+        break;
+      case 'gmNotes':
+        context.tab = context.tabs[partId];
+        context.enrichedGMDescription = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+          this.item.system.gmDescription,
+          {
+            secrets: this.document.isOwner,
+            rollData: this.document.getRollData(),
+            relativeTo: this.document,
+          }
+        );
+        break;
+    }
+    return context;
   }
 
-  //Handle toggle states
-  async onItemToggle(event) {
-    event.preventDefault();
-    const prop = event.currentTarget.closest('.item-toggle').dataset.property;
-    let checkProp = {};
-    if (prop === 'armVar' || prop === 'armBal' || prop === 'HPL') {
-      checkProp = { [`system.${prop}`]: !this.object.system[prop] }
-    } else { return }
-
-    const item = await this.object.update(checkProp);
-    return item;
+  _getTabs(parts) {
+    const tabGroup = 'primary';
+    //Default tab
+    if (!this.tabGroups[tabGroup]) {
+      if (game.settings.get('brp','defaultTab')) {
+        this.tabGroups[tabGroup] = 'description';
+      }  else {
+        this.tabGroups[tabGroup] = 'details';
+      }
+    }
+    return parts.reduce((tabs, partId) => {
+      const tab = {
+        cssClass: '',
+        group: tabGroup,
+        id: '',
+        icon: '',
+        label: 'BRP.',
+      };
+      switch (partId) {
+        case 'header':
+        case 'tabs':
+          return tabs;
+        case 'details':
+          tab.id = 'details';
+          tab.label += 'details';
+          break;
+        case 'effects':
+            tab.id = 'effects';
+            tab.label += 'effects';
+            break;
+        case 'description':
+          tab.id = 'description';
+          tab.label += 'description';
+          break;
+        case 'gmNotes':
+          tab.id = 'gmNotes';
+          tab.label += 'gmNotes';
+          break;
+       }
+      if (this.tabGroups[tabGroup] === tab.id) tab.cssClass = 'active';
+      tabs[partId] = tab;
+      return tabs;
+    }, {});
   }
 
-  _updateObject(event, formData) {
-    super._updateObject(event, formData)
+  _configureRenderOptions(options) {
+    super._configureRenderOptions(options);
+    //Only show GM tab if you are GM
+    options.parts = ['header', 'tabs', 'details','effects','description'];
+    if (game.user.isGM) {
+        options.parts.push('gmNotes');
+    }
   }
+
+  //Activate event listeners using the prepared sheet HTML
+  _onRender(context, _options) {
+    BRPActiveEffectSheet.activateListeners(this)
+  }
+
+
+  //-----------------------ACTIONS-----------------------------------
 
 }
+
+
+
+
+

@@ -1,0 +1,55 @@
+<section class="actor tab pers {{tab.cssClass}}" data-group="primary" data-tab="pers">
+
+    {{#if usePersTrait}}
+      <div class="trait-listitem">
+        <div class="diff-label">{{ localize 'BRP.persTrait'}}</div>
+        <div></div>
+        <div class="diff-label centre">{{ localize 'BRP.total'}}</div>
+        <div></div>
+        <div class="diff-label centre">{{ localize 'BRP.total'}}</div>
+        <div></div>
+        <div class="right diff-label">{{ localize 'BRP.opposedTrait'}}</div>
+        <div class="diff-label centre" data-tooltip="{{ localize 'BRP.addItem' type=(localize 'TYPES.Item.persTrait') }}"
+          data-action="createDoc" data-document-class="Item" data-type="persTrait">
+          <a class="largeIcon"><i class="item-control fas fa-plus"></i></a>
+        </div>
+      </div>
+    <ol class="gr-list">
+      {{#each persTraits as |persTrait id|}}
+        <li class="item trait-listitem" data-item-id="{{persTrait._id}}" data-document-class="Item" data-drag='true'>
+          <div class="new-row persTrait-name rollable" data-action="viewDoc" data-tooltip="{{localize 'BRP.viewDoc' type=(localize 'TYPES.Item.persTrait') }}">{{persTrait.name}}</div>
+          <div data-tooltip="{{ localize 'BRP.improve' }}"><a class="" data-action="itemToggle" data-property="improve"><i class="{{#if persTrait.system.improve}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>
+          <div class="centre rollable" data-action="personalityRoll"  data-opp="false">{{persTrait.system.total}}%</div>
+          <div><a class="centre"><i class="plainIcon fa-regular fa-scale-balanced"></i></a></div>
+          <div class="centre rollable" data-action="personalityRoll" data-opp="true">{{persTrait.system.opptotal}}%</div>
+          <div class="right" data-tooltip="{{ localize 'BRP.oppImprove' }}"><a class="" data-action="itemToggle" data-property="oppimprove"><i class="{{#if persTrait.system.oppimprove}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>
+          <div class="right rollable" data-action="viewDoc" data-tooltip="{{localize 'BRP.viewDoc' type=(localize 'TYPES.Item.persTrait') }}">{{persTrait.system.oppName}}</div>
+        </li>
+      {{/each}}
+      </ol>
+      <br>
+    {{/if}}
+
+    {{#if usePassion}}
+      <div class="magic-listitem">
+        <div class="diff-label">{{ localize 'BRP.passion'}}</div>
+        <div></div>
+        <div class="diff-label centre">{{ localize 'BRP.total'}}</div>
+        <div></div>
+        <div class="diff-label right" data-tooltip="{{ localize 'BRP.addItem' type=(localize 'TYPES.Item.passion') }}"
+          data-action="createDoc" data-document-class="Item" data-type="passion">
+          <a class="largeIcon"><i class="item-control fas fa-plus"></i></a>
+        </div>
+      </div>
+      <ol class="gr-list">
+      {{#each passions as |passion id|}}
+        <li class="item magic-listitem" data-item-id="{{passion._id}}" data-document-class="Item" data-drag='true'>
+          <div class="new-row passion-name rollable" data-action="viewDoc" data-tooltip="{{localize 'BRP.viewDoc' type=(localize 'TYPES.Item.passion') }}">{{passion.name}}</div>
+          <div data-tooltip="{{ localize 'BRP.improve' }}"><a class="" data-action="itemToggle" data-property="improve"><i class="{{#if passion.system.improve}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>
+          <div class="centre rollable" data-action="passionRoll">{{passion.system.total}}%</div>
+        </li>
+      {{/each}}
+      </ol>
+    {{/if}}
+
+  </section>

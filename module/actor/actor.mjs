@@ -118,16 +118,27 @@ export class BRPActor extends Actor {
         systemData.skillcategory[key] = itm.system.total;
       }
     }
-
+    let effects = actorData.effects.map(i=> {return {origin: i.origin} })
     //Calcualte/adjust scores for items (itm)
     for (let itm of actorData.items) {
 
+      /*Replaced with code below as not correctly applying to weapons
       //Does the item have transferrable effects
       if (['gear', 'armour', 'weapon','wound'].includes(itm.type)) {
         if (itm.transferredEffects.length > 0) {
           itm.system.hasEffects = true;
         } else {
           itm.system.hasEffects = false;
+        }
+      }*/
+
+      //Does the item have transferrable effects
+      if (['gear', 'armour', 'weapon','wound'].includes(itm.type)) {
+          itm.system.hasEffects = false;
+        for (let effect of effects) {
+          if (effect.origin === itm.uuid) {
+            itm.system.hasEffects = true;
+          }
         }
       }
 
@@ -166,16 +177,12 @@ export class BRPActor extends Actor {
           if (itm.system.pSMax > 0) { systemData.psMax = systemData.psMax + itm.system.pSMax }
         }
 
-        //Does the item have transferrable effects  _TODO is this duplicate of 126-131, if so delete
-        if (itm.transferredEffects.length > 0) {
-          itm.system.hasEffects = true;
-        } else {
-          itm.system.hasEffects = false;
-        }
+
 
         //If armour
       } else if (itm.type === 'armour') {
         //Calc encumbrance based on carry status and if using HPL
+        itm.system.actlEnc = 0
         if (itm.system.equipStatus === 'carried') {
           if (game.settings.get('brp', 'useHPL')) {
             itm.system.actlEnc = Math.round(itm.system.quantity * itm.system.enc / actorData.items.get(itm.system.hitlocID).system.fractionENC * 10) / 10
@@ -183,8 +190,6 @@ export class BRPActor extends Actor {
             itm.system.actlEnc = Number(itm.system.quantity * itm.system.enc)
           }
           //If not carried then zero ENC
-        } else {
-          itm.system.actlEnc = 0
         }
         systemData.enc = systemData.enc + itm.system.actlEnc
         if (itm.system.equipStatus != 'stored') {
@@ -300,6 +305,9 @@ export class BRPActor extends Actor {
     } else if (systemData.health.value < 3) {
       systemData.unconscious = true;
     }
+
+
+
   }
 
   //Prepare NPC specific data.
@@ -330,7 +338,7 @@ export class BRPActor extends Actor {
         itm.system.total = itm.system.base;
         itm.system.opptotal = 100 - itm.system.base;
       }
-      else if (itm.type === 'hit-location' && game.settings.get('brp', 'useHPL')) {
+      else if (itm.type === 'hit-location' && (game.settings.get('brp', 'useHPL') || game.settings.get('brp', 'beastiary'))) {
         itm.system.injured = false;
         itm.system.maxHP = Math.max((Math.ceil(systemData.health.max / itm.system.fractionHP) + itm.system.adj), 0);
         damage = damage + Math.max(itm.system.maxHP - itm.system.currHP, 0)
@@ -338,7 +346,7 @@ export class BRPActor extends Actor {
     }
 
     //If using HPL then set current health
-    if (game.settings.get('brp', 'useHPL')) {
+    if (game.settings.get('brp', 'useHPL') || game.settings.get('brp', 'beastiary')) {
       systemData.health.value = systemData.health.max - damage
     }
   }
@@ -469,6 +477,21 @@ export class BRPActor extends Actor {
       systemData.fatigue.labelAbbr = game.settings.get('brp', 'fpLabelShort')
     } else {
       systemData.fatigue.labelAbbr = game.i18n.localize('BRP.fp')
+    }
+    if (game.settings.get('brp', 'sanLabelLong')) {
+      systemData.sanity.label = game.settings.get('brp', 'sanLabelLong')
+    } else {
+      systemData.sanity.label = game.i18n.localize('BRP.sanity')
+    }
+    if (game.settings.get('brp', 'sanLabelShort')) {
+      systemData.sanity.labelAbbr = game.settings.get('brp', 'sanLabelShort')
+    } else {
+      systemData.sanity.labelAbbr = game.i18n.localize('BRP.san')
+    }
+    if (game.settings.get('brp', 'sanLabelLoss')) {
+      systemData.sanity.labelLoss = game.settings.get('brp', 'sanLabelLoss')
+    } else {
+      systemData.sanity.labelLoss = game.i18n.localize('BRP.sanLoss')
     }
     if (game.settings.get('brp', 'res5LabelLong')) {
       systemData.res5.label = game.settings.get('brp', 'res5LabelLong')

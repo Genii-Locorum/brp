@@ -19,7 +19,7 @@
         <input type="text" style="flex: 2;" name="_existing" value="{{_existing}}" data-prefix="{{idPrefix}}">
       {{/if}}
       {{#if options.editable}}
-        <a style="flex: 0 0 20px; align-self: center; text-align: right;" title="{{localize 'BRP.BRPIDFlag.guess'}}" data-guess="{{guessCode}}"><i class="fas fa-wand-magic"></i></a>
+        <a style="flex: 0 0 20px; align-self: center; text-align: right;" data-tooltip="{{localize 'BRP.BRPIDFlag.guess'}}" data-guess="{{guessCode}}"><i class="fas fa-wand-magic"></i></a>
       {{/if}}
     </div>
   </div>
@@ -94,7 +94,7 @@
       <label>{{localize 'BRP.BRPIDFlag.foundry-id'}}:</label>
       <div class="flexrow">
         <input type="text" value="{{object.id}}" readonly>
-        <a title="{{localize 'BRP.CopyToClipboard'}}" class="copy-to-clipboard">
+        <a data-tooltip="{{localize 'BRP.CopyToClipboard'}}" class="copy-to-clipboard">
           <i class="fas fa-copy"></i>
         </a>
       </div>
@@ -103,7 +103,7 @@
       <label>{{localize 'BRP.BRPIDFlag.foundry-uuid'}}:</label>
       <div class="flexrow">
         <input type="text" value="{{object.uuid}}" readonly>
-        <a title="{{localize 'BRP.CopyToClipboard'}}" class="copy-to-clipboard">
+        <a data-tooltip="{{localize 'BRP.CopyToClipboard'}}" class="copy-to-clipboard">
           <i class="fas fa-copy"></i>
         </a>
       </div>
@@ -112,7 +112,7 @@
       <label>{{localize 'BRP.BRPIDFlag.get-this-document'}}:</label>
       <div class="flexrow">
         <input type="text" value="await fromUuid('{{object.uuid}}')" readonly>
-        <a title="{{localize 'BRP.CopyToClipboard'}}" class="copy-to-clipboard">
+        <a data-tooltip="{{localize 'BRP.CopyToClipboard'}}" class="copy-to-clipboard">
           <i class="fas fa-copy"></i>
         </a>
       </div>
@@ -122,7 +122,7 @@
         <label>{{localize 'BRP.BRPIDFlag.get-document-like-this'}}:</label>
         <div class="flexrow">
           <input type="text" value="await game.system.api.brpid.fromBRPID('{{id}}', '{{lang}}')" readonly>
-          <a title="{{localize 'BRP.CopyToClipboard'}}" class="copy-to-clipboard">
+          <a data-tooltip="{{localize 'BRP.CopyToClipboard'}}" class="copy-to-clipboard">
             <i class="fas fa-copy"></i>
           </a>
         </div>

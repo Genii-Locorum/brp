@@ -1,6 +1,7 @@
 import { BRPSelectLists } from '../apps/select-lists.mjs'
 import { SkillsSelectDialog } from "../apps/skill-selection.mjs"
 import { BRPUtilities } from '../apps/utilities.mjs';
+import BRPDialog from '../setup/brp-dialog.mjs';
 
 export class BRPactorItemDrop {
 
@@ -10,7 +11,8 @@ export class BRPactorItemDrop {
     itemData = itemData instanceof Array ? itemData : [itemData];
     //TODO: Consider adding a bypass to just create the items with no checks
     //      return actor.createEmbeddedDocuments("Item", itemData);
-    for (let nItm of itemData) {
+    for (let thisItem of itemData) {
+      let nItm = thisItem.toObject()
       let reqResult = 1;
       let errMsg = "";
 
@@ -35,7 +37,7 @@ export class BRPactorItemDrop {
           if (game.settings.get('brp', 'useHPL')) {
             let usage = await BRPactorItemDrop.hitLocationDialog(actor)
             if (usage) {
-              nItm.system.hitlocID = usage.get('hitLoc')
+              nItm.system.hitlocID = usage.hitLoc;
             } else {
               reqResult = 0;
               errMsg = nItm.name + " : " + game.i18n.localize('BRP.armourNoHitLoc');
@@ -268,26 +270,15 @@ export class BRPactorItemDrop {
       hitLocOptions,
       label,
     }
-    const html = await foundry.applications.handlebars.renderTemplate('systems/brp/templates/dialog/hitLocChoice.html', data)
-    return new Promise(resolve => {
-      let formData = null
-      const dlg = new Dialog({
-        title: "",
-        content: html,
-        buttons: {
-          roll: {
-            label: game.i18n.localize("BRP.proceed"),
-            callback: html => {
-              formData = new FormData(html[0].querySelector('#hitLocChoice-form'))
-              return resolve(formData)
-            }
-          }
-        },
-        default: 'roll',
-        close: () => { }
-      })
-      dlg.render(true)
+    const html = await foundry.applications.handlebars.renderTemplate('systems/brp/templates/dialog/hitLocChoice.hbs', data)
+    const dlg = await BRPDialog.input({
+      window: {title: game.i18n.localize('BRP.hitLoc')},
+      content: html,
+      ok: {
+        label: game.i18n.localize('BRP.proceed')
+      }
     })
+    return dlg
   }
 
   //Make skill selections etc when dropping a personality, culture or profession
@@ -439,7 +430,7 @@ export class BRPactorItemDrop {
     }
 
     //If a profession then select wealth level
-    if (itm.type === 'profession') {
+    if (itm.type === 'profession' && game.settings.get('brp','useWealth')) {
       let wealthOptions = await BRPSelectLists.getWealthOptions(itm.system.minWealth, itm.system.maxWealth)
       let selected = await this.selectFromRadio(wealthOptions, "Select Wealth Level")
       await actor.update({ 'system.wealth': selected })
@@ -452,10 +443,14 @@ export class BRPactorItemDrop {
 
 
   static async personalityDelete(event, actor) {
-    const confirmation = await BRPUtilities.triggerDelete(event, actor, "itemId")
+    const confirmation = await BRPDialog.confirm({
+      window: { title: game.i18n.localize("BRP.deletePersonality") },
+      content: game.i18n.localize("BRP.deleteConfirm")
+    })
+    if (!confirmation) { return }
+
     //Reset all actor personality points on skills to zero
     let changes = []
-    if (!confirmation) { return }
     for (let itm of actor.items) {
       if (['skill', 'magic', 'psychic'].includes(itm.type)) {
         changes.push({
@@ -466,13 +461,19 @@ export class BRPactorItemDrop {
       }
     }
     await Item.updateDocuments(changes, { parent: actor })
+    let personalities = actor.items.filter(itm =>itm.type==='personality').map(itm => {return (itm.id)})
+    await Item.deleteDocuments(personalities, {parent: actor});
   }
 
   static async professionDelete(event, actor) {
-    const confirmation = await BRPUtilities.triggerDelete(event, actor, "itemId")
+    const confirmation = await BRPDialog.confirm({
+      window: { title: game.i18n.localize("BRP.deleteProfession") },
+      content: game.i18n.localize("BRP.deleteConfirm")
+    })
+    if (!confirmation) return;
+
     //Reset all actor profession skills to zero
     let changes = []
-    if (!confirmation) { return }
     for (let itm of actor.items) {
       if (['skill', 'magic', 'psychic'].includes(itm.type)) {
         changes.push({
@@ -484,13 +485,19 @@ export class BRPactorItemDrop {
     }
     await Item.updateDocuments(changes, { parent: actor })
     await actor.update({ 'system.wealth': "" })
+    let professions = actor.items.filter(itm =>itm.type==='profession').map(itm => {return (itm.id)})
+    await Item.deleteDocuments(professions, {parent: actor});
   }
 
   static async cultureDelete(event, actor) {
-    const confirmation = await BRPUtilities.triggerDelete(event, actor, "itemId")
+    const confirmation = await BRPDialog.confirm({
+      window: { title: game.i18n.localize("BRP.deleteCulture") },
+      content: game.i18n.localize("BRP.deleteConfirm")
+    })
+    if (!confirmation) return;
+
     //Reset all actor culture skills to zero
     let changes = []
-    if (!confirmation) { return }
     for (let itm of actor.items) {
       if (['skill', 'magic', 'psychic'].includes(itm.type)) {
         changes.push({
@@ -521,6 +528,8 @@ export class BRPactorItemDrop {
       'system.stats.edu.culture': 0,
       'system.move': 0
     })
+    let cultures = actor.items.filter(itm =>itm.type==='culture').map(itm => {return (itm.id)})
+    await Item.deleteDocuments(cultures, {parent: actor});
   }
 
 
@@ -567,26 +576,15 @@ export class BRPactorItemDrop {
   static async _getSpecialism(newSkill, actor) {
 
     let title = game.i18n.format('BRP.getSpecialism', { entity: newSkill.name })
-    let specName = await new Promise(resolve => {
-      const dlg = new Dialog({
-        title: title,
-        content: `<input class="centre" type="text" name="entry">`,
-        buttons: {
-          roll: {
-            label: game.i18n.localize("BRP.confirm"),
-            callback: html => {
-              let inpB = html.find('[name="entry"]').val()
-              resolve(inpB)
-            }
-          }
-        },
-        default: 'roll',
-        close: () => { }
-      }, { classes: ["brp", "sheet"] })
-      dlg.render(true);
+    const specName = await BRPDialog.input({
+      window: {title: title},
+      content: `<input class="centre" type="text" name="entry">`,
+      ok: {
+        label: game.i18n.localize('BRP.proceed')
+      }
     })
-    newSkill.system.specName = specName
-    newSkill.name = newSkill.system.mainName + ' (' + specName + ')'
+    newSkill.system.specName = specName.entry
+    newSkill.name = newSkill.system.mainName + ' (' + specName.entry + ')'
     newSkill.flags.brp.brpidFlag.id = "i.skill." + await BRPUtilities.toKebabCase(newSkill.name)
     newSkill.system.chosen = true;
     return newSkill
@@ -605,35 +603,24 @@ export class BRPactorItemDrop {
 
       //Otherwise call the dialog selection
     } else {
-      let destination = 'systems/brp/templates/dialog/selectItem.html';
+      let destination = 'systems/brp/templates/dialog/selectItem.hbs';
       let data = {
         headTitle: title,
         newList,
       }
       const html = await foundry.applications.handlebars.renderTemplate(destination, data);
-      let usage = await new Promise(resolve => {
-        let formData = null
-        const dlg = new Dialog({
-          title: title,
-          content: html,
-          buttons: {
-            roll: {
-              label: game.i18n.localize("BRP.confirm"),
-              callback: html => {
-                formData = new FormData(html[0].querySelector('#selectItem'))
-                return resolve(formData)
-              }
-            }
-          },
-          default: 'roll',
-          close: () => { }
-        }, { classes: ["brp", "sheet"] })
-        dlg.render(true);
-      })
+
+      const usage = await BRPDialog.input({
+      window: {title: title},
+      content: html,
+      ok: {
+        label: game.i18n.localize('BRP.proceed')
+      }
+    })
 
       //Get the PID from the form
       if (usage) {
-        selected = usage.get('selectItem');
+        selected = usage.selectItem;
       }
     }
     if (selected === "") { return false }

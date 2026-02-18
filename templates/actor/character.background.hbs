@@ -1,0 +1,31 @@
+<section class="actor tab background {{tab.cssClass}}" data-group="primary" data-tab="background">
+
+  {{#unless isLocked}}
+    <div class='bio-control' style='flex:initial;'>
+      <div class='button addNewSection' style="margin-bottom:10px;">{{localize 'BRP.backgroundNewSection'}}</div>
+    </div>
+  {{/unless}}
+  {{#each storySections as |section index|}}
+    <div class="section-header bio-section flexrow-brp" data-index='{{index}}'>
+      {{#if ../isLocked}}
+        <div class="story-subtitle">{{section.title}}</div>
+      {{else}}
+        <input class='story-subtitle bio-section-title' type="text" value="{{section.title}}" placeholder="{{localize 'BRP.backgroundSectionNameHolder'}}">
+        <div class="header-buttons">
+          {{#unless section.isFirst}}<a class="move-section-up" data-action="storyUp" data-tooltip="{{localize 'BRP.backgroundSectionMoveUp'}}"><i class="fas fa-caret-up"></i></a>{{/unless}}
+          {{#unless section.isLast}}<a class="move-section-down" data-action="storyDown" data-tooltip="{{localize 'BRP.backgroundSectionMoveDown'}}"><i class="fas fa-caret-down"></i></a>{{/unless}}
+          <a class="delete-section" data-action="storyDelete" data-tooltip="{{localize 'BRP.backgroundDeleteSection'}}"><i class="fas fa-trash"></i></a>
+        </div>
+      {{/if}}
+    </div>
+    <div class="story">
+      {{#if ../editable}}
+        <prose-mirror class="bio-section-value" data-index='{{index}}' target=(concat "system.stories." index ".value") value="{{section.value}}" data-document-u-u-i-d="{{../actor.uuid}}" name=(concat "system.stories." index ".value") collaborate="true" toggled="true">
+          {{{section.enriched}}}
+      </prose-mirror>
+      {{else}}
+        {{{section.enriched}}}
+      {{/if}}
+    </div>
+  {{/each}}
+</section>

@@ -6,7 +6,6 @@ import { BRP } from "../setup/config.mjs";
 import ChaosiumCanvasInterfaceInit from '../apps/chaosium-canvas-interface-init.mjs'
 import { registerSettings } from '../settings/register-settings.mjs'
 import { handlebarsHelper } from '../setup/handlebar-helper.mjs';
-import { preloadHandlebarsTemplates } from "../setup/templates.mjs";
 import { BRPCombat } from "../combat/combat.mjs";
 import { BRPCombatTracker } from "../combat/combat-tracker.mjs";
 import { BRPActiveEffect } from "../apps/active-effect.mjs";
@@ -28,8 +27,6 @@ export default function Init() {
   //Register Settings and Handlebar Helpers
   registerSettings();
   handlebarsHelper();
-  preloadHandlebarsTemplates();
-
 
   // Define custom Document classes
   CONFIG.Actor.documentClass = BRPActor;

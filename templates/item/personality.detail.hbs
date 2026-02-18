@@ -1,0 +1,81 @@
+<section class='item tab details draggable {{tab.cssClass}}' data-group='primary' data-tab='details'>
+
+  {{!-- Selected Skills --}}
+  <div class="horizontalboxed {{#if isGM}} droppable {{/if}} main-skills">
+    <div class="item-title">{{ localize "BRP.skills"}}</div>
+    <ol class="item-list">
+      {{#each perSkill as |skill|}}
+        <li class="item flexrow" data-item-id="{{skill.uuid}}" data-brpid="{{skill.brpid}}">
+          <div class="item-name flexrow">
+            {{#if skill.variable}}
+              <div class="item-view font14" data-tooltip="{{skill.brpid}}">{{skill.name}} ({{ localize 'BRP.var'}})</div>
+            {{else}}
+              {{#if skill.group}}
+                <div class="item-view font14" data-tooltip="{{skill.brpid}}">{{skill.name}} ({{ localize 'BRP.grp'}})</div>
+              {{else}}
+                <div class="item-view font14" data-tooltip="{{skill.brpid}}">{{skill.name}} ({{skill.base}}%)</div>
+              {{/if}}
+            {{/if}}
+          </div>
+
+          <div class="item-controls">
+            {{#if ../isGM}}
+              <a class="item-control item-delete" data-tooltip="{{localize 'BRP.deleteItem'}}"><i class="fas fa-trash"></i></a>
+            {{/if}}
+          </div>
+        </li>
+      {{/each}}
+    </ol>
+  </div>
+  <br>
+
+  {{!-- Optional Skill Groups --}}
+  <div class="item-title">{{ localize "BRP.optionSkills" }}
+    {{#if isGM}}
+      <a class="group-control add-group" data-tooltip="{{localize 'BRP.addGroup'}}"><i class="item-control fas fa-plus"></i></a>
+    {{/if}}
+  </div>
+
+  {{#each system.groups as |group key|}}
+    <ol class="item-list group" style='border: 1px groove;' data-group={{key}}>
+      <div class='{{#if ../isGM}} droppable {{/if}} optional-skills font14'>
+        <div class="brpform-group font14">
+          <label class="bold group-label">{{ localize "BRP.choose" }}</label>
+          {{#if ../isGM}}
+            <input class="optGroup" type="text" name="system.groups.{{key}}.options" value="{{lookup this 'options'}}" data-dtype="Number" />
+            <a class="group-control remove-group" data-tooltip="{{localize 'BRP.deleteGroup'}}"><i
+                class="item-control fas fa-minus" style="line-height: 20px;"></i></a>
+          {{else}}
+            <div>{{lookup this 'options'}}</div>
+          {{/if}}
+        </div>
+
+        {{#each ../grpSkill as |skill|}}
+          {{#if (eq skill.index key)}}
+            <li class="item flexrow" data-item-id="{{skill.uuid}}" data-brpid="{{skill.brpid}}">
+              <div class="item-name flexrow">
+                {{#if skill.variable}}
+                  <div class="item-view font14" data-tooltip="{{skill.brpid}}">{{skill.name}} ({{ localize 'BRP.var'}})</div>
+                {{else}}
+                  {{#if skill.group}}
+                    <div class="item-view font14" data-tooltip="{{skill.brpid}}">{{skill.name}} ({{ localize 'BRP.grp'}})</div>
+                  {{else}}
+                    <div class="item-view font14" data-tooltip="{{skill.brpid}}">{{skill.name}} ({{skill.base}}%)</div>
+                  {{/if}}
+                {{/if}}
+              </div>
+              <div class="item-controls">
+                {{#if ../../isGM}}
+                  <a class="item-control group-item-delete" data-tooltip="{{localize 'BRP.deleteItem'}}"><i
+                      class="fas fa-trash"></i></a>
+                {{/if}}
+              </div>
+            </li>
+          {{/if}}
+        {{/each}}
+      </div>
+    </ol>
+  {{/each}}
+
+
+</section>

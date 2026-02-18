@@ -1,81 +1,103 @@
 import { BRPSelectLists } from "../../apps/select-lists.mjs";
 import { addBRPIDSheetHeaderButton } from '../../brpid/brpid-button.mjs'
+import { BRPItemSheetV2 } from "./base-item-sheet.mjs";
 
-export class BRPHitLocSheet extends foundry.appv1.sheets.ItemSheet {
-  constructor(...args) {
-    super(...args)
-    this._sheetTab = 'items'
+export class BRPHitLocSheet extends BRPItemSheetV2 {
+  constructor(options = {}) {
+    super(options)
   }
 
-  //Turn off App V1 deprecation warnings
-  //TODO - move to V2
-  static _warnedAppV1 = true
-
-  //Add BRPID buttons to sheet
-  _getHeaderButtons() {
-    const headerButtons = super._getHeaderButtons()
-    addBRPIDSheetHeaderButton(headerButtons, this)
-    return headerButtons
-  }
-
-  static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
-      classes: ['brp', 'sheet', 'item'],
-      template: 'systems/brp/templates/item/hit-location.html',
+  static DEFAULT_OPTIONS = {
+    classes: ['hit-location'],
+    position: {
       width: 520,
-      height: 480,
-      scrollY: ['.tab.description'],
-      tabs: [{ navSelector: '.sheet-tabs', contentSelector: '.sheet-body', initial: 'description' }]
-    })
-  }
-
-  async getData() {
-    const sheetData = super.getData()
-    const itemData = sheetData.item
-    sheetData.hasOwner = this.item.isEmbedded === true
-    sheetData.isGM = game.user.isGM
-    //Get drop down options from select-lists.mjs
-    sheetData.locTypeOptions = await BRPSelectLists.getHitLocType();
-    sheetData.hitLocName = game.i18n.localize('BRP.' + this.item.system.locType)
-
-    return sheetData
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * Activate event listeners using the prepared sheet HTML
-   * @param html {HTML}   The prepared HTML object ready to be rendered into the DOM
-   */
-  activateListeners(html) {
-    super.activateListeners(html)
-    html.find('.item-toggle').click(event => this._toggleItem(event))
-  }
-
-  //Toggle hit location type
-  async _toggleItem(event) {
-    event.preventDefault();
-    const prop = event.currentTarget.closest('.item-toggle').dataset.property;
-    let checkProp = {};
-    if (prop === 'dead' || prop === 'severed' || prop === 'bleeding' || prop === 'unconscious') {
-      checkProp = { [`system.${prop}`]: !this.object.system[prop] };
-    } else { return }
-
-    const item = await this.object.update(checkProp);
-    return item;
-  }
-
-
-
-  _updateObject(event, formData) {
-    const displayName = formData['system.displayName'] || this.item.system.displayName
-    const creatureType = formData['system.creatureType'] || this.item.system.creatureType
-    if (creatureType === "") {
-      formData.name = displayName
-    } else {
-      formData.name = displayName + ' (' + creatureType + ')'
+      height: 480
+    },
+    form: {
+      handler: BRPHitLocSheet.myHitLocHandler
     }
-    super._updateObject(event, formData)
   }
+
+  static PARTS = {
+    header: { template: 'systems/brp/templates/item/item.header.hbs' },
+    tabs: { template: 'systems/brp/templates/global/parts/tab-navigation.hbs' },
+    details: {
+      template: 'systems/brp/templates/item/hit-location.detail.hbs',
+      scrollable: ['']
+    },
+  }
+
+  async _prepareContext(options) {
+    let context = await super._prepareContext(options)
+    context.headerDisplay = true;
+    context.locTypeOptions = await BRPSelectLists.getHitLocType();
+    context.hitLocName = game.i18n.localize('BRP.' + this.item.system.locType)
+    context.tabs = this._getTabs(options.parts);
+    return context
+  }
+
+  /** @override */
+  async _preparePartContext(partId, context) {
+    switch (partId) {
+      case 'details':
+        context.tab = context.tabs[partId];
+        break;
+    }
+    return context;
+  }
+
+  _getTabs(parts) {
+    const tabGroup = 'primary';
+    //Default tab
+    if (!this.tabGroups[tabGroup]) this.tabGroups[tabGroup] = 'details';
+    return parts.reduce((tabs, partId) => {
+      const tab = {
+        cssClass: '',
+        group: tabGroup,
+        id: '',
+        icon: '',
+        label: 'BRP.',
+      };
+      switch (partId) {
+        case 'header':
+        case 'tabs':
+          return tabs;
+        case 'details':
+          tab.id = 'details';
+          tab.label += 'details';
+          break;
+      }
+      if (this.tabGroups[tabGroup] === tab.id) tab.cssClass = 'active';
+      tabs[partId] = tab;
+      return tabs;
+    }, {});
+  }
+
+  _configureRenderOptions(options) {
+    super._configureRenderOptions(options);
+    //Only show GM tab if you are GM
+    options.parts = ['header', 'tabs', 'details'];
+  }
+
+  //Activate event listeners using the prepared sheet HTML
+  _onRender(context, _options) {
+  }
+
+  //--------------------HANDLER----------------------------------
+  static async myHitLocHandler(event, form, formData) {
+    const displayName = formData.object['system.displayName'] || this.item.system.displayName
+    const creatureType = formData.object['system.creatureType'] || this.item.system.creatureType
+    if (creatureType === "") {
+      formData.object.name = displayName
+    } else {
+      formData.object.name = displayName + ' (' + creatureType + ')'
+    }
+
+    await this.document.update(formData.object)
+  }
+
+
+  //-----------------------ACTIONS-----------------------------------
 
 }
+

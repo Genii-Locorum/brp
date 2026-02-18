@@ -104,13 +104,15 @@ export class BRPItem extends Item {
     if (game.settings.get('brp', 'switchShift')) {
       shiftKey = !shiftKey
     }
-
     switch (item.type) {
       case 'skill':
+      case 'magic':
+      case 'psychic':
         rollType = "SK"
         skillId = item._id
         if (ctrlKey) { cardType = 'OP' }
         if (altKey) { cardType = 'GR' }
+        if (altKey & ctrlKey) { cardType='CO' }
         break
       case 'allegiance':
         rollType = "AL"

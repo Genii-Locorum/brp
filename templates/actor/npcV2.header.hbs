@@ -1,0 +1,22 @@
+  <section class="npc-header-sheet">
+    <section>
+      <div class="npc-name-grid">
+        <label class="charname">{{ localize 'BRP.name' }}:</label>
+        <input class="npc-inp" name="name" type="text" value="{{actor.name}}" />
+        <div class="centre"><a data-action="actorToggle" data-tooltip="{{ localize 'BRP.viewStat' }}" data-property="viewTab"
+            data-tabval="1"> <i class="mediumIcon fas fas fa-user"></i> </a></div>
+        <div class="centre"><a data-action="actorToggle" data-tooltip="{{ localize 'BRP.viewBaseStat' }}"
+            data-property="viewTab" data-tabval="2"> <i class="mediumIcon fas fa-user-magnifying-glass"></i> </a></div>
+        <div class="centre"><a data-action="actorToggle" data-tooltip="{{ localize 'BRP.notes' }}"
+            data-property="showNotes"> <i class="mediumIcon fas fa-scroll"></i> </a></div>
+        <div class="centre"><a {{#unless system.lock}}data-action="rollStats"{{/unless}}
+            data-tooltip="{{ localize 'BRP.rollAverages' }}" data-property="average"> <i
+              class="mediumIcon {{#unless system.lock}}fas fa-scale-balanced{{/unless}}"></i> </a></div>
+        <div class="centre"><a {{#unless system.lock}}data-action="rollStats"{{/unless}}
+            data-tooltip="{{ localize 'BRP.rollStats' }}" data-property="random"> <i
+              class="mediumIcon {{#unless system.lock}}fas fa-dice{{/unless}}"></i> </a></div>
+        <div class="centre"><a data-action="actorToggle" data-tooltip="{{ localize 'BRP.lock' }}" data-property="lock"> <i
+              class="mediumIcon {{#if system.lock}}fas fa-lock{{else}}fas fa-lock-open{{/if}}"></i> </a></div>
+      </div>
+    </section>
+  </section>

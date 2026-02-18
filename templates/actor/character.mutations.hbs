@@ -1,0 +1,22 @@
+<section class="actor tab mutations {{tab.cssClass}}" data-group="primary" data-tab="mutations">
+  <ol class="magic-list">
+    <div class="mutation-listitem">
+      <div class="diff-label">{{mutationLabel}}</div>
+      <div class="diff-label centre">{{ localize 'BRP.type'}}</div>
+      <div class="diff-label centre">{{ localize 'BRP.StatsStr'}}</div>
+      <div class="diff-label centre" data-tooltip="{{ localize 'BRP.addItem' type=mutationLabel }}"  data-action="createDoc" data-document-class="Item" data-type="mutation">
+        <a class="largeIcon"><i class="item-control fas fa-plus"></i></a>
+      </div>
+    </div>
+    <ol class="gr-list">
+    {{#each mutations as |mutation id|}}
+      <li class="item mutation-listitem" data-item-id="{{mutation._id}}" data-document-class="Item">
+        <div class="item-edit rollable" data-action="viewDoc"
+          data-tooltip="{{localize 'BRP.viewSpell' type=../mutationLabel }}">{{mutation.name}}</div>
+        <div class="centre">{{#if (eq mutation.system.impact 'adv')}}{{localize 'BRP.adv'}}{{else}}{{localize 'BRP.dis'}}{{/if}}</div>
+        <div class="centre">{{#if mutation.system.minor}}{{localize 'BRP.minor'}}{{else}}{{localize 'BRP.major'}}{{/if}}</div>
+      </li>
+    {{/each}}
+    </ol>
+  </ol>
+</section>

@@ -12,6 +12,7 @@ import { BRPbrpidSettings } from "./settings-brpidOptions.mjs";
 
 export async function registerSettings() {
 
+  //Game Settings Menu Buttons-----------------------------------------------
   //Power Menu Button
   game.settings.registerMenu('brp', 'powerRules', {
     name: 'BRP.Settings.powerRulesHint',
@@ -112,6 +113,8 @@ export async function registerSettings() {
   })
   BRPbrpidSettings.registerSettings()
 
+
+  //Individual Game Settings---------------------------------------------------
   game.settings.register('brp', "switchShift", {
     name: "BRP.Settings.switchShift",
     hint: "BRP.Settings.switchShiftHint",
@@ -121,7 +124,16 @@ export async function registerSettings() {
     default: false
   });
 
-  //Invisible Game Settings
+  game.settings.register('brp', "defaultTab", {
+    name: "BRP.Settings.defaultTab",
+    hint: "BRP.Settings.defaultTabHint",
+    scope: "client",
+    config: true,
+    type: Boolean,
+    default: false
+  });
+
+  //Invisible Game Settings----------------------------------------------------
   game.settings.register('brp', "development", {
     name: "",
     hint: "",

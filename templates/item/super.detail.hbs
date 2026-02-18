@@ -1,0 +1,71 @@
+<section class='item tab details draggable {{tab.cssClass}}' data-group='primary' data-tab='details'>
+  <div class="magic-grid">
+    {{#if isGM}}
+      <div class="skill-display">{{ localize "BRP.range" }}</div>
+      <div class="stat-input"><input name="system.range" type="text" value="{{item.system.range}}" /></div>
+      <div class="skill-display">{{ localize "BRP.duration" }}</div>
+      <div class="stat-input"><input name="system.duration" type="text" value="{{item.system.duration}}" /></div>
+      <div class="skill-display" data-tooltip="{{localize 'BRP.cpcHint'}}">{{ localize "BRP.cpc" }}</div>
+      <div class="stat-input"><input name="system.cpc" type="text" value="{{item.system.cpc}}" /></div>
+      <div class="skill-display" data-tooltip="{{localize 'BRP.ppplHint' label=item.system.powerLabelAbbr}}">{{ localize
+        "BRP.ppCost" label=item.system.powerLabelAbbr}}</div>
+      <div class="stat-input"><input name="system.pppl" type="text" value="{{item.system.pppl}}" /></div>
+    {{else}}
+      <div class="skill-display">{{ localize "BRP.range" }}</div>
+      <div class="weapon-display centre boxed">{{item.system.range}}</div>
+      <div class="skill-display">{{ localize "BRP.duration" }}</div>
+      <div class="weapon-display centre boxed">{{item.system.duration}}</div>
+      <div class="skill-display" data-tooltip="{{localize 'BRP.cpcHint'}}">{{ localize "BRP.cpc" }}</div>
+      <div class="weapon-display centre boxed">{{item.system.cpc}}</div>
+      <div class="skill-display" data-tooltip="{{localize 'BRP.ppplHint'label=item.system.powerLabelAbbr}}">{{ localize
+        "BRP.ppCost" label=item.system.powerLabelAbbr}}</div>
+      <div class="weapon-display centre boxed">{{item.system.pppl}}</div>
+    {{/if}}
+    {{#if hasOwner}}
+      <div></div>
+      <br>
+      <div class="skill-display">{{ localize "BRP.level" }}</div>
+      <div class="stat-input"><input name="system.level" type="text" value="{{item.system.level}}"
+          data-dtype="Number" /></div>
+      <div class="skill-display">{{ localize "BRP.cpcSpent" }}</div>
+      <div class="stat-input"><input name="system.cpcSpent" type="text" value="{{item.system.cpcSpent}}"
+          data-dtype="Number" /></div>
+    {{/if}}
+  </div>
+  <br>
+
+  <div class="item-title"> {{localize 'BRP.options'}}:</div>
+  <div class="base-grid">
+    <div class="skill-cat {{#if item.system.specialism}} toggle-active  {{/if}}"
+      data-tooltip="{{localize 'BRP.specialismHint'}}" data-action="itemToggle" data-property="specialism">{{localize 'BRP.specialism'}}</div>
+    {{#if item.system.specialism}}
+      <div class="skill-cat {{#if item.system.chosen}} toggle-active  {{/if}}"
+        data-tooltip="{{localize 'BRP.chosenHint'}}" data-action="itemToggle" data-property="chosen">{{localize 'BRP.chosen'}}</div>
+    {{/if}}
+  </div>
+  <br>
+
+  {{#if hasOwner}}
+    {{!-- Power Mods --}}
+    <div class="horizontalboxed {{#if isGM}} droppable {{/if}} main-skills">
+      <div class="item-title">{{ localize "BRP.powerMod"}}</div>
+      <ol class="item-list">
+        {{#each powerMods as |powerMod|}}
+          <li class="item flexrow" data-item-id="{{powerMod.uuid}}">
+            <div class="item-name flexrow">
+              <div class="font14">{{powerMod.name}}</div>
+            </div>
+            <div class="item-controls">
+              <div><a class="item-control item-view" data-tooltip="{{localize 'BRP.viewItem'}}"><i
+                    class="fas fa-magnifying-glass"></i></a></div>
+              {{#if ../isGM}}
+                <div><a class="item-control item-delete" data-tooltip="{{localize 'BRP.deleteItem'}}"><i
+                      class="fas fa-trash"></i></a></div>
+              {{/if}}
+            </div>
+          </li>
+        {{/each}}
+      </ol>
+    </div>
+  {{/if}}
+</section>

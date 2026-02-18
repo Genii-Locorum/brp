@@ -1,0 +1,118 @@
+<section class="item tab details {{tab.cssClass}}" data-group="primary" data-tab="details">
+  <div class="base-grid">
+    <div class="item-title" data-tooltip="{{localize 'BRP.baseStatHint'}}"> {{localize 'BRP.simple'}}:</div>
+    <div class="new-row bold"> {{localize 'BRP.baseStat'}}:</div>
+    {{#if isGM}}
+      <div class="stat-input centre">
+        <select class="centre" style ="height: 100%;" data-handle-change name="system.stat">
+          {{selectOptions statOptions selected=item.system.stat}}
+        </select>
+      </div>
+    {{else}}
+      <div class="stat-display boxed">{{statName}}</div>
+    {{/if}}
+    <br>
+
+    <div class="new-row item-title" data-tooltip="{{localize 'BRP.advSkillCatHint'}}"> {{localize 'BRP.advanced'}}:</div>
+
+    <div class="new-row bold"> {{localize 'BRP.StatsStrAbbr'}}:</div>
+    {{#if isGM}}
+      <div class="stat-input centre">
+        <select class="centre" style ="height: 100%;" data-handle-change name="system.attrib.str">
+          {{selectOptions advStatOptionsCon selected=item.system.attrib.str}}
+        </select>
+      </div>
+    {{else}}
+      <div class="stat-display boxed">{{skillCatNameStr}}</div>
+    {{/if}}
+
+    <div class="new-row bold"> {{localize 'BRP.StatsConAbbr'}}:</div>
+    {{#if isGM}}
+      <div class="stat-input centre">
+        <select class="centre" style ="height: 100%;" data-handle-change name="system.attrib.con">
+          {{selectOptions advStatOptionsCon selected=item.system.attrib.con}}
+        </select>
+      </div>
+    {{else}}
+      <div class="stat-display boxed">{{skillCatNameCon}}</div>
+    {{/if}}
+
+    <div class="new-row bold"> {{localize 'BRP.StatsIntAbbr'}}:</div>
+    {{#if isGM}}
+      <div class="stat-input centre">
+        <select class="centre" style ="height: 100%;" data-handle-change name="system.attrib.int">
+          {{selectOptions advStatOptionsCon selected=item.system.attrib.int}}
+        </select>
+      </div>
+    {{else}}
+      <div class="stat-display boxed">{{skillCatNameInt}}</div>
+    {{/if}}
+
+    <div class="new-row bold"> {{localize 'BRP.StatsSizAbbr'}}:</div>
+    {{#if isGM}}
+      <div class="stat-input centre">
+        <select class="centre" style ="height: 100%;" data-handle-change name="system.attrib.siz">
+          {{selectOptions advStatOptionsCon selected=item.system.attrib.siz}}
+        </select>
+      </div>
+    {{else}}
+      <div class="stat-display boxed">{{skillCatNameSiz}}</div>
+    {{/if}}
+
+    <div class="new-row bold"> {{localize 'BRP.StatsPowAbbr'}}:</div>
+    {{#if isGM}}
+      <div class="stat-input centre">
+        <select class="centre" style ="height: 100%;" data-handle-change name="system.attrib.pow">
+          {{selectOptions advStatOptionsCon selected=item.system.attrib.pow}}
+        </select>
+      </div>
+    {{else}}
+      <div class="stat-display boxed">{{skillCatNamePow}}</div>
+    {{/if}}
+
+    <div class="new-row bold"> {{localize 'BRP.StatsDexAbbr'}}:</div>
+    {{#if isGM}}
+      <div class="stat-input centre">
+        <select class="centre" style ="height: 100%;" data-handle-change name="system.attrib.dex">
+          {{selectOptions advStatOptionsCon selected=item.system.attrib.dex}}
+        </select>
+      </div>
+    {{else}}
+      <div class="stat-display boxed">{{skillCatNameDex}}</div>
+    {{/if}}
+
+    <div class="new-row bold"> {{localize 'BRP.StatsChaAbbr'}}:</div>
+    {{#if isGM}}
+      <div class="stat-input centre">
+        <select class="centre" style ="height: 100%;" data-handle-change name="system.attrib.cha">
+          {{selectOptions advStatOptionsCon selected=item.system.attrib.cha}}
+        </select>
+      </div>
+    {{else}}
+      <div class="stat-display boxed">{{skillCatNameCha}}</div>
+    {{/if}}
+
+    <div class="new-row bold"> {{localize 'BRP.StatsEduAbbr'}}:</div>
+    {{#if isGM}}
+      <div class="stat-input centre">
+        <select class="centre" style ="height: 100%;" data-handle-change name="system.attrib.edu">
+          {{selectOptions advStatOptionsCon selected=item.system.attrib.edu}}
+        </select>
+      </div>
+    {{else}}
+      <div class="stat-display boxed">{{skillCatNameEdu}}</div>
+    {{/if}}
+
+    {{#if hasOwner}}
+      <div class="item-title new-row"> {{localize 'BRP.modifiers'}}:</div>
+      <div class="new-row"> {{localize 'BRP.bonus'}}:</div>
+      <div class="centre bold tertiary"> {{item.system.bonus}}</div>
+      <div class="new-row"> {{localize 'BRP.manual'}}:</div>
+      <div class="stat-input centre"><input name="system.mod" type="text" value="{{item.system.mod}}"
+          data-dtype="Number" /></div>
+      <div class="new-row"> {{localize 'BRP.total'}}:</div>
+      <div class="centre bold tertiary"> {{item.system.total}}</div>
+    {{/if}}
+  </div>
+
+</section>

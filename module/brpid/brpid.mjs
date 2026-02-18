@@ -1,13 +1,34 @@
+// ID 20: BRP Creatures
+
 import { BRPUtilities } from '../apps/utilities.mjs'
 
 export class BRPID {
-  static init() {
+  static init () {
     CONFIG.Actor.compendiumIndexFields.push('flags.brp.brpidFlag')
     CONFIG.Item.compendiumIndexFields.push('flags.brp.brpidFlag')
     CONFIG.JournalEntry.compendiumIndexFields.push('flags.brp.brpidFlag')
     CONFIG.RollTable.compendiumIndexFields.push('flags.brp.brpidFlag')
-    game.system.api = {
-      brpid: BRPID
+    game.system.api = { brpid:BRPID }
+  }
+
+
+
+
+  static #newProgressBar () {
+    /* // FoundryVTT V12 */
+    if (foundry.utils.isNewerVersion(game.version, '13')) {
+      return ui.notifications.notify('SETUP.PackagesLoading', null, { localize: true, progress: true })
+    }
+    SceneNavigation.displayProgressBar({ label: game.i18n.localize('SETUP.PackagesLoading'), pct: 0 })
+    return true
+  }
+
+  static #setProgressBar (bar, current, max) {
+    /* // FoundryVTT V12 */
+    if (bar === true) {
+      SceneNavigation.displayProgressBar({ label: game.i18n.localize('SETUP.PackagesLoading'), pct: Math.floor(current * 100 / max) })
+    } else if (bar !== false) {
+      bar.update({ pct: current / max })
     }
   }
 
@@ -26,11 +47,13 @@ export class BRPID {
     return foundry.utils.flattenObject(keys)
   }
 
+
+
   /**
    * Returns RegExp for valid type and format
    * @returns RegExp
    */
-  static regExKey() {
+  static regExKey () {
     return new RegExp('^(' + Object.keys(BRPID.gamePropertyLookup).join('|') + ')\\.(.*?)\\.(.+)$')
   }
 
@@ -39,7 +62,7 @@ export class BRPID {
    * @param document
    * @returns string
    */
-  static getPrefix(document) {
+  static getPrefix (document) {
     for (const type in BRPID.documentNameLookup) {
       if (document instanceof BRPID.documentNameLookup[type]) {
         return type + '.' + (document.type ?? '') + '.'
@@ -48,12 +71,12 @@ export class BRPID {
     return ''
   }
 
-  /**
+ /**
    * Get BRPID type.subtype.name based on document
    * @param document
    * @returns string
    */
-  static guessId(document) {
+  static guessId (document) {
     return BRPID.getPrefix(document) + BRPUtilities.toKebabCase(document.name)
   }
 
@@ -62,7 +85,7 @@ export class BRPID {
    * @param key
    * @returns string
    */
-  static guessGroupFromKey(id) {
+  static guessGroupFromKey (id) {
     if (id) {
       const key = id.replace(/([^\\.-]+)$/, '')
       if (key.substr(-1) === '-') {
@@ -77,12 +100,12 @@ export class BRPID {
    * @param document
    * @returns string
    */
-  static guessGroupFromDocument(document) {
+  static guessGroupFromDocument (document) {
     return BRPID.guessGroupFromKey(document.flags?.brp?.brpidFlag?.id)
   }
 
   /**
-   * Returns all items with matching BRPIDs, and language
+   * Returns all items with matching BRPIDs and language
    * ui.notifications.warn for missing keys
    * @param itemList array of BRPIDs
    * @param lang the language to match against ('en', 'es', ...)
@@ -90,7 +113,7 @@ export class BRPID {
    * @param showLoading Show loading bar
    * @returns array
    */
-  static async expandItemArray({ itemList, lang = game.i18n.lang, langFallback = true, showLoading = false } = {}) {
+  static async expandItemArray ({ itemList, lang = game.i18n.lang, langFallback = true, showLoading = false } = {}) {
     let items = []
     const brpids = itemList.filter(it => typeof it === 'string')
     items = itemList.filter(it => typeof it !== 'string')
@@ -109,7 +132,7 @@ export class BRPID {
         for (const doc of all) {
           notmissing.push(doc.flags.brp.brpidFlag.id)
         }
-        ui.notifications.warn(game.i18n.format('BRP.BRPIDFlag.error.documents-not-found', { brpids: brpids.filter(x => !notmissing.includes(x)).join(', '), lang }))
+        ui.notifications.warn(game.i18n.format('BRP.BRPIDFlag.error.documents-not-found', { brpids: brpids.filter(x => !notmissing.includes(x)).join(', '), lang}))
       }
       items = items.concat(all)
     }
@@ -123,9 +146,9 @@ export class BRPID {
    * @param list array of items
    * @returns array
    */
-  static findBRPIdInList(brpid, list) {
+  static findPIdInList (brpid, list) {
     let itemName = ''
-    const BRPIDKeys = BRPID.getBRPIDKeys()
+    const BRPIDKeys = BRPID.getBRPIDKeys();
     if (typeof BRPIDKeys[brpid] !== 'undefined') {
       itemName = BRPIDKeys[brpid]
     }
@@ -138,7 +161,7 @@ export class BRPID {
    * @param list array of items
    * @returns RegExp
    */
-  static makeGroupRegEx(brpids) {
+  static makeGroupRegEx (brpids) {
     if (typeof brpids === 'string') {
       brpids = [brpids]
     } else if (typeof brpids === 'undefined' || typeof brpids.filter !== 'function') {
@@ -183,58 +206,34 @@ export class BRPID {
   }
 
   /**
-   * Returns all documents with a BRPID matching the regex and matching the document type
-   * and language, from the specified scope.
+   * Returns all documents with an BRPID matching the regex and matching the document type and language.
    * Empty array return for no matches
    * @param brpidRegExp regex used on the BRPID
    * @param type the first part of the wanted BRPID, for example 'i', 'a', 'je'
    * @param lang the language to match against ('en', 'es', ...)
+   * @param langFallback should the system fall back to en incase there is no translation
    * @param scope defines where it will look:
-   * **match** same logic as fromBRPID function,
    * **all**: find in both world & compendia,
    * **world**: only search in world,
    * **compendiums**: only search in compendiums
-   * @param langFallback should the system fall back to en incase there is no translation
    * @param showLoading Show loading bar
    * @returns array
    */
-  static async fromBRPIDRegexAll({ brpidRegExp, type, lang = game.i18n.lang, scope = 'match', langFallback = true, showLoading = false } = {}) {
-    if (!brpidRegExp) {
-      return []
-    }
-    const result = []
-
-    let count = 0
+  static async fromBRPIDRegexAll ({ brpidRegExp, type, lang = game.i18n.lang, langFallback = true, scope = 'all', showLoading = false } = {}) {
+    let progressBar = false
+    let progressCurrent = 0
+    let progressMax = (1 + game.packs.size) * 2 // Guess at how far bar goes
     if (showLoading) {
-      if (['match', 'all', 'world'].includes(scope)) {
-        count++
-      }
-      if (['match', 'all', 'compendiums'].includes(scope)) {
-        count = count + game.packs.size
-      }
+      progressBar = BRPID.#newProgressBar()
     }
-
-    if (['match', 'all', 'world'].includes(scope)) {
-      const worldDocuments = await BRPID.documentsFromWorld({ brpidRegExp, type, lang, langFallback, progressBar: count })
-      if (scope === 'match' && worldDocuments.length) {
-        if (showLoading) {
-          SceneNavigation.displayProgressBar({ label: game.i18n.localize('SETUP.PackagesLoading'), pct: 100 })
-        }
-        return this.filterAllBRPID(worldDocuments, langFallback && lang !== 'en')
-      }
-      result.splice(0, 0, ...worldDocuments)
+    let candidates = await BRPID.#getDataFromScopes({ brpidRegExp, type, lang, langFallback, progressBar, progressCurrent, progressMax, scope })
+    if (langFallback && lang !== 'en') {
+      candidates = BRPID.#filterByLanguage(candidates, lang)
     }
-
-    if (['match', 'all', 'compendiums'].includes(scope)) {
-      const compendiaDocuments = await BRPID.documentsFromCompendia({ brpidRegExp, type, lang, langFallback, progressBar: count })
-      result.splice(result.length, 0, ...compendiaDocuments)
-    }
-
-    if (showLoading) {
-      SceneNavigation.displayProgressBar({ label: game.i18n.localize('SETUP.PackagesLoading'), pct: 100 })
-    }
-
-    return this.filterAllBRPID(result, langFallback && lang !== 'en')
+    candidates.sort(BRPID.compareBRPIDPrio)
+    const results = await BRPID.#onlyDocuments(candidates, progressBar, progressCurrent, progressMax)
+    BRPID.#setProgressBar(progressBar, 1, 1)
+    return results
   }
 
   /**
@@ -243,7 +242,6 @@ export class BRPID {
    * @param brpid a single brpid
    * @param lang the language to match against ('en', 'es', ...)
    * @param scope defines where it will look:
-   * **match** same logic as fromBRPID function,
    * **all**: find in both world & compendia,
    * **world**: only search in world,
    * **compendiums**: only search in compendiums
@@ -251,7 +249,7 @@ export class BRPID {
    * @param showLoading Show loading bar
    * @returns array
    */
-  static async fromBRPIDAll({ brpid, lang = game.i18n.lang, scope = 'match', langFallback = true, showLoading = false } = {}) {
+  static async fromBRPIDAll ({ brpid, lang = game.i18n.lang, langFallback = true, scope = 'all', showLoading = false } = {}) {
     if (!brpid || typeof brpid !== 'string') {
       return []
     }
@@ -262,13 +260,11 @@ export class BRPID {
     if (lang === '') {
       lang = game.i18n.lang
     }
-    return BRPID.fromBRPIDRegexAll({ brpidRegExp: new RegExp('^' + BRPUtilities.quoteRegExp(brpid) + '$'), type: parts[1], lang, scope, langFallback, showLoading })
+    return BRPID.fromBRPIDRegexAll({ brpidRegExp: new RegExp('^' + BRPUtilities.quoteRegExp(brpid) + '$'), type: parts[1], lang, langFallback, scope, showLoading })
   }
 
   /**
-   * Gets only the highest priority documents for each BRPID that matches the RegExp and
-   * language, with the highest priority documents in the World taking precedence over
-   * any documents in compendium packs.
+   * Gets only the highest priority documents for each BRPID that matches the RegExp and language
    * Empty array return for no matches
    * @param brpidRegExp regex used on the BRPID
    * @param type the first part of the wanted BRPID, for example 'i', 'a', 'je'
@@ -276,10 +272,30 @@ export class BRPID {
    * @param langFallback should the system fall back to en incase there is no translation
    * @param showLoading Show loading bar
    */
-  static async fromBRPIDRegexBest({ brpidRegExp, type, lang = game.i18n.lang, langFallback = true, showLoading = false } = {}) {
-    const allDocuments = await this.fromBRPIDRegexAll({ brpidRegExp, type, lang, scope: 'all', langFallback, showLoading })
-    const bestDocuments = this.filterBestBRPID(allDocuments)
-    return bestDocuments
+  static async fromBRPIDRegexBest ({ brpidRegExp, type, lang = game.i18n.lang, langFallback = true, showLoading = false } = {}) {
+    let progressBar = false
+    let progressCurrent = 0
+    let progressMax = (1 + game.packs.size) * 2 // Guess at how far bar goes
+    if (showLoading) {
+      progressBar = BRPID.#newProgressBar()
+    }
+    let candidates = await this.#getDataFromScopes({ brpidRegExp, type, lang, langFallback, progressBar, progressCurrent, progressMax })
+    if (langFallback && lang !== 'en') {
+      candidates = BRPID.#filterByLanguage(candidates, lang)
+    }
+    candidates.sort(BRPID.#compareBRPIDPrio)
+    const ids = {}
+    for (const candidate of candidates) {
+      if (!Object.prototype.hasOwnProperty.call(ids, candidate.flags.brp.brpidFlag.id)) {
+        ids[candidate.flags.brp.brpidFlag.id] = candidate
+      }
+    }
+    const candidateIds = Object.values(ids)
+    progressCurrent = candidateIds.length
+    progressMax = progressCurrent * 2 // readjust max to give to leave progress at 50%
+    const results = await BRPID.#onlyDocuments(candidateIds, progressBar, progressCurrent, progressMax)
+    BRPID.#setProgressBar(progressBar, 1, 1)
+    return results
   }
 
   /**
@@ -291,21 +307,18 @@ export class BRPID {
    * @param lang the language to match against ("en", "es", ...)
    * @param langFallback should the system fall back to en incase there is no translation
    */
-  static fromBRPID(brpid, lang = game.i18n.lang, langFallback = true) {
+  static fromBRPID (brpid, lang = game.i18n.lang, langFallback = true) {
     return BRPID.fromBRPIDBest({ brpid, lang, langFallback })
   }
 
   /**
-   * Gets only the highest priority document for BRPID that matches the language,
-   * with the highest priority documents in the World taking precedence over
-   * any documents
-   * in compendium packs.
+   * Gets only the highest priority document for BRPID that matches the language
    * @param brpid string BRPID
    * @param lang the language to match against ("en", "es", ...)
    * @param langFallback should the system fall back to en incase there is no translation
    * @param showLoading Show loading bar
    */
-  static fromBRPIDBest({ brpid, lang = game.i18n.lang, langFallback = true, showLoading = false } = {}) {
+  static fromBRPIDBest ({ brpid, lang = game.i18n.lang, langFallback = true, showLoading = false } = {}) {
     if (!brpid || typeof brpid !== 'string') {
       return []
     }
@@ -315,99 +328,55 @@ export class BRPID {
   }
 
   /**
-   * For an array of documents already processed by filterAllBRPID, returns only those that are the "best" version of their BRPID
-   * @param documents
-   * @returns
+   * Returns all documents or indexes with an BRPID matching the regex and matching the document type and language.
+   * Empty array return for no matches
+   * @param brpidRegExp regex used on the BRPID
+   * @param type the first part of the wanted BRPID, for example 'i', 'a', 'je'
+   * @param lang the language to match against ('en', 'es', ...)
+   * @param langFallback should the system fall back to en incase there is no translation
+   * @param progressBar If true show v12 progress bar, if not false show v13 progress bar
+   * @param progressCurrent Current Progress
+   * @param progressMax Max Progress
+   * @param scope defines where it will look:
+   * **all**: find in both world & compendia,
+   * **world**: only search in world,
+   * **compendiums**: only search in compendiums
+   * @returns array
    */
-  static filterBestBRPID(documents) {
-    const bestMatchDocuments = new Map()
-    for (const doc of documents) {
-      const docBRPID = doc.getFlag('brp', 'brpidFlag')?.id
-      if (docBRPID) {
-        const currentDoc = bestMatchDocuments.get(docBRPID)
-        if (typeof currentDoc === 'undefined') {
-          bestMatchDocuments.set(docBRPID, doc)
-          continue
-        }
-
-        // Prefer pack === '' if possible
-        const docPack = (doc.pack ?? '')
-        const existingPack = (currentDoc?.pack ?? '')
-        const preferWorld = docPack === '' || existingPack !== ''
-        if (!preferWorld) {
-          continue
-        }
-
-        // Prefer highest priority
-        let docPriority = parseInt(doc.getFlag('brp', 'brpidFlag')?.priority ?? Number.MIN_SAFE_INTEGER, 10)
-        docPriority = isNaN(docPriority) ? Number.MIN_SAFE_INTEGER : docPriority
-        let existingPriority = parseInt(currentDoc.getFlag('brp', 'brpidFlag')?.priority ?? Number.MIN_SAFE_INTEGER, 10)
-        existingPriority = isNaN(existingPriority) ? Number.MIN_SAFE_INTEGER : existingPriority
-        const preferPriority = docPriority >= existingPriority
-        if (!preferPriority) {
-          continue
-        }
-
-        bestMatchDocuments.set(docBRPID, doc)
-      }
+  static async #getDataFromScopes ({ brpidRegExp, type, lang, langFallback, progressBar, progressCurrent, progressMax, scope = 'all' } = {}) {
+    if (!brpidRegExp) {
+      return []
     }
-    return [...bestMatchDocuments.values()]
+
+    let results = []
+    if (['all', 'world'].includes(scope)) {
+      results = results.concat(await BRPID.#docsFromWorld({ brpidRegExp, type, lang, langFallback, progressBar, progressCurrent: 0, progressMax }))
+    }
+    if (['all', 'compendiums'].includes(scope)) {
+      results = results.concat(await BRPID.#indexesFromCompendia({ brpidRegExp, type, lang, langFallback, progressBar, progressCurrent: 1, progressMax }))
+    }
+
+    return results
   }
 
-  /**
-   * For an array of documents, returns filter out en documents if a translated one exists
-   * @param documents
-   * @param langFallback should the system fall back to en in case there is no translation
-   * @returns
-   */
-  static filterAllBRPID(documents, langFallback) {
-    if (!langFallback) {
-      return documents
-    }
-    const bestMatchDocuments = new Map()
-    for (const doc of documents) {
-      const docBRPID = doc.getFlag('brp', 'brpidFlag')?.id
-      if (docBRPID) {
-        let docPriority = parseInt(doc.getFlag('brp', 'brpidFlag')?.priority ?? Number.MIN_SAFE_INTEGER, 10)
-        docPriority = isNaN(docPriority) ? Number.MIN_SAFE_INTEGER : docPriority
-        const key = docBRPID + '/' + (isNaN(docPriority) ? Number.MIN_SAFE_INTEGER : docPriority)
-
-        const currentDoc = bestMatchDocuments.get(key)
-        if (typeof currentDoc === 'undefined') {
-          bestMatchDocuments.set(key, doc)
-          continue
-        }
-
-        const docLang = doc.getFlag('brp', 'brpidFlag')?.lang ?? 'en'
-        const existingLang = currentDoc?.getFlag('brp', 'brpidFlag')?.lang ?? 'en'
-        if (existingLang === 'en' && existingLang !== docLang) {
-          bestMatchDocuments.set(key, doc)
-        }
-      }
-    }
-    return [...bestMatchDocuments.values()]
-  }
-
-  /**
-   * Get a list of all documents matching the BRPID regex, and language.
+ /**
+   * Get a list of all documents matching the BRPID regex and language from the world.
    * The document list is sorted with the highest priority first.
    * @param brpidRegExp regex used on the BRPID
    * @param type the first part of the wanted BRPID, for example 'i', 'a', 'je'
    * @param lang the language to match against ('en', 'es', ...)
    * @param langFallback should the system fall back to en incase there is no translation
-   * @param progressBar If greater than zero show percentage
+   * @param progressBar If true show v12 progress bar, if not false show v13 progress bar
+   * @param progressCurrent Current Progress
+   * @param progressMax Max Progress
    * @returns array
    */
-  static async documentsFromWorld({ brpidRegExp, type, lang = game.i18n.lang, langFallback = true, progressBar = 0 } = {}) {
+  static async #docsFromWorld ({ brpidRegExp, type, lang, langFallback, progressBar, progressCurrent, progressMax } = {}) {
     if (!brpidRegExp) {
       return []
     }
     if (lang === '') {
       lang = game.i18n.lang
-    }
-
-    if (progressBar > 0) {
-      SceneNavigation.displayProgressBar({ label: game.i18n.localize('SETUP.PackagesLoading'), pct: Math.floor(100 / progressBar) })
     }
 
     const gameProperty = BRPID.getGameProperty(`${type}..`)
@@ -420,24 +389,28 @@ export class BRPID {
       return brpidRegExp.test(brpidFlag.id) && [lang, (langFallback ? 'en' : '-')].includes(brpidFlag.lang)
     })
 
+    progressCurrent++
+    BRPID.#setProgressBar(progressBar, progressCurrent, progressMax)
+
     if (candidateDocuments === undefined) {
       return []
     }
 
-    return candidateDocuments.sort(BRPID.compareBRPIDPrio)
+    return candidateDocuments
   }
 
   /**
-   * Get a list of all documents matching the BRPID regex, and language from the compendiums.
-   * The document list is sorted with the highest priority first.
+   * Get a list of all indexes matching the BRPID regex and language from the compendiums.
    * @param brpidRegExp regex used on the BRPID
    * @param type the first part of the wanted BRPID, for example 'i', 'a', 'je'
    * @param lang the language to match against ('en', 'es', ...)
    * @param langFallback should the system fall back to en incase there is no translation
-   * @param progressBar If greater than zero show percentage
+   * @param progressBar If true show v12 progress bar, if not false show v13 progress bar
+   * @param progressCurrent Current Progress
+   * @param progressMax Max Progress
    * @returns array
    */
-  static async documentsFromCompendia({ brpidRegExp, type, lang = game.i18n.lang, langFallback = true, progressBar = 0 }) {
+  static async #indexesFromCompendia ({ brpidRegExp, type, lang, langFallback, progressBar, progressCurrent, progressMax }) {
     if (!brpidRegExp) {
       return []
     }
@@ -446,42 +419,24 @@ export class BRPID {
     }
 
     const documentType = BRPID.getDocumentType(type).name
-    const candidateDocuments = []
+    let indexDocuments = []
 
-    let count = 1
     for (const pack of game.packs) {
-      if (progressBar > 0) {
-        SceneNavigation.displayProgressBar({ label: game.i18n.localize('SETUP.PackagesLoading'), pct: Math.floor(count * 100 / progressBar) })
-        count++
-      }
       if (pack.documentName === documentType) {
         if (!pack.indexed) {
           await pack.getIndex()
         }
-        const indexInstances = pack.index.filter((i) => {
-          const brpidFlag = i.flags?.brp?.brpidFlag
-          if (typeof brpidFlag === 'undefined') {
+        indexDocuments = indexDocuments.concat(pack.index.filter((i) => {
+          if (typeof i.flags?.brp?.brpidFlag?.id !== 'string') {
             return false
           }
-          return brpidRegExp.test(brpidFlag.id) && [lang, (langFallback ? 'en' : '-')].includes(brpidFlag.lang)
-        })
-        for (const index of indexInstances) {
-          const document = await pack.getDocument(index._id)
-          if (!document) {
-            const msg = game.i18n.format('BRP.BRPIDFlag.error.document-not-found', {
-              brpid: brpidRegExp,
-              lang,
-            })
-            ui.notifications.error(msg)
-            console.log('brp |', msg, index)
-            throw new Error()
-          } else {
-            candidateDocuments.push(document)
-          }
-        }
+          return brpidRegExp.test(i.flags.brp.brpidFlag.id) && [lang, (langFallback ? 'en' : '-')].includes(i.flags.brp.brpidFlag.lang)
+        }))
       }
+      progressCurrent++
+      BRPID.#setProgressBar(progressBar, progressCurrent, progressMax)
     }
-    return candidateDocuments.sort(BRPID.compareBRPIDPrio)
+    return indexDocuments
   }
 
   /**
@@ -489,18 +444,26 @@ export class BRPID {
    * @example
    * aListOfDocuments.sort(BRPID.compareBRPIDPrio)
    */
-  static compareBRPIDPrio(a, b) {
-    return (
-      b.getFlag('brp', 'brpidFlag')?.priority -
-      a.getFlag('brp', 'brpidFlag')?.priority
-    )
+  static #compareBRPIDPrio (a, b) {
+    const ap = parseInt(a.flags.brp.brpidFlag.priority, 10)
+    const bp = parseInt(b.flags.brp.brpidFlag.priority, 10)
+    if (ap === bp) {
+      const ao = a instanceof foundry.abstract.DataModel
+      const bo = b instanceof foundry.abstract.DataModel
+      if (ao === bo) {
+        return 0
+      } else {
+        return (ao ? -1 : 1)
+      }
+    }
+    return bp - ap
   }
 
   /**
    * Translates the first part of a BRPID to what those documents are called in the `game` object.
    * @param brpid a single brpid
    */
-  static getGameProperty(brpid) {
+  static getGameProperty (brpid) {
     const type = brpid.split('.')[0]
     const gameProperty = BRPID.gamePropertyLookup[type]
     if (!gameProperty) {
@@ -511,7 +474,7 @@ export class BRPID {
     return gameProperty
   }
 
-  static get gamePropertyLookup() {
+  static get gamePropertyLookup () {
     return {
       a: 'actors',
       c: 'cards',
@@ -528,7 +491,7 @@ export class BRPID {
    * Translates the first part of a BRPID to what those documents are called in the `game` object.
    * @param brpid a single brpid
    */
-  static getDocumentType(brpid) {
+  static getDocumentType (brpid) {
     const type = brpid.split('.')[0]
     const documentType = BRPID.documentNameLookup[type]
     if (!documentType) {
@@ -539,7 +502,7 @@ export class BRPID {
     return documentType
   }
 
-  static get documentNameLookup() {
+  static get documentNameLookup () {
     return {
       a: Actor,
       c: Card,
@@ -551,4 +514,34 @@ export class BRPID {
       s: Scene
     }
   }
+
+  /**
+   * Replace indexes with their documents
+   */
+  static async #onlyDocuments (candidates, progressBar, progressCurrent, progressMax) {
+    const len = candidates.length
+    if (len > 0) {
+      for (const offset in candidates) {
+        if (!(candidates[offset] instanceof foundry.abstract.DataModel)) {
+          candidates[offset] = await fromUuid(candidates[offset].uuid)
+        }
+        progressCurrent++
+        BRPID.#setProgressBar(progressBar, progressCurrent, progressMax)
+      }
+    }
+    return candidates
+  }
+
+  /**
+   * Filter an array of index or documents.
+   * If a BRPID has a version lang then remove the en versions
+   */
+  static #filterByLanguage (indexes, lang) {
+    const ids = indexes.reduce((c, i) => {
+      c[i.flags.brp.brpidFlag.id] = c[i.flags.brp.brpidFlag.id] || i.flags.brp.brpidFlag.lang === lang
+      return c
+    }, {})
+    return indexes.filter(i => i.flags.brp.brpidFlag.lang !== 'en' || !ids[i.flags.brp.brpidFlag.id])
+  }
+
 }

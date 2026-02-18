@@ -1,0 +1,31 @@
+<section class="item tab details {{tab.cssClass}}" data-group="primary" data-tab="details">
+    <div class="base-grid">
+      <div class="item-title"> {{localize 'BRP.impact'}}:</div>
+      {{#if isGM}}
+        <div class="stat-input centre">
+          <select class="centre" style="height: 100%;" data-handle-change name="system.impact">
+            {{selectOptions catOptions selected=item.system.impact}}
+          </select>
+        </div>
+      {{else}}
+        <div class="stat-display boxed">{{catName}}</div>
+      {{/if}}
+    </div>
+    <br>
+    <div class="base-grid">
+      <div class="new-row item-title"> {{localize 'BRP.mutationStr'}}:</div>
+      <div
+        class="skill-cat mutation-cat {{#if item.system.minorOnly}} toggle-active  {{/if}}"
+        data-tooltip="{{localize 'BRP.minorOnlyHint'}}" data-action="itemToggle" data-property="minorOnly">{{localize 'BRP.minorOnly'}}</div>
+    </div>
+    <br>
+
+    {{#if hasOwner}}
+      <div class="base-grid">
+        <div class="new-row item-title"> {{localize 'BRP.currentStr'}}:</div>
+        <div class="skill-cat mutation-cat toggle-active" data-tooltip="{{localize 'BRP.minorOnlyHint'}}"
+          data-action="itemToggle" data-property="minor">{{#if item.system.minor}}{{localize 'BRP.minor'}}{{else}}{{localize 'BRP.major'}}{{/if}}
+        </div>
+      </div>
+    {{/if}}
+</section>

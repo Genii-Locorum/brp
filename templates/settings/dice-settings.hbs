@@ -1,0 +1,37 @@
+<div class="brp settingsForm flexcol" autocomplete="off">
+  <h2 class="bold">{{localize 'BRP.Settings.diceOptions'}}</h2>
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.diffValue'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <input type="checkbox" {{checked optSet.diffValue.value}} name="diffValue">
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.diffValueHint'}}</p>
+  </div>
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.allowImp'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <input type="checkbox" {{checked optSet.allowImp.value}} name="allowImp">
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.allowImpHint'}}</p>
+  </div>
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.resistRoll'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <input type="checkbox" {{checked optSet.resistRoll.value}} name="resistRoll">
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.resistRollHint'}}</p>
+  </div>
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.resistLevels'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <input type="checkbox" {{checked optSet.resistLevels.value}} name="resistLevels">
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.resistLevelsHint'}}</p>
+  </div>
+
+  <br>
+</div>

@@ -1,0 +1,16 @@
+<section class="item tab details {{tab.cssClass}}" data-group="primary" data-tab="details">
+  <div class="hitloc-scores">
+    {{#if isGM}}
+      <div class="skill-display" data-tooltip="{{localize 'BRP.cpcModHint'}}">{{localize 'BRP.cpcMod'}}</div>
+      <div class="stat-input"><input name="system.cpcMod" type="text" value="{{item.system.cpcMod}}"
+          data-dtype="Number" /></div>
+    {{else}}
+      <div class="skill-display" data-tooltip="{{localize 'BRP.cpcModHint'}}">{{localize 'BRP.cpcMod'}}</div>
+      <div class="hitloc-display centre boxed">{{item.system.cpcMod}}</div>
+    {{/if}}
+  </div>
+  <br>
+  <div class="bold font14"> {{localize 'BRP.description'}}:</div>
+  <div class="font14 stat-input"><input name="system.shortDesc" type="text" value="{{item.system.shortDesc}}" /></div>
+  <br>
+</section>

@@ -1,0 +1,38 @@
+<form class="brp" id="difficulty-roll-form">
+  <div class="diff-label">{{label}}</div>
+  <div class="flexcol">
+    {{#if askSuccess}}
+      <div class="flexrow">
+        <label class="resource-label-diff">{{ localize 'BRP.askSuccess' }}</label>
+        <select data-handle-change name="success">
+          {{selectOptions successOptions selected=success}}
+        </select>
+      </div>
+    {{/if}}
+
+    {{#if askRange}}
+      <div class="flexrow">
+        <label class="resource-label-diff">{{ localize 'BRP.askRange' }}</label>
+        <select data-handle-change name="range">
+          {{selectOptions rangeOptions selected=range}}
+        </select>
+      </div>
+    {{/if}}
+
+    {{#if askHands}}
+      <div class="flexrow">
+        <label class="resource-label-diff">{{ localize 'BRP.askHands' }}</label>
+        <select data-handle-change name="hands">
+          {{selectOptions handOptions selected=hands}}
+        </select>
+      </div>
+    {{/if}}
+
+    {{#if askLevel}}
+      <div class="flexrow">
+        <label class="resource-label-diff">{{ localize 'BRP.askLevel' }}</label>
+        <input name="level" type="text" value=1 data-dtype="Number" />
+      </div>
+    {{/if}}
+  </div>
+</form>

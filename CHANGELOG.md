@@ -1,5 +1,19 @@
 # CHANGE LOG
 
+## 13.1.53
+- The system has moved to V2 Application - and the sheets run in Dark Mode as well.
+- Context menus have been removed on the character sheet and replaced with key options or additional icons.  Please see the wiki
+- Character Sheet Background Tab is renamed to Story.  You can now add multiple sections each with a title and text to edit.  Existing background entries have been migrated.  Thanks to the Call of Cthulhu system.
+- Background Name Game Settings have been removed as now replaced with Story tab.
+- When Development Phase is turned on then a new tab appears on the character sheet - you make improvement rolls from here
+- Setting colours etc in the Display Options override the values in both Light and Dark Mode.
+- There are a few tweaks to the NPC sheet as well (Notes have been migrated to a new tab), there is an ALT MOVE option (Move Notes will be deleted in due course), NPC sheet only shows populated sections when locked
+- Character Sheet Combat Tab now shows the Damage Bonus type for each weapon and there's a tooltip on "Damage" to show the Special Damage Type
+- There is a new game setting for users to decide if they want the Item sheets to open to the Description tab by default.  Users set this according to their preference rather than at a game level.
+- Under Optional Game Rules you can now rename Sanity
+- Physical Items (Gear, Weapons and Armour) now let you enter a cost value (e.g. 10) if you've turned off Wealth Levels.
+- BRPID Editor no longer errors where game language doesn't have a BRPIDKey list - Thank you to FreeRaisor.
+
 ## 13.1.52
 - Changes to CCI: Open Document (James B)
 - Wound sheet no longer auto closes when making edits

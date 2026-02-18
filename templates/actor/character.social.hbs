@@ -1,0 +1,63 @@
+<section class="actor tab social {{tab.cssClass}}" data-group="primary" data-tab="social">
+    {{#if useAlleg}}
+      <div class="magic-listitem">
+        <div class="diff-label">{{ localize 'BRP.allegiance'}}</div>
+        <div></div>
+        <div class="diff-label centre">{{ localize 'BRP.total'}}</div>
+        <div class="diff-label centre">{{ localize 'BRP.title'}}</div>
+        <div class="diff-label centre">{{ localize 'BRP.rank'}}</div>
+        <div class="diff-label centre">{{ localize "BRP.enemy" }}</div>
+        <div class="diff-label centre">{{ localize "BRP.opposed" }}</div>
+        <div class="diff-label centre" data-tooltip="{{ localize 'BRP.addItem' type=(localize 'TYPES.Item.allegiance') }}"
+          data-action="createDoc" data-document-class="Item" data-type="allegiance">
+          <a class="largeIcon"><i class="item-control fas fa-plus"></i></a>
+        </div>
+      </div>
+      <ol class="gr-list">
+        {{#each allegiances as |allegiance id|}}
+          <li class="item magic-listitem" data-item-id="{{allegiance._id}}" data-document-class="Item" data-drag='true'>
+            <div class="rollable" data-action="viewDoc" data-tooltip="{{localize 'BRP.viewDoc' type=(localize 'TYPES.Item.allegiance') }}">{{allegiance.name}}</div>
+            <div data-tooltip="{{ localize 'BRP.improve' }}"><a class="" data-action="itemToggle" data-property="improve"><i class="{{#if allegiance.system.improve}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>
+            <div class="centre rollable allegiance-name" data-action="allegianceRoll">{{allegiance.system.total}}%</div>
+            <div class="centre">{{allegiance.system.allegTitle}}</div>
+            <div class="centre">{{allegiance.system.rank}}</div>
+            <div class="centre"><a class="mediumIcon"><i class="{{#if allegiance.system.allegEnemy}}fa-solid fa-skull{{/if}}"></i></a></div>
+            <div class="centre truncate">{{allegiance.system.opposeAlleg}}</div>
+          </li>
+        {{/each}}
+      </ol>
+      <br>
+    {{/if}}
+
+
+    {{#if (gt useReputation "0")}}
+      <div class="magic-listitem">
+        <div class="diff-label">{{ localize 'BRP.reputation'}}</div>
+        <div></div>
+        <div class="diff-label centre">{{ localize 'BRP.total'}}</div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div class="diff-label centre" data-tooltip="{{ localize 'BRP.addItem' type=(localize 'TYPES.Item.reputation') }}"
+          data-action="createDoc" data-document-class="Item" data-type="reputation">
+          <a class="largeIcon"><i class="item-control fas fa-plus"></i></a>
+        </div>
+      </div>
+      <ol class="gr-list">
+      {{#each reputations as |reputation id|}}
+        <li class="item magic-listitem" data-item-id="{{reputation._id}}" data-document-class="Item" data-drag='true'>
+          <div class="new-row rollable" data-action="viewDoc" data-tooltip="{{localize 'BRP.viewDoc' type=(localize 'TYPES.Item.allegiance') }}">{{reputation.name}}</div>
+          <div></div>
+          {{#if ../system.lock}}
+            <div class="centre rollable" data-action="reputationRoll">{{reputation.system.total}}%</div>
+          {{else}}
+            <div><input class="item skill-cell-input centre inline-edit" data-field="base"
+              name="reputation.system.base" type="number"
+              value="{{reputation.system.base}}"/></div>
+          {{/if}}
+        </li>
+      {{/each}}
+      </ol>
+    {{/if}}
+</section>

@@ -59,15 +59,15 @@ export class BRPCombatRoll {
         askRange,
         askSuccess,
         askLevel,
-        dialogTemplate: 'systems/brp/templates/dialog/damageDiff.html'
+        dialogTemplate: 'systems/brp/templates/dialog/damageDiff.hbs'
       }
 
       let usage = await BRPCheck.RollDialog(damData)
       if (usage) {
-        range = usage.get('range')
-        hands = usage.get('hands')
-        success = usage.get('success')
-        level = Number(usage.get('level'))
+        range = usage.range
+        hands = usage.hands
+        success = usage.success
+        level = Number(usage.level)
       }
 
       //If you've asked the range then get adjust damage for it

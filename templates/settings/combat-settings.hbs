@@ -1,0 +1,41 @@
+<div class="brp settingsForm flexcol" autocomplete="off">
+  <h2 class="bold">{{localize 'BRP.Settings.combatOptions'}}</h2>
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.initStat'}}</label>
+    <div class="form-fields">
+      <select class="centre" name="initStat" data-dtype="String">
+        {{selectOptions optSet.initChoiceList selected=optSet.initStat.value}}
+      </select>
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.initStatHint'}}</p>
+  </div>
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.initMod'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <input class="centre" name="initMod" type="text" value="{{optSet.initMod.value}}" />
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.initModHint'}}</p>
+  </div>
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.initRound'}}</label>
+    <div class="form-fields">
+      <select class="centre" name="initRound" data-dtype="String">
+        {{selectOptions optSet.initRoundList selected=optSet.initRound.value}}
+      </select>
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.initRoundHint'}}</p>
+  </div>
+
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.quickCombat'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <input type="checkbox" {{checked optSet.quickCombat.value}} name="quickCombat">
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.quickCombatHint'}}</p>
+  </div>
+  <br>
+</div>

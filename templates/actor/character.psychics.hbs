@@ -1,0 +1,96 @@
+<section class="actor tab psychics {{tab.cssClass}}" data-group="primary" data-tab="psychics">
+  {{#if system.lock}}
+    {{! Normal Psychics Layout}}
+      <div class="psychic-listitem">
+        <div class="diff-label">{{psychicLabel}}</div>
+        <div></div>
+        <div class="diff-label centre" data-tooltip="{{ localize 'BRP.rangePsyHint'}}">{{ localize 'BRP.range'}}</div>
+        <div class="diff-label centre">{{ localize 'BRP.duration'}}</div>
+        <div class="diff-label centre">{{system.power.labelAbbr}}</div>
+        <div class="diff-label centre" data-tooltip="{{ localize 'BRP.impactHint' }}">{{ localize 'BRP.impact'}}</div>
+        <div class="diff-label centre">{{ localize 'BRP.total'}}</div>
+        <div class="diff-label centre" data-tooltip="{{ localize 'BRP.addItem' type=psychicLabel }}"
+          data-action="createDoc" data-document-class="Item" data-type="psychic">
+          <a class="largeIcon"><i class="item-control fas fa-plus"></i></a>
+        </div>
+      </div>
+    <ol class="gr-list">
+      {{#each psychics as |psychic id|}}
+        <li class="item psychic-listitem" data-item-id="{{psychic._id}}" data-document-class="Item" data-drag='true'>
+          <div class="rollable" data-action="viewDoc" data-tooltip="{{localize 'BRP.viewSpell' type=../psychicLabel }}">{{psychic.name}}</div>
+          <div data-tooltip="{{ localize 'BRP.improve' }}"><a class="" data-action="itemToggle" data-property="improve"><i class="{{#if psychic.system.improve}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>
+          <div class="centre">{{psychic.system.range}}</div>
+          <div class="centre">{{psychic.system.duration}}</div>
+          <div class="centre">{{psychic.system.pppl}}</div>
+          {{#if (eq psychic.system.damage '')}}
+            <div class="centre">{{psychic.system.damage}}</div>
+          {{else}}
+            <div class="centre rollable impact" data-action="impactRoll">{{psychic.system.damage}}</div>
+          {{/if}}
+          <div class="centre rollable" data-action="skillRoll">{{psychic.system.grandTotal}}%</div>
+          <div></div>
+        </li>
+      {{/each}}
+
+    </ol>
+
+  {{else}}
+    {{! Psychics Development Layout}}
+    <ol class="stats-list">
+      <div class="skills-tab-grid">
+        <div class="skill-cell-name diff-label">{{ localize 'BRP.psyAbility'}}</div>
+        <div class="skill-cell diff-label truncate centre">{{ localize 'BRP.base'}}</div>
+        <div class="skill-cell diff-label truncate centre" data-tooltip="{{localize 'BRP.personality'}}">{{ localize 'BRP.personalityShort'}}</div>
+        <div class="skill-cell diff-label truncate centre" data-tooltip="{{localize 'BRP.profession'}}">{{ localize 'BRP.profShort'}}</div>
+        <div class="skill-cell diff-label truncate centre" data-tooltip="{{localize 'BRP.culture'}}">{{ localize 'BRP.culture'}}</div>
+        <div class="skill-cell diff-label truncate centre" data-tooltip="{{localize 'BRP.psp'}}">{{ localize 'BRP.personalShort'}}</div>
+        <div class="skill-cell diff-label truncate centre" data-tooltip="{{localize 'BRP.experience'}}">{{ localize 'BRP.xp'}}</div>
+        <div class="skill-cell diff-label truncate centre" data-tooltip="{{localize 'BRP.effects'}}">{{ localize 'BRP.effectsShort'}}</div>
+        <div class="skill-cell diff-label truncate centre" data-tooltip="{{localize 'BRP.category'}}">{{ localize 'BRP.categoryShort'}}</div>
+        <div class="skill-cell diff-label truncate centre">{{ localize 'BRP.total'}}</div>
+      </div>
+      {{#each psychics as |psychic id|}}
+        <li class="item skills-tab-grid" style="list-style:none;" data-item-id="{{psychic._id}}" data-document-class='Item'>
+          <div class="skill-cell-name rollable bold" data-action="viewDoc"
+            data-tooltip="{{localize 'BRP.viewSpell' type=../psychicLabel }}">{{psychic.name}}</div>
+          <input class="skill-cell-input centre inline-edit"
+            data-field="base" name="psychic.system.base" type="number"
+            value="{{psychic.system.base}}"/>
+          <input class="skill-cell-input centre inline-edit {{#if psychic.system.prsnlty}} skill-prsnlty {{/if}}"
+            data-field="personality" name="psychic.system.personality" type="number"
+            value="{{psychic.system.personality}}"/>
+          <input class="skill-cell-input centre inline-edit {{#if psychic.system.occupation}} skill-occ {{/if}}"
+            data-field="profession" name="psychic.system.profession" type="number"
+            value="{{psychic.system.profession}}"/>
+          <input class="skill-cell-input centre inline-edit {{#if psychic.system.cultural}} skill-prsnlty {{/if}}"
+            data-field="culture" name="psychic.system.culture" type="number"
+            value="{{psychic.system.culture}}"/>
+          <input class="skill-cell-input skill-pers centre inline-edit"
+            data-field="personal" name="psychic.system.personal" type="number"
+            value="{{psychic.system.personal}}"/>
+          <input class="skill-cell-input centre inline-edit"
+            data-field="xp" name="psychic.system.xp" type="number"
+            value="{{psychic.system.xp}}"/>
+          <input class="skill-cell-input centre inline-edit"
+            data-field="effects" name="psychic.system.effects" type="number"
+            value="{{psychic.system.effects}}"/>
+          <div class="skill-cell centre">{{psychic.system.catBonus}}</div>
+          <div class="skill-cell centre lightgrey skill-name rollable" data-action="skillRoll"
+            data-tooltip="{{localize 'BRP.skillHint'}}">{{psychic.system.grandTotal}}</div>
+        </li>
+      {{/each}}
+      <div class="skills-tab-grid">
+        <div class="skill-cell-nametotal grey bold">{{ localize 'BRP.total'}}</div>
+        <div class="skill-cell centre grey"></div>
+        <div class="skill-cell centre grey"></div>
+        <div class="skill-cell centre grey">{{this.actor.system.totalProf}}</div>
+        <div class="skill-cell centre grey">{{this.actor.system.totalPers}}</div>
+        <div class="skill-cell centre grey"></div>
+        <div class="skill-cell centre grey"></div>
+        <div class="skill-cell centre grey"></div>
+        <div class="skill-cell centre grey"></div>
+        <div class="skill-cell centre grey"></div>
+      </div>
+    </ol>
+  {{/if}}
+</section>

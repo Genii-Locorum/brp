@@ -1,0 +1,20 @@
+<form class="brp" id="new-wound-form">
+  {{#if getDam}}
+    <div class="flexcol">
+      <div class="stat-name darkred centre">{{localize 'BRP.damagePrompt'}}</div>
+      <div class="flexrow">
+        <input class="stat-name centre" name="damage" type="number"/>
+      </div>
+    </div>
+  {{/if}}
+  {{#if getLoc}}
+    <div class="flexcol">
+      <div class="stat-name darkred centre">{{localize 'BRP.hit-location'}}</div>
+      <div class="flexrow">
+        <select class="stat-name centre" data-handle-change name="woundLoc">
+          {{selectOptions locs}}
+        </select>
+      </div>
+    </div>
+  {{/if}}
+</form>

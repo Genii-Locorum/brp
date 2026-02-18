@@ -1,0 +1,14 @@
+{{!-- Description Section --}}
+<section class="npc-notes-section {{#unless actor.system.showNotes}}hide-npc-notes{{/unless}}">
+  <div class=" charname">{{localize 'BRP.notes'}}:</div>
+  <div class="npc-description-doc">
+    {{#if editable}}
+      <prose-mirror name="system.extDesc" data-document-u-u-i-d="{{actor.uuid}}" value="{{system.extDesc}}"
+        collaborate="true" toggled="true">
+        {{{extDescValue}}}
+      </prose-mirror>
+    {{else}}
+      {{{extDescValue}}}
+    {{/if}}
+  </div>
+</section>

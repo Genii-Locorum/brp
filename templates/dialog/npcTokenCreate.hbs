@@ -1,0 +1,11 @@
+<section id="npc-token-create-form">
+  {{#if askStats}}
+    <div class="flexrow">
+      <label>{{{localize "BRP.tokenCreationRoll.prompt"}}}</label>
+      <select data-handle-change name="statCreate">
+        {{selectOptions statCreateOptions selected="roll"}}
+      </select>
+    </div>
+    <br>
+  {{/if}}
+</section>

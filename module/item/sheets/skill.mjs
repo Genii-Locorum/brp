@@ -1,63 +1,62 @@
 import { BRPSelectLists } from "../../apps/select-lists.mjs";
 import { BRPUtilities } from '../../apps/utilities.mjs'
 import { addBRPIDSheetHeaderButton } from '../../brpid/brpid-button.mjs'
+import { BRPItemSheetV2 } from "./base-item-sheet.mjs";
 
-export class BRPSkillSheet extends foundry.appv1.sheets.ItemSheet {
-  constructor(...args) {
-    super(...args)
-    this._sheetTab = 'items'
+export class BRPSkillSheet extends BRPItemSheetV2 {
+  constructor(options = {}) {
+    super(options)
+    this.#dragDrop = this.#createDragDropHandlers()
   }
 
-  //Turn off App V1 deprecation warnings
-  //TODO - move to V2
-  static _warnedAppV1 = true
-
-  //Add BRPID buttons to sheet
-  _getHeaderButtons() {
-    const headerButtons = super._getHeaderButtons()
-    addBRPIDSheetHeaderButton(headerButtons, this)
-    return headerButtons
+  static DEFAULT_OPTIONS = {
+    classes: ['skill'],
+    dragDrop: [{ dragSelector: '[data-drag]', dropSelector: '.droppable' }],
+    position: {
+      width: 535,
+      height: 620
+    },
+    form: {
+      handler: BRPSkillSheet.mySkillHandler
+    }
   }
 
-  static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
-      classes: ['brp', 'sheet', 'item'],
-      template: 'systems/brp/templates/item/skill.html',
-      width: 520,
-      height: 620,
-      scrollY: ['.tab.description'],
-      tabs: [{ navSelector: '.sheet-tabs', contentSelector: '.sheet-body', initial: 'details' }]
-    })
+  static PARTS = {
+    header: { template: 'systems/brp/templates/item/skill.header.hbs' },
+    tabs: { template: 'systems/brp/templates/global/parts/tab-navigation.hbs' },
+    details: {
+      template: 'systems/brp/templates/item/skill.detail.hbs',
+      scrollable: ['']
+    },
+    description: { template: 'systems/brp/templates/item/item.description.hbs' },
+    gmNotes: { template: 'systems/brp/templates/item/item.gmnotes.hbs' }
   }
 
-  async getData() {
-    const sheetData = super.getData()
-    const itemData = sheetData.item
-    sheetData.hasOwner = this.item.isEmbedded === true
-    sheetData.pcOwner = false
-    if (sheetData.hasOwner) {
+  async _prepareContext(options) {
+    let context = await super._prepareContext(options)
+    const actor = this.item.parent
+    const itemData = context.item
+    context.pcOwner = false
+    if (context.hasOwner) {
       if (this.item.parent.type === 'character') {
-        sheetData.pcOwner = true
+        context.pcOwner = true
       }
     }
-    sheetData.isGM = game.user.isGM
     //Get drop down options from select-lists.mjs
-    sheetData.statOptions = await BRPSelectLists.getStatOptions();
-    sheetData.catOptions = await BRPSelectLists.getCategoryOptions();
-    sheetData.wpnOptions = await BRPSelectLists.getWpnCategoryOptions();
-    sheetData.funcOptions = await BRPSelectLists.getFunctionalOptions();
-    sheetData.stat1 = game.i18n.localize(CONFIG.BRP.statsAbbreviations[this.item.system.baseFormula[1].stat]);
-    sheetData.stat2 = game.i18n.localize(CONFIG.BRP.statsAbbreviations[this.item.system.baseFormula[2].stat]);
-    sheetData.catName = game.i18n.localize("BRP." + this.item.system.category.split('.')[2]);
-    sheetData.wpnType = game.i18n.localize("BRP." + this.item.system.subType);
-    sheetData.funcDisp = game.i18n.localize("BRP." + this.item.system.baseFormula.Func);
+    context.statOptions = await BRPSelectLists.getStatOptions();
+    context.catOptions = await BRPSelectLists.getCategoryOptions();
+    context.wpnOptions = await BRPSelectLists.getWpnCategoryOptions();
+    context.funcOptions = await BRPSelectLists.getFunctionalOptions();
+    context.stat1 = game.i18n.localize(CONFIG.BRP.statsAbbreviations[this.item.system.baseFormula[1].stat]);
+    context.stat2 = game.i18n.localize(CONFIG.BRP.statsAbbreviations[this.item.system.baseFormula[2].stat]);
+    context.catName = game.i18n.localize("BRP." + this.item.system.category.split('.')[2]);
+    context.wpnType = game.i18n.localize("BRP." + this.item.system.subType);
+    context.funcDisp = game.i18n.localize("BRP." + this.item.system.baseFormula.Func);
     itemData.system.total = itemData.system.base + itemData.system.xp + itemData.system.effects + itemData.system.personality + itemData.system.profession + itemData.system.personal + itemData.system.culture;
-
     //Ensure mainName is populated
     if (this.item.system.mainName === "") {
-      this.object.update({ 'system.mainName': this.item.name });
+      this.item.update({ 'system.mainName': this.item.name });
     }
-
     const grpSkill = [];
     for (let skill of itemData.system.groupSkills) {
       let tempSkill = (await game.system.api.brpid.fromBRPIDBest({ brpid: skill.brpid }))[0]
@@ -68,67 +67,110 @@ export class BRPSkillSheet extends foundry.appv1.sheets.ItemSheet {
       }
     }
 
-    sheetData.grpSkill = grpSkill.sort(BRPUtilities.sortByNameKey);
-
-    sheetData.enrichedDescriptionValue = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
-      sheetData.data.system.description,
-      {
-        async: true,
-        secrets: sheetData.editable
-      }
-    )
-
-    sheetData.enrichedGMDescriptionValue = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
-      sheetData.data.system.gmDescription,
-      {
-        async: true,
-        secrets: sheetData.editable
-      }
-    )
-
-    return sheetData;
-  }
-
-  activateListeners(html) {
-    super.activateListeners(html)
-    // Everything below here is only needed if the sheet is editable
-    if (!this.options.editable) return
-    html.find('.item-toggle').click(this.onItemToggle.bind(this));
-    html.find('.item-view').click(this._onItemView.bind(this))
-    html.find('.item-delete').click(event => this._onItemDelete(event, 'groupSkills'))
-
-    const dragDrop = new foundry.applications.ux.DragDrop.implementation({
-      dropSelector: '.droppable',
-      callbacks: { drop: this._onDrop.bind(this) }
-    })
-    dragDrop.bind(html[0])
+    context.grpSkill = grpSkill.sort(BRPUtilities.sortByNameKey);
+    context.tabs = this._getTabs(options.parts);
+    return context
   }
 
 
-  //Handle toggle states
-  async onItemToggle(event) {
-    event.preventDefault();
-    const prop = event.currentTarget.closest('.item-toggle').dataset.property;
-    let checkProp = {};
-    if (['noXP', 'specialism', 'variable', 'group', 'chosen', 'basic', 'combat'].includes(prop)) {
-      checkProp = { [`system.${prop}`]: !this.object.system[prop] }
-    } else { return }
-
-    const item = await this.object.update(checkProp);
-    return item;
-  }
-
-  //Update object - change skill name to be made up on Main and Specialization name
-  async _updateObject(event, formData) {
-    const skillName = formData['system.mainName'] || this.item.system.mainName
-    if (this.item.system.specialism) {
-      const specialization = formData['system.specName'] || this.item.system.specName
-      formData.name = skillName + ' (' + specialization + ')'
-    } else {
-      formData.name = skillName
+  /** @override */
+  async _preparePartContext(partId, context) {
+    switch (partId) {
+      case 'details':
+      case 'description':
+        context.tab = context.tabs[partId];
+        context.enrichedDescription = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+          this.item.system.description,
+          {
+            secrets: this.document.isOwner,
+            rollData: this.document.getRollData(),
+            relativeTo: this.document,
+          }
+        );
+        break;
+      case 'gmNotes':
+        context.tab = context.tabs[partId];
+        context.enrichedGMDescription = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+          this.item.system.gmDescription,
+          {
+            secrets: this.document.isOwner,
+            rollData: this.document.getRollData(),
+            relativeTo: this.document,
+          }
+        );
+        break;
     }
+    return context;
+  }
 
-    const system = foundry.utils.expandObject(formData)?.system
+  _getTabs(parts) {
+    const tabGroup = 'primary';
+    //Default tab
+    if (!this.tabGroups[tabGroup]) {
+      if (game.settings.get('brp', 'defaultTab')) {
+        this.tabGroups[tabGroup] = 'description';
+      } else {
+        this.tabGroups[tabGroup] = 'details';
+      }
+    }
+    return parts.reduce((tabs, partId) => {
+      const tab = {
+        cssClass: '',
+        group: tabGroup,
+        id: '',
+        icon: '',
+        label: 'BRP.',
+      };
+      switch (partId) {
+        case 'header':
+        case 'tabs':
+          return tabs;
+        case 'details':
+          tab.id = 'details';
+          tab.label += 'details';
+          break;
+        case 'description':
+          tab.id = 'description';
+          tab.label += 'description';
+          break;
+        case 'gmNotes':
+          tab.id = 'gmNotes';
+          tab.label += 'gmNotes';
+          break;
+      }
+      if (this.tabGroups[tabGroup] === tab.id) tab.cssClass = 'active';
+      tabs[partId] = tab;
+      return tabs;
+    }, {});
+  }
+
+  _configureRenderOptions(options) {
+    super._configureRenderOptions(options);
+    //Only show GM tab if you are GM
+    options.parts = ['header', 'tabs', 'details', 'description'];
+    if (game.user.isGM) {
+      options.parts.push('gmNotes');
+    }
+  }
+
+  //Activate event listeners using the prepared sheet HTML
+  _onRender(context, options) {
+    this.#dragDrop.forEach((d) => d.bind(this.element))
+    this.element.querySelectorAll('.item-delete').forEach(n => n.addEventListener("click", this._onItemDelete.bind(this)));
+    this.element.querySelectorAll('.item-view').forEach(n => n.addEventListener("click", this._onItemView.bind(this)));
+  }
+
+
+  //--------------------HANDLER----------------------------------
+  static async mySkillHandler(event, form, formData) {
+    const skillName = formData.object['system.mainName'] || this.item.system.mainName
+    if (this.item.system.specialism) {
+      const specialization = formData.object['system.specName'] || this.item.system.specName
+      formData.object.name = skillName + ' (' + specialization + ')'
+    } else {
+      formData.object.name = skillName
+    }
+    const system = foundry.utils.expandObject(formData.object)?.system
     if (typeof system != 'undefined') {
       if (system.groups) {
         formData['system.groups'] = Object.values(
@@ -141,20 +183,11 @@ export class BRPSkillSheet extends foundry.appv1.sheets.ItemSheet {
         }
       }
     }
-    super._updateObject(event, formData)
+    await this.document.update(formData.object)
   }
 
-  //Delete's a skill in the main skill list
-  async _onItemDelete(event, collectionName = 'items') {
-    const item = $(event.currentTarget).closest('.item')
-    const itemId = item.data('item-id')
-    const itemIndex = this.item.system[collectionName].findIndex(i => (itemId && i.uuid === itemId))
-    if (itemIndex > -1) {
-      const collection = this.item.system[collectionName] ? foundry.utils.duplicate(this.item.system[collectionName]) : []
-      collection.splice(itemIndex, 1)
-      await this.item.update({ [`system.${collectionName}`]: collection })
-    }
-  }
+
+  //-----------------------ACTIONS-----------------------------------
 
   //Allow for a skill being dragged and dropped on to the skill sheet either in the group skill list
   async _onDrop(event, type = 'skill', collectionName = 'groupSkills') {
@@ -186,11 +219,92 @@ export class BRPSkillSheet extends foundry.appv1.sheets.ItemSheet {
     await this.item.update({ [`system.${collectionName}`]: collection })
   }
 
+
+  //Delete's a skill in the main skill list
+  async _onItemDelete(event, collectionName = 'groupSkills') {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    const item = $(event.currentTarget).closest('.item')
+    const itemId = item.data('item-id')
+    const itemIndex = this.item.system[collectionName].findIndex(i => (itemId && i.uuid === itemId))
+    if (itemIndex > -1) {
+      const collection = this.item.system[collectionName] ? foundry.utils.duplicate(this.item.system[collectionName]) : []
+      collection.splice(itemIndex, 1)
+      await this.item.update({ [`system.${collectionName}`]: collection })
+    }
+  }
+
   async _onItemView(event) {
     const item = $(event.currentTarget).closest('.item')
     const brpid = item.data('brpid')
     let tempItem = (await game.system.api.brpid.fromBRPIDBest({ brpid: brpid }))[0]
     if (tempItem) { tempItem.sheet.render(true) };
+  }
+
+  // DragDrop
+  //
+  //
+
+  _canDragStart(selector) {
+    // game.user fetches the current user
+    return this.isEditable;
+  }
+
+  _canDragDrop(selector) {
+    // game.user fetches the current user
+    return this.isEditable;
+  }
+
+
+  _onDragStart(event) {
+    const li = event.currentTarget;
+    if ('link' in event.target.dataset) return;
+
+    let dragData = null;
+
+    // Active Effect
+    if (li.dataset.effectId) {
+      const effect = this.item.effects.get(li.dataset.effectId);
+      dragData = effect.toDragData();
+    }
+
+    if (!dragData) return;
+
+    // Set data transfer
+    event.dataTransfer.setData('text/plain', JSON.stringify(dragData));
+  }
+
+  _onDragOver(event) { }
+
+  async _onDropItem(event, data) {
+    if (!this.item.isOwner) return false;
+  }
+
+  async _onDropFolder(event, data) {
+    if (!this.item.isOwner) return [];
+  }
+
+  get dragDrop() {
+    return this.#dragDrop;
+  }
+
+  // This is marked as private because there's no real need
+  // for subclasses or external hooks to mess with it directly
+  #dragDrop;
+
+  #createDragDropHandlers() {
+    return this.options.dragDrop.map((d) => {
+      d.permissions = {
+        dragstart: this._canDragStart.bind(this),
+        drop: this._canDragDrop.bind(this),
+      };
+      d.callbacks = {
+        dragstart: this._onDragStart.bind(this),
+        dragover: this._onDragOver.bind(this),
+        drop: this._onDrop.bind(this),
+      };
+      return new foundry.applications.ux.DragDrop.implementation(d);
+    });
   }
 
 }

@@ -1,0 +1,36 @@
+<div class="brp settingsForm flexcol" autocomplete="off">
+  <h2 class="bold">{{localize 'BRP.Settings.charOptions'}}</h2>
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.starterSkills'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <input type="checkbox" {{checked optSet.starterSkills.value}} name="starterSkills">
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.starterSkillsHint'}}</p>
+  </div>
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.starterTraits'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <input type="checkbox" {{checked optSet.starterTraits.value}} name="starterTraits">
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.starterTraitsHint'}}</p>
+  </div>
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.useWealth'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <input type="checkbox" {{checked optSet.useWealth.value}} name="useWealth">
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.useWealthHint'}}</p>
+  </div>
+
+  <div class="form-group">
+    <label class="bold">{{localize 'BRP.Settings.wealthLabel'}}</label>
+    <div class="form-fields" style="flex: 1;">
+      <input class="centre" name="wealthLabel" type="text" value="{{optSet.wealthLabel.value}}" />
+    </div>
+    <p class="settingNote">{{localize 'BRP.Settings.wealthLabelHint'}}</p>
+  </div>
+  <br>
+</div>

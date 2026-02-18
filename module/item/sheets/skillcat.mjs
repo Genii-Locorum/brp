@@ -1,86 +1,146 @@
 import { BRPSelectLists } from "../../apps/select-lists.mjs";
 import { addBRPIDSheetHeaderButton } from '../../brpid/brpid-button.mjs'
+import { BRPItemSheetV2 } from "./base-item-sheet.mjs";
 
-export class BRPSkillCategory extends foundry.appv1.sheets.ItemSheet {
-  constructor(...args) {
-    super(...args)
-    this._sheetTab = 'items'
+
+export class BRPSkillCategory extends BRPItemSheetV2 {
+  constructor(options = {}) {
+    super(options)
   }
 
-  //Turn off App V1 deprecation warnings
-  //TODO - move to V2
-  static _warnedAppV1 = true
-
-  //Add BRPID buttons to sheet
-  _getHeaderButtons() {
-    const headerButtons = super._getHeaderButtons()
-    addBRPIDSheetHeaderButton(headerButtons, this)
-    return headerButtons
-  }
-
-  static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
-      classes: ['brp', 'sheet', 'item'],
-      template: 'systems/brp/templates/item/skillcat.html',
+  static DEFAULT_OPTIONS = {
+    classes: ['skillcat'],
+    position: {
       width: 520,
-      height: 610,
-      scrollY: ['.tab.description'],
-      tabs: [{ navSelector: '.sheet-tabs', contentSelector: '.sheet-body', initial: 'details' }]
-    })
+      height: 610
+    },
   }
 
-  async getData() {
-    const sheetData = super.getData()
-    const itemData = sheetData.item
-    sheetData.hasOwner = this.item.isEmbedded === true
-    sheetData.isGM = game.user.isGM
+  static PARTS = {
+    header: { template: 'systems/brp/templates/item/item.header.hbs' },
+    tabs: { template: 'systems/brp/templates/global/parts/tab-navigation.hbs' },
+    details: {
+      template: 'systems/brp/templates/item/skillcat.detail.hbs',
+      scrollable: ['']
+    },
+    description: { template: 'systems/brp/templates/item/item.description.hbs' },
+    gmNotes: { template: 'systems/brp/templates/item/item.gmnotes.hbs' }
+  }
+
+  async _prepareContext(options) {
+    let context = await super._prepareContext(options)
 
     //Get drop down options from select-lists.mjs
-    sheetData.statOptions = await BRPSelectLists.addStatOptions();
-    sheetData.statName = game.i18n.localize(CONFIG.BRP.statsAbbreviations[this.item.system.stat]);
+    context.statOptions = await BRPSelectLists.addStatOptions();
+    context.statName = game.i18n.localize(CONFIG.BRP.statsAbbreviations[this.item.system.stat]);
+    context.advStatOptionsStr = await BRPSelectLists.getAdvSkillCatOptions();
+    context.advStatOptionsCon = await BRPSelectLists.getAdvSkillCatOptions();
+    context.advStatOptionsInt = await BRPSelectLists.getAdvSkillCatOptions();
+    context.advStatOptionsSiz = await BRPSelectLists.getAdvSkillCatOptions();
+    context.advStatOptionsPow = await BRPSelectLists.getAdvSkillCatOptions();
+    context.advStatOptionsDex = await BRPSelectLists.getAdvSkillCatOptions();
+    context.advStatOptionsCha = await BRPSelectLists.getAdvSkillCatOptions();
+    context.advStatOptionsEdu = await BRPSelectLists.getAdvSkillCatOptions();
+    context.skillCatNameStr = game.i18n.localize('BRP.advSkillCat.' + this.item.system.attrib.str)
+    context.skillCatNameCon = game.i18n.localize('BRP.advSkillCat.' + this.item.system.attrib.con)
+    context.skillCatNameInt = game.i18n.localize('BRP.advSkillCat.' + this.item.system.attrib.int)
+    context.skillCatNameSiz = game.i18n.localize('BRP.advSkillCat.' + this.item.system.attrib.siz)
+    context.skillCatNamePow = game.i18n.localize('BRP.advSkillCat.' + this.item.system.attrib.pow)
+    context.skillCatNameDex = game.i18n.localize('BRP.advSkillCat.' + this.item.system.attrib.dex)
+    context.skillCatNameCha = game.i18n.localize('BRP.advSkillCat.' + this.item.system.attrib.cha)
+    context.skillCatNameEdu = game.i18n.localize('BRP.advSkillCat.' + this.item.system.attrib.edu)
 
-    sheetData.advStatOptionsStr = await BRPSelectLists.getAdvSkillCatOptions();
-    sheetData.advStatOptionsCon = await BRPSelectLists.getAdvSkillCatOptions();
-    sheetData.advStatOptionsInt = await BRPSelectLists.getAdvSkillCatOptions();
-    sheetData.advStatOptionsSiz = await BRPSelectLists.getAdvSkillCatOptions();
-    sheetData.advStatOptionsPow = await BRPSelectLists.getAdvSkillCatOptions();
-    sheetData.advStatOptionsDex = await BRPSelectLists.getAdvSkillCatOptions();
-    sheetData.advStatOptionsCha = await BRPSelectLists.getAdvSkillCatOptions();
-    sheetData.advStatOptionsEdu = await BRPSelectLists.getAdvSkillCatOptions();
-    sheetData.skillCatNameStr = game.i18n.localize('BRP.advSkillCat.' + this.item.system.attrib.str)
-    sheetData.skillCatNameCon = game.i18n.localize('BRP.advSkillCat.' + this.item.system.attrib.con)
-    sheetData.skillCatNameInt = game.i18n.localize('BRP.advSkillCat.' + this.item.system.attrib.int)
-    sheetData.skillCatNameSiz = game.i18n.localize('BRP.advSkillCat.' + this.item.system.attrib.siz)
-    sheetData.skillCatNamePow = game.i18n.localize('BRP.advSkillCat.' + this.item.system.attrib.pow)
-    sheetData.skillCatNameDex = game.i18n.localize('BRP.advSkillCat.' + this.item.system.attrib.dex)
-    sheetData.skillCatNameCha = game.i18n.localize('BRP.advSkillCat.' + this.item.system.attrib.cha)
-    sheetData.skillCatNameEdu = game.i18n.localize('BRP.advSkillCat.' + this.item.system.attrib.edu)
+    context.tabs = this._getTabs(options.parts);
+    return context
+  }
 
-    sheetData.enrichedDescriptionValue = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
-      sheetData.data.system.description,
-      {
-        async: true,
-        secrets: sheetData.editable
+  /** @override */
+  async _preparePartContext(partId, context) {
+    switch (partId) {
+      case 'details':
+        context.tab = context.tabs[partId];
+        break;
+      case 'description':
+        context.tab = context.tabs[partId];
+        context.enrichedDescription = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+          this.item.system.description,
+          {
+            secrets: this.document.isOwner,
+            rollData: this.document.getRollData(),
+            relativeTo: this.document,
+          }
+        );
+        break;
+      case 'gmNotes':
+        context.tab = context.tabs[partId];
+        context.enrichedGMDescription = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+          this.item.system.gmDescription,
+          {
+            secrets: this.document.isOwner,
+            rollData: this.document.getRollData(),
+            relativeTo: this.document,
+          }
+        );
+        break;
+    }
+    return context;
+  }
+
+  _getTabs(parts) {
+    const tabGroup = 'primary';
+    //Default tab
+    if (!this.tabGroups[tabGroup]) {
+      if (game.settings.get('brp', 'defaultTab')) {
+        this.tabGroups[tabGroup] = 'description';
+      } else {
+        this.tabGroups[tabGroup] = 'details';
       }
-    )
-
-    sheetData.enrichedGMDescriptionValue = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
-      sheetData.data.system.gmDescription,
-      {
-        async: true,
-        secrets: sheetData.editable
+    }
+    return parts.reduce((tabs, partId) => {
+      const tab = {
+        cssClass: '',
+        group: tabGroup,
+        id: '',
+        icon: '',
+        label: 'BRP.',
+      };
+      switch (partId) {
+        case 'header':
+        case 'tabs':
+          return tabs;
+        case 'details':
+          tab.id = 'details';
+          tab.label += 'details';
+          break;
+        case 'description':
+          tab.id = 'description';
+          tab.label += 'description';
+          break;
+        case 'gmNotes':
+          tab.id = 'gmNotes';
+          tab.label += 'gmNotes';
+          break;
       }
-    )
+      if (this.tabGroups[tabGroup] === tab.id) tab.cssClass = 'active';
+      tabs[partId] = tab;
+      return tabs;
+    }, {});
+  }
 
-    return sheetData
+  _configureRenderOptions(options) {
+    super._configureRenderOptions(options);
+    //Only show GM tab if you are GM
+    options.parts = ['header', 'tabs', 'details', 'description'];
+    if (game.user.isGM) {
+      options.parts.push('gmNotes');
+    }
   }
 
   //Activate event listeners using the prepared sheet HTML
-  activateListeners(html) {
-    super.activateListeners(html)
-    if (!this.options.editable) return
+  _onRender(context, _options) {
   }
 
 
+  //-----------------------ACTIONS-----------------------------------
 
 }

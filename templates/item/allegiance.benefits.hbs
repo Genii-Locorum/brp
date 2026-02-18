@@ -1,0 +1,14 @@
+<section class='item tab benefits {{tab.cssClass}}' data-group='primary' data-tab='benefits'>
+  <div class="bold">{{localize 'BRP.benefits'}}</div>
+  {{! Editor for description}}
+  <div class="description-doc">
+    {{#if editable}}
+      <prose-mirror name="system.benefits" data-document-u-u-i-d="{{item.uuid}}" value="{{system.benefits}}"
+        collaborate="true" toggled="true">
+        {{{enrichedBenefits}}}
+      </prose-mirror>
+    {{else}}
+      {{{enrichedBenefits}}}
+    {{/if}}
+  </div>
+</section>

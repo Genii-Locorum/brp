@@ -2,7 +2,6 @@ export class BRPactorDetails {
 
   // Get token/actor ID and type
   static async _getParticipantId(token, actor) {
-    console.log(token,actor)
     let particId = ""
     let particType = ""
     let particName = ""
