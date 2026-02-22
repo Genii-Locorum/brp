@@ -1,5 +1,14 @@
 # CHANGE LOG
 
+## 13.1.54
+- Special Damage and Disease Damage indicators added to weapons
+- GIFs and HTML in spell descriptions etc should now appear in Description to Chat rolls
+- A series of NPC options added to Base Stats sheet
+- Removed gap between NPC sheet and notes
+- NPCs no longer add weapon skills when adding a weapon (since they don't use them)
+- NPC weapons now have a "Special" damage column added - a red burst indicates special weapon type with a tooltip showing what the damages are (e.g. Poison)
+- Item images can be changed once again
+
 ## 13.1.53
 - The system has moved to V2 Application - and the sheets run in Dark Mode as well.
 - Context menus have been removed on the character sheet and replaced with key options or additional icons.  Please see the wiki

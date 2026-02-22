@@ -79,6 +79,7 @@ export class BRPSelectLists {
       "half": game.i18n.localize("BRP.half"),
       "full": game.i18n.localize("BRP.full"),
       "oneH": game.i18n.localize("BRP.oneH"),
+      "str":  game.i18n.localize("BRP.strDB"),
     };
     return options;
   }

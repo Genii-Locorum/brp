@@ -206,6 +206,9 @@
         "stat1": "siz",
         "stat2": "con",
         "multi": 0.5
+      },
+      "mod": {
+        "strdb": false
       }
     }
   },
@@ -474,6 +477,7 @@
       "dmg1": "0",
       "dmg2": "",
       "dmg3": "",
+      "special":"",
       "burst": false,
       "stun": false,
       "entangle": false,
@@ -483,9 +487,11 @@
       "sonic": false,
       "choke": false,
       "emp": false,
+      "poison": false,
+      "disease": false,
+      "spclDmg": false,
       "db": 0,
       "att": 0,
-      "special": "",
       "range1": "S",
       "range2": "",
       "range3": "",

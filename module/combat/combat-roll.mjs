@@ -182,6 +182,8 @@ export class BRPCombatRoll {
       damageBonus = actor.system.dmgBonus.half
     } else if (weapon.system.db === 'full') {
       damageBonus = actor.system.dmgBonus.full
+    } else if (weapon.system.db === 'str') {
+      damageBonus = actor.system.dmgSpecBonus.full
     } else {
       damageBonus = ""
     }

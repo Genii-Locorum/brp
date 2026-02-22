@@ -446,6 +446,7 @@ export class BRPActor extends Actor {
     systemData.power.max = systemData.stats.pow.total + systemData.power.mod + (systemData.power.effects ?? 0);
     systemData.xpBonus = Math.ceil(systemData.stats.int.total / 2);
     systemData.dmgBonus = this._damageBonus(systemData.stats.str.total + systemData.stats.siz.total)
+    systemData.dmgSpecBonus = this._damageBonus(systemData.stats.str.total * 2)
 
     //Set Resource Labels
     if (game.settings.get('brp', 'ppLabelLong')) {

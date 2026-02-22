@@ -1778,3 +1778,18 @@ form .file-form-group-stacked {
   justify-content: flex-start;
   width: 100%;
 }
+
+.brp a.content-link {
+  background: none;
+  border: none;
+  white-space: pre-wrap;
+  word-break: normal;
+  color: purple;
+  padding: 0px;
+    i {
+      display: none;
+    }
+    &.broken {
+      text-decoration: line-through;
+    }
+}

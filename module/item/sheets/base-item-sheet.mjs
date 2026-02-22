@@ -96,14 +96,14 @@ export class BRPItemSheetV2 extends api.HandlebarsApplicationMixin(sheets.ItemSh
     let checkProp = {};
     const prop = target.dataset.property
     if (['armVar', 'armBal', 'HPL', 'minorOnly', 'basic','noXP', 'specialism', 'variable', 'group', 'chosen', 'combat', 'var', 'parry','burst', 'stun', 'choke',
-      'entangle', 'fire', 'pierce', 'sonic', 'poison', 'explosive', 'emp'].includes(prop) && !game.user.isGM) {
+      'entangle', 'fire', 'pierce', 'sonic', 'poison', 'explosive', 'emp', 'disease', 'spclDmg'].includes(prop) && !game.user.isGM) {
         return
     };
 
 
     if (['allegEnemy', 'allegApoth', 'allegAllied', 'improve', 'armVar', 'armBal', 'HPL', 'dead', 'severed', 'bleeding', 'mem', 'minorOnly', 'minor', 'oppimprove',
        'perLvl', 'noXP', 'specialism', 'variable', 'group', 'chosen', 'basic', 'combat','var', 'parry','burst', 'stun', 'choke', 'entangle', 'fire', 'pierce', 'sonic',
-       'poison', 'explosive', 'emp', 'treated'].includes(prop)) {
+       'poison', 'explosive', 'emp', 'disease', 'spclDmg', 'treated'].includes(prop)) {
       checkProp = { [`system.${prop}`]: !this.item.system[prop] }
     } else { return }
 

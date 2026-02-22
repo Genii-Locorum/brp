@@ -245,7 +245,8 @@ export class BRPUtilities {
     const itemId = await this.getDataset(el, dataitem)
     if (!itemId) { return }
     const item = actor.items.get(itemId);
-    let description = item.system.description.replace(/(<([^>]+)>)/g, "");
+    //let description = item.system.description.replace(/(<([^>]+)>)/g, "");
+    let description = item.system.description
     let label = item.name
     let chatType = CONST.CHAT_MESSAGE_STYLES.OTHER
     let chatTemplate = 'systems/brp/templates/chat/itemDescription.html'

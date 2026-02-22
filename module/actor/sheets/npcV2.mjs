@@ -124,9 +124,61 @@ export class BRPNPCSheetV2 extends BRPActorSheetV2 {
         } else if (itm.system.db === "oneH") {
           itm.system.dbName = "1H"
           itm.system.dbNameHint=game.i18n.localize("BRP.oneH")
+        } else if (itm.system.db === "str") {
+          itm.system.dbName = "2S"
+          itm.system.dbNameHint=game.i18n.localize("BRP.strDBName")
         }
 
-
+        itm.system.specialDam = false;
+        itm.system.specialLabel = "";
+        if (itm.system.burst) {
+          itm.system.specialDam = true;
+          itm.system.specialLabel = itm.system.specialLabel + game.i18n.localize('BRP.burst') + " ";
+        }
+        if (itm.system.stun) {
+          itm.system.specialDam = true;
+          itm.system.specialLabel = itm.system.specialLabel + game.i18n.localize('BRP.stun') + " ";
+        }
+        if (itm.system.entangle) {
+          itm.system.specialDam = true;
+          itm.system.specialLabel = itm.system.specialLabel + game.i18n.localize('BRP.entangle') + " ";
+        }
+        if (itm.system.explosive) {
+          itm.system.specialDam = true;
+          itm.system.specialLabel = itm.system.specialLabel + game.i18n.localize('BRP.explosive') + " ";
+        }
+        if (itm.system.fire) {
+          itm.system.specialDam = true;
+          itm.system.specialLabel = itm.system.specialLabel + game.i18n.localize('BRP.fire') + " ";
+        }
+        if (itm.system.pierce) {
+          itm.system.specialDam = true;
+          itm.system.specialLabel = itm.system.specialLabel + game.i18n.localize('BRP.pierce') + " ";
+        }
+        if (itm.system.sonic) {
+          itm.system.specialDam = true;
+          itm.system.specialLabel = itm.system.specialLabel + game.i18n.localize('BRP.sonic') + " ";
+        }
+        if (itm.system.choke) {
+          itm.system.specialDam = true;
+          itm.system.specialLabel = itm.system.specialLabel + game.i18n.localize('BRP.choke') + " ";
+        }
+        if (itm.system.emp) {
+          itm.system.specialDam = true;
+          itm.system.specialLabel = itm.system.specialLabel + game.i18n.localize('BRP.emp') + " ";
+        }
+        if (itm.system.poison) {
+          itm.system.specialDam = true;
+          itm.system.specialLabel = itm.system.specialLabel + game.i18n.localize('BRP.poison') + " ";
+        }
+      if (itm.system.disease) {
+          itm.system.specialDam = true;
+          itm.system.specialLabel = itm.system.specialLabel + game.i18n.localize('BRP.disease') + " ";
+        }
+        if (itm.system.spclDmg) {
+          itm.system.specialDam = true;
+          itm.system.specialLabel = itm.system.specialLabel + game.i18n.localize('BRP.special') + " ";
+        }
         weapons.push(itm);
       } else if (itm.type === 'hit-location') {
         hitlocs.push(itm);

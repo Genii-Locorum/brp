@@ -12,7 +12,7 @@ export class BRPWeaponSheet extends BRPItemSheetV2 {
     classes: ['armour'],
     position: {
       width: 600,
-      height: 640
+      height: 675
     },
   }
 

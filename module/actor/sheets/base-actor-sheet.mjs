@@ -195,6 +195,8 @@ export class BRPActorSheetV2 extends api.HandlebarsApplicationMixin(sheets.Actor
     let checkVal = ""
     if (['lock','showNotes','skillOrder'].includes(prop)) {
       checkProp = { [`system.${prop}`]: !this.actor.system[prop] }
+    } else     if (['strdb'].includes(prop)) {
+      checkProp = { [`system.mod.${prop}`]: !this.actor.system.mod[prop] }
     } else if (['viewTab'].includes(prop)) {
       checkVal = target.dataset.tabval;
       checkProp = { [`system.${prop}`]: checkVal }

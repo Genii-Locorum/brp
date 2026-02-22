@@ -16,7 +16,7 @@
                   <span class="tag">{{c.label}} ({{c.rollFormula}})</span>
                 </div>
               </div>
-              <span class="pending">{{c.rollVal}} {{#if (eq c.resultLevel "3")}}{{c.specLabel}} {{/if}}</span>
+              <span class="pending">{{c.rollVal}} {{#if (eq c.resultLevel "4")}} {{localize 'BRP.critical' }}-{{c.specLabel}} {{/if}} {{#if (eq c.resultLevel "3")}}{{c.specLabel}} {{/if}}</span>
             </div>
           </li>
           <div class="actor-roll dice-tooltip">

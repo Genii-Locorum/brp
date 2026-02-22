@@ -280,6 +280,8 @@ export class BRPCheck {
           config.woundTreated = usage.wound
         }
 
+      } else {
+        return
       }
     }
 

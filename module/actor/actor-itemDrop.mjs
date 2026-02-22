@@ -51,7 +51,7 @@ export class BRPactorItemDrop {
         }
 
         //When dropping a weapon check to see if character has the skills and if not add them to the character sheet
-        if (nItm.type === 'weapon') {
+        if (nItm.type === 'weapon' && actor.type==='character') {
           //If there isn't a skill1 then give an error message
           if (nItm.system.skill1 === "" || nItm.system.skill1 === "none") {
             reqResult = 0;
