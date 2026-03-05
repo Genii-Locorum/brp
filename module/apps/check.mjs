@@ -640,7 +640,6 @@ export class BRPCheck {
         alias: chatMsgData.chatCard[0].particName,
       },
     }
-
     if (['NO', 'RE', 'PP'].includes(chatMsgData.cardType)) {
       chatData.rolls = [chatMsgData.rolls]
     }

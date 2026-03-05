@@ -25,6 +25,7 @@ export class BRPChat {
     for (const elem of gmVisibleOnly) {
       if (!(game.user.isGM)) elem.style.display = 'none'
     }
+    ui.chat.scrollBottom()
     return
   }
 }

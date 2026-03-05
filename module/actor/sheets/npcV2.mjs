@@ -10,7 +10,7 @@ export class BRPNPCSheetV2 extends BRPActorSheetV2 {
   static DEFAULT_OPTIONS = {
     classes: ['npcv2'],
     position: {
-      width: 605,
+      width: 610,
       height: 770
     },
     window: {
@@ -127,6 +127,9 @@ export class BRPNPCSheetV2 extends BRPActorSheetV2 {
         } else if (itm.system.db === "str") {
           itm.system.dbName = "2S"
           itm.system.dbNameHint=game.i18n.localize("BRP.strDBName")
+        } else if (itm.system.db === "dbl") {
+          itm.system.dbName = "*2"
+          itm.system.dbNameHint=game.i18n.localize("BRP.double")
         }
 
         itm.system.specialDam = false;
@@ -171,7 +174,7 @@ export class BRPNPCSheetV2 extends BRPActorSheetV2 {
           itm.system.specialDam = true;
           itm.system.specialLabel = itm.system.specialLabel + game.i18n.localize('BRP.poison') + " ";
         }
-      if (itm.system.disease) {
+        if (itm.system.disease) {
           itm.system.specialDam = true;
           itm.system.specialLabel = itm.system.specialLabel + game.i18n.localize('BRP.disease') + " ";
         }
@@ -179,6 +182,19 @@ export class BRPNPCSheetV2 extends BRPActorSheetV2 {
           itm.system.specialDam = true;
           itm.system.specialLabel = itm.system.specialLabel + game.i18n.localize('BRP.special') + " ";
         }
+        if (itm.system.cold) {
+          itm.system.specialDam = true;
+          itm.system.specialLabel = itm.system.specialLabel + game.i18n.localize('BRP.cold') + " ";
+        }
+        if (itm.system.acid) {
+          itm.system.specialDam = true;
+          itm.system.specialLabel = itm.system.specialLabel + game.i18n.localize('BRP.acid') + " ";
+        }
+        if (itm.system.constrict) {
+          itm.system.specialDam = true;
+          itm.system.specialLabel = itm.system.specialLabel + game.i18n.localize('BRP.constrict') + " ";
+        }
+
         weapons.push(itm);
       } else if (itm.type === 'hit-location') {
         hitlocs.push(itm);

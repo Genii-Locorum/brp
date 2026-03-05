@@ -580,17 +580,24 @@ export class BRPActor extends Actor {
     if (data.type === 'character') {
       data.prototypeToken = foundry.utils.mergeObject({
         actorLink: true,
+        lockRotation: true,
         disposition: 1,
         displayName: CONST.TOKEN_DISPLAY_MODES.ALWAYS,
         displayBars: CONST.TOKEN_DISPLAY_MODES.ALWAYS,
         sight: {
-          enabled: true
-        },
-        detectionModes: [{
-          id: 'basicSight',
+          enabled: true,
           range: 30,
-          enabled: true
-        }]
+          visionMode:"basic"
+        }
+      }, data.prototypeToken || {})
+    } else if (data.type === 'npc') {
+      data.prototypeToken = foundry.utils.mergeObject({
+        lockRotation: true,
+        sight: {
+          enabled: true,
+          range: 30,
+          visionMode:"basic"
+        }
       }, data.prototypeToken || {})
     }
 
@@ -723,21 +730,27 @@ export class BRPActor extends Actor {
   _damageBonus(value) {
     let dmgBonus = {}
     if (value < 13) {
+      dmgBonus.dbl = '-2D6'
       dmgBonus.full = '-1D6'
       dmgBonus.half = '-1D3'
     } else if (value < 17) {
+      dmgBonus.dbl = '-2D4'
       dmgBonus.full = '-1D4'
       dmgBonus.half = '-1D2'
     } else if (value < 25) {
+      dmgBonus.dbl = '+0'
       dmgBonus.full = '+0'
       dmgBonus.half = '+0'
     } else if (value < 33) {
+      dmgBonus.dbl = '+2D4'
       dmgBonus.full = '+1D4'
       dmgBonus.half = '+1D2'
     } else if (value < 41) {
+      dmgBonus.dbl = '+2D6'
       dmgBonus.full = '+1D6'
       dmgBonus.half = '+1D3'
     } else {
+      dmgBonus.dbl = "+" + 2*(Math.ceil((value - 40) / 16) + 1) + "D6"
       dmgBonus.full = "+" + (Math.ceil((value - 40) / 16) + 1) + "D6"
       dmgBonus.half = "+" + (Math.ceil((value - 40) / 16) + 1) + "D3"
     }

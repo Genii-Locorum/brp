@@ -78,6 +78,7 @@ export class BRPSelectLists {
       "none": game.i18n.localize("BRP.none"),
       "half": game.i18n.localize("BRP.half"),
       "full": game.i18n.localize("BRP.full"),
+      "dbl": game.i18n.localize("BRP.double"),
       "oneH": game.i18n.localize("BRP.oneH"),
       "str":  game.i18n.localize("BRP.strDB"),
     };

@@ -116,11 +116,11 @@
       <li class="item" style="list-style:none;" data-item-id="{{skill._id}}" data-document-class='Item' data-drag='true'>
         <div class="npc-skill-cell">
           {{#if ../system.lock}}
-          <div class="truncate" data-action="viewDoc" style="border: 1px solid transparent;">{{skill.name}}</div>
+          <div class="truncate" data-action="viewDoc" data-tooltip="{{skill.name}}" style="border: 1px solid transparent;">{{skill.name}}</div>
           <div class="centre rollable" data-action="skillRoll" style="border-bottom: 1px solid transparent;">{{skill.system.total}}%</div>
           {{else}}
           <div class="npc-skill-cell-unlock">
-            <span><a class=""><i class="mediumIcon fas fa-trash" data-action="deleteDoc" ></i></a></span>
+            <span><a class=""><i class="mediumIcon fas fa-trash" data-tooltip="{{skill.name}}" data-action="deleteDoc" ></i></a></span>
             <span class="truncate"><input class="npcpersonal-inp inline-edit" data-field="name" name="skill.name"
                 type="text" value="{{skill.name}}" /></span>
           </div>
@@ -159,7 +159,7 @@
       <li class="item" style="list-style:none;" data-item-id="{{weapon._id}}" data-document-class='Item' data-drag='true'>
           <div class="npc-weapons-cell new-row">
             {{#if ../system.lock}}
-            <div class="truncate" data-action="viewDoc">{{weapon.name}}</div>
+            <div class="truncate" data-action="viewDoc" data-tooltip="{{weapon.name}}">{{weapon.name}}</div>
             <div class="centre rollable weapon-name" data-action="weaponRoll"> {{weapon.system.npcVal}}</div>
             <div class="centre rollable damage-name" data-action="damageRoll" data-tooltip="{{weapon.system.damageHint}}">{{weapon.system.dmgName}}</div>
             <div class="centre" data-tooltip="{{weapon.system.dbNameHint}}">{{weapon.system.dbName}}</div>
@@ -173,7 +173,7 @@
             </div>
             {{else}}
             <div class="npc-weapon-cell-unlock">
-              <span><a class="mediumIcon" data-action="deleteDoc"><i class="fas fa-trash"></i></a></span>
+              <span><a class="mediumIcon" data-action="deleteDoc" data-tooltip="{{weapon.name}}"><i class="fas fa-trash"></i></a></span>
               <span class="truncate"><input class="npcpersonal-inp inline-edit" data-field="name" name="weapon.name"
                   type="text" value="{{weapon.name}}" /></span>
             </div>

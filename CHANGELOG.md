@@ -1,5 +1,9 @@
 # CHANGE LOG
 
+## 13.1.55
+- A few more damage categories added to weapons
+- Weapons can also do double damage bonus
+
 ## 13.1.54
 - Special Damage and Disease Damage indicators added to weapons
 - GIFs and HTML in spell descriptions etc should now appear in Description to Chat rolls

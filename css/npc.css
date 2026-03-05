@@ -53,7 +53,7 @@
     .npc-main-grid {
       display: grid;
       height: 110px;
-      grid-template-columns: 180px 140px 145px 100px;
+      grid-template-columns: 180px 140px 145px 108px;
       gap: 0px;
       margin-top: 0px;
       margin-bottom: 0px;
@@ -107,10 +107,10 @@
     }
 
     .npc-img {
-      flex: 0 0 100px;
-      height: 90px;
+      flex: 0 0 108px;
+      height: 108px;
+      width: 108px;
       border: none;
-      padding: 5px;
     }
 
     .npc-secondary {
@@ -239,6 +239,19 @@
       code-mirror.source-editor {
         height: 540px;
       }
+
+      .example {
+        padding-left: 20px;
+        color: var(--brp-colour-secondary);
+      }
+
+
+      ul li::marker {
+        font-family: "Templars";
+        content: "M";
+        font-size: 18px;
+        color: var(--brp-colour-secondary);
+      }
     }
 
     .npc-powers-cell {
@@ -262,7 +275,7 @@
       border: 1px solid var(--brp-colour-primary);
       top: 35px;
       padding: 10px;
-      right: -408px;
+      left: 100%;
       background-color: var(--actor-sheet-back);
       overflow-y: auto;
       scrollbar-width: thin;
